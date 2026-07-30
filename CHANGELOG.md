@@ -6,6 +6,20 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Quitado (reinicio del proyecto)
+- Se eliminó todo lo relacionado con Supabase: proyecto/base de datos remota,
+  migraciones (`supabase/migrations`), cliente y middleware de conexión
+  (`src/lib/supabase/`), y los scripts de test que dependían de él.
+- Se sacó el login y el control de acceso por rol (`src/app/login`,
+  `src/middleware.ts`, `src/lib/roles.ts`, `src/components/logout-button.tsx`).
+- Se borraron todas las pantallas funcionales generadas hasta el momento
+  (dashboard, residentes, turno) para arrancar de cero.
+
+### Agregado
+- Sidebar reducida a seis secciones fijas, cada una como lienzo en blanco:
+  Inicio, Residentes, Empleados, Turnos, Contabilidad, Entrevistas.
+  Todas accesibles sin login.
+
 ### Agregado
 - Navegación con `sidebar` y `topbar`.
 - Helper de control de roles (`src/lib/roles.ts`).
