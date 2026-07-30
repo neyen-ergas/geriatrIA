@@ -4,6 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button, Card, Input, Label } from "@/components/ui";
+import { ROL_META } from "@/lib/roles";
+import { cn } from "@/lib/utils";
+import type { Rol } from "@/lib/types";
+
+const USUARIOS_DEMO: { rol: Extract<Rol, "owner" | "enfermeria" | "cuidador">; email: string }[] = [
+  { rol: "owner", email: "owner@aromos.demo" },
+  { rol: "enfermeria", email: "enfermera@aromos.demo" },
+  { rol: "cuidador", email: "cuidador@aromos.demo" },
+];
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,15 +39,18 @@ export default function LoginPage() {
     router.refresh();
   }
 
-  function usarDemo(rol: "owner" | "cuidador") {
-    setEmail(rol === "owner" ? "owner@aromos.demo" : "cuidador@aromos.demo");
+  function usarDemo(demoEmail: string) {
+    setEmail(demoEmail);
     setPassword("Demo1234!");
   }
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4">
       <Card className="w-full max-w-sm p-8">
-        <div className="mb-6 text-center">
+        <div className="mb-6 flex flex-col items-center text-center">
+          <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-slate-900 text-lg font-bold text-white">
+            g
+          </div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">
             geriatr<span className="text-emerald-600">IA</span>
           </h1>
@@ -87,22 +99,21 @@ export default function LoginPage() {
             Usuarios demo
           </p>
           <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="flex-1"
-              onClick={() => usarDemo("owner")}
-            >
-              Owner
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="flex-1"
-              onClick={() => usarDemo("cuidador")}
-            >
-              Cuidador
-            </Button>
+            {USUARIOS_DEMO.map(({ rol, email: demoEmail }) => {
+              const meta = ROL_META[rol];
+              return (
+                <Button
+                  key={rol}
+                  type="button"
+                  variant="outline"
+                  className="flex-1 gap-1.5"
+                  onClick={() => usarDemo(demoEmail)}
+                >
+                  <span className={cn("h-2 w-2 rounded-full", meta.dot)} />
+                  {meta.label}
+                </Button>
+              );
+            })}
           </div>
           <p className="mt-2 text-center text-xs text-slate-400">
             Contraseña: Demo1234!

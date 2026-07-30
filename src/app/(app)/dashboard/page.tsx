@@ -1,5 +1,6 @@
+import { BedDouble, CheckCircle2, TriangleAlert } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { Card } from "@/components/ui";
+import { StatCard } from "@/components/ui";
 import { rangoHoyAR, haceNDiasAR } from "@/lib/fecha-ar";
 
 export const dynamic = "force-dynamic";
@@ -53,58 +54,56 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="p-6">
-          <div className="text-sm font-medium text-slate-500">Camas</div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-4xl font-bold text-slate-900">{ocupadas}</span>
-            <span className="text-slate-400">/ {totalCamas} ocupadas</span>
-          </div>
-          <div className="mt-1 text-sm text-emerald-600">
-            {libres} {libres === 1 ? "cama libre" : "camas libres"}
-          </div>
-        </Card>
+        <StatCard
+          icon={BedDouble}
+          iconClass="bg-sky-100 text-sky-600"
+          label="Camas"
+          value={
+            <>
+              {ocupadas}
+              <span className="text-lg font-normal text-slate-400">
+                {" "}
+                / {totalCamas}
+              </span>
+            </>
+          }
+          hint={`${libres} ${libres === 1 ? "cama libre" : "camas libres"}`}
+          hintClass="text-emerald-600"
+        />
 
-        <Card className="p-6">
-          <div className="text-sm font-medium text-slate-500">
-            Cumplimiento (7 días)
-          </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span
-              className={
-                "text-4xl font-bold " +
-                (pctCumplidas >= 90
-                  ? "text-emerald-600"
-                  : pctCumplidas >= 75
-                    ? "text-amber-600"
-                    : "text-red-600")
-              }
-            >
-              {pctCumplidas}%
-            </span>
-          </div>
-          <div className="mt-1 text-sm text-slate-400">
-            {cumplidas} de {consideradas} tomas registradas
-          </div>
-        </Card>
+        <StatCard
+          icon={CheckCircle2}
+          iconClass={
+            pctCumplidas >= 90
+              ? "bg-emerald-100 text-emerald-600"
+              : pctCumplidas >= 75
+                ? "bg-amber-100 text-amber-600"
+                : "bg-red-100 text-red-600"
+          }
+          label="Cumplimiento (7 días)"
+          value={`${pctCumplidas}%`}
+          valueClass={
+            pctCumplidas >= 90
+              ? "text-emerald-600"
+              : pctCumplidas >= 75
+                ? "text-amber-600"
+                : "text-red-600"
+          }
+          hint={`${cumplidas} de ${consideradas} tomas registradas`}
+        />
 
-        <Card className="p-6">
-          <div className="text-sm font-medium text-slate-500">
-            Omitidas hoy
-          </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span
-              className={
-                "text-4xl font-bold " +
-                (omitidasHoy === 0 ? "text-emerald-600" : "text-red-600")
-              }
-            >
-              {omitidasHoy}
-            </span>
-          </div>
-          <div className="mt-1 text-sm text-slate-400">
-            Tomas que vencieron sin registrar
-          </div>
-        </Card>
+        <StatCard
+          icon={TriangleAlert}
+          iconClass={
+            omitidasHoy === 0
+              ? "bg-emerald-100 text-emerald-600"
+              : "bg-red-100 text-red-600"
+          }
+          label="Omitidas hoy"
+          value={omitidasHoy}
+          valueClass={omitidasHoy === 0 ? "text-emerald-600" : "text-red-600"}
+          hint="Tomas que vencieron sin registrar"
+        />
       </div>
     </div>
   );

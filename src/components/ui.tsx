@@ -92,3 +92,66 @@ export function Badge({
     />
   );
 }
+
+function iniciales(nombre: string): string {
+  const partes = nombre.trim().split(/\s+/).filter(Boolean);
+  if (partes.length === 0) return "?";
+  if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+  return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+}
+
+export function Avatar({
+  nombre,
+  colorClass = "bg-slate-600",
+  className,
+}: {
+  nombre: string;
+  colorClass?: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white",
+        colorClass,
+        className,
+      )}
+    >
+      {iniciales(nombre)}
+    </div>
+  );
+}
+
+export function StatCard({
+  icon: Icon,
+  iconClass = "bg-slate-100 text-slate-600",
+  label,
+  value,
+  valueClass = "text-slate-900",
+  hint,
+  hintClass = "text-slate-400",
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  iconClass?: string;
+  label: string;
+  value: React.ReactNode;
+  valueClass?: string;
+  hint?: React.ReactNode;
+  hintClass?: string;
+}) {
+  return (
+    <Card className="p-5">
+      <div
+        className={cn(
+          "flex h-10 w-10 items-center justify-center rounded-xl",
+          iconClass,
+        )}
+      >
+        <Icon className="h-5 w-5" />
+      </div>
+      <div className="mt-4 text-sm font-medium text-slate-500">{label}</div>
+      <div className={cn("mt-1 text-3xl font-bold", valueClass)}>{value}</div>
+      {hint && <div className={cn("mt-1 text-sm", hintClass)}>{hint}</div>}
+    </Card>
+  );
+}

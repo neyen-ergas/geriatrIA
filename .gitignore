@@ -10,3 +10,5 @@ npm-debug.log*
 .tsbuildinfo
 *.tsbuildinfo
 dev.log
+.env*.local
+*.stackdump

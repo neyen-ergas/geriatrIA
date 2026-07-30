@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Button, Card } from "@/components/ui";
+import { Avatar, Button, Card } from "@/components/ui";
 import { formatFecha } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -46,9 +46,10 @@ export default async function ResidentesPage() {
           <Link
             key={r.id}
             href={`/residentes/${r.id}/editar`}
-            className="flex items-center justify-between px-4 py-3 hover:bg-slate-50"
+            className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50"
           >
-            <div>
+            <Avatar nombre={`${r.nombre} ${r.apellido}`} colorClass="bg-indigo-600" />
+            <div className="min-w-0 flex-1">
               <div className="font-medium text-slate-900">
                 {r.apellido}, {r.nombre}
               </div>

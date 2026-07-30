@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { NavLink } from "@/components/nav-link";
-import { LogoutButton } from "@/components/logout-button";
+import { Sidebar } from "@/components/sidebar";
+import { Topbar } from "@/components/topbar";
+import { esGestor } from "@/lib/roles";
 import type { Rol } from "@/lib/types";
 
 export default async function AppLayout({
@@ -30,43 +30,30 @@ export default async function AppLayout({
   const misRoles = (roles ?? []).map((r) => r.rol as Rol);
   const orgNombre =
     (perfil?.organizacion as { nombre?: string } | null)?.nombre ?? "";
+  const nombre = perfil?.nombre ?? "";
+  const gestor = esGestor(misRoles);
+
+  // El cuidador solo usa "Tomas de mi turno": sin sidebar de navegación a
+  // secciones que no le corresponden, para que la interfaz refleje lo que
+  // puede hacer en vez de mostrar el mismo menú completo a todo el mundo.
+  if (!gestor) {
+    return (
+      <div className="min-h-screen">
+        <Topbar nombre={nombre} roles={misRoles} showBrand />
+        <main className="mx-auto max-w-2xl px-4 py-6">{children}</main>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-4">
-            <Link href="/turno" className="text-lg font-bold text-slate-900">
-              geriatr<span className="text-emerald-600">IA</span>
-            </Link>
-            <span className="hidden text-sm text-slate-400 sm:inline">
-              {orgNombre}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="hidden gap-1 sm:flex">
-              {misRoles.map((r) => (
-                <span
-                  key={r}
-                  className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium capitalize text-slate-600"
-                >
-                  {r}
-                </span>
-              ))}
-            </div>
-            <span className="hidden text-sm text-slate-600 md:inline">
-              {perfil?.nombre}
-            </span>
-            <LogoutButton />
-          </div>
-        </div>
-        <nav className="mx-auto flex max-w-4xl gap-1 px-2 pb-1">
-          <NavLink href="/turno">Tomas de mi turno</NavLink>
-          <NavLink href="/residentes">Residentes</NavLink>
-          <NavLink href="/dashboard">Dashboard</NavLink>
-        </nav>
-      </header>
-      <main className="mx-auto max-w-4xl px-4 py-6">{children}</main>
+    <div className="flex min-h-screen">
+      <Sidebar orgNombre={orgNombre} />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Topbar nombre={nombre} roles={misRoles} showMobileNav />
+        <main className="flex-1 px-4 py-6 lg:px-8">
+          <div className="mx-auto max-w-5xl">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }
