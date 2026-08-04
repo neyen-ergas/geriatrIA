@@ -38,3 +38,7 @@ con seis secciones, cada una como lienzo en blanco a desarrollar:
 - Entrevistas
 
 No hay backend ni base de datos conectada todavía.
+
+## Documentación funcional
+
+- [Modelo inicial del módulo de residentes](docs/residentes-modelo-inicial.md)
