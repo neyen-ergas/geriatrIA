@@ -16,6 +16,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Documentación del alcance, las reglas y el modelo de datos inicial del módulo
+  de residentes.
 - Sidebar reducida a seis secciones fijas, cada una como lienzo en blanco:
   Inicio, Residentes, Empleados, Turnos, Contabilidad, Entrevistas.
   Todas accesibles sin login.
