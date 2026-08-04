@@ -16,6 +16,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Autenticación del dueño con Supabase Auth, sesiones SSR, protección de las
+  pantallas administrativas y cierre de sesión.
 - Configuración inicial de Supabase con cliente para navegador y servidor, CLI
   local, variables de entorno de ejemplo y guía de instalación.
 - Documentación del alcance, las reglas y el modelo de datos inicial del módulo
