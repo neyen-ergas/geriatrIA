@@ -37,10 +37,12 @@ con seis secciones, cada una como lienzo en blanco a desarrollar:
 - Contabilidad
 - Entrevistas
 
-El cliente y las herramientas de Supabase están preparados, pero todavía no hay
-tablas ni funcionalidades conectadas a la base de datos.
+Supabase está configurado y las secciones administrativas requieren inicio de
+sesión. Todavía no hay tablas ni funcionalidades de residentes conectadas a la
+base de datos.
 
 ## Documentación funcional
 
 - [Modelo inicial del módulo de residentes](docs/residentes-modelo-inicial.md)
 - [Configuración de Supabase](docs/supabase-configuracion.md)
+- [Autenticación](docs/autenticacion.md)

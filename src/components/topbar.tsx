@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { LogOut } from "lucide-react";
 import { NavLink } from "@/components/nav-link";
+import { Button } from "@/components/ui";
 import { NAV } from "@/lib/nav";
+import { logout } from "@/app/login/actions";
 
 export function Topbar() {
   return (
@@ -9,7 +12,12 @@ export function Topbar() {
         <Link href="/" className="text-lg font-bold text-slate-900 lg:hidden">
           geriatr<span className="text-emerald-600">IA</span>
         </Link>
-        <div className="hidden lg:block" />
+        <form action={logout}>
+          <Button type="submit" variant="ghost" className="h-9 px-3">
+            <LogOut className="h-4 w-4" />
+            Salir
+          </Button>
+        </form>
       </div>
 
       <nav className="flex gap-1 overflow-x-auto px-2 pb-2 lg:hidden">
