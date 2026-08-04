@@ -44,5 +44,6 @@ base de datos.
 ## Documentación funcional
 
 - [Modelo inicial del módulo de residentes](docs/residentes-modelo-inicial.md)
+- [Modelo de consultas del módulo de admisión](docs/admision-consultas-modelo.md)
 - [Configuración de Supabase](docs/supabase-configuracion.md)
 - [Autenticación](docs/autenticacion.md)
