@@ -7,8 +7,8 @@ credenciales y los datos permanecen separados.
 ## Estado actual
 
 El repositorio contiene el cliente de JavaScript, el soporte SSR para Next.js y
-la CLI de Supabase. Todavía no existen tablas, migraciones ni pantallas que
-consulten datos.
+la CLI de Supabase. La primera migración versionada es la de la tabla `consulta`,
+que usa el módulo de admisión.
 
 ## Variables de entorno
 
@@ -19,11 +19,22 @@ consulten datos.
 ```text
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+SUPABASE_SERVICE_ROLE_KEY
 ```
 
-`.env.local` está ignorado por Git. La clave `service_role`, la contraseña de la
-base y los tokens personales de la CLI no deben guardarse en el repositorio ni
-utilizarse en código que se ejecute en el navegador.
+`.env.local` está ignorado por Git. La contraseña de la base y los tokens
+personales de la CLI no deben guardarse en el repositorio.
+
+`SUPABASE_SERVICE_ROLE_KEY` saltea RLS. Por eso no lleva el prefijo
+`NEXT_PUBLIC_`, nunca se importa desde código que se ejecute en el navegador y,
+al deployar, se carga como variable de entorno del servidor. La usa únicamente
+`src/lib/supabase/admin.ts`, que declara `import "server-only"` para que el build
+falle si alguien la arrastra al cliente por accidente.
+
+Este proyecto todavía no acepta el formato nuevo de claves secretas
+(`sb_secret_...`): PostgREST lo rechaza con `Invalid API key`. Va la
+`service_role` clásica, que es además la que usa la landing. La clave publicable
+(`sb_publishable_...`) sí funciona y es la que va en `NEXT_PUBLIC_`.
 
 ## CLI y proyecto remoto
 

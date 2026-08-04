@@ -27,19 +27,20 @@ npm run typecheck  # solo tsc --noEmit
 
 ## Estado actual
 
-Proyecto reiniciado desde cero. Por ahora solo existe la navegación (sidebar)
-con seis secciones, cada una como lienzo en blanco a desarrollar:
+El acceso requiere iniciar sesión. Las cuentas se crean a mano desde el panel de
+Supabase; todavía no hay modelo de roles.
 
-- Inicio
-- Residentes
-- Empleados
-- Turnos
-- Contabilidad
-- Entrevistas
+Secciones:
 
-Supabase está configurado y las secciones administrativas requieren inicio de
-sesión. Todavía no hay tablas ni funcionalidades de residentes conectadas a la
-base de datos.
+- **Inicio** — a desarrollar.
+- **Admisión** — funcionando. Consultas que llegan desde la web de la
+  residencia: bandeja con filtro por estado, agendado de la visita presencial y
+  notas internas.
+- **Residentes** — a desarrollar. El modelo de datos ya está acordado.
+- **Empleados**, **Turnos**, **Contabilidad**, **Entrevistas** — a desarrollar.
+
+Para levantar el proyecto hay que completar `.env.local` a partir de
+`.env.example`. Sin esas variables, Admisión falla al leer la base.
 
 ## Documentación funcional
 
