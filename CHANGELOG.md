@@ -16,6 +16,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Configuración inicial de Supabase con cliente para navegador y servidor, CLI
+  local, variables de entorno de ejemplo y guía de instalación.
 - Documentación del alcance, las reglas y el modelo de datos inicial del módulo
   de residentes.
 - Sidebar reducida a seis secciones fijas, cada una como lienzo en blanco:

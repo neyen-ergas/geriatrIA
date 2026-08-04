@@ -2,8 +2,8 @@
 
 Sistema de gestión para residencias geriátricas.
 
-Stack: **Next.js 15** (App Router) · TypeScript · Tailwind CSS v4 · componentes
-estilo shadcn/ui.
+Stack: **Next.js 15** (App Router) · TypeScript · Tailwind CSS v4 · Supabase ·
+componentes estilo shadcn/ui.
 
 ---
 
@@ -37,8 +37,10 @@ con seis secciones, cada una como lienzo en blanco a desarrollar:
 - Contabilidad
 - Entrevistas
 
-No hay backend ni base de datos conectada todavía.
+El cliente y las herramientas de Supabase están preparados, pero todavía no hay
+tablas ni funcionalidades conectadas a la base de datos.
 
 ## Documentación funcional
 
 - [Modelo inicial del módulo de residentes](docs/residentes-modelo-inicial.md)
+- [Configuración de Supabase](docs/supabase-configuracion.md)
