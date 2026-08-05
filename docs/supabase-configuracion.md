@@ -6,9 +6,12 @@ credenciales y los datos permanecen separados.
 
 ## Estado actual
 
-El repositorio contiene el cliente de JavaScript, el soporte SSR para Next.js y
-la CLI de Supabase. La primera migración versionada es la de la tabla `consulta`,
-que usa el módulo de admisión.
+El repositorio contiene los clientes de Supabase, el soporte SSR para Next.js,
+la CLI y dos migraciones versionadas. La primera reproduce la tabla `consulta`
+que ya usa el módulo de admisión. La segunda crea el esquema inicial de
+residentes y todavía debe revisarse antes de aplicarse al proyecto remoto; las
+pantallas de residentes aún no consultan datos. Un ensayo con `db push
+--dry-run` confirmó ese orden sin modificar la base.
 
 ## Variables de entorno
 
@@ -57,10 +60,13 @@ Editor una vez iniciado el flujo de migraciones.
 
 - `src/lib/supabase/client.ts`: cliente para componentes del navegador.
 - `src/lib/supabase/server.ts`: cliente nuevo para cada ejecución del servidor.
+- `src/lib/supabase/admin.ts`: cliente administrativo exclusivo del servidor
+  para el módulo de admisión.
 
-Ambos utilizan únicamente la URL y la clave publicable. Poder incluir esta clave
-en el navegador no convierte los datos en públicos: antes de almacenar datos
-reales, las tablas tendrán autenticación, RLS y políticas de acceso.
+Los dos primeros utilizan la URL y la clave publicable. Poder incluir esta clave
+en el navegador no convierte los datos en públicos: las tablas expuestas deben
+tener RLS y políticas de acceso. El cliente administrativo usa `service_role` y
+debe autorizar cada operación en el servidor porque esa clave saltea RLS.
 
 ## Desarrollo local
 

@@ -35,6 +35,9 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Migración inicial de `residents`, `family_contacts` y `admissions`, con
+  validaciones, actualización automática de fechas y políticas RLS para
+  usuarios autenticados.
 - Autenticación del dueño con Supabase Auth, sesiones SSR, protección de las
   pantallas administrativas y cierre de sesión.
 - Configuración inicial de Supabase con cliente para navegador y servidor, CLI
