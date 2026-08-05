@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "db:types": "supabase gen types --linked --lang typescript --schema public > src/types/database.ts",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"

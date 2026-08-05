@@ -1,4 +1,5 @@
 import { createBrowserClient } from "@supabase/ssr";
+import type { Database } from "@/types/database";
 
 /**
  * Crea un cliente de Supabase para componentes que se ejecutan en el navegador.
@@ -6,7 +7,7 @@ import { createBrowserClient } from "@supabase/ssr";
  * aplicará mediante autenticación y políticas RLS.
  */
 export function createClient() {
-  return createBrowserClient(
+  return createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
   );
