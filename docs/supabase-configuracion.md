@@ -68,6 +68,21 @@ en el navegador no convierte los datos en públicos: las tablas expuestas deben
 tener RLS y políticas de acceso. El cliente administrativo usa `service_role` y
 debe autorizar cada operación en el servidor porque esa clave saltea RLS.
 
+## Tipos TypeScript
+
+`src/types/database.ts` se genera automáticamente a partir del esquema `public`
+del proyecto vinculado. Describe las filas y los datos permitidos para insertar
+o actualizar, pero no contiene registros ni credenciales.
+
+Después de aplicar una migración se debe regenerar con:
+
+```bash
+npm run db:types
+```
+
+El archivo generado no se edita manualmente. Si cambia una tabla, primero se
+crea y aplica su migración y después se vuelve a ejecutar el comando.
+
 ## Desarrollo local
 
 `supabase/config.toml` describe la futura instancia local. Para ejecutarla será

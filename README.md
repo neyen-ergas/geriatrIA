@@ -21,6 +21,7 @@ Otros scripts:
 ```bash
 npm run build      # build de producción (compila y typecheckea todo)
 npm run typecheck  # solo tsc --noEmit
+npm run db:types   # regenera los tipos TypeScript desde Supabase
 ```
 
 ---
