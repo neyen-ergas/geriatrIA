@@ -62,8 +62,8 @@ export default async function ResidentesPage() {
               No pudimos cargar los residentes
             </h2>
             <p className="mt-1 text-sm text-red-700">
-              Intentá nuevamente. Si el problema continúa, revisá la conexión
-              con Supabase.
+              Intentá nuevamente. Si el problema continúa, contactá al equipo
+              para que lo revise.
             </p>
           </div>
         </Card>
@@ -89,10 +89,18 @@ export default async function ResidentesPage() {
               </caption>
               <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                 <tr>
-                  <th className="px-5 py-3 font-semibold">Residente</th>
-                  <th className="px-5 py-3 font-semibold">Nacimiento</th>
-                  <th className="px-5 py-3 font-semibold">Habitación</th>
-                  <th className="px-5 py-3 font-semibold">Ingreso</th>
+                  <th scope="col" className="px-5 py-3 font-semibold">
+                    Residente
+                  </th>
+                  <th scope="col" className="px-5 py-3 font-semibold">
+                    Nacimiento
+                  </th>
+                  <th scope="col" className="px-5 py-3 font-semibold">
+                    Habitación
+                  </th>
+                  <th scope="col" className="px-5 py-3 font-semibold">
+                    Ingreso
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
