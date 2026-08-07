@@ -37,8 +37,9 @@ Secciones:
 - **Admisión** — funcionando. Consultas que llegan desde la web de la
   residencia: bandeja con filtro por estado, agendado de la visita presencial y
   notas internas.
-- **Residentes** — listado de residentes activos conectado a Supabase. Falta el
-  formulario para registrar el primer ingreso.
+- **Residentes** — listado de residentes activos conectado a Supabase y
+  operación transaccional preparada para registrar el primer ingreso. Falta la
+  interfaz del formulario.
 - **Empleados**, **Turnos**, **Contabilidad**, **Entrevistas** — a desarrollar.
 
 Para levantar el proyecto hay que completar `.env.local` a partir de
