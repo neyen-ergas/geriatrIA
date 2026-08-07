@@ -35,6 +35,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Listado de residentes activos conectado a Supabase mediante el cliente
+  autenticado, con estados vacío y de error y datos del ingreso vigente.
 - Tipos TypeScript generados desde el esquema remoto de Supabase y clientes
   compartidos configurados para validar tablas y columnas durante el desarrollo.
 - Migración inicial de `residents`, `family_contacts` y `admissions`, con

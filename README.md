@@ -37,8 +37,8 @@ Secciones:
 - **Admisión** — funcionando. Consultas que llegan desde la web de la
   residencia: bandeja con filtro por estado, agendado de la visita presencial y
   notas internas.
-- **Residentes** — a desarrollar. El modelo de datos y su migración inicial ya
-  están versionados, pero todavía no se aplicaron al proyecto remoto.
+- **Residentes** — listado de residentes activos conectado a Supabase. Falta el
+  formulario para registrar el primer ingreso.
 - **Empleados**, **Turnos**, **Contabilidad**, **Entrevistas** — a desarrollar.
 
 Para levantar el proyecto hay que completar `.env.local` a partir de
