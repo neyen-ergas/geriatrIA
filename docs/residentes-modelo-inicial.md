@@ -2,7 +2,15 @@
 
 Este documento define el alcance acordado para comenzar el módulo de residentes.
 Es el diseño funcional que sirve de base para la primera migración SQL. La
-aplicación todavía no consulta estas tablas.
+migración ya está aplicada y la aplicación consulta los ingresos activos.
+
+## Estado de implementación
+
+- Las tablas `residents`, `family_contacts` y `admissions` existen en Supabase.
+- Los tipos TypeScript están generados desde el esquema remoto.
+- La pantalla de Residentes muestra personas con un ingreso sin fecha de baja.
+- Todavía falta el formulario para crear el residente, su contacto y su primer
+  ingreso.
 
 ## Objetivo de la primera entrega
 
@@ -148,8 +156,6 @@ evita tomar ahora decisiones sobre procesos que todavía no diseñamos.
 
 ## Próximo paso
 
-Revisar la migración
-`supabase/migrations/20260804234104_create_initial_resident_tables.sql`. El
-ensayo con `supabase db push --dry-run` confirmó que se ejecutaría después de la
-migración base de `consulta` y no modificó la base remota. Una vez aprobada, se
-aplicará al proyecto y se generarán los tipos TypeScript desde Supabase.
+Diseñar e implementar el formulario del primer ingreso. El guardado deberá crear
+el residente, al menos un contacto familiar y su ingreso como una única
+operación, para evitar registros incompletos si una parte falla.
