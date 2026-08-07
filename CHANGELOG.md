@@ -35,6 +35,9 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Formulario del primer ingreso con datos personales, un contacto familiar y
+  condiciones administrativas; incluye validación en TypeScript, mensajes por
+  campo y confirmación al volver al listado de residentes activos.
 - Función transaccional `create_initial_admission` para crear el residente, su
   primer contacto y su primer ingreso sin dejar registros parciales ante un
   error, disponible únicamente para usuarios autenticados y respetando RLS.

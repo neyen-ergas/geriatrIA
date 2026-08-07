@@ -11,8 +11,8 @@ migración ya está aplicada y la aplicación consulta los ingresos activos.
 - La pantalla de Residentes muestra personas con un ingreso sin fecha de baja.
 - La función `create_initial_admission` crea el residente, un contacto y su
   primer ingreso como una única operación de base de datos.
-- Todavía falta la interfaz del formulario que validará los datos y llamará a
-  esa función.
+- El formulario valida los datos en el servidor y llama a esa función con el
+  cliente autenticado de Supabase.
 
 ## Objetivo de la primera entrega
 
@@ -158,7 +158,6 @@ evita tomar ahora decisiones sobre procesos que todavía no diseñamos.
 
 ## Próximo paso
 
-Implementar el formulario del primer ingreso y su validación en TypeScript. El
-guardado llamará a `create_initial_admission` con el cliente autenticado: si
-alguna de las tres inserciones falla, Postgres revertirá la operación completa y
-no quedarán registros incompletos.
+Implementar la baja de un residente activo. La baja no eliminará registros:
+completará `discharged_at` y `discharge_reason` en el ingreso vigente para
+conservar el historial y retirar a la persona del listado de activos.
