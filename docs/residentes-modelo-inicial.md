@@ -9,8 +9,10 @@ migración ya está aplicada y la aplicación consulta los ingresos activos.
 - Las tablas `residents`, `family_contacts` y `admissions` existen en Supabase.
 - Los tipos TypeScript están generados desde el esquema remoto.
 - La pantalla de Residentes muestra personas con un ingreso sin fecha de baja.
-- Todavía falta el formulario para crear el residente, su contacto y su primer
-  ingreso.
+- La función `create_initial_admission` crea el residente, un contacto y su
+  primer ingreso como una única operación de base de datos.
+- Todavía falta la interfaz del formulario que validará los datos y llamará a
+  esa función.
 
 ## Objetivo de la primera entrega
 
@@ -156,6 +158,7 @@ evita tomar ahora decisiones sobre procesos que todavía no diseñamos.
 
 ## Próximo paso
 
-Diseñar e implementar el formulario del primer ingreso. El guardado deberá crear
-el residente, al menos un contacto familiar y su ingreso como una única
-operación, para evitar registros incompletos si una parte falla.
+Implementar el formulario del primer ingreso y su validación en TypeScript. El
+guardado llamará a `create_initial_admission` con el cliente autenticado: si
+alguna de las tres inserciones falla, Postgres revertirá la operación completa y
+no quedarán registros incompletos.
