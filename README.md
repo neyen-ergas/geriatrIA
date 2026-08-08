@@ -38,7 +38,8 @@ Secciones:
   residencia: bandeja con filtro por estado, agendado de la visita presencial y
   notas internas.
 - **Residentes** — listado de residentes activos, alta y edición del registro
-  inicial, baja con conservación del historial y validaciones en TypeScript.
+  inicial, baja con conservación del historial y reingreso sin duplicar la
+  ficha personal; incluye validaciones en TypeScript.
 - **Empleados**, **Turnos**, **Contabilidad**, **Entrevistas** — a desarrollar.
 
 Para levantar el proyecto hay que completar `.env.local` a partir de

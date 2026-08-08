@@ -55,9 +55,21 @@ export type IngresoActivoParaBaja = ResidenteActivo;
 export type ResidenteDadoDeBaja = {
   admissionId: string;
   admittedAt: string;
+  canBeReadmitted: boolean;
   dischargedAt: string;
   dischargeReason: string | null;
   room: string | null;
+  resident: DatosResidente;
+};
+
+export type ResidenteParaReingreso = {
+  lastAdmission: {
+    admittedAt: string;
+    dischargedAt: string;
+    dueDay: number;
+    monthlyFee: number;
+    room: string | null;
+  };
   resident: DatosResidente;
 };
 
@@ -141,30 +153,116 @@ export async function listarResidentesDadosDeBaja(): Promise<
   ResidenteDadoDeBaja[]
 > {
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("admissions")
-    .select(COLUMNAS_BAJAS)
-    .not("discharged_at", "is", null)
-    .order("discharged_at", { ascending: false });
+  const [bajasResult, activosResult] = await Promise.all([
+    supabase
+      .from("admissions")
+      .select(COLUMNAS_BAJAS)
+      .not("discharged_at", "is", null)
+      .order("discharged_at", { ascending: false }),
+    supabase
+      .from("admissions")
+      .select("resident_id")
+      .is("discharged_at", null),
+  ]);
 
-  if (error) {
-    throw new Error(`No se pudieron leer las bajas: ${error.message}`);
+  if (bajasResult.error) {
+    throw new Error(
+      `No se pudieron leer las bajas: ${bajasResult.error.message}`,
+    );
+  }
+  if (activosResult.error) {
+    throw new Error(
+      `No se pudieron leer los residentes activos: ${activosResult.error.message}`,
+    );
   }
 
-  return (data ?? []).flatMap((admission) =>
-    admission.discharged_at
-      ? [
-          {
-            admissionId: admission.id,
-            admittedAt: admission.admitted_at,
-            dischargedAt: admission.discharged_at,
-            dischargeReason: admission.discharge_reason,
-            room: admission.room,
-            resident: admission.residents,
-          },
-        ]
-      : [],
+  const residentesActivos = new Set(
+    (activosResult.data ?? []).map(({ resident_id }) => resident_id),
   );
+  const bajasMasRecientes = new Set<string>();
+
+  return (bajasResult.data ?? []).flatMap((admission) => {
+    if (!admission.discharged_at) return [];
+
+    const residentId = admission.residents.id;
+    const esBajaMasReciente = !bajasMasRecientes.has(residentId);
+    bajasMasRecientes.add(residentId);
+
+    return [
+      {
+        admissionId: admission.id,
+        admittedAt: admission.admitted_at,
+        canBeReadmitted:
+          esBajaMasReciente && !residentesActivos.has(residentId),
+        dischargedAt: admission.discharged_at,
+        dischargeReason: admission.discharge_reason,
+        room: admission.room,
+        resident: admission.residents,
+      },
+    ];
+  });
+}
+
+/** Última estadía cerrada de una persona que todavía no volvió a ingresar. */
+export async function obtenerResidenteParaReingreso(
+  residentId: string,
+): Promise<ResidenteParaReingreso | null> {
+  const supabase = await createClient();
+  const [activoResult, ultimaBajaResult] = await Promise.all([
+    supabase
+      .from("admissions")
+      .select("id")
+      .eq("resident_id", residentId)
+      .is("discharged_at", null)
+      .limit(1)
+      .maybeSingle(),
+    supabase
+      .from("admissions")
+      .select(
+        `
+          admitted_at,
+          discharged_at,
+          due_day,
+          monthly_fee,
+          room,
+          residents!inner (
+            id,
+            first_name,
+            last_name,
+            dni,
+            birth_date
+          )
+        `,
+      )
+      .eq("resident_id", residentId)
+      .not("discharged_at", "is", null)
+      .order("discharged_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+  ]);
+
+  if (activoResult.error) {
+    throw new Error(`No se pudo comprobar el estado: ${activoResult.error.message}`);
+  }
+  if (ultimaBajaResult.error) {
+    throw new Error(
+      `No se pudo leer la última baja: ${ultimaBajaResult.error.message}`,
+    );
+  }
+
+  const ultimaBaja = ultimaBajaResult.data;
+  if (activoResult.data || !ultimaBaja?.discharged_at) return null;
+
+  return {
+    lastAdmission: {
+      admittedAt: ultimaBaja.admitted_at,
+      dischargedAt: ultimaBaja.discharged_at,
+      dueDay: ultimaBaja.due_day,
+      monthlyFee: ultimaBaja.monthly_fee,
+      room: ultimaBaja.room,
+    },
+    resident: ultimaBaja.residents,
+  };
 }
 
 /** Datos mínimos para confirmar el cierre de un ingreso que sigue activo. */
