@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   BedDouble,
   CalendarDays,
+  CheckCircle2,
+  Plus,
   TriangleAlert,
   UsersRound,
 } from "lucide-react";
@@ -26,7 +29,12 @@ function formatearFecha(fecha: string): string {
   return formatoFecha.format(new Date(`${fecha}T00:00:00Z`));
 }
 
-export default async function ResidentesPage() {
+export default async function ResidentesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ creado?: string }>;
+}) {
+  const { creado } = await searchParams;
   let residentes: ResidenteActivo[] = [];
   let errorCarga = false;
 
@@ -39,10 +47,35 @@ export default async function ResidentesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Residentes</h1>
-      <p className="mt-1 text-sm text-slate-500">
-        Personas que tienen un ingreso vigente en la residencia.
-      </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Residentes</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Personas que tienen un ingreso vigente en la residencia.
+          </p>
+        </div>
+        <Link
+          href="/residentes/nuevo"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+        >
+          <Plus className="h-4 w-4" />
+          Nuevo ingreso
+        </Link>
+      </div>
+
+      {creado === "1" && (
+        <Card className="mt-6 flex items-start gap-3 border-emerald-200 bg-emerald-50 p-4">
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+          <div>
+            <h2 className="text-sm font-semibold text-emerald-900">
+              Ingreso registrado
+            </h2>
+            <p className="mt-1 text-sm text-emerald-700">
+              El residente ya aparece en el listado de activos.
+            </p>
+          </div>
+        </Card>
+      )}
 
       <div className="mt-6 flex items-center justify-between gap-4">
         <h2 className="text-base font-semibold text-slate-800">Activos</h2>
