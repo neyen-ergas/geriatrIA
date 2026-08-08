@@ -46,6 +46,9 @@ type ValidacionPrimerIngreso =
   | { ok: true; datos: ArgumentosPrimerIngreso }
   | { ok: false; errores: ErroresPrimerIngreso };
 
+// `monthly_fee` es numeric(12, 2): admite diez enteros y dos decimales.
+export const MAX_MONTHLY_FEE = 9_999_999_999.99;
+
 function texto(formData: FormData, nombre: string): string {
   return String(formData.get(nombre) ?? "").trim();
 }
@@ -92,6 +95,29 @@ function esFechaValida(valor: string): boolean {
 }
 
 /**
+ * Acepta números simples y los formatos de moneda más habituales en Argentina.
+ * No usamos `Number()` directamente porque interpretaría `500.000` como
+ * quinientos, aunque normalmente el usuario quiso escribir quinientos mil.
+ */
+export function parsearCuotaMensual(valor: string): number | null {
+  const limpio = valor.replace(/\s/g, "");
+  let normalizado: string;
+
+  if (/^\d+$/.test(limpio) || /^\d+\.\d{1,2}$/.test(limpio)) {
+    normalizado = limpio;
+  } else if (/^\d+(?:,\d{1,2})$/.test(limpio)) {
+    normalizado = limpio.replace(",", ".");
+  } else if (/^\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?$/.test(limpio)) {
+    normalizado = limpio.replace(/\./g, "").replace(",", ".");
+  } else {
+    return null;
+  }
+
+  const numero = Number(normalizado);
+  return Number.isFinite(numero) ? numero : null;
+}
+
+/**
  * Convierte FormData, que siempre llega como texto, a los argumentos tipados de
  * la función de Supabase. TypeScript ayuda después de esta frontera; estas
  * comprobaciones protegen la frontera en tiempo de ejecución.
@@ -112,7 +138,7 @@ export function validarPrimerIngreso(
   const admittedAt = valores.admitted_at;
   const monthlyFeeText = valores.monthly_fee;
   const dueDayText = valores.due_day;
-  const monthlyFee = Number(monthlyFeeText);
+  const monthlyFee = parsearCuotaMensual(monthlyFeeText);
   const dueDay = Number(dueDayText);
   const errores: ErroresPrimerIngreso = {};
 
@@ -137,8 +163,10 @@ export function validarPrimerIngreso(
     errores.admitted_at = "Ingresá una fecha válida.";
   }
 
-  if (!monthlyFeeText || !Number.isFinite(monthlyFee) || monthlyFee < 0) {
-    errores.monthly_fee = "Ingresá una cuota igual o mayor que cero.";
+  if (!monthlyFeeText || monthlyFee === null) {
+    errores.monthly_fee = "Ingresá un importe válido, por ejemplo 500000.";
+  } else if (monthlyFee > MAX_MONTHLY_FEE) {
+    errores.monthly_fee = "La cuota supera el importe máximo permitido.";
   }
 
   if (!Number.isInteger(dueDay) || dueDay < 1 || dueDay > 31) {
@@ -146,6 +174,9 @@ export function validarPrimerIngreso(
   }
 
   if (Object.keys(errores).length > 0) return { ok: false, errores };
+  if (monthlyFee === null) {
+    throw new Error("La cuota validada debe ser un número.");
+  }
 
   return {
     ok: true,

@@ -6,6 +6,10 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Corregido
+- La cuota mensual acepta números simples y formato argentino, y se valida el
+  máximo admitido por Supabase antes de intentar registrar el ingreso.
+
 ### Agregado (módulo de admisión)
 - Sección **Admisión** con las consultas que entran desde la landing de la
   residencia: bandeja con contadores y filtro por estado, seguimiento del

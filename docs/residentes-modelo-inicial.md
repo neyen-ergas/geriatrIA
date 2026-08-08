@@ -133,6 +133,10 @@ Guarda cada estadía del residente en la institución.
 La base de datos deberá impedir que un residente tenga dos ingresos activos. La
 fecha de baja no podrá ser anterior a la fecha de ingreso.
 
+El formulario acepta la cuota sin separadores (`500000`) o con formato argentino
+(`500.000` o `500.000,50`). Antes de guardar, la convierte a número y comprueba
+el límite de la columna `numeric(12, 2)` para evitar errores de desbordamiento.
+
 ## Módulos previstos para después
 
 Estas áreas forman parte del producto, pero no se implementarán en la primera
