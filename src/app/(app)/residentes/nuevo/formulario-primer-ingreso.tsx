@@ -370,17 +370,17 @@ export function FormularioPrimerIngreso({ hoy }: { hoy: string }) {
               <Input
                 id="monthly_fee"
                 name="monthly_fee"
-                type="number"
-                min="0"
-                step="0.01"
+                type="text"
+                inputMode="decimal"
+                placeholder="Ej.: 500000 o 500.000"
                 defaultValue={estado.valores.monthly_fee}
                 className={`${claseCampo(estado.errores.monthly_fee) ?? ""} pl-10`}
                 required
                 aria-invalid={Boolean(estado.errores.monthly_fee)}
                 aria-describedby={
                   estado.errores.monthly_fee
-                    ? "monthly_fee-error"
-                    : undefined
+                    ? "monthly_fee-error monthly_fee-help"
+                    : "monthly_fee-help"
                 }
               />
             </div>
@@ -388,6 +388,9 @@ export function FormularioPrimerIngreso({ hoy }: { hoy: string }) {
               id="monthly_fee-error"
               mensaje={estado.errores.monthly_fee}
             />
+            <p id="monthly_fee-help" className="mt-1.5 text-xs text-slate-500">
+              Podés usar formato argentino, con puntos de miles y coma decimal.
+            </p>
           </div>
 
           <div>
