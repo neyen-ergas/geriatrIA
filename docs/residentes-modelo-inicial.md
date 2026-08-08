@@ -17,6 +17,8 @@ migración ya está aplicada y la aplicación consulta los ingresos activos.
   tres registros juntos mientras el ingreso siga activo.
 - La baja completa la fecha y el motivo del ingreso vigente, retira a la persona
   de los activos y conserva la estadía en el historial de bajas.
+- El reingreso crea una nueva estadía sobre la ficha existente, conserva las
+  anteriores e impide iniciar otra cuando la persona ya está activa.
 
 ## Objetivo de la primera entrega
 
@@ -27,9 +29,10 @@ La primera entrega permitirá:
 3. Crear su primer ingreso con fecha, habitación y cuota mensual.
 4. Mostrar al residente en el listado de residentes activos.
 5. Registrar su baja sin eliminar la persona ni su historial.
+6. Reingresar a una persona dada de baja sin duplicar sus datos personales.
 
 Quedan para entregas posteriores la carga de documentos, la información médica,
-el inventario, el registro de pagos y el proceso de reingreso.
+el inventario y el registro de pagos.
 
 ## Reglas acordadas
 
@@ -167,8 +170,19 @@ evita tomar ahora decisiones sobre procesos que todavía no diseñamos.
 - La aplicación no incluirá claves administrativas de Supabase en el navegador.
 - No se usarán datos reales de residentes durante las pruebas iniciales.
 
+## Reingreso
+
+La acción **Reingresar** aparece solamente en la baja más reciente de una
+persona que no tiene una estadía activa. El formulario conserva la ficha y los
+contactos existentes, propone la cuota y el vencimiento anteriores y solicita
+los datos administrativos de la nueva estadía.
+
+La fecha del nuevo ingreso debe estar comprendida entre la última baja y el día
+actual. La validación se repite en el servidor y el índice único parcial de
+`admissions` sigue siendo la última barrera contra dos estadías activas.
+
 ## Próximo paso
 
-La primera entrega de ingreso, edición y baja queda completa. El próximo paso
-lógico es diseñar el reingreso de una persona que ya existe, creando una nueva
-estadía sin duplicar su DNI ni perder los ingresos anteriores.
+El circuito de ingreso, edición, baja y reingreso queda completo. El próximo
+incremento puede comenzar el registro de pagos mensuales asociado a cada
+estadía, definiendo primero sus estados y comprobantes.

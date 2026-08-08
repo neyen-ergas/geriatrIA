@@ -93,7 +93,7 @@ export function leerValoresPrimerIngreso(
   };
 }
 
-function esFechaValida(valor: string): boolean {
+export function esFechaValida(valor: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(valor)) return false;
 
   const [anio, mes, dia] = valor.split("-").map(Number);

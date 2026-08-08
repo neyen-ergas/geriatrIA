@@ -8,6 +8,7 @@ import {
   LogOut,
   Pencil,
   Plus,
+  RotateCcw,
   TriangleAlert,
   UsersRound,
 } from "lucide-react";
@@ -42,9 +43,10 @@ export default async function ResidentesPage({
     baja?: string;
     creado?: string;
     estado?: string;
+    reingreso?: string;
   }>;
 }) {
-  const { actualizado, baja, creado, estado } = await searchParams;
+  const { actualizado, baja, creado, estado, reingreso } = await searchParams;
   const mostrarBajas = estado === "bajas";
   let residentesActivos: ResidenteActivo[] = [];
   let residentesDadosDeBaja: ResidenteDadoDeBaja[] = [];
@@ -99,6 +101,12 @@ export default async function ResidentesPage({
         <MensajeExito
           titulo="Baja registrada"
           descripcion="El ingreso finalizado quedó guardado en el historial."
+        />
+      )}
+      {reingreso === "1" && (
+        <MensajeExito
+          titulo="Reingreso registrado"
+          descripcion="La nueva estadía ya aparece en el listado de residentes activos."
         />
       )}
 
@@ -320,7 +328,7 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
   return (
     <Card className="mt-4 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[900px] text-left text-sm">
+        <table className="w-full min-w-[1040px] text-left text-sm">
           <caption className="sr-only">Historial de bajas de residentes</caption>
           <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
             <tr>
@@ -339,6 +347,9 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
               <th scope="col" className="px-5 py-3 font-semibold">
                 Motivo
               </th>
+              <th scope="col" className="px-5 py-3 font-semibold">
+                Acciones
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -346,6 +357,7 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
               ({
                 admissionId,
                 admittedAt,
+                canBeReadmitted,
                 dischargedAt,
                 dischargeReason,
                 room,
@@ -379,6 +391,19 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
                     </td>
                     <td className="max-w-sm whitespace-normal px-5 py-4 text-slate-600">
                       {dischargeReason || "Sin motivo registrado"}
+                    </td>
+                    <td className="px-5 py-4">
+                      {canBeReadmitted ? (
+                        <Link
+                          href={`/residentes/reingreso/${resident.id}`}
+                          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800"
+                        >
+                          <RotateCcw className="h-4 w-4" />
+                          Reingresar
+                        </Link>
+                      ) : (
+                        <span className="text-xs text-slate-400">—</span>
+                      )}
                     </td>
                   </tr>
                 );
