@@ -50,6 +50,17 @@ export type ResidenteActivo = {
   resident: DatosResidente;
 };
 
+export type IngresoActivoParaBaja = ResidenteActivo;
+
+export type ResidenteDadoDeBaja = {
+  admissionId: string;
+  admittedAt: string;
+  dischargedAt: string;
+  dischargeReason: string | null;
+  room: string | null;
+  resident: DatosResidente;
+};
+
 export type IngresoActivoEditable = {
   admission: IngresoEditable;
   contact: ContactoEditable;
@@ -61,6 +72,21 @@ export type IngresoActivoEditable = {
 const COLUMNAS_RESIDENTES_ACTIVOS = `
   id,
   admitted_at,
+  room,
+  residents!inner (
+    id,
+    first_name,
+    last_name,
+    dni,
+    birth_date
+  )
+`;
+
+const COLUMNAS_BAJAS = `
+  id,
+  admitted_at,
+  discharged_at,
+  discharge_reason,
   room,
   residents!inner (
     id,
@@ -108,6 +134,62 @@ export async function listarResidentesActivos(): Promise<ResidenteActivo[]> {
             b.resident.first_name,
           );
     });
+}
+
+/** Ingresos finalizados, del más reciente al más antiguo. */
+export async function listarResidentesDadosDeBaja(): Promise<
+  ResidenteDadoDeBaja[]
+> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("admissions")
+    .select(COLUMNAS_BAJAS)
+    .not("discharged_at", "is", null)
+    .order("discharged_at", { ascending: false });
+
+  if (error) {
+    throw new Error(`No se pudieron leer las bajas: ${error.message}`);
+  }
+
+  return (data ?? []).flatMap((admission) =>
+    admission.discharged_at
+      ? [
+          {
+            admissionId: admission.id,
+            admittedAt: admission.admitted_at,
+            dischargedAt: admission.discharged_at,
+            dischargeReason: admission.discharge_reason,
+            room: admission.room,
+            resident: admission.residents,
+          },
+        ]
+      : [],
+  );
+}
+
+/** Datos mínimos para confirmar el cierre de un ingreso que sigue activo. */
+export async function obtenerIngresoActivoParaBaja(
+  admissionId: string,
+): Promise<IngresoActivoParaBaja | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("admissions")
+    .select(COLUMNAS_RESIDENTES_ACTIVOS)
+    .eq("id", admissionId)
+    .is("discharged_at", null)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`No se pudo leer el ingreso: ${error.message}`);
+  }
+  if (!data) return null;
+
+  return {
+    admissionId: data.id,
+    admittedAt: data.admitted_at,
+    room: data.room,
+    resident: data.residents,
+  };
 }
 
 /**

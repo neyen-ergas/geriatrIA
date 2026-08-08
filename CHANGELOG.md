@@ -39,6 +39,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Baja de residentes activos con fecha y motivo, validación en el servidor y
+  vista de historial de ingresos finalizados sin eliminar registros.
 - Edición transaccional del residente activo, su contacto inicial y los datos
   administrativos del ingreso, accesible desde el listado de residentes.
 - Formulario del primer ingreso con datos personales, un contacto familiar y
