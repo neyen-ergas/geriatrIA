@@ -152,7 +152,8 @@ el límite de la columna `numeric(12, 2)` para evitar errores de desbordamiento.
 Estas áreas forman parte del producto, pero no se implementarán en la primera
 entrega:
 
-- `payments`: un registro por pago mensual, asociado al ingreso.
+- `monthly_charges` y `payments`: cuotas mensuales y movimientos asociados a
+  cada ingreso, definidos en el [modelo inicial de pagos](pagos-modelo-inicial.md).
 - `resident_documents`: datos de cada documento y ruta de su imagen privada en
   Supabase Storage.
 - `medical_indications`: indicaciones médicas vigentes e históricas.

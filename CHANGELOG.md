@@ -39,6 +39,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Diseño funcional del módulo de pagos mensuales, con cuotas por período, pagos
+  parciales, saldos calculados, anulaciones auditables y comprobantes privados.
 - Reingreso de residentes dados de baja mediante una nueva estadía, sin
   duplicar la ficha personal ni perder el historial anterior.
 - Baja de residentes activos con fecha y motivo, validación en el servidor y
