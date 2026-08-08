@@ -15,6 +15,8 @@ migración ya está aplicada y la aplicación consulta los ingresos activos.
   cliente autenticado de Supabase.
 - La función `update_active_admission` y la pantalla de edición actualizan esos
   tres registros juntos mientras el ingreso siga activo.
+- La baja completa la fecha y el motivo del ingreso vigente, retira a la persona
+  de los activos y conserva la estadía en el historial de bajas.
 
 ## Objetivo de la primera entrega
 
@@ -24,9 +26,10 @@ La primera entrega permitirá:
 2. Registrar al menos un familiar o responsable.
 3. Crear su primer ingreso con fecha, habitación y cuota mensual.
 4. Mostrar al residente en el listado de residentes activos.
+5. Registrar su baja sin eliminar la persona ni su historial.
 
 Quedan para entregas posteriores la carga de documentos, la información médica,
-el inventario, el registro de pagos y el proceso de baja o reingreso.
+el inventario, el registro de pagos y el proceso de reingreso.
 
 ## Reglas acordadas
 
@@ -166,6 +169,6 @@ evita tomar ahora decisiones sobre procesos que todavía no diseñamos.
 
 ## Próximo paso
 
-Implementar la baja de un residente activo. La baja no eliminará registros:
-completará `discharged_at` y `discharge_reason` en el ingreso vigente para
-conservar el historial y retirar a la persona del listado de activos.
+La primera entrega de ingreso, edición y baja queda completa. El próximo paso
+lógico es diseñar el reingreso de una persona que ya existe, creando una nueva
+estadía sin duplicar su DNI ni perder los ingresos anteriores.

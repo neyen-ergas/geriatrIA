@@ -38,8 +38,7 @@ Secciones:
   residencia: bandeja con filtro por estado, agendado de la visita presencial y
   notas internas.
 - **Residentes** — listado de residentes activos, alta y edición del registro
-  inicial, con validación en TypeScript y operaciones transaccionales en
-  Supabase.
+  inicial, baja con conservación del historial y validaciones en TypeScript.
 - **Empleados**, **Turnos**, **Contabilidad**, **Entrevistas** — a desarrollar.
 
 Para levantar el proyecto hay que completar `.env.local` a partir de
