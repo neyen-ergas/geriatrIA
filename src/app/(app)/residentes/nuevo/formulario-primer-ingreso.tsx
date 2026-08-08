@@ -12,9 +12,14 @@ import {
 } from "lucide-react";
 import { Button, Card, Input, Label, Textarea } from "@/components/ui";
 import {
-  registrarPrimerIngreso,
-  type EstadoPrimerIngreso,
-} from "./actions";
+  type EstadoFormularioIngreso,
+  type ValoresPrimerIngreso,
+} from "@/lib/primer-ingreso";
+
+type AccionFormularioIngreso = (
+  estadoAnterior: EstadoFormularioIngreso,
+  formData: FormData,
+) => Promise<EstadoFormularioIngreso>;
 
 function ErrorCampo({ id, mensaje }: { id: string; mensaje?: string }) {
   if (!mensaje) return null;
@@ -27,21 +32,33 @@ function ErrorCampo({ id, mensaje }: { id: string; mensaje?: string }) {
 }
 
 function claseCampo(error?: string): string | undefined {
-  return error ? "border-red-300 focus:border-red-500 focus:ring-red-100" : undefined;
+  return error
+    ? "border-red-300 focus:border-red-500 focus:ring-red-100"
+    : undefined;
 }
 
-export function FormularioPrimerIngreso({ hoy }: { hoy: string }) {
-  const [estado, formAction, pendiente] = useActionState(
-    registrarPrimerIngreso,
+export function FormularioPrimerIngreso({
+  hoy,
+  formAction,
+  modo = "crear",
+  valoresIniciales = {},
+}: {
+  hoy: string;
+  formAction: AccionFormularioIngreso;
+  modo?: "crear" | "editar";
+  valoresIniciales?: Partial<ValoresPrimerIngreso>;
+}) {
+  const [estado, action, pendiente] = useActionState(
+    formAction,
     {
       errores: {},
       mensaje: null,
-      valores: { admitted_at: hoy },
-    } satisfies EstadoPrimerIngreso,
+      valores: { admitted_at: hoy, ...valoresIniciales },
+    } satisfies EstadoFormularioIngreso,
   );
 
   return (
-    <form action={formAction} className="mt-6 space-y-6" noValidate>
+    <form action={action} className="mt-6 space-y-6" noValidate>
       {estado.mensaje && (
         <div
           role="alert"
@@ -443,7 +460,11 @@ export function FormularioPrimerIngreso({ hoy }: { hoy: string }) {
           ) : (
             <Save className="h-5 w-5" />
           )}
-          {pendiente ? "Guardando…" : "Registrar ingreso"}
+          {pendiente
+            ? "Guardando…"
+            : modo === "editar"
+              ? "Guardar cambios"
+              : "Registrar ingreso"}
         </Button>
       </div>
     </form>

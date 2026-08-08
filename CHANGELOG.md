@@ -39,6 +39,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Edición transaccional del residente activo, su contacto inicial y los datos
+  administrativos del ingreso, accesible desde el listado de residentes.
 - Formulario del primer ingreso con datos personales, un contacto familiar y
   condiciones administrativas; incluye validación en TypeScript, mensajes por
   campo y confirmación al volver al listado de residentes activos.

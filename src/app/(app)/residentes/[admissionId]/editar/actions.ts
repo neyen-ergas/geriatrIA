@@ -11,9 +11,17 @@ import {
 } from "@/lib/primer-ingreso";
 import { createClient } from "@/lib/supabase/server";
 
-const UNIQUE_VIOLATION = "23505";
+export type IdentificadoresEdicion = {
+  admissionId: string;
+  contactId: string;
+  residentId: string;
+};
 
-export async function registrarPrimerIngreso(
+const UNIQUE_VIOLATION = "23505";
+const NO_DATA_FOUND = "P0002";
+
+export async function actualizarPrimerIngreso(
+  ids: IdentificadoresEdicion,
   _estadoAnterior: EstadoFormularioIngreso,
   formData: FormData,
 ): Promise<EstadoFormularioIngreso> {
@@ -31,13 +39,15 @@ export async function registrarPrimerIngreso(
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.rpc(
-    "create_initial_admission",
-    validacion.datos,
-  );
+  const { error } = await supabase.rpc("update_active_admission", {
+    ...validacion.datos,
+    p_admission_id: ids.admissionId,
+    p_contact_id: ids.contactId,
+    p_resident_id: ids.residentId,
+  });
 
   if (error) {
-    console.error("No se pudo registrar el primer ingreso", {
+    console.error("No se pudo actualizar el ingreso activo", {
       code: error.code,
       message: error.message,
     });
@@ -45,7 +55,16 @@ export async function registrarPrimerIngreso(
     if (error.code === UNIQUE_VIOLATION) {
       return {
         errores: { resident_dni: "Ya existe un residente con este DNI." },
-        mensaje: "No pudimos registrar el ingreso.",
+        mensaje: "No pudimos guardar los cambios.",
+        valores,
+      };
+    }
+
+    if (error.code === NO_DATA_FOUND) {
+      return {
+        errores: {},
+        mensaje:
+          "Este ingreso ya no está activo o sus datos asociados cambiaron.",
         valores,
       };
     }
@@ -53,11 +72,11 @@ export async function registrarPrimerIngreso(
     return {
       errores: {},
       mensaje:
-        "No pudimos registrar el ingreso. Intentá nuevamente en unos minutos.",
+        "No pudimos guardar los cambios. Intentá nuevamente en unos minutos.",
       valores,
     };
   }
 
   revalidatePath("/residentes");
-  redirect("/residentes?creado=1");
+  redirect("/residentes?actualizado=1");
 }

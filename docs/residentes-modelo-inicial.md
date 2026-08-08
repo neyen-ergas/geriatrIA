@@ -13,6 +13,8 @@ migración ya está aplicada y la aplicación consulta los ingresos activos.
   primer ingreso como una única operación de base de datos.
 - El formulario valida los datos en el servidor y llama a esa función con el
   cliente autenticado de Supabase.
+- La función `update_active_admission` y la pantalla de edición actualizan esos
+  tres registros juntos mientras el ingreso siga activo.
 
 ## Objetivo de la primera entrega
 
@@ -110,6 +112,8 @@ Un residente puede tener varios.
 
 El formulario exigirá al menos un contacto al crear el primer ingreso. Esta es
 una regla del proceso de ingreso, no una característica aislada del contacto.
+La edición del registro inicial modifica el primer contacto creado. Cuando se
+incorpore la carga de contactos adicionales, tendrán una gestión independiente.
 
 ### `admissions`
 

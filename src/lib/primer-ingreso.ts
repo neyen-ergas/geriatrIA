@@ -42,12 +42,24 @@ export type ValoresPrimerIngreso = {
   administrative_notes: string;
 };
 
+export type EstadoFormularioIngreso = {
+  errores: ErroresPrimerIngreso;
+  mensaje: string | null;
+  valores: Partial<ValoresPrimerIngreso>;
+};
+
 type ValidacionPrimerIngreso =
   | { ok: true; datos: ArgumentosPrimerIngreso }
   | { ok: false; errores: ErroresPrimerIngreso };
 
 // `monthly_fee` es numeric(12, 2): admite diez enteros y dos decimales.
 export const MAX_MONTHLY_FEE = 9_999_999_999.99;
+
+export function hoyEnArgentina(): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Argentina/Buenos_Aires",
+  }).format(new Date());
+}
 
 function texto(formData: FormData, nombre: string): string {
   return String(formData.get(nombre) ?? "").trim();

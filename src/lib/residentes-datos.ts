@@ -8,11 +8,52 @@ type DatosResidente = Pick<
   "id" | "first_name" | "last_name" | "dni" | "birth_date"
 >;
 
+type ResidenteEditable = Pick<
+  Tables<"residents">,
+  | "id"
+  | "first_name"
+  | "last_name"
+  | "dni"
+  | "birth_date"
+  | "phone"
+  | "address"
+  | "notes"
+>;
+
+type ContactoEditable = Pick<
+  Tables<"family_contacts">,
+  | "id"
+  | "first_name"
+  | "last_name"
+  | "relationship"
+  | "phone"
+  | "is_emergency_contact"
+  | "is_payment_responsible"
+  | "notes"
+>;
+
+type IngresoEditable = Pick<
+  Tables<"admissions">,
+  | "id"
+  | "resident_id"
+  | "admitted_at"
+  | "room"
+  | "monthly_fee"
+  | "due_day"
+  | "administrative_notes"
+>;
+
 export type ResidenteActivo = {
   admissionId: string;
   admittedAt: string;
   room: string | null;
   resident: DatosResidente;
+};
+
+export type IngresoActivoEditable = {
+  admission: IngresoEditable;
+  contact: ContactoEditable;
+  resident: ResidenteEditable;
 };
 
 // Supabase analiza esta cadena literal y deriva el resultado desde los tipos
@@ -67,4 +108,63 @@ export async function listarResidentesActivos(): Promise<ResidenteActivo[]> {
             b.resident.first_name,
           );
     });
+}
+
+/**
+ * Datos del alta original que todavía pueden modificarse. El primer ingreso
+ * crea un único contacto; por eso se toma el más antiguo. La futura gestión de
+ * múltiples contactos tendrá su propia pantalla.
+ */
+export async function obtenerIngresoActivoParaEditar(
+  admissionId: string,
+): Promise<IngresoActivoEditable | null> {
+  const supabase = await createClient();
+  const { data: admission, error: admissionError } = await supabase
+    .from("admissions")
+    .select(
+      "id, resident_id, admitted_at, room, monthly_fee, due_day, administrative_notes",
+    )
+    .eq("id", admissionId)
+    .is("discharged_at", null)
+    .maybeSingle();
+
+  if (admissionError) {
+    throw new Error(`No se pudo leer el ingreso: ${admissionError.message}`);
+  }
+  if (!admission) return null;
+
+  const [residentResult, contactResult] = await Promise.all([
+    supabase
+      .from("residents")
+      .select("id, first_name, last_name, dni, birth_date, phone, address, notes")
+      .eq("id", admission.resident_id)
+      .maybeSingle(),
+    supabase
+      .from("family_contacts")
+      .select(
+        "id, first_name, last_name, relationship, phone, is_emergency_contact, is_payment_responsible, notes",
+      )
+      .eq("resident_id", admission.resident_id)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle(),
+  ]);
+
+  if (residentResult.error) {
+    throw new Error(
+      `No se pudo leer el residente: ${residentResult.error.message}`,
+    );
+  }
+  if (contactResult.error) {
+    throw new Error(
+      `No se pudo leer el contacto: ${contactResult.error.message}`,
+    );
+  }
+  if (!residentResult.data || !contactResult.data) return null;
+
+  return {
+    admission,
+    resident: residentResult.data,
+    contact: contactResult.data,
+  };
 }
