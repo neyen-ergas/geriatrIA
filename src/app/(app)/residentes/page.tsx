@@ -4,6 +4,7 @@ import {
   BedDouble,
   CalendarDays,
   CheckCircle2,
+  Pencil,
   Plus,
   TriangleAlert,
   UsersRound,
@@ -32,9 +33,9 @@ function formatearFecha(fecha: string): string {
 export default async function ResidentesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ creado?: string }>;
+  searchParams: Promise<{ actualizado?: string; creado?: string }>;
 }) {
-  const { creado } = await searchParams;
+  const { actualizado, creado } = await searchParams;
   let residentes: ResidenteActivo[] = [];
   let errorCarga = false;
 
@@ -72,6 +73,20 @@ export default async function ResidentesPage({
             </h2>
             <p className="mt-1 text-sm text-emerald-700">
               El residente ya aparece en el listado de activos.
+            </p>
+          </div>
+        </Card>
+      )}
+
+      {actualizado === "1" && (
+        <Card className="mt-6 flex items-start gap-3 border-emerald-200 bg-emerald-50 p-4">
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+          <div>
+            <h2 className="text-sm font-semibold text-emerald-900">
+              Cambios guardados
+            </h2>
+            <p className="mt-1 text-sm text-emerald-700">
+              La ficha del residente y su ingreso activo fueron actualizados.
             </p>
           </div>
         </Card>
@@ -116,7 +131,7 @@ export default async function ResidentesPage({
       ) : (
         <Card className="mt-4 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-left text-sm">
+            <table className="w-full min-w-[820px] text-left text-sm">
               <caption className="sr-only">
                 Listado de residentes activos
               </caption>
@@ -133,6 +148,9 @@ export default async function ResidentesPage({
                   </th>
                   <th scope="col" className="px-5 py-3 font-semibold">
                     Ingreso
+                  </th>
+                  <th scope="col" className="px-5 py-3 font-semibold">
+                    Acciones
                   </th>
                 </tr>
               </thead>
@@ -178,6 +196,15 @@ export default async function ResidentesPage({
                           <CalendarDays className="h-4 w-4 text-slate-400" />
                           {formatearFecha(admittedAt)}
                         </span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <Link
+                          href={`/residentes/${admissionId}/editar`}
+                          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                        >
+                          <Pencil className="h-4 w-4" />
+                          Editar
+                        </Link>
                       </td>
                     </tr>
                   );

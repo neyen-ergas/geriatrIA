@@ -37,8 +37,9 @@ Secciones:
 - **Admisión** — funcionando. Consultas que llegan desde la web de la
   residencia: bandeja con filtro por estado, agendado de la visita presencial y
   notas internas.
-- **Residentes** — listado de residentes activos y formulario del primer
-  ingreso, con validación en TypeScript y guardado transaccional en Supabase.
+- **Residentes** — listado de residentes activos, alta y edición del registro
+  inicial, con validación en TypeScript y operaciones transaccionales en
+  Supabase.
 - **Empleados**, **Turnos**, **Contabilidad**, **Entrevistas** — a desarrollar.
 
 Para levantar el proyecto hay que completar `.env.local` a partir de

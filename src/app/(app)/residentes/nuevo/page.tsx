@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { hoyEnArgentina } from "@/lib/primer-ingreso";
+import { registrarPrimerIngreso } from "./actions";
 import { FormularioPrimerIngreso } from "./formulario-primer-ingreso";
 
 export const metadata: Metadata = {
   title: "Nuevo ingreso · geriatrIA",
 };
-
-function hoyEnArgentina(): string {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "America/Argentina/Buenos_Aires",
-  }).format(new Date());
-}
 
 export default function NuevoIngresoPage() {
   return (
@@ -32,7 +28,10 @@ export default function NuevoIngresoPage() {
         documentación y la información médica más adelante.
       </p>
 
-      <FormularioPrimerIngreso hoy={hoyEnArgentina()} />
+      <FormularioPrimerIngreso
+        hoy={hoyEnArgentina()}
+        formAction={registrarPrimerIngreso}
+      />
     </div>
   );
 }
