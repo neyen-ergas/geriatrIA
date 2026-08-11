@@ -1,8 +1,20 @@
 # Pagos: modelo inicial
 
 Este documento define el alcance funcional y técnico de la primera versión del
-módulo de pagos. En este incremento no se crean tablas ni pantallas: primero se
-acuerdan las reglas para que la futura migración de Supabase sea estable.
+módulo de pagos. La estructura de base ya está aplicada en Supabase; las
+pantallas se incorporarán en incrementos posteriores.
+
+## Estado de implementación
+
+- Existen las tablas `monthly_charges` y `payments`.
+- La vista `monthly_charge_balances` calcula importes pagados, saldos, estado y
+  vencimiento sin guardar datos redundantes.
+- Las funciones `create_monthly_charge`, `record_payment`, `void_payment` y
+  `cancel_monthly_charge` concentran las escrituras financieras.
+- RLS está habilitado y los usuarios autenticados sólo escriben mediante esas
+  funciones; no tienen permisos directos de `INSERT`, `UPDATE` ni `DELETE`.
+- Los tipos TypeScript están generados desde el esquema remoto.
+- La interfaz y el bucket privado de comprobantes todavía están pendientes.
 
 ## Objetivo
 
@@ -69,7 +81,8 @@ modificará meses anteriores.
 Restricciones previstas:
 
 - `admission_id` referencia `admissions.id` con borrado restringido.
-- La combinación `admission_id + period` es única.
+- Sólo puede existir una cuota no anulada por `admission_id + period`. Una cuota
+  anulada puede reemplazarse sin borrar su registro histórico.
 - `period` debe ser siempre el primer día del mes.
 - `amount_due` debe ser mayor que cero y respetar el límite de
   `numeric(12, 2)`.
@@ -111,6 +124,7 @@ Restricciones previstas:
 
 - `monthly_charge_id` referencia `monthly_charges.id` con borrado restringido.
 - `amount` debe ser mayor que cero.
+- `paid_on` no puede estar en el futuro según la fecha de Argentina.
 - No se aceptan pagos sobre cuotas anuladas.
 - La suma de pagos vigentes no puede superar `amount_due`.
 - Un pago anulado debe incluir fecha, motivo y usuario de anulación.
@@ -149,9 +163,10 @@ evita asumir reglas comerciales que pueden variar entre geriátricos.
 
 ## Registro y anulación de pagos
 
-El registro de un pago se realizará mediante una función de base de datos para
-comprobar el saldo y crear el movimiento como una sola operación. La función
-deberá evitar que dos solicitudes simultáneas superen el importe de la cuota.
+El registro de un pago se realiza mediante `record_payment`, una función de base
+de datos que comprueba el saldo y crea el movimiento como una sola operación.
+La función bloquea la cuota mientras trabaja para evitar que dos solicitudes
+simultáneas superen su importe.
 
 La anulación también será una operación específica: completará `voided_at`,
 `voided_reason` y `voided_by`. No habrá permisos de `DELETE` para las tablas del
@@ -205,12 +220,13 @@ La ruta prevista será similar a:
 
 ## Orden de implementación
 
-1. Crear y aplicar la migración de `monthly_charges` y `payments`, incluyendo
-   restricciones, índices, RLS y funciones de registro/anulación.
-2. Regenerar `src/types/database.ts` desde el proyecto vinculado de Supabase.
+1. Completado: crear y aplicar la migración de `monthly_charges` y `payments`,
+   incluyendo restricciones, índices, RLS y funciones controladas.
+2. Completado: regenerar `src/types/database.ts` desde el proyecto vinculado de
+   Supabase.
 3. Crear la pantalla de cuenta corriente con cuotas, saldos y vencimientos.
 4. Agregar el formulario para crear cuotas y registrar pagos.
-5. Incorporar anulaciones auditables.
+5. Incorporar las acciones de anulación a la interfaz.
 6. Añadir la carga privada de comprobantes en un incremento separado.
 
 Cada etapa se publicará en un PR acotado y verificable.

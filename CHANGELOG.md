@@ -39,6 +39,9 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Esquema de cuotas y pagos en Supabase con RLS de sólo lectura directa, vista
+  de saldos, escrituras mediante funciones controladas y tipos TypeScript
+  regenerados desde la base remota.
 - Diseño funcional del módulo de pagos mensuales, con cuotas por período, pagos
   parciales, saldos calculados, anulaciones auditables y comprobantes privados.
 - Reingreso de residentes dados de baja mediante una nueva estadía, sin
