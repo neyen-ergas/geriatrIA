@@ -162,6 +162,122 @@ export type Database = {
           },
         ]
       }
+      monthly_charges: {
+        Row: {
+          admission_id: string
+          amount_due: number
+          cancelled_at: string | null
+          cancelled_by: string | null
+          cancelled_reason: string | null
+          created_at: string
+          created_by: string
+          currency: string
+          due_date: string
+          id: string
+          notes: string | null
+          period: string
+        }
+        Insert: {
+          admission_id: string
+          amount_due: number
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          cancelled_reason?: string | null
+          created_at?: string
+          created_by?: string
+          currency?: string
+          due_date: string
+          id?: string
+          notes?: string | null
+          period: string
+        }
+        Update: {
+          admission_id?: string
+          amount_due?: number
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          cancelled_reason?: string | null
+          created_at?: string
+          created_by?: string
+          currency?: string
+          due_date?: string
+          id?: string
+          notes?: string | null
+          period?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "monthly_charges_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string
+          id: string
+          monthly_charge_id: string
+          notes: string | null
+          paid_on: string
+          payment_method: string
+          receipt_path: string | null
+          reference: string | null
+          voided_at: string | null
+          voided_by: string | null
+          voided_reason: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string
+          id?: string
+          monthly_charge_id: string
+          notes?: string | null
+          paid_on: string
+          payment_method: string
+          receipt_path?: string | null
+          reference?: string | null
+          voided_at?: string | null
+          voided_by?: string | null
+          voided_reason?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string
+          id?: string
+          monthly_charge_id?: string
+          notes?: string | null
+          paid_on?: string
+          payment_method?: string
+          receipt_path?: string | null
+          reference?: string | null
+          voided_at?: string | null
+          voided_by?: string | null
+          voided_reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_monthly_charge_id_fkey"
+            columns: ["monthly_charge_id"]
+            isOneToOne: false
+            referencedRelation: "monthly_charge_balances"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_monthly_charge_id_fkey"
+            columns: ["monthly_charge_id"]
+            isOneToOne: false
+            referencedRelation: "monthly_charges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       residents: {
         Row: {
           address: string | null
@@ -203,9 +319,41 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      monthly_charge_balances: {
+        Row: {
+          admission_id: string | null
+          amount_due: number | null
+          balance: number | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          cancelled_reason: string | null
+          created_at: string | null
+          created_by: string | null
+          currency: string | null
+          due_date: string | null
+          id: string | null
+          is_overdue: boolean | null
+          notes: string | null
+          paid_amount: number | null
+          payment_status: string | null
+          period: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "monthly_charges_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      cancel_monthly_charge: {
+        Args: { p_monthly_charge_id: string; p_reason: string }
+        Returns: string
+      }
       create_initial_admission: {
         Args: {
           p_administrative_notes?: string
@@ -227,6 +375,28 @@ export type Database = {
           p_resident_notes?: string
           p_resident_phone?: string
           p_room?: string
+        }
+        Returns: string
+      }
+      create_monthly_charge: {
+        Args: {
+          p_admission_id: string
+          p_amount_due: number
+          p_due_date: string
+          p_notes?: string
+          p_period: string
+        }
+        Returns: string
+      }
+      record_payment: {
+        Args: {
+          p_amount: number
+          p_monthly_charge_id: string
+          p_notes?: string
+          p_paid_on: string
+          p_payment_method: string
+          p_receipt_path?: string
+          p_reference?: string
         }
         Returns: string
       }
@@ -255,6 +425,10 @@ export type Database = {
           p_resident_phone?: string
           p_room?: string
         }
+        Returns: string
+      }
+      void_payment: {
+        Args: { p_payment_id: string; p_reason: string }
         Returns: string
       }
     }

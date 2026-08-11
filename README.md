@@ -40,7 +40,9 @@ Secciones:
 - **Residentes** — listado de residentes activos, alta y edición del registro
   inicial, baja con conservación del historial y reingreso sin duplicar la
   ficha personal; incluye validaciones en TypeScript.
-- **Empleados**, **Turnos**, **Contabilidad**, **Entrevistas** — a desarrollar.
+- **Contabilidad** — esquema inicial de cuotas y pagos listo en Supabase;
+  interfaz a desarrollar.
+- **Empleados**, **Turnos**, **Entrevistas** — a desarrollar.
 
 Para levantar el proyecto hay que completar `.env.local` a partir de
 `.env.example`. Sin esas variables, Admisión falla al leer la base.
