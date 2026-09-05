@@ -52,11 +52,18 @@ Antes de abrir o actualizar un Pull Request se ejecutan, según corresponda:
 
 ```bash
 npm run typecheck
+npm test
 npm run build
 ```
 
 GitHub Actions repetirá estas validaciones. Si alguna falla, el PR no está listo
 para integrarse.
+
+Las pruebas unitarias se escriben junto al módulo en archivos `*.test.ts`
+(o `*.test.tsx` cuando corresponda), importando `describe`, `it` y `expect`
+desde `vitest`. Se ejecutan en Node y admiten el alias `@/`. Usar datos
+sintéticos y fechas explícitas; no requieren Supabase ni variables de entorno.
+`npm run test:watch` permite repetirlas al editar. Node 24 es el entorno de CI.
 
 ## Pull Requests
 
