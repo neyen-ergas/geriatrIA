@@ -346,7 +346,7 @@ refactor: separa el acceso a datos del modulo de admision
 Prefijos: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`.
 
 - Un commit = un cambio coherente. Nada de `cambios`, `arreglos` ni `avance`.
-- `typecheck` y `build` pasan antes de commitear.
+- `typecheck`, `test` y `build` pasan antes de commitear.
 - Nunca entran a Git: `.env.local`, claves, contraseñas, datos reales de
   residentes o de familias, ni archivos generados fuera de
   `src/types/database.ts`.
@@ -356,7 +356,7 @@ Prefijos: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`.
 ## 11. Antes de dar algo por terminado
 
 - [ ] Cumple el alcance acordado, sin agregados que nadie pidió.
-- [ ] `npm run typecheck` y `npm run build` pasan.
+- [ ] `npm run typecheck`, `npm test` y `npm run build` pasan.
 - [ ] Si tocó la base: migración versionada y `npm run db:types` corrido.
 - [ ] Está formateado.
 - [ ] Sin `any`, sin `console.log`, sin código comentado.

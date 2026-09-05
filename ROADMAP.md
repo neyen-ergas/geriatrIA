@@ -11,8 +11,8 @@ orden de ejecución lo define la cola priorizada; no el número de fase.
 - Antes de tocar código, leer [CODESTYLE.md](CODESTYLE.md) y la sección de
   [SPECS.md](SPECS.md) que corresponda.
 - Commit al terminar cada punto, no al terminar la fase.
-- `npm run typecheck` y `npm run build` pasan antes de cada commit. Si el punto
-  tocó la base, además `npm run db:types`.
+- `npm run typecheck`, `npm test` y `npm run build` pasan antes de cada commit.
+  Si el punto tocó la base, además `npm run db:types`.
 - Si un punto obliga a cambiar una decisión de SPECS, se actualiza SPECS en el
   mismo Pull Request. SPECS no puede quedar desactualizado.
 - Marcar `[x]` en el PR que completa el punto, y anotar en `CHANGELOG.md` lo
@@ -104,7 +104,7 @@ empleados antes de lo previsto, roles y permisos pasan a P0.
 Primero se habilitan pruebas para acompañar las correcciones de la Fase 5A.
 El formato global va después de esas correcciones y en un commit propio.
 
-- [ ] Configurar Vitest con scripts de ejecución local y CI, una prueba real
+- [x] Configurar Vitest con scripts de ejecución local y CI, una prueba real
       de validación existente y ejecución automática en GitHub Actions.
 - [ ] Agregar Prettier como dependencia de desarrollo con su configuración, y
       scripts `npm run format` (escribe) y `npm run format:check` (verifica).

@@ -177,8 +177,15 @@ al leer la base.
 ```bash
 npm run build       # build de producción; compila y typecheckea todo
 npm run typecheck   # solo tsc --noEmit
+npm test            # ejecuta las pruebas una vez, como en CI
+npm run test:watch  # repite las pruebas al editar archivos
 npm run db:types    # regenera los tipos TypeScript desde Supabase
 ```
+
+Las pruebas unitarias usan Vitest en Node y datos sintéticos. No necesitan
+credenciales ni conexión a Supabase. La primera suite comprueba validaciones
+del reingreso; todavía no cubre todos los módulos ni prueba las pantallas.
+Para desarrollar se recomienda Node 24, igual que en CI.
 
 Las variables salen de la configuración de API del proyecto en Supabase:
 

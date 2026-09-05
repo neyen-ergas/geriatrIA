@@ -39,6 +39,9 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
   (dashboard, residentes, turno) para arrancar de cero.
 
 ### Agregado
+- Vitest para pruebas unitarias en Node, comandos `test` y `test:watch`, y
+  ejecución automática en CI. La suite inicial verifica fechas y formato de
+  cuota del reingreso con datos sintéticos, sin conexión a Supabase.
 - Esquema de cuotas y pagos en Supabase con RLS de sólo lectura directa, vista
   de saldos, escrituras mediante funciones controladas y tipos TypeScript
   regenerados desde la base remota.

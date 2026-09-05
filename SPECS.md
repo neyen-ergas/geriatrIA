@@ -387,21 +387,32 @@ El detalle está en [CODESTYLE.md](CODESTYLE.md).
 
 ```bash
 npm run typecheck   # tsc --noEmit
+npm test            # Vitest, una ejecución sin modo de observación
+npm run test:watch  # Vitest, repite al editar archivos
 npm run build       # compila y typecheckea todo
 npm run db:types    # regenera src/types/database.ts desde la base vinculada
 ```
 
-GitHub Actions repite `typecheck` y `build` sobre cada Pull Request a `master` y
-sobre cada push a `master`.
+GitHub Actions ejecuta `typecheck`, `test` y `build` sobre cada Pull Request a
+`master` y sobre cada push a `master`. El job conserva el nombre
+`Typecheck and build` para mantener las referencias de los checks existentes.
 
-No hay suite de tests automatizados, ni formateador, ni linter configurado.
-Son carencias conocidas y están al principio del [ROADMAP](ROADMAP.md).
+Vitest 4 ejecuta pruebas unitarias en Node, con imports explícitos y el alias
+`@/` apuntando a `src/`. La configuración vive en `vitest.config.mts` y los
+tests en `src/**/*.test.{ts,tsx}`, junto al módulo que prueban. Las primeras
+pruebas verifican fechas y cuota del reingreso con datos sintéticos y fechas
+fijas, sin credenciales, acceso a Supabase ni dependencia del reloj real.
+
+Se usa Vitest 4 por compatibilidad con Node 24 de CI y Node 25 del entorno
+local revisado. Todavía falta extender las pruebas a los demás casos de uso y
+agregar integración con la base y pruebas de pantallas. Tampoco hay formateador
+ni linter configurado; estos pendientes siguen en [ROADMAP](ROADMAP.md).
 
 ---
 
 ## 10. Definición de terminado
 
-Un cambio está terminado cuando cumple el alcance acordado, `typecheck` y
-`build` pasan, el diff fue leído completo, los tipos están regenerados si tocó
+Un cambio está terminado cuando cumple el alcance acordado, `typecheck`, `test`
+y `build` pasan, el diff fue leído completo, los tipos están regenerados si tocó
 la base, la documentación afectada está actualizada, el `CHANGELOG` refleja lo
 relevante y el Pull Request puede integrarse sin pasos manuales ocultos.

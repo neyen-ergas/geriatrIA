@@ -37,6 +37,7 @@ revierte la base. Para documentación, indicar "Revertir el commit del PR". -->
 - [ ] Revisé el diff completo.
 - [ ] El cambio se limita a una sola tarea.
 - [ ] Ejecuté `npm run typecheck`.
+- [ ] Ejecuté `npm test`.
 - [ ] Ejecuté `npm run build`.
 - [ ] No incluí claves, archivos `.env.local` ni datos reales de residentes.
 - [ ] Actualicé la documentación y el changelog si era necesario.
