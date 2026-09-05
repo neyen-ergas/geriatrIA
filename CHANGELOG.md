@@ -80,6 +80,10 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - Repositorio publicado en GitHub (privado).
 
 ### Cambiado
+- Priorización del trabajo pendiente: pruebas e integridad antes de nuevos
+  módulos, seguida de Contabilidad y la conexión Admisión → Residentes.
+- Flujo de GitHub documentado con PRs por tarea, squash merge, controles de CI,
+  versiones publicadas y recuperación mediante revert y migraciones nuevas.
 - Ajustes de layout y estilos en dashboard, residentes, login y globals.css.
 
 ### Seguridad
