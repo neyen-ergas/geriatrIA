@@ -93,6 +93,11 @@ Guarda los datos personales permanentes del residente.
 | `created_at` | `timestamptz` | Sí | Momento de creación del registro. |
 | `updated_at` | `timestamptz` | Sí | Momento de la última modificación. |
 
+El DNI se guarda sin puntos ni espacios y conserva sus ceros iniciales. La
+base normaliza las escrituras antes de comprobar unicidad. La migración no
+fusiona personas y aborta si detecta colisiones entre fichas existentes; ver
+[normalización de DNI](residentes-dni.md).
+
 El estado activo no se guardará también en esta tabla. Se calculará a partir de
 la existencia de un ingreso sin fecha de baja, evitando dos datos que podrían
 contradecirse.

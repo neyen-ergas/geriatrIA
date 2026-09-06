@@ -1,3 +1,4 @@
+import { normalizarDni } from "@/lib/dni-residente";
 import type { Database } from "@/types/database";
 
 type ArgumentosPrimerIngreso =
@@ -141,7 +142,7 @@ export function validarPrimerIngreso(
   const valores = leerValoresPrimerIngreso(formData);
   const residentFirstName = valores.resident_first_name;
   const residentLastName = valores.resident_last_name;
-  const residentDni = valores.resident_dni;
+  const residentDni = normalizarDni(valores.resident_dni);
   const residentBirthDate = valores.resident_birth_date;
   const contactFirstName = valores.contact_first_name;
   const contactLastName = valores.contact_last_name;

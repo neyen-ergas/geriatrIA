@@ -34,6 +34,24 @@ describe("fechas de primer ingreso y edición", () => {
     },
   );
 
+  it.each(["12345678", "12.345.678", " 12 345 678 ", "12\u00a0345\u202f678"])(
+    "envía el mismo DNI para %s", (dni) => {
+      const formulario = crearFormulario(HOY);
+      formulario.set("resident_dni", dni);
+      expect(validarPrimerIngreso(formulario, HOY)).toMatchObject({
+        ok: true, datos: { p_resident_dni: "12345678" },
+      });
+    },
+  );
+
+  it("rechaza un DNI compuesto solo por separadores", () => {
+    const formulario = crearFormulario(HOY);
+    formulario.set("resident_dni", " . . ");
+    expect(validarPrimerIngreso(formulario, HOY)).toMatchObject({
+      ok: false, errores: { resident_dni: "Ingresá el DNI." },
+    });
+  });
+
   it("usa el día argentino cuando UTC ya cambió de fecha", () => {
     vi.useFakeTimers();
     try {

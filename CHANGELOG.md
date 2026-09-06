@@ -7,6 +7,9 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Corregido
+- Los DNI con y sin puntos o espacios identifican a la misma persona. Alta,
+  edición y escrituras directas normalizan antes de comprobar unicidad; la
+  migración detecta colisiones existentes y aborta sin fusionar fichas.
 - Primer ingreso y edición rechazan fechas anteriores al nacimiento o futuras.
   La base protege toda la historia contra superposiciones y cambios de
   nacimiento incompatibles, también con escrituras concurrentes. Conserva

@@ -309,7 +309,9 @@ Permite dar de baja y reingresar sin duplicar identidad ni perder historia.
 - Triggers serializan escrituras por persona y verifican la historia al
   confirmar la transacción, incluso si se edita el nacimiento. Detalles,
   auditoría y despliegue en `docs/residentes-fechas-despliegue.md`.
-- `dni` único.
+- `dni` único, normalizado sin puntos ni espacios tanto en aplicación como
+  en la base. Conserva ceros iniciales y otros caracteres. La migración aborta
+  ante colisiones o valores vacíos; ver `docs/residentes-dni.md`.
 - Claves foráneas `on delete restrict`: no se puede borrar una persona con
   historia.
 - Trigger `set_updated_at()` en las tres tablas.
