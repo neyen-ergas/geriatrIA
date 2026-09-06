@@ -67,6 +67,9 @@ jobs:
       - name: Database tests
         run: npm run test:db
 
+      - name: Concurrent resident writes
+        run: npm run test:db:concurrency
+
       - name: Stop local database
         if: always()
         run: npx supabase stop

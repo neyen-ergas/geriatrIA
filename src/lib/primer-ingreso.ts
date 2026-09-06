@@ -173,6 +173,12 @@ export function validarPrimerIngreso(
 
   if (!esFechaValida(admittedAt)) {
     errores.admitted_at = "Ingresá una fecha válida.";
+  } else if (admittedAt > hoy) {
+    errores.admitted_at = "El ingreso no puede estar en el futuro.";
+  } else if (
+    esFechaValida(residentBirthDate) && admittedAt < residentBirthDate
+  ) {
+    errores.admitted_at = "El ingreso no puede ser anterior al nacimiento.";
   }
 
   if (!monthlyFeeText || monthlyFee === null) {

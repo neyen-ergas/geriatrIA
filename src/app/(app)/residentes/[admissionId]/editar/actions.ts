@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requerirSesion } from "@/lib/auth";
+import { mensajeErrorEstadia } from "@/lib/errores-estadias";
 import {
   hoyEnArgentina,
   leerValoresPrimerIngreso,
@@ -47,9 +48,11 @@ export async function actualizarPrimerIngreso(
   });
 
   if (error) {
+    const mensaje = mensajeErrorEstadia(error);
+    if (mensaje) return { errores: {}, mensaje, valores };
+
     console.error("No se pudo actualizar el ingreso activo", {
       code: error.code,
-      message: error.message,
     });
 
     if (error.code === UNIQUE_VIOLATION) {

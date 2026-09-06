@@ -141,7 +141,16 @@ Guarda cada estadía del residente en la institución.
 | `updated_at` | `timestamptz` | Sí | Momento de la última modificación. |
 
 La base de datos deberá impedir que un residente tenga dos ingresos activos. La
-fecha de baja no podrá ser anterior a la fecha de ingreso.
+fecha de baja no podrá ser anterior a la fecha de ingreso. Nacimiento, ingreso
+y baja son fechas finitas, sin valores futuros según el día argentino. No hay
+reservas: un ingreso abierto corresponde a una persona ya ingresada.
+
+El nacimiento debe respetar todos los ingresos de la persona. Las estadías no
+pueden superponerse, aunque la baja y el siguiente ingreso pueden coincidir.
+Las estadías de duración cero pueden compartir extremos, incluso entre sí,
+pero no quedar dentro de otra estadía. Triggers serializan las escrituras por
+persona y validan el estado final de la transacción, también al editar el
+nacimiento. Ver [reglas, auditoría y despliegue](residentes-fechas-despliegue.md).
 
 El formulario acepta la cuota sin separadores (`500000`) o con formato argentino
 (`500.000` o `500.000,50`). Antes de guardar, la convierte a número y comprueba

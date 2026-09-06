@@ -300,6 +300,15 @@ Permite dar de baja y reingresar sin duplicar identidad ni perder historia.
 - `admissions_one_active_per_resident_idx` — índice único parcial sobre
   `resident_id where discharged_at is null`. Un solo ingreso activo.
 - `admissions_discharge_date_valid` — `discharged_at >= admitted_at`.
+- Nacimiento, ingreso y baja finitos y sin fechas futuras, según el día
+  argentino. No hay ingresos programados: un ingreso abierto ya está activo.
+- El nacimiento no puede ser posterior a ningún ingreso de la persona.
+- Las estadías no se superponen; baja y reingreso pueden coincidir. Una
+  estadía de duración cero puede compartir extremos, pero no estar dentro
+  de otra. Se admiten varias estadías sucesivas de duración cero el mismo día.
+- Triggers serializan escrituras por persona y verifican la historia al
+  confirmar la transacción, incluso si se edita el nacimiento. Detalles,
+  auditoría y despliegue en `docs/residentes-fechas-despliegue.md`.
 - `dni` único.
 - Claves foráneas `on delete restrict`: no se puede borrar una persona con
   historia.

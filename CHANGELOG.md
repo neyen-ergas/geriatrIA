@@ -7,6 +7,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Corregido
+- Primer ingreso y edición rechazan fechas anteriores al nacimiento o futuras.
+  La base protege toda la historia contra superposiciones y cambios de
+  nacimiento incompatibles, también con escrituras concurrentes. Conserva
+  bajas y reingresos en el mismo día, con errores claros en los cuatro flujos
+  y auditoría previa sin modificar datos existentes.
 - Los cambios de estado, agenda, cancelaciones y notas de Admisión validan el
   estado y la versión en una función de Postgres. Las consultas desactualizadas
   o inexistentes no producen sobrescrituras ni confirmaciones falsas.
