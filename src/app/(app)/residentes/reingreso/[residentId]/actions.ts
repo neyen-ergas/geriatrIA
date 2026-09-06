@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requerirSesion } from "@/lib/auth";
+import { mensajeErrorEstadia } from "@/lib/errores-estadias";
 import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import {
   leerValoresReingreso,
@@ -10,6 +11,8 @@ import {
   type EstadoReingreso,
 } from "@/lib/reingreso-residente";
 import { createClient } from "@/lib/supabase/server";
+
+const UNIQUE_VIOLATION = "23505";
 
 export async function reingresarResidente(
   residentId: string,
@@ -89,15 +92,17 @@ export async function reingresarResidente(
   });
 
   if (error) {
+    const mensaje = mensajeErrorEstadia(error);
+    if (mensaje) return { errores: {}, mensaje, valores };
+
     console.error("No se pudo registrar el reingreso", {
       code: error.code,
-      message: error.message,
     });
 
     return {
       errores: {},
       mensaje:
-        error.code === "23505"
+        error.code === UNIQUE_VIOLATION
           ? "El residente ya tiene un ingreso activo."
           : "No pudimos registrar el reingreso. Intentá nuevamente.",
       valores,

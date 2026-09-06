@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:db": "supabase test db --local",
+    "test:db:concurrency": "python3 scripts/probar-concurrencia-estadias.py",
     "db:types:local": "supabase gen types --local --lang typescript --schema public > src/types/database.ts",
     "typecheck": "tsc --noEmit"
   },

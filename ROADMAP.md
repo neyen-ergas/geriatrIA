@@ -140,7 +140,7 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
       controlada en la base. Comprobar el estado esperado y la fila modificada;
       una pantalla desactualizada no debe reabrir ni sobrescribir una consulta
       cerrada por otro operador. Cubrir cambios de estado, agenda y cancelación.
-- [ ] Validar fechas de primer ingreso y edición: impedir ingresos anteriores
+- [x] Validar fechas de primer ingreso y edición: impedir ingresos anteriores
       al nacimiento y estadías históricas superpuestas. Definir explícitamente
       el tratamiento de ingresos futuros para que no aparezcan como activos
       antes de tiempo; mantener coherencia con bajas y reingresos.
