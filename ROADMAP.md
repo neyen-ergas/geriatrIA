@@ -12,7 +12,8 @@ orden de ejecución lo define la cola priorizada; no el número de fase.
   [SPECS.md](SPECS.md) que corresponda.
 - Commit al terminar cada punto, no al terminar la fase.
 - `npm run typecheck`, `npm test` y `npm run build` pasan antes de cada commit.
-  Si el punto tocó la base, además `npm run db:types`.
+  Si el punto tocó la base, además pruebas SQL y tipos generados desde la base
+  local (`npm run db:types:local`) o vinculada (`npm run db:types`).
 - Si un punto obliga a cambiar una decisión de SPECS, se actualiza SPECS en el
   mismo Pull Request. SPECS no puede quedar desactualizado.
 - Marcar `[x]` en el PR que completa el punto, y anotar en `CHANGELOG.md` lo
@@ -135,7 +136,7 @@ El formato global va después de esas correcciones y en un commit propio.
 Cada punto es un PR independiente, con pruebas de regresión. Las migraciones se
 prueban localmente con datos sintéticos antes de planificar su aplicación.
 
-- [ ] Validar transiciones de Admisión en el servidor y en una escritura
+- [x] Validar transiciones de Admisión en el servidor y en una escritura
       controlada en la base. Comprobar el estado esperado y la fila modificada;
       una pantalla desactualizada no debe reabrir ni sobrescribir una consulta
       cerrada por otro operador. Cubrir cambios de estado, agenda y cancelación.

@@ -54,6 +54,8 @@ La bandeja de consultas que llegan desde la web de la residencia.
 - Un solo turno por día y franja, garantizado por la base de datos: si dos
   personas agendan al mismo tiempo, una recibe "ese turno ya está ocupado".
 - Reprogramación y cancelación, que liberan el turno pero conservan la historia.
+- Control de versión para evitar que una pestaña desactualizada sobrescriba
+  cambios de estado, visitas o notas guardados por otro operador.
 - Agenda semanal en grilla, para ver los huecos libres antes de llamar.
 - Notas internas del equipo, que la familia nunca ve.
 - Una consulta nunca se elimina: se descarta.
@@ -179,12 +181,14 @@ npm run build       # build de producción; compila y typecheckea todo
 npm run typecheck   # solo tsc --noEmit
 npm test            # ejecuta las pruebas una vez, como en CI
 npm run test:watch  # repite las pruebas al editar archivos
+npm run test:db     # pruebas de Postgres sobre Supabase local, con Docker
 npm run db:types    # regenera los tipos TypeScript desde Supabase
 ```
 
 Las pruebas unitarias usan Vitest en Node y datos sintéticos. No necesitan
 credenciales ni conexión a Supabase. La primera suite comprueba validaciones
-del reingreso; todavía no cubre todos los módulos ni prueba las pantallas.
+del reingreso y las pruebas de Admisión cubren sus validaciones y acciones;
+todavía no cubren todos los módulos ni prueban las pantallas.
 Para desarrollar se recomienda Node 24, igual que en CI.
 
 Las variables salen de la configuración de API del proyecto en Supabase:
@@ -201,6 +205,8 @@ navegador. `.env.local` está ignorado por Git.
 
 Detalles de vinculación de la CLI y migraciones en
 [docs/supabase-configuracion.md](docs/supabase-configuracion.md).
+El control de escrituras de Admisión requiere coordinar migración y despliegue;
+ver [aplicación y recuperación](docs/admision-transiciones-despliegue.md).
 
 ---
 

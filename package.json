@@ -10,6 +10,8 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:db": "supabase test db --local",
+    "db:types:local": "supabase gen types --local --lang typescript --schema public > src/types/database.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -168,7 +168,7 @@ El sistema guarda datos de salud y datos personales de terceros.
 
 | Tablas | RLS | Cómo escribe la aplicación |
 | --- | --- | --- |
-| `consulta` | Activada **sin políticas**; `anon` y `authenticated` revocados | Cliente `service_role`, que saltea RLS |
+| `consulta` | Activada **sin políticas**; `anon` y `authenticated` revocados | Cliente `service_role`; cambios del CRM solo vía `update_consulta` |
 | `residents`, `family_contacts`, `admissions` | Activada con políticas para `authenticated` | Cliente autenticado; altas y ediciones vía funciones transaccionales |
 | `monthly_charges`, `payments` | Activada, **solo lectura** para `authenticated` | Exclusivamente vía funciones `security definer`; sin `insert`, `update` ni `delete` directos |
 
@@ -211,7 +211,8 @@ secretas** (`sb_secret_...`); PostgREST responde `Invalid API key`. Va la
 
 ## 6. Modelo de datos
 
-Cinco migraciones aplicadas, en `supabase/migrations/`.
+El esquema se versiona en `supabase/migrations/`. La aplicación de cada
+migración al remoto se verifica por instalación; incluirla en Git no la aplica.
 
 ### 6.1 `consulta` — admisión
 
@@ -238,6 +239,18 @@ nuevo ──> contactado ──> visita_agendada ──> ingreso
 dos columnas de la visita se mueven en el mismo `update`. Por eso
 `ESTADOS_DIRECTOS` lo excluye y existe una acción propia. Cancelar la visita
 devuelve la consulta a `contactado` y borra día y franja.
+
+Las acciones del CRM usan `update_consulta`, que bloquea la fila, compara el
+estado y `actualizado_en` enviados por el formulario y valida la transición.
+La versión es estrictamente creciente y se conserva como texto hasta Postgres.
+Una versión vieja produce un conflicto, también al reprogramar sin cambiar
+de estado o al guardar notas. No se reintenta automáticamente.
+
+La función es `security definer` con `search_path` vacío y ejecución exclusiva
+de `service_role`. Ese rol conserva `select` e `insert` para las lecturas y la
+landing, pero pierde `update` directo. Las Server Actions siguen exigiendo
+sesión antes de invocar el cliente administrativo. El detalle de transiciones,
+incluidas las reaperturas, está en `docs/admision-consultas-modelo.md`.
 
 **Invariantes en la base:**
 
@@ -389,6 +402,8 @@ El detalle está en [CODESTYLE.md](CODESTYLE.md).
 npm run typecheck   # tsc --noEmit
 npm test            # Vitest, una ejecución sin modo de observación
 npm run test:watch  # Vitest, repite al editar archivos
+npm run test:db     # pgTAP sobre Supabase local (requiere Docker)
+npm run db:types:local # tipos desde las migraciones aplicadas localmente
 npm run build       # compila y typecheckea todo
 npm run db:types    # regenera src/types/database.ts desde la base vinculada
 ```
@@ -396,6 +411,8 @@ npm run db:types    # regenera src/types/database.ts desde la base vinculada
 GitHub Actions ejecuta `typecheck`, `test` y `build` sobre cada Pull Request a
 `master` y sobre cada push a `master`. El job conserva el nombre
 `Typecheck and build` para mantener las referencias de los checks existentes.
+El job `Database tests` inicia Postgres local, aplica las migraciones y ejecuta
+pgTAP sin conectar con instalaciones remotas.
 
 Vitest 4 ejecuta pruebas unitarias en Node, con imports explícitos y el alias
 `@/` apuntando a `src/`. La configuración vive en `vitest.config.mts` y los
@@ -404,8 +421,9 @@ pruebas verifican fechas y cuota del reingreso con datos sintéticos y fechas
 fijas, sin credenciales, acceso a Supabase ni dependencia del reloj real.
 
 Se usa Vitest 4 por compatibilidad con Node 24 de CI y Node 25 del entorno
-local revisado. Todavía falta extender las pruebas a los demás casos de uso y
-agregar integración con la base y pruebas de pantallas. Tampoco hay formateador
+local revisado. Admisión tiene además pruebas de validación, de Server Actions
+y de su función en Postgres. Falta extender las pruebas a los demás casos de uso
+y agregar pruebas de pantallas. Tampoco hay formateador
 ni linter configurado; estos pendientes siguen en [ROADMAP](ROADMAP.md).
 
 ---
