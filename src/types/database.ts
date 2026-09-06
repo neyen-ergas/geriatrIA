@@ -383,6 +383,7 @@ export type Database = {
         }
         Returns: string
       }
+      normalize_resident_dni: { Args: { p_dni: string }; Returns: string }
       record_payment: {
         Args: {
           p_amount: number

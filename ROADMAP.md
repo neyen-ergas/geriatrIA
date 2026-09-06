@@ -144,7 +144,7 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
       al nacimiento y estadías históricas superpuestas. Definir explícitamente
       el tratamiento de ingresos futuros para que no aparezcan como activos
       antes de tiempo; mantener coherencia con bajas y reingresos.
-- [ ] Normalizar DNI en aplicación y base. Detectar colisiones existentes
+- [x] Normalizar DNI en aplicación y base. Detectar colisiones existentes
       antes de migrar; no fusionar ni eliminar residentes automáticamente.
       Probar que formatos con y sin puntos no creen identidades duplicadas.
 - [ ] Conservar eventos de agenda: fecha y franja anterior y nueva, acción,
