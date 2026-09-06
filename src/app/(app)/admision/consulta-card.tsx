@@ -9,9 +9,9 @@ import {
   ETIQUETAS_ESTADO,
   FRANJAS,
   MOMENTOS_LLAMADO,
+  TRANSICIONES,
   formatearDia,
   type Consulta,
-  type Estado,
   type EstadoDirecto,
 } from "@/lib/admision";
 import {
@@ -23,15 +23,6 @@ import {
 } from "./actions";
 
 const estadoInicial: Resultado = { error: null, ok: false };
-
-/** A qué estados se puede pasar desde cada uno, y con qué botón. */
-const TRANSICIONES: Record<Estado, readonly EstadoDirecto[]> = {
-  nuevo: ["contactado", "descartada"],
-  contactado: ["nuevo", "descartada"],
-  visita_agendada: ["ingreso", "descartada"],
-  ingreso: ["contactado"],
-  descartada: ["nuevo"],
-};
 
 const ACCION_ESTADO: Record<EstadoDirecto, string> = {
   nuevo: "Reabrir",
@@ -83,8 +74,10 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
   const agendada = consulta.estado === "visita_agendada";
   const cerrada =
     consulta.estado === "ingreso" || consulta.estado === "descartada";
-  const mostrarFormulario = (!agendada && !cerrada) || reprogramando;
+  const mostrarFormulario = !cerrada && (!agendada || reprogramando);
 
+  // La key por versión renueva también los campos no controlados al refrescar
+  // los datos: nunca combina valores viejos con un token de escritura nuevo.
   return (
     <Card className="p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -138,8 +131,11 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
             >
               {reprogramando ? "No reprogramar" : "Reprogramar"}
             </Button>
-            <form action={enviarCancelar}>
-              <input type="hidden" name="id" value={consulta.id} />
+            <form
+              key={`cancelar-${consulta.actualizado_en}`}
+              action={enviarCancelar}
+            >
+              <VersionConsulta consulta={consulta} />
               <Button
                 type="submit"
                 variant="ghost"
@@ -165,8 +161,12 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       )}
 
       {mostrarFormulario && (
-        <form action={enviarAgenda} className="mt-5">
-          <input type="hidden" name="id" value={consulta.id} />
+        <form
+          key={`agenda-${consulta.actualizado_en}`}
+          action={enviarAgenda}
+          className="mt-5"
+        >
+          <VersionConsulta consulta={consulta} />
           <Label>{agendada ? "Nuevo día y franja" : "Agendar visita"}</Label>
           <div className="flex flex-wrap items-start gap-2">
             <Input
@@ -208,8 +208,12 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       {/* ── Estado ────────────────────────────────────────────────────── */}
 
       <div className="mt-5">
-        <form action={enviarEstado} className="flex flex-wrap gap-2">
-          <input type="hidden" name="id" value={consulta.id} />
+        <form
+          key={`estado-${consulta.actualizado_en}`}
+          action={enviarEstado}
+          className="flex flex-wrap gap-2"
+        >
+          <VersionConsulta consulta={consulta} />
           {TRANSICIONES[consulta.estado].map((destino) => (
             <Button
               key={destino}
@@ -233,8 +237,12 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
 
       {/* ── Notas internas ────────────────────────────────────────────── */}
 
-      <form action={enviarNotas} className="mt-5">
-        <input type="hidden" name="id" value={consulta.id} />
+      <form
+        key={`notas-${consulta.actualizado_en}`}
+        action={enviarNotas}
+        className="mt-5"
+      >
+        <VersionConsulta consulta={consulta} />
         <Label htmlFor={`notas-${consulta.id}`}>Notas internas</Label>
         <textarea
           id={`notas-${consulta.id}`}
@@ -272,5 +280,20 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
         {consulta.origen}
       </p>
     </Card>
+  );
+}
+
+/** Estado y versión viajan con los valores que muestra cada formulario. */
+function VersionConsulta({ consulta }: { consulta: Consulta }) {
+  return (
+    <>
+      <input type="hidden" name="id" value={consulta.id} />
+      <input type="hidden" name="estado_esperado" value={consulta.estado} />
+      <input
+        type="hidden"
+        name="actualizado_en"
+        value={consulta.actualizado_en}
+      />
+    </>
   );
 }

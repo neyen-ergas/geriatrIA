@@ -6,7 +6,7 @@ import { esEstado, type Consulta, type Estado } from "@/lib/admision";
 // Una sola cadena literal: el tipado de `select()` de supabase-js la analiza en
 // tiempo de compilación y no puede seguir una concatenación.
 const COLUMNAS =
-  "id, creado_en, nombre, telefono, momento_llamado, mensaje, origen, estado, notas_internas, visita_fecha, visita_franja";
+  "id, creado_en, actualizado_en, nombre, telefono, momento_llamado, mensaje, origen, estado, notas_internas, visita_fecha, visita_franja";
 
 /** Consultas ordenadas de la más reciente a la más antigua. */
 export async function listarConsultas(estado?: Estado): Promise<Consulta[]> {

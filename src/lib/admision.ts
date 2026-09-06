@@ -11,6 +11,7 @@
 export type Consulta = {
   id: string;
   creado_en: string;
+  actualizado_en: string;
   nombre: string;
   telefono: string;
   momento_llamado: MomentoLlamado;
@@ -50,6 +51,15 @@ export const ESTADOS_DIRECTOS = [
 ] as const satisfies readonly Estado[];
 
 export type EstadoDirecto = (typeof ESTADOS_DIRECTOS)[number];
+
+/** Transiciones directas compartidas por los botones y la validación. */
+export const TRANSICIONES: Record<Estado, readonly EstadoDirecto[]> = {
+  nuevo: ["contactado", "descartada"],
+  contactado: ["nuevo", "descartada"],
+  visita_agendada: ["ingreso", "descartada"],
+  ingreso: ["contactado"],
+  descartada: ["nuevo"],
+};
 
 export function esEstadoDirecto(valor: unknown): valor is EstadoDirecto {
   return ESTADOS_DIRECTOS.includes(valor as EstadoDirecto);

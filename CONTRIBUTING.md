@@ -65,6 +65,12 @@ desde `vitest`. Se ejecutan en Node y admiten el alias `@/`. Usar datos
 sintéticos y fechas explícitas; no requieren Supabase ni variables de entorno.
 `npm run test:watch` permite repetirlas al editar. Node 24 es el entorno de CI.
 
+Si el cambio afecta a las escrituras o reglas de Admisión, iniciar la base
+aislada con `npx supabase db start` y ejecutar `npm run test:db`. Las pruebas
+pgTAP viven en `supabase/tests/` y también corren en el job `Database tests`.
+Para migraciones aún no aplicadas al remoto, generar los tipos con
+`npm run db:types:local` después de aplicarlas localmente.
+
 ## Pull Requests
 
 Cada PR debe:

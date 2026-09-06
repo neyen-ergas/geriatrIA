@@ -69,6 +69,42 @@ visita, porque el estado y las dos columnas de la visita tienen que moverse
 juntos. Cancelar la visita devuelve la consulta a `contactado` y borra el día y
 la franja.
 
+Las transiciones directas son: `nuevo` → `contactado` o `descartada`,
+`contactado` → `nuevo` o `descartada`, `visita_agendada` → `ingreso` o
+`descartada`, `ingreso` → `contactado` y `descartada` → `nuevo`. Agendar está
+permitido desde `nuevo`, `contactado` y `visita_agendada`; cancelar solo desde
+`visita_agendada`. Las notas se pueden modificar en cualquier estado.
+
+## Escrituras y concurrencia
+
+Las cuatro acciones del CRM llaman a `update_consulta`, con la identidad,
+el estado esperado y `actualizado_en` tal como llegaron al formulario. La
+aplicación conserva el timestamp como texto para no perder microsegundos.
+
+La función bloquea la fila, comprueba el estado y la versión, valida la acción
+y guarda el cambio dentro de la misma transacción. Las transiciones se validan
+en TypeScript para dar mensajes claros y también en Postgres para garantizar
+las reglas. No se permite `update` directo a `service_role`; la landing
+conserva `insert` y no necesita cambiar su formulario.
+
+El trigger genera una versión estrictamente creciente en cada escritura,
+incluso dentro de una misma transacción. Esto detecta reprogramaciones sin
+cambio de estado y secuencias que vuelven al estado original. También protege
+las notas contra sobrescrituras desde otra pestaña.
+
+Si la versión o el estado no coinciden, se devuelve `consulta_changed`
+(`40001`). El CRM pide recargar la página y no reintenta con una versión nueva
+ni informa éxito. Si no existe la consulta, se devuelve `consulta_not_found`
+(`P0002`). El índice de turno único sigue resolviendo los choques entre
+consultas diferentes.
+
+Los formularios se renuevan cuando reciben una versión distinta, para que los
+campos visibles y la versión enviada correspondan a los mismos datos.
+
+Esta corrección no agrega un historial de eventos: reprogramar todavía
+sobrescribe la fecha anterior y cancelar la limpia. El registro de esos eventos
+es otro punto independiente del roadmap.
+
 ## Tabla `consulta`
 
 El nombre está en español, a diferencia de lo previsto en
@@ -102,7 +138,7 @@ una excepción documentada, no como el criterio general del proyecto.
 `origen` existe para distinguir campañas o canales más adelante. Hoy la landing no
 lo envía, así que todas las filas caen en el valor por defecto.
 
-## Dos garantías que viven en la base
+## Garantías que viven en la base
 
 **La visita va completa o no va.** La restricción `consulta_visita_completa`
 exige que `visita_fecha` y `visita_franja` sean ambas nulas o ambas no nulas. Una
@@ -148,7 +184,9 @@ La tabla tiene Row Level Security activada **sin políticas**, y `anon` y
 `authenticated` tienen los permisos revocados. Nadie llega a estos datos con la
 clave publicable. El único acceso es con la clave `service_role`, que vive
 exclusivamente del lado del servidor: en la Server Action de la landing y en los
-Server Components y Server Actions del CRM.
+Server Components y Server Actions del CRM. La función `update_consulta` es
+`security definer`, tiene `search_path` vacío y solo otorga ejecución a
+`service_role`; `anon` y `authenticated` tampoco pueden invocarla.
 
 Esa clave saltea RLS, así que la base no distingue quién está consultando. La
 protección real del CRM es su autenticación: cada pantalla y cada acción que toque
@@ -157,6 +195,17 @@ el middleware.
 
 Cuando el proyecto tenga un modelo de roles, corresponderá reemplazar la clave
 `service_role` por políticas RLS por rol. Hasta entonces, el login es la puerta.
+
+## Pruebas y despliegue
+
+`npm test` verifica validaciones, exigencia de sesión y tratamiento de
+conflictos en las Server Actions. `npm run test:db` ejecuta pruebas pgTAP sobre
+Supabase local: permisos, transiciones, versiones obsoletas, agenda, cancelación,
+notas y conservación del turno único. Solo utiliza consultas ficticias y
+revierte sus datos al terminar.
+
+La migración cambia los permisos de escritura y requiere coordinar el despliegue
+del CRM. Ver [aplicación y recuperación](admision-transiciones-despliegue.md).
 
 ## Próximo paso
 

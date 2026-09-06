@@ -7,6 +7,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Corregido
+- Los cambios de estado, agenda, cancelaciones y notas de Admisión validan el
+  estado y la versión en una función de Postgres. Las consultas desactualizadas
+  o inexistentes no producen sobrescrituras ni confirmaciones falsas.
+- Las transiciones se verifican en el servidor y en la base; el CRM no puede
+  modificar consultas con `update` directo. Se mantiene el `insert` de la landing.
 - La cuota mensual acepta números simples y formato argentino, y se valida el
   máximo admitido por Supabase antes de intentar registrar el ingreso.
 
