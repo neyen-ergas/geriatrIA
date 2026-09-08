@@ -152,7 +152,7 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
       Aclarar que el historial ya sobrescrito no se puede reconstruir.
 - [x] Paginar consultas y calcular contadores en la base, con orden estable.
       Verificar filtros y totales por encima del límite local de 1.000 filas.
-- [ ] Paginar residentes e historial. Resolver en la base la última baja y la
+- [x] Paginar residentes e historial. Resolver en la base la última baja y la
       existencia de un ingreso activo para que un listado truncado no habilite
       un reingreso incorrecto.
 - [ ] Dar una respuesta recuperable ante errores de carga de Admisión y

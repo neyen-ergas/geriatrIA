@@ -1,14 +1,8 @@
 import type { Estado } from "@/lib/admision";
-
-export const CONSULTAS_POR_PAGINA = 50;
-
-export function paginaAdmision(valor: unknown, total: number): number {
-  const pagina = typeof valor === "string" && /^[1-9]\d*$/.test(valor)
-    ? Number(valor)
-    : 1;
-  const ultima = Math.max(1, Math.ceil(total / CONSULTAS_POR_PAGINA));
-  return Number.isSafeInteger(pagina) ? Math.min(pagina, ultima) : 1;
-}
+export {
+  REGISTROS_POR_PAGINA as CONSULTAS_POR_PAGINA,
+  paginaListado as paginaAdmision,
+} from "@/lib/paginacion";
 
 export function enlaceAdmision(pagina: number, estado?: Estado): string {
   const parametros = new URLSearchParams();

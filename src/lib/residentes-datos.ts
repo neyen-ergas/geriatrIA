@@ -2,6 +2,7 @@ import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/types/database";
+import { REGISTROS_POR_PAGINA } from "@/lib/paginacion";
 
 type DatosResidente = Pick<
   Tables<"residents">,
@@ -105,22 +106,42 @@ const COLUMNAS_BAJAS = `
     first_name,
     last_name,
     dni,
-    birth_date
+    birth_date,
+    activo:admissions!admissions_resident_id_fkey (id),
+    ultima_baja:admissions!admissions_resident_id_fkey (id)
   )
 `;
 
-const ordenAlfabetico = new Intl.Collator("es-AR", {
-  sensitivity: "base",
-});
+export async function contarEstadias(bajas: boolean): Promise<number> {
+  const supabase = await createClient();
+  const consulta = supabase.from("admissions").select("id", {
+    count: "exact",
+    head: true,
+  });
+  const { count, error } = await (bajas
+    ? consulta.not("discharged_at", "is", null)
+    : consulta.is("discharged_at", null));
+  if (error || count === null) {
+    throw new Error("No se pudieron contar las estadías.");
+  }
+  return count;
+}
 
 /** Residentes que actualmente tienen un ingreso sin fecha de baja. */
-export async function listarResidentesActivos(): Promise<ResidenteActivo[]> {
+export async function listarResidentesActivos(
+  pagina = 1,
+): Promise<ResidenteActivo[]> {
   const supabase = await createClient();
+  const inicio = inicioPagina(pagina);
 
   const { data, error } = await supabase
     .from("admissions")
     .select(COLUMNAS_RESIDENTES_ACTIVOS)
-    .is("discharged_at", null);
+    .is("discharged_at", null)
+    .order("residents(last_name)", { ascending: true })
+    .order("residents(first_name)", { ascending: true })
+    .order("id", { ascending: true })
+    .range(inicio, inicio + REGISTROS_POR_PAGINA - 1);
 
   if (error) {
     throw new Error(`No se pudieron leer los residentes: ${error.message}`);
@@ -132,72 +153,59 @@ export async function listarResidentesActivos(): Promise<ResidenteActivo[]> {
       admittedAt: admission.admitted_at,
       room: admission.room,
       resident: admission.residents,
-    }))
-    .sort((a, b) => {
-      const apellido = ordenAlfabetico.compare(
-        a.resident.last_name,
-        b.resident.last_name,
-      );
-
-      return apellido !== 0
-        ? apellido
-        : ordenAlfabetico.compare(
-            a.resident.first_name,
-            b.resident.first_name,
-          );
-    });
+    }));
 }
 
 /** Ingresos finalizados, del más reciente al más antiguo. */
-export async function listarResidentesDadosDeBaja(): Promise<
+export async function listarResidentesDadosDeBaja(pagina = 1): Promise<
   ResidenteDadoDeBaja[]
 > {
   const supabase = await createClient();
-  const [bajasResult, activosResult] = await Promise.all([
-    supabase
-      .from("admissions")
-      .select(COLUMNAS_BAJAS)
-      .not("discharged_at", "is", null)
-      .order("discharged_at", { ascending: false }),
-    supabase
-      .from("admissions")
-      .select("resident_id")
-      .is("discharged_at", null),
-  ]);
+  const inicio = inicioPagina(pagina);
+  // Cada relación se filtra y limita en Postgres para esa persona. No depende
+  // de qué residentes o bajas entren en la página principal.
+  const bajasResult = await supabase
+    .from("admissions")
+    .select(COLUMNAS_BAJAS)
+    .not("discharged_at", "is", null)
+    .order("discharged_at", { ascending: false })
+    .order("admitted_at", { ascending: false })
+    .order("id", { ascending: false })
+    .is("residents.activo.discharged_at", null)
+    .limit(1, { referencedTable: "residents.activo" })
+    .not("residents.ultima_baja.discharged_at", "is", null)
+    .order("discharged_at", {
+      referencedTable: "residents.ultima_baja", ascending: false,
+    })
+    .order("admitted_at", {
+      referencedTable: "residents.ultima_baja", ascending: false,
+    })
+    .order("id", {
+      referencedTable: "residents.ultima_baja", ascending: false,
+    })
+    .limit(1, { referencedTable: "residents.ultima_baja" })
+    .range(inicio, inicio + REGISTROS_POR_PAGINA - 1);
 
   if (bajasResult.error) {
     throw new Error(
       `No se pudieron leer las bajas: ${bajasResult.error.message}`,
     );
   }
-  if (activosResult.error) {
-    throw new Error(
-      `No se pudieron leer los residentes activos: ${activosResult.error.message}`,
-    );
-  }
-
-  const residentesActivos = new Set(
-    (activosResult.data ?? []).map(({ resident_id }) => resident_id),
-  );
-  const bajasMasRecientes = new Set<string>();
-
   return (bajasResult.data ?? []).flatMap((admission) => {
     if (!admission.discharged_at) return [];
 
-    const residentId = admission.residents.id;
-    const esBajaMasReciente = !bajasMasRecientes.has(residentId);
-    bajasMasRecientes.add(residentId);
+    const { activo, ultima_baja, ...resident } = admission.residents;
 
     return [
       {
         admissionId: admission.id,
         admittedAt: admission.admitted_at,
         canBeReadmitted:
-          esBajaMasReciente && !residentesActivos.has(residentId),
+          activo.length === 0 && ultima_baja[0]?.id === admission.id,
         dischargedAt: admission.discharged_at,
         dischargeReason: admission.discharge_reason,
         room: admission.room,
-        resident: admission.residents,
+        resident,
       },
     ];
   });
@@ -237,6 +245,8 @@ export async function obtenerResidenteParaReingreso(
       .eq("resident_id", residentId)
       .not("discharged_at", "is", null)
       .order("discharged_at", { ascending: false })
+      .order("admitted_at", { ascending: false })
+      .order("id", { ascending: false })
       .limit(1)
       .maybeSingle(),
   ]);
@@ -263,6 +273,15 @@ export async function obtenerResidenteParaReingreso(
     },
     resident: ultimaBaja.residents,
   };
+}
+
+function inicioPagina(pagina: number): number {
+  const inicio = (pagina - 1) * REGISTROS_POR_PAGINA;
+  if (pagina < 1 || !Number.isSafeInteger(pagina)
+    || !Number.isSafeInteger(inicio + REGISTROS_POR_PAGINA - 1)) {
+    throw new Error("La página de residentes no es válida.");
+  }
+  return inicio;
 }
 
 /** Datos mínimos para confirmar el cierre de un ingreso que sigue activo. */

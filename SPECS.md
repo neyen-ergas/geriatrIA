@@ -331,6 +331,15 @@ Permite dar de baja y reingresar sin duplicar identidad ni perder historia.
 **El estado activo no se guarda.** Se deriva de la ausencia de `discharged_at`.
 Dos fuentes para el mismo dato terminan contradiciéndose.
 
+Los listados cargan 50 estadías por página y el total con HEAD y conteo exacto.
+Activos se ordena en Postgres por apellido, nombre e id; el historial por baja,
+ingreso e id descendentes. La comparación alfabética usa la colación de la base.
+Cada fila del historial incluye dos relaciones limitadas a un registro de esa
+persona: ingreso activo y última baja. El botón Reingresar solo aparece si no
+hay activo y la fila corresponde a esa última baja, con el mismo desempate que
+el formulario. No se deduce disponibilidad de una lista global truncada.
+Se conservan RLS, la revalidación en la acción y las restricciones de escritura.
+
 **Funciones transaccionales:**
 
 - `create_initial_admission(...)` — crea residente, primer contacto y primer

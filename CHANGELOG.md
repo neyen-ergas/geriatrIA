@@ -7,6 +7,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Corregido
+- Residentes e historial paginados de a 50 con totales exactos. La última baja
+  y la existencia de un ingreso activo se consultan por persona en la base,
+  evitando habilitar reingresos por listas truncadas.
+
+### Corregido
 - Admisión muestra páginas de 50 consultas con orden estable por fecha e id,
   y calcula los contadores en Supabase sin truncarlos a 1.000 registros.
   La navegación conserva el filtro y ajusta páginas fuera de rango.
