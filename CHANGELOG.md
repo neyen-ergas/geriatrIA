@@ -6,6 +6,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Corregido
+- Admisión muestra páginas de 50 consultas con orden estable por fecha e id,
+  y calcula los contadores en Supabase sin truncarlos a 1.000 registros.
+  La navegación conserva el filtro y ajusta páginas fuera de rango.
+
 ### Agregado
 - Historial de agendados, reprogramaciones, cancelaciones y cierres de visitas,
   con turno anterior y nuevo, momento y autor de la sesión. El evento y el

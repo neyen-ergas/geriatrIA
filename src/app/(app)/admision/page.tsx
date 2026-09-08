@@ -11,7 +11,9 @@ import {
   type Estado,
 } from "@/lib/admision";
 import { contarPorEstado, listarConsultas } from "@/lib/admision-datos";
+import { paginaAdmision } from "@/lib/paginacion-admision";
 import { ConsultaCard } from "./consulta-card";
+import { Paginacion } from "./paginacion";
 
 export const metadata: Metadata = {
   title: "Admisión · geriatrIA",
@@ -53,21 +55,23 @@ const TARJETAS = [
 export default async function AdmisionPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string }>;
+  searchParams: Promise<{ estado?: string | string[]; pagina?: string | string[] }>;
 }) {
   // El cliente admin saltea RLS, así que la sesión es lo único que separa estos
   // datos de cualquiera. El layout ya la verifica; acá se repite a propósito.
   await requerirSesion();
 
-  const { estado: estadoParam } = await searchParams;
+  const { estado: estadoParam, pagina: paginaParam } = await searchParams;
   const filtro: Estado | undefined = esEstado(estadoParam)
     ? estadoParam
     : undefined;
 
-  const [consultas, conteo] = await Promise.all([
-    listarConsultas(filtro),
-    contarPorEstado(),
-  ]);
+  const conteo = await contarPorEstado();
+  const total = filtro
+    ? conteo[filtro]
+    : Object.values(conteo).reduce((suma, cantidad) => suma + cantidad, 0);
+  const pagina = paginaAdmision(paginaParam, total);
+  const consultas = await listarConsultas(filtro, pagina);
 
   return (
     <div>
@@ -100,6 +104,8 @@ export default async function AdmisionPage({
         ))}
       </nav>
 
+      <Paginacion pagina={pagina} total={total} estado={filtro} />
+
       {consultas.length === 0 ? (
         <Card className="mt-6 flex h-48 items-center justify-center p-6 text-sm text-slate-400">
           {filtro
@@ -112,6 +118,9 @@ export default async function AdmisionPage({
             <ConsultaCard key={consulta.id} consulta={consulta} />
           ))}
         </div>
+      )}
+      {consultas.length > 0 && (
+        <Paginacion pagina={pagina} total={total} estado={filtro} />
       )}
     </div>
   );

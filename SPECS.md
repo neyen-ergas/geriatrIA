@@ -278,6 +278,12 @@ deliberada: dos aplicaciones deployadas por separado que no comparten código.
 **Propiedad del esquema:** geriatrIA es el sistema de registro. La landing solo
 inserta filas.
 
+La bandeja usa páginas de 50 consultas con orden descendente por fecha e id.
+Los contadores se calculan en Postgres mediante HEAD con conteo exacto por
+estado, sin descargar ni truncar a 1.000 filas. La navegación conserva el filtro.
+Conteos y página no forman una instantánea; las modificaciones concurrentes
+pueden reflejarse al recargar. No requiere funciones SQL adicionales.
+
 El historial de agenda vive en `visit_events`, con RLS de lectura para el
 perfil autenticado actual y sin escrituras directas. `update_consulta` obtiene
 el autor desde `auth.uid()` y exige identidad; las Server Actions la invocan

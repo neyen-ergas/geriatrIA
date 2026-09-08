@@ -150,7 +150,7 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 - [x] Conservar eventos de agenda: fecha y franja anterior y nueva, acción,
       momento y autor. Guardar el evento y el cambio en una transacción.
       Aclarar que el historial ya sobrescrito no se puede reconstruir.
-- [ ] Paginar consultas y calcular contadores en la base, con orden estable.
+- [x] Paginar consultas y calcular contadores en la base, con orden estable.
       Verificar filtros y totales por encima del límite local de 1.000 filas.
 - [ ] Paginar residentes e historial. Resolver en la base la última baja y la
       existencia de un ingreso activo para que un listado truncado no habilite
