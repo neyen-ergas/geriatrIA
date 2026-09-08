@@ -1,21 +1,31 @@
 import "server-only";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { esEstado, type Consulta, type Estado } from "@/lib/admision";
+import { ESTADOS, type Consulta, type Estado } from "@/lib/admision";
+import { CONSULTAS_POR_PAGINA } from "@/lib/paginacion-admision";
 
 // Una sola cadena literal: el tipado de `select()` de supabase-js la analiza en
 // tiempo de compilación y no puede seguir una concatenación.
 const COLUMNAS =
   "id, creado_en, actualizado_en, nombre, telefono, momento_llamado, mensaje, origen, estado, notas_internas, visita_fecha, visita_franja";
 
-/** Consultas ordenadas de la más reciente a la más antigua. */
-export async function listarConsultas(estado?: Estado): Promise<Consulta[]> {
+/** El id desempata consultas recibidas con la misma fecha. */
+export async function listarConsultas(
+  estado?: Estado,
+  pagina = 1,
+): Promise<Consulta[]> {
+  if (!Number.isSafeInteger(pagina) || pagina < 1) {
+    throw new Error("La página de consultas no es válida.");
+  }
   const supabase = createAdminClient();
+  const inicio = (pagina - 1) * CONSULTAS_POR_PAGINA;
 
   let consulta = supabase
     .from("consulta")
     .select(COLUMNAS)
-    .order("creado_en", { ascending: false });
+    .order("creado_en", { ascending: false })
+    .order("id", { ascending: false })
+    .range(inicio, inicio + CONSULTAS_POR_PAGINA - 1);
 
   if (estado) consulta = consulta.eq("estado", estado);
 
@@ -31,11 +41,6 @@ export async function listarConsultas(estado?: Estado): Promise<Consulta[]> {
 export async function contarPorEstado(): Promise<Record<Estado, number>> {
   const supabase = createAdminClient();
 
-  const { data, error } = await supabase.from("consulta").select("estado");
-  if (error) {
-    throw new Error(`No se pudieron contar las consultas: ${error.message}`);
-  }
-
   const conteo: Record<Estado, number> = {
     nuevo: 0,
     contactado: 0,
@@ -44,9 +49,18 @@ export async function contarPorEstado(): Promise<Record<Estado, number>> {
     descartada: 0,
   };
 
-  for (const fila of data ?? []) {
-    if (esEstado(fila.estado)) conteo[fila.estado] += 1;
-  }
+  // HEAD devuelve el total calculado en Postgres, sin descargar filas ni
+  // depender del límite de 1.000 registros de la API.
+  await Promise.all(ESTADOS.map(async (estado) => {
+    const { count, error } = await supabase
+      .from("consulta")
+      .select("id", { count: "exact", head: true })
+      .eq("estado", estado);
+    if (error || count === null) {
+      throw new Error("No se pudieron contar las consultas.");
+    }
+    conteo[estado] = count;
+  }));
 
   return conteo;
 }

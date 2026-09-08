@@ -106,6 +106,28 @@ momento y autor en `visit_events`, dentro de la misma transacción.
 El historial sobrescrito previamente no se reconstruye.
 Ver [historial de visitas](admision-historial.md).
 
+## Paginación de la bandeja
+
+La bandeja carga 50 consultas por página, ordenadas por `creado_en desc, id desc`.
+El id desempata fechas coincidentes. Los enlaces Anterior y Siguiente conservan
+el filtro; cambiar de estado desde los filtros vuelve a la primera página.
+Una página inválida se interpreta como la primera y una fuera de rango se
+ajusta a la última disponible.
+
+Cada contador se calcula con una petición HEAD y `count: exact` filtrada por
+estado. No se descargan todas las consultas para contarlas y el límite de 1.000
+filas de la API no afecta los totales. Un error de conteo no se presenta como cero.
+
+Los conteos y el listado son lecturas separadas: pueden variar si otro operador
+modifica consultas mientras se carga la pantalla. La paginación por desplazamiento
+no conserva una instantánea entre navegaciones; recargar refleja el estado actual.
+Esta entrega no agrega funciones SQL ni necesita migraciones.
+
+La regresión usa 1.255 consultas ficticias y el cliente real de Supabase frente
+a una API HTTP simulada con límite de 1.000 filas. Comprueba conteos, filtros,
+desempate, recorrido completo sin duplicados sobre datos estables y límites de
+navegación. No utiliza datos ni escrituras de producción.
+
 ## Tabla `consulta`
 
 El nombre está en español, a diferencia de lo previsto en
