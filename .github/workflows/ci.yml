@@ -64,6 +64,12 @@ jobs:
       - name: Start local database and apply migrations
         run: npx supabase db start
 
+      - name: Generate database types
+        run: npm run db:types:local
+
+      - name: Show generated database type changes
+        run: git diff -- src/types/database.ts
+
       - name: Database tests
         run: npm run test:db
 

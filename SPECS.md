@@ -168,7 +168,7 @@ El sistema guarda datos de salud y datos personales de terceros.
 
 | Tablas | RLS | Cómo escribe la aplicación |
 | --- | --- | --- |
-| `consulta` | Activada **sin políticas**; `anon` y `authenticated` revocados | Cliente `service_role`; cambios del CRM solo vía `update_consulta` |
+| `consulta` | Activada **sin políticas**; acceso directo de `anon` y `authenticated` revocado | Lecturas e INSERT de landing con `service_role`; cambios del CRM mediante `update_consulta` y cliente autenticado |
 | `residents`, `family_contacts`, `admissions` | Activada con políticas para `authenticated` | Cliente autenticado; altas y ediciones vía funciones transaccionales |
 | `monthly_charges`, `payments` | Activada, **solo lectura** para `authenticated` | Exclusivamente vía funciones `security definer`; sin `insert`, `update` ni `delete` directos |
 
@@ -246,10 +246,10 @@ La versión es estrictamente creciente y se conserva como texto hasta Postgres.
 Una versión vieja produce un conflicto, también al reprogramar sin cambiar
 de estado o al guardar notas. No se reintenta automáticamente.
 
-La función es `security definer` con `search_path` vacío y ejecución exclusiva
-de `service_role`. Ese rol conserva `select` e `insert` para las lecturas y la
-landing, pero pierde `update` directo. Las Server Actions siguen exigiendo
-sesión antes de invocar el cliente administrativo. El detalle de transiciones,
+La función es `security definer` con `search_path` vacío y exige `auth.uid()`.
+`service_role` conserva `select` e `insert` para las lecturas y la landing,
+pero no tiene `update` directo. Las Server Actions exigen sesión antes de
+invocar la función con el cliente autenticado. El detalle de transiciones,
 incluidas las reaperturas, está en `docs/admision-consultas-modelo.md`.
 
 **Invariantes en la base:**
@@ -277,6 +277,12 @@ deliberada: dos aplicaciones deployadas por separado que no comparten código.
 
 **Propiedad del esquema:** geriatrIA es el sistema de registro. La landing solo
 inserta filas.
+
+El historial de agenda vive en `visit_events`, con RLS de lectura para el
+perfil autenticado actual y sin escrituras directas. `update_consulta` obtiene
+el autor desde `auth.uid()` y exige identidad; las Server Actions la invocan
+con el cliente autenticado. Los eventos se insertan en la misma transacción.
+Ver `docs/admision-historial.md` para alcance y despliegue.
 
 ### 6.2 `residents`, `family_contacts`, `admissions`
 

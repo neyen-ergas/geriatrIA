@@ -6,6 +6,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Agregado
+- Historial de agendados, reprogramaciones, cancelaciones y cierres de visitas,
+  con turno anterior y nuevo, momento y autor de la sesión. El evento y el
+  cambio se guardan juntos; no se reconstruye el historial anterior.
+
 ### Corregido
 - Los DNI con y sin puntos o espacios identifican a la misma persona. Alta,
   edición y escrituras directas normalizan antes de comprobar unicidad; la

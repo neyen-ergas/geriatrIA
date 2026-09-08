@@ -147,7 +147,7 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 - [x] Normalizar DNI en aplicación y base. Detectar colisiones existentes
       antes de migrar; no fusionar ni eliminar residentes automáticamente.
       Probar que formatos con y sin puntos no creen identidades duplicadas.
-- [ ] Conservar eventos de agenda: fecha y franja anterior y nueva, acción,
+- [x] Conservar eventos de agenda: fecha y franja anterior y nueva, acción,
       momento y autor. Guardar el evento y el cambio en una transacción.
       Aclarar que el historial ya sobrescrito no se puede reconstruir.
 - [ ] Paginar consultas y calcular contadores en la base, con orden estable.

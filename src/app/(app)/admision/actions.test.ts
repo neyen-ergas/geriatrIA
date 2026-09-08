@@ -14,7 +14,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock("@/lib/auth", () => ({ requerirSesion: mocks.sesion }));
-vi.mock("@/lib/supabase/admin", () => ({ createAdminClient: mocks.cliente }));
+vi.mock("@/lib/supabase/server", () => ({ createClient: mocks.cliente }));
 vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidar }));
 
 const VERSION = "2026-09-06T10:00:00.123456+00:00";

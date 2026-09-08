@@ -101,9 +101,10 @@ consultas diferentes.
 Los formularios se renuevan cuando reciben una versión distinta, para que los
 campos visibles y la versión enviada correspondan a los mismos datos.
 
-Esta corrección no agrega un historial de eventos: reprogramar todavía
-sobrescribe la fecha anterior y cancelar la limpia. El registro de esos eventos
-es otro punto independiente del roadmap.
+Los cambios de agenda conservan ahora el turno anterior y nuevo, acción,
+momento y autor en `visit_events`, dentro de la misma transacción.
+El historial sobrescrito previamente no se reconstruye.
+Ver [historial de visitas](admision-historial.md).
 
 ## Tabla `consulta`
 
@@ -182,11 +183,13 @@ que existiera este flujo. Aplicarla contra la base actual no cambia nada.
 
 La tabla tiene Row Level Security activada **sin políticas**, y `anon` y
 `authenticated` tienen los permisos revocados. Nadie llega a estos datos con la
-clave publicable. El único acceso es con la clave `service_role`, que vive
-exclusivamente del lado del servidor: en la Server Action de la landing y en los
-Server Components y Server Actions del CRM. La función `update_consulta` es
-`security definer`, tiene `search_path` vacío y solo otorga ejecución a
-`service_role`; `anon` y `authenticated` tampoco pueden invocarla.
+clave publicable sin sesión. Las lecturas usan la clave `service_role`, que
+vive exclusivamente del lado del servidor, y la landing conserva INSERT.
+La función `update_consulta` es `security definer`, tiene `search_path` vacío
+y permite ejecución a `authenticated`, exigiendo `auth.uid()` para identificar
+al autor. Las Server Actions la invocan con el cliente autenticado.
+`anon` no puede invocarla. La tabla de eventos tiene RLS de lectura y
+no permite escrituras directas.
 
 Esa clave saltea RLS, así que la base no distingue quién está consultando. La
 protección real del CRM es su autenticación: cada pantalla y cada acción que toque
