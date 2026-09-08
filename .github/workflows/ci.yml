@@ -67,12 +67,8 @@ jobs:
       - name: Generate database types
         run: npm run db:types:local
 
-      - name: Save generated database types
-        uses: actions/upload-artifact@v4
-        with:
-          name: database-types
-          path: src/types/database.ts
-          retention-days: 3
+      - name: Show generated database type changes
+        run: git diff -- src/types/database.ts
 
       - name: Database tests
         run: npm run test:db

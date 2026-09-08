@@ -35,8 +35,8 @@ Recargar los formularios abiertos.
 Auditar el proyecto vinculado y las migraciones pendientes con dry-run antes
 de aplicar. Esta entrega agrega una tabla vacía y no modifica datos históricos.
 Validar con datos ficticios mediante las pruebas SQL de Admisión en CI.
-El CI también genera los tipos del esquema como artefacto descargable para
-incorporarlos al PR sin necesitar Docker en la computadora del desarrollador.
+El CI también genera los tipos del esquema y muestra su diff para incorporarlos
+al PR sin necesitar Docker en la computadora del desarrollador.
 
 Preferir corregir hacia adelante. Revertir solo el código impide guardar:
 una recuperación necesita una nueva migración que restituya la función anterior
