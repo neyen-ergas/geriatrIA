@@ -8,7 +8,7 @@ import {
   type AccionConsulta,
 } from "@/lib/gestion-consulta";
 import { hoyEnArgentina } from "@/lib/primer-ingreso";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 
 export type Resultado = { error: string | null; ok: boolean };
 
@@ -51,7 +51,7 @@ async function guardarCambio(
   const validacion = validarGestionConsulta(accion, formData, hoyEnArgentina());
   if (!validacion.ok) return { ok: false, error: validacion.error };
 
-  const supabase = createAdminClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.rpc(
     "update_consulta",
     validacion.datos,
