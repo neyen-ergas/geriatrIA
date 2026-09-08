@@ -13,7 +13,11 @@ import {
   UsersRound,
 } from "lucide-react";
 import { Avatar, Badge, Card } from "@/components/ui";
+import { PaginacionListado } from "@/components/paginacion-listado";
+import { paginaListado } from "@/lib/paginacion";
+import { enlaceResidentes } from "@/lib/paginacion-residentes";
 import {
+  contarEstadias,
   listarResidentesActivos,
   listarResidentesDadosDeBaja,
   type ResidenteActivo,
@@ -44,28 +48,30 @@ export default async function ResidentesPage({
     creado?: string;
     estado?: string;
     reingreso?: string;
+    pagina?: string | string[];
   }>;
 }) {
-  const { actualizado, baja, creado, estado, reingreso } = await searchParams;
+  const { actualizado, baja, creado, estado, reingreso, pagina: paginaParam } =
+    await searchParams;
   const mostrarBajas = estado === "bajas";
   let residentesActivos: ResidenteActivo[] = [];
   let residentesDadosDeBaja: ResidenteDadoDeBaja[] = [];
   let errorCarga = false;
+  let cantidad = 0;
+  let pagina = 1;
 
   try {
+    cantidad = await contarEstadias(mostrarBajas);
+    pagina = paginaListado(paginaParam, cantidad);
     if (mostrarBajas) {
-      residentesDadosDeBaja = await listarResidentesDadosDeBaja();
+      residentesDadosDeBaja = await listarResidentesDadosDeBaja(pagina);
     } else {
-      residentesActivos = await listarResidentesActivos();
+      residentesActivos = await listarResidentesActivos(pagina);
     }
   } catch (error) {
     errorCarga = true;
     console.error(error);
   }
-
-  const cantidad = mostrarBajas
-    ? residentesDadosDeBaja.length
-    : residentesActivos.length;
 
   return (
     <div>
@@ -165,6 +171,15 @@ export default async function ResidentesPage({
         <EstadoVacioActivos />
       ) : (
         <TablaActivos residentes={residentesActivos} />
+      )}
+      {!errorCarga && (
+        <PaginacionListado
+          pagina={pagina}
+          total={cantidad}
+          anterior={enlaceResidentes(pagina - 1, mostrarBajas)}
+          siguiente={enlaceResidentes(pagina + 1, mostrarBajas)}
+          etiqueta={mostrarBajas ? "estadías finalizadas" : "residentes"}
+        />
       )}
     </div>
   );
