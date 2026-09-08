@@ -312,6 +312,56 @@ export type Database = {
         }
         Relationships: []
       }
+      visit_events: {
+        Row: {
+          action: string
+          actor_id: string
+          consultation_id: string
+          id: string
+          new_date: string | null
+          new_slot: string | null
+          new_state: string
+          occurred_at: string
+          previous_date: string | null
+          previous_slot: string | null
+          previous_state: string
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          consultation_id: string
+          id?: string
+          new_date?: string | null
+          new_slot?: string | null
+          new_state: string
+          occurred_at?: string
+          previous_date?: string | null
+          previous_slot?: string | null
+          previous_state: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          consultation_id?: string
+          id?: string
+          new_date?: string | null
+          new_slot?: string | null
+          new_state?: string
+          occurred_at?: string
+          previous_date?: string | null
+          previous_slot?: string | null
+          previous_state?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_events_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "consulta"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       monthly_charge_balances: {
@@ -572,3 +622,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+
