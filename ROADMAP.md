@@ -160,8 +160,8 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 
 ## Fase 6 — Contabilidad, interfaz
 
-La consulta de cuentas, la creación de cuotas y el registro de pagos ya usan
-la base existente. Anulaciones y comprobantes siguen en los próximos incrementos.
+La consulta de cuentas y movimientos, la creación de cuotas, los pagos y las
+anulaciones ya usan la base existente. Vencimientos y comprobantes siguen pendientes.
 
 - [x] `src/lib/pagos.ts` y `src/lib/pagos-datos.ts` sobre la vista
       `monthly_charge_balances`.
@@ -169,17 +169,16 @@ la base existente. Anulaciones y comprobantes siguen en los próximos incremento
 - [x] Crear la cuota de un período, con el importe precargado desde
       `admissions.monthly_fee` y confirmable antes de guardar.
 - [x] Registrar un pago, total o parcial.
-- [ ] Anular un pago y cancelar una cuota, con motivo.
+- [x] Anular un pago y cancelar una cuota, con motivo y detalle de movimientos.
 - [ ] Listado de vencimientos del mes, usando `due_day`.
 - [ ] Bucket **privado** de Supabase Storage para los comprobantes, y carga
       opcional al registrar un pago.
-- [ ] Traducir cada error de las funciones de pago a un mensaje entendible.
-- [ ] Probar las funciones financieras con datos sintéticos: pagos parciales,
+- [x] Traducir cada error de las funciones de pago a un mensaje entendible.
+- [x] Probar las funciones financieras con datos sintéticos: pagos parciales,
       concurrencia, exceso de saldo, anulaciones y acceso sin sesión. Estas
       pruebas acompañan los PRs que incorporan cada operación a la interfaz.
-      Creación de cuotas, pagos parciales y totales, exceso de saldo, acceso
-      sin identidad y concurrencia de pagos ya cubiertos en CI; faltan los
-      escenarios de las futuras interfaces de anulación.
+      CI cubre creación, pagos, anulaciones, auditoría, reemplazo de cuotas y
+      concurrencia entre pagos y cancelaciones en el aislamiento de la API.
 
 ## Fase 7 — Inicio
 

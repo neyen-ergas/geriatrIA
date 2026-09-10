@@ -7,6 +7,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Detalle de pagos por cuota con fecha, importe, medio, referencia, observaciones
+  y estado, incluidos los anulados. Permite anular pagos y cuotas con motivo,
+  conservando el historial y actualizando los saldos. Las cuotas con pagos
+  vigentes no se cancelan. Pruebas SQL y de concurrencia entre cobro y anulación.
+
+### Agregado
 - Creación de cuotas desde la cuenta de una estadía, con importe sugerido y
   vencimiento ajustado al mes. Registro de pagos totales o parciales con fecha,
   medio, referencia y observaciones; validación de saldo y errores por campo.

@@ -50,6 +50,12 @@ export function TablaCuotas({ cuotas, admissionId }: {
                       Motivo: {cuota.cancelled_reason}
                     </p>
                   )}
+                  {admissionId && (
+                    <Link href={`/contabilidad/${admissionId}/cuotas/${cuota.id}`}
+                      className="mt-3 block text-sm font-medium text-sky-700 hover:underline">
+                      Ver movimientos
+                    </Link>
+                  )}
                   {admissionId && cuota.balance > 0 && cuota.payment_status !== "cancelled" && (
                     <Link href={`/contabilidad/${admissionId}/pago/${cuota.id}`}
                       className="mt-3 inline-block text-sm font-medium text-sky-700 hover:underline">

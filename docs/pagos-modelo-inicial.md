@@ -16,8 +16,8 @@ pantallas se incorporarán en incrementos posteriores.
 - Los tipos TypeScript están generados desde el esquema remoto.
 - La consulta de cuentas y cuotas está disponible en `/contabilidad`, con
   acceso a estadías activas y finalizadas. Permite crear cuotas y registrar
-  pagos totales o parciales; las anulaciones y el bucket privado de comprobantes
-  todavía están pendientes en la interfaz.
+  pagos totales o parciales, consultar movimientos y anular pagos o cuotas con
+  motivo. El bucket privado de comprobantes todavía está pendiente.
 
 ## Objetivo
 
@@ -229,7 +229,7 @@ La ruta prevista será similar a:
    Supabase.
 3. Completado: pantalla de cuenta corriente con cuotas, saldos y vencimientos.
 4. Completado: formulario para crear cuotas y registrar pagos.
-5. Incorporar las acciones de anulación a la interfaz.
+5. Completado: detalle de movimientos y acciones de anulación en la interfaz.
 6. Añadir la carga privada de comprobantes en un incremento separado.
 
 Cada etapa se publicará en un PR acotado y verificable.
@@ -252,7 +252,7 @@ La pantalla no presenta un total general calculado a partir de una sola página.
 Conteo y filas son lecturas independientes: si otra sesión modifica datos entre
 ambas, se actualizan al volver a cargar. Un fallo o dato incompleto muestra un
 error recuperable, nunca se interpreta como saldo cero. Esta entrega no requiere
-migraciones y todavía no muestra el detalle individual de cada pago.
+migraciones. El enlace «Ver movimientos» abre el detalle individual de cada pago.
 
 ## Carga de cuotas y pagos
 
@@ -285,3 +285,35 @@ Validación focalizada de formularios, fechas, importes y acciones en Vitest.
 el aislamiento `read committed` de la API: rechaza exceso y permite completar
 el saldo exacto. SQL y concurrencia corren en CI; no requieren Docker local ni
 modifican el proyecto remoto. No hay migraciones nuevas.
+
+## Movimientos y anulaciones
+
+`/contabilidad/[admissionId]/cuotas/[cuotaId]` muestra importes de la vista y
+pagos individuales, con fecha de pago, momento de registro, medio, referencia,
+observaciones y estado. Los anulados conservan importe, fecha y motivo de
+anulación. Las marcas de tiempo se muestran en la zona horaria de Argentina.
+Los movimientos se paginan de a 50 con conteo exacto, por fecha de pago,
+momento de registro e identificador descendentes. Los saldos se leen de la
+vista completa, nunca se suman a partir de la página visible.
+
+Cada pago vigente permite desplegar su formulario de anulación: requiere
+motivo y confirmación explícita. La acción verifica sesión, pertenencia de la
+cuota a la estadía y del pago a la cuota antes de invocar `void_payment`.
+Esta operación corrige el registro y no representa una devolución de dinero.
+
+La cuota permite su anulación cuando no tiene pagos vigentes. Se verifica el
+importe pagado global, incluso si los movimientos están en otra página, y
+`cancel_monthly_charge` vuelve a comprobarlo bajo bloqueo. El motivo es
+obligatorio. El registro anulado y sus pagos se conservan; después puede crearse
+una cuota de reemplazo del mismo período desde la cuenta.
+
+Ambas operaciones actualizan cuenta y detalle solo tras una respuesta confirmada.
+Si el resultado es incierto, el formulario bloquea el reenvío y permite recargar
+el detalle para revisar el estado. No se repite automáticamente la escritura.
+El usuario y momento de cada anulación se guardan en las columnas de auditoría
+existentes; la interfaz todavía no resuelve nombres de usuarios o empleados.
+
+`payment_voiding.test.sql` comprueba motivos, auditoría, preservación del
+historial, saldo, reemplazos y permisos. La prueba de concurrencia también cubre
+cancelar mientras otro usuario registra un pago, en ambos órdenes. Todo corre
+en la base aislada de CI; esta entrega no modifica el esquema remoto.

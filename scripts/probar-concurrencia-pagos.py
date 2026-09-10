@@ -12,7 +12,7 @@ sesion = utilidades["sesion"]
 esperar_bloqueo = utilidades["esperar_bloqueo"]
 
 
-def probar(segundo_importe):
+def probar(segundo_importe, caso="pagos"):
     usuario, residente, estadia, cuota = [str(uuid.uuid4()) for _ in range(4)]
     nombre = f"prueba_pagos_{uuid.uuid4().hex}"
     primera = segunda = None
@@ -30,11 +30,17 @@ def probar(segundo_importe):
         set local role authenticated;
         select set_config('request.jwt.claim.sub', '{usuario}', true) \\gset
     """
+    primer_movimiento = f"select public.record_payment('{cuota}', '2025-01-10', 60, 'cash')"
+    segundo_movimiento = f"select public.record_payment('{cuota}', '2025-01-10', {segundo_importe}, 'cash')"
+    if caso == "anular primero":
+        primer_movimiento = f"select public.cancel_monthly_charge('{cuota}', 'Prueba ficticia')"
+    elif caso == "pagar primero":
+        segundo_movimiento = f"select public.cancel_monthly_charge('{cuota}', 'Prueba ficticia')"
     try:
         primera = sesion(f"""
             begin isolation level read committed;
             {autenticacion}
-            select public.record_payment('{cuota}', '2025-01-10', 60, 'cash') \\gset
+            {primer_movimiento} \\gset
             \\echo LISTO
         """)
         assert primera.stdout.readline().strip() == "LISTO"
@@ -42,14 +48,19 @@ def probar(segundo_importe):
             set application_name = '{nombre}';
             begin isolation level read committed;
             {autenticacion}
-            select public.record_payment('{cuota}', '2025-01-10', {segundo_importe}, 'cash');
+            {segundo_movimiento};
             commit;
         """)
         esperar_bloqueo(nombre, segunda)
         _, error_a = primera.communicate("commit;\n", timeout=15)
         assert primera.returncode == 0, error_a
         _, error_b = segunda.communicate(timeout=15)
-        if segundo_importe == 60:
+        if caso != "pagos":
+            error_esperado = ("monthly_charge_cancelled" if caso == "anular primero"
+                              else "monthly_charge_has_active_payments")
+            assert segunda.returncode != 0 and error_esperado in error_b, error_b
+            esperado = "0.00|0.00" if caso == "anular primero" else "60.00|40.00"
+        elif segundo_importe == 60:
             assert segunda.returncode != 0 and "payment_exceeds_balance" in error_b, error_b
             esperado = "60.00|40.00"
         else:
@@ -59,7 +70,7 @@ def probar(segundo_importe):
             select paid_amount, balance from public.monthly_charge_balances
             where id = '{cuota}';
         """) == esperado
-        print(f"OK: pagos simultáneos 60 + {segundo_importe}, saldo consistente")
+        print(f"OK: {caso}, segundo importe {segundo_importe}, saldo consistente")
     finally:
         for proceso in (primera, segunda):
             if proceso is not None and proceso.poll() is None:
@@ -77,3 +88,5 @@ def probar(segundo_importe):
 if __name__ == "__main__":
     for importe in (60, 40):
         probar(importe)
+    for escenario in ("anular primero", "pagar primero"):
+        probar(40, escenario)
