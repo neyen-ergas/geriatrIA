@@ -28,7 +28,7 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
 | Inicio | Panel del día: qué hay pendiente ahora. | Placeholder |
 | Admisión | Consultas entrantes, llamados y agenda de visitas. | Funcionando |
 | Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
-| Contabilidad | Cuotas mensuales, pagos y saldos. | Base lista, sin interfaz |
+| Contabilidad | Cuotas mensuales, pagos y saldos. | Consulta por estadía; escrituras pendientes |
 | Empleados | Personal de la residencia y sus datos laborales. | Placeholder |
 | Turnos | Grilla de turnos del personal. | Placeholder |
 | Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |
@@ -99,7 +99,8 @@ src/
         [admissionId]/editar/
         [admissionId]/baja/
         reingreso/[residentId]/
-      contabilidad/           Placeholder.
+      contabilidad/           Cuentas de estadías activas y finalizadas.
+        [admissionId]/        Cuotas, pagos acumulados y saldos de una estadía.
       empleados/ turnos/ entrevistas/   Placeholders.
       layout.tsx              Sidebar + topbar + verificación de sesión.
       page.tsx                Inicio.
@@ -353,7 +354,7 @@ siguen vigentes**, no son un `security definer` que las saltee.
 nada; el formulario exige al menos un contacto al crear el primer ingreso; la
 falta de un documento no impide el ingreso.
 
-### 6.3 `monthly_charges`, `payments` — base lista, sin interfaz
+### 6.3 `monthly_charges`, `payments` — consulta de cuentas disponible
 
 - Una cuota pertenece a una **estadía**, no a la persona: cada reingreso
   mantiene su propia cuenta.

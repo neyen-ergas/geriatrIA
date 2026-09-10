@@ -6,6 +6,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Agregado
+- Contabilidad permite consultar cuentas por estadía activa o finalizada y sus
+  cuotas con importe, pagos vigentes acumulados, saldo, estado y vencimiento.
+  Los listados se paginan de a 50 con totales exactos y errores recuperables.
+
 ### Corregido
 - Admisión ofrece volver a cargar ante fallos de lectura, sin exponer errores
   internos. Las escrituras interrumpidas piden revisar la consulta antes de
