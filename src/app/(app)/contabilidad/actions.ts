@@ -53,5 +53,6 @@ export async function registrarPago(
     return { valores, errores: {}, ...errorCargaPago(error) };
   }
   revalidatePath(`/contabilidad/${admissionId}`);
+  revalidatePath(`/contabilidad/${admissionId}/cuotas/${cuotaId}`);
   redirect(`/contabilidad/${admissionId}?pago=1`);
 }

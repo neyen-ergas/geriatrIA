@@ -28,7 +28,7 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
 | Inicio | Panel del día: qué hay pendiente ahora. | Placeholder |
 | Admisión | Consultas entrantes, llamados y agenda de visitas. | Funcionando |
 | Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
-| Contabilidad | Cuotas mensuales, pagos y saldos. | Consulta, creación de cuotas y registro de pagos |
+| Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos y anulaciones |
 | Empleados | Personal de la residencia y sus datos laborales. | Placeholder |
 | Turnos | Grilla de turnos del personal. | Placeholder |
 | Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |
@@ -354,7 +354,7 @@ siguen vigentes**, no son un `security definer` que las saltee.
 nada; el formulario exige al menos un contacto al crear el primer ingreso; la
 falta de un documento no impide el ingreso.
 
-### 6.3 `monthly_charges`, `payments` — cuentas, cuotas y registro de pagos
+### 6.3 `monthly_charges`, `payments` — cuentas, movimientos y anulaciones
 
 - Una cuota pertenece a una **estadía**, no a la persona: cada reingreso
   mantiene su propia cuenta.
