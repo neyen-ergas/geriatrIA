@@ -14,7 +14,9 @@ pantallas se incorporarán en incrementos posteriores.
 - RLS está habilitado y los usuarios autenticados sólo escriben mediante esas
   funciones; no tienen permisos directos de `INSERT`, `UPDATE` ni `DELETE`.
 - Los tipos TypeScript están generados desde el esquema remoto.
-- La interfaz y el bucket privado de comprobantes todavía están pendientes.
+- La consulta de cuentas y cuotas está disponible en `/contabilidad`, con
+  acceso a estadías activas y finalizadas. Los formularios de escritura y el
+  bucket privado de comprobantes todavía están pendientes.
 
 ## Objetivo
 
@@ -224,9 +226,28 @@ La ruta prevista será similar a:
    incluyendo restricciones, índices, RLS y funciones controladas.
 2. Completado: regenerar `src/types/database.ts` desde el proyecto vinculado de
    Supabase.
-3. Crear la pantalla de cuenta corriente con cuotas, saldos y vencimientos.
+3. Completado: pantalla de cuenta corriente con cuotas, saldos y vencimientos.
 4. Agregar el formulario para crear cuotas y registrar pagos.
 5. Incorporar las acciones de anulación a la interfaz.
 6. Añadir la carga privada de comprobantes en un incremento separado.
 
 Cada etapa se publicará en un PR acotado y verificable.
+
+## Consulta de cuentas
+
+`/contabilidad` lista las estadías; cada una abre `/contabilidad/[admissionId]`.
+Los reingresos conservan cuentas separadas, y una baja no oculta sus cuotas.
+Ambas pantallas verifican la sesión y consultan con el cliente autenticado,
+respetando RLS. No utilizan `service_role` ni realizan escrituras.
+
+Las cuotas se ordenan por período descendente y luego por identificador, con
+páginas de 50 y conteo exacto en la base. Se incluyen las anuladas y su motivo.
+Los importes, estado y vencimiento vienen de `monthly_charge_balances`; no se
+recalculan con una lista parcial de pagos. Una cuota parcial puede estar vencida
+al mismo tiempo. El importe pagado excluye movimientos anulados.
+
+La pantalla no presenta un total general calculado a partir de una sola página.
+Conteo y filas son lecturas independientes: si otra sesión modifica datos entre
+ambas, se actualizan al volver a cargar. Un fallo o dato incompleto muestra un
+error recuperable, nunca se interpreta como saldo cero. Esta entrega no requiere
+migraciones y todavía no muestra el detalle individual de cada pago.

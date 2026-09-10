@@ -160,11 +160,12 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 
 ## Fase 6 — Contabilidad, interfaz
 
-La base está lista y sin usar. Es el mayor retorno por trabajo pendiente.
+La consulta de cuentas ya usa la base existente. Las escrituras se incorporan
+en los próximos incrementos.
 
-- [ ] `src/lib/pagos.ts` y `src/lib/pagos-datos.ts` sobre la vista
+- [x] `src/lib/pagos.ts` y `src/lib/pagos-datos.ts` sobre la vista
       `monthly_charge_balances`.
-- [ ] Pantalla de cuotas de un residente: períodos, importe, pagado y saldo.
+- [x] Pantalla de cuotas de un residente: períodos, importe, pagado y saldo.
 - [ ] Crear la cuota de un período, con el importe precargado desde
       `admissions.monthly_fee` y confirmable antes de guardar.
 - [ ] Registrar un pago, total o parcial.
