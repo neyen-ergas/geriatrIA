@@ -51,14 +51,20 @@ async function guardarCambio(
   const validacion = validarGestionConsulta(accion, formData, hoyEnArgentina());
   if (!validacion.ok) return { ok: false, error: validacion.error };
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.rpc(
-    "update_consulta",
-    validacion.datos,
-  );
-
-  if (error) return { ok: false, error: mensajeErrorGestionConsulta(error) };
-  if (!data) return { ok: false, error: "No se pudo confirmar el cambio." };
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc(
+      "update_consulta",
+      validacion.datos,
+    );
+    if (error || !data) {
+      return { ok: false, error: mensajeErrorGestionConsulta(error) };
+    }
+  } catch (error) {
+    // Una respuesta perdida no prueba que la escritura haya fallado.
+    // Pedir recargar evita repetir a ciegas una operación ya confirmada.
+    return { ok: false, error: mensajeErrorGestionConsulta(error) };
+  }
 
   revalidatePath("/admision");
   return { ok: true, error: null };

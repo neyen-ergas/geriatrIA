@@ -85,24 +85,37 @@ export function validarGestionConsulta(
   return { ok: true, datos };
 }
 
-export function mensajeErrorGestionConsulta(error: { code: string }): string {
+export function mensajeErrorGestionConsulta(error: unknown): string {
+  const codigo = typeof error === "object" && error !== null && "code" in error
+    ? error.code
+    : null;
   const CONSULTA_CAMBIADA = "40001";
   const CONSULTA_INEXISTENTE = "P0002";
   const TURNO_OCUPADO = "23505";
   const ARGUMENTOS_INVALIDOS = "22023";
+  const OPERACION_CONCURRENTE = "40P01";
+  const SIN_PERMISO = "42501";
+  const SESION_INVALIDA = "PGRST301";
+  const DATOS_INVALIDOS = "23514";
 
-  if (error.code === CONSULTA_CAMBIADA) {
+  if (codigo === CONSULTA_CAMBIADA) {
     return "La consulta cambió desde que abriste esta página. Recargala antes de volver a guardar.";
   }
-  if (error.code === CONSULTA_INEXISTENTE)
+  if (codigo === CONSULTA_INEXISTENTE)
     return "La consulta ya no está disponible.";
-  if (error.code === TURNO_OCUPADO) {
+  if (codigo === TURNO_OCUPADO) {
     return "Ese turno ya está ocupado por otra consulta.";
   }
-  if (error.code === ARGUMENTOS_INVALIDOS) {
+  if (codigo === ARGUMENTOS_INVALIDOS || codigo === DATOS_INVALIDOS) {
     return "La acción no es válida para el estado o la fecha de esta consulta.";
   }
-  return "No se pudo guardar el cambio. Intentá nuevamente en unos minutos.";
+  if (codigo === OPERACION_CONCURRENTE) {
+    return "Hubo otra operación al mismo tiempo. Recargá la consulta antes de volver a guardar.";
+  }
+  if (codigo === SIN_PERMISO || codigo === SESION_INVALIDA) {
+    return "No tenés permiso para guardar este cambio. Volvé a iniciar sesión; si continúa, contactá al responsable.";
+  }
+  return "No se pudo confirmar el cambio. Recargá la consulta antes de volver a guardar.";
 }
 
 function texto(formData: FormData, nombre: string): string {

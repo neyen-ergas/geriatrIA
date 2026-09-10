@@ -73,6 +73,13 @@ describe("lecturas de Admisión con más de 1.000 consultas", () => {
     await expect(contarPorEstado()).rejects.toThrow();
   });
 
+  it("no propaga detalles técnicos al fallar la lectura de filas", async () => {
+    fallar = true;
+    await expect(listarConsultas()).rejects.toThrow(
+      /^No se pudieron leer las consultas\.$/,
+    );
+  });
+
   it("rechaza páginas inválidas antes de consultar", async () => {
     await expect(listarConsultas(undefined, 0)).rejects.toThrow();
     expect(solicitudes).toHaveLength(0);
@@ -88,7 +95,9 @@ async function responder(
   const cabeceras = new Headers(opciones?.headers);
   solicitudes.push({ metodo, url, preferencia: cabeceras.get("Prefer") });
   if (fallar) {
-    return new Response(null, { status: 403 });
+    return new Response(JSON.stringify({
+      code: "42501", message: "Detalle interno con dato privado",
+    }), { status: 403, headers: { "Content-Type": "application/json" } });
   }
   const estado = url.searchParams.get("estado")?.replace(/^eq\./, "");
   let resultado = filas.filter(f => !estado || f.estado === estado);

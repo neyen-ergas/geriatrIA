@@ -155,7 +155,7 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 - [x] Paginar residentes e historial. Resolver en la base la última baja y la
       existencia de un ingreso activo para que un listado truncado no habilite
       un reingreso incorrecto.
-- [ ] Dar una respuesta recuperable ante errores de carga de Admisión y
+- [x] Dar una respuesta recuperable ante errores de carga de Admisión y
       traducir errores de escritura sin exponer mensajes técnicos al usuario.
 
 ## Fase 6 — Contabilidad, interfaz
