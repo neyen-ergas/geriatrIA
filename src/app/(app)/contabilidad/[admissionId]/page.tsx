@@ -12,15 +12,14 @@ export const metadata: Metadata = { title: "Cuenta corriente · geriatrIA" };
 
 export default async function CuentaPage({ params, searchParams }: {
   params: Promise<{ admissionId: string }>;
-  searchParams: Promise<{ pagina?: string | string[] }>;
+  searchParams: Promise<{ pagina?: string | string[]; cuota?: string; pago?: string }>;
 }): Promise<React.ReactElement> {
   await requerirSesion();
   const { admissionId } = await params;
   const cuenta = await obtenerCuenta(admissionId);
   if (!cuenta) notFound();
-  const { cuotas, pagina, total } = await listarCuotas(
-    admissionId, (await searchParams).pagina,
-  );
+  const parametros = await searchParams;
+  const { cuotas, pagina, total } = await listarCuotas(admissionId, parametros.pagina);
   const ruta = `/contabilidad/${cuenta.id}`;
   return (
     <div>
@@ -37,6 +36,15 @@ export default async function CuentaPage({ params, searchParams }: {
         {cuenta.discharged_at
           ? ` · Baja ${formatearFechaPago(cuenta.discharged_at)}` : " · Estadía activa"}
       </p>
+      {(parametros.cuota === "1" || parametros.pago === "1") && (
+        <p role="status" className="mt-4 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-800">
+          {parametros.pago === "1" ? "Pago registrado. El saldo está actualizado." : "Cuota creada."}
+        </p>
+      )}
+      <Link href={`${ruta}/nueva-cuota`}
+        className="mt-6 inline-block rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
+        Crear cuota
+      </Link>
       {cuotas.length === 0 ? (
         <Card className="mt-6 p-8 text-center">
           <h2 className="font-semibold text-slate-800">Todavía no hay cuotas registradas</h2>
@@ -44,7 +52,7 @@ export default async function CuentaPage({ params, searchParams }: {
             Esta cuenta mostrará las cuotas y los pagos correspondientes a esta estadía.
           </p>
         </Card>
-      ) : <TablaCuotas cuotas={cuotas} />}
+      ) : <TablaCuotas cuotas={cuotas} admissionId={admissionId} />}
       <PaginacionListado pagina={pagina} total={total} etiqueta="cuotas"
         anterior={pagina > 2 ? `${ruta}?pagina=${pagina - 1}` : ruta}
         siguiente={`${ruta}?pagina=${pagina + 1}`} />

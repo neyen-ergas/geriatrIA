@@ -1,10 +1,13 @@
+import Link from "next/link";
 import { Badge, Card } from "@/components/ui";
 import {
   COLORES_CUOTA, ETIQUETAS_CUOTA, formatearFechaPago,
   formatearImporte, type Cuota,
 } from "@/lib/pagos";
 
-export function TablaCuotas({ cuotas }: { cuotas: Cuota[] }): React.ReactElement {
+export function TablaCuotas({ cuotas, admissionId }: {
+  cuotas: Cuota[]; admissionId?: string;
+}): React.ReactElement {
   return (
     <Card className="mt-6 overflow-hidden">
       <div className="overflow-x-auto">
@@ -46,6 +49,12 @@ export function TablaCuotas({ cuotas }: { cuotas: Cuota[] }): React.ReactElement
                     <p className="mt-2 max-w-xs whitespace-normal break-words text-xs text-slate-500">
                       Motivo: {cuota.cancelled_reason}
                     </p>
+                  )}
+                  {admissionId && cuota.balance > 0 && cuota.payment_status !== "cancelled" && (
+                    <Link href={`/contabilidad/${admissionId}/pago/${cuota.id}`}
+                      className="mt-3 inline-block text-sm font-medium text-sky-700 hover:underline">
+                      Registrar pago
+                    </Link>
                   )}
                 </td>
               </tr>
