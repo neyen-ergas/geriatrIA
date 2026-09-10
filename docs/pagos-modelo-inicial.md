@@ -15,8 +15,9 @@ pantallas se incorporarán en incrementos posteriores.
   funciones; no tienen permisos directos de `INSERT`, `UPDATE` ni `DELETE`.
 - Los tipos TypeScript están generados desde el esquema remoto.
 - La consulta de cuentas y cuotas está disponible en `/contabilidad`, con
-  acceso a estadías activas y finalizadas. Los formularios de escritura y el
-  bucket privado de comprobantes todavía están pendientes.
+  acceso a estadías activas y finalizadas. Permite crear cuotas y registrar
+  pagos totales o parciales; las anulaciones y el bucket privado de comprobantes
+  todavía están pendientes en la interfaz.
 
 ## Objetivo
 
@@ -227,7 +228,7 @@ La ruta prevista será similar a:
 2. Completado: regenerar `src/types/database.ts` desde el proyecto vinculado de
    Supabase.
 3. Completado: pantalla de cuenta corriente con cuotas, saldos y vencimientos.
-4. Agregar el formulario para crear cuotas y registrar pagos.
+4. Completado: formulario para crear cuotas y registrar pagos.
 5. Incorporar las acciones de anulación a la interfaz.
 6. Añadir la carga privada de comprobantes en un incremento separado.
 
@@ -238,7 +239,8 @@ Cada etapa se publicará en un PR acotado y verificable.
 `/contabilidad` lista las estadías; cada una abre `/contabilidad/[admissionId]`.
 Los reingresos conservan cuentas separadas, y una baja no oculta sus cuotas.
 Ambas pantallas verifican la sesión y consultan con el cliente autenticado,
-respetando RLS. No utilizan `service_role` ni realizan escrituras.
+respetando RLS. No utilizan `service_role`; las escrituras pasan por las
+funciones financieras existentes.
 
 Las cuotas se ordenan por período descendente y luego por identificador, con
 páginas de 50 y conteo exacto en la base. Se incluyen las anuladas y su motivo.
@@ -251,3 +253,35 @@ Conteo y filas son lecturas independientes: si otra sesión modifica datos entre
 ambas, se actualizan al volver a cargar. Un fallo o dato incompleto muestra un
 error recuperable, nunca se interpreta como saldo cero. Esta entrega no requiere
 migraciones y todavía no muestra el detalle individual de cada pago.
+
+## Carga de cuotas y pagos
+
+Desde la cuenta se abre `nueva-cuota`: propone `monthly_fee`, el mes actual
+(o el mes de baja para estadías finalizadas) y el día de vencimiento ajustado
+al último día del mes. Cambiar el período recalcula esa sugerencia, que se
+puede editar. El importe se confirma manualmente, sin prorrateo automático.
+
+Cada cuota con saldo habilita `pago/[cuotaId]`. El formulario propone el saldo
+completo, permite un importe parcial y requiere fecha y medio. Referencia y
+observaciones son opcionales, excepto la aclaración de «Otro medio».
+La moneda mostrada se toma de la estadía o cuota, no de una entrada del usuario.
+
+Las acciones exigen sesión antes de acceder a datos, vuelven a leer la estadía
+o cuota y comprueban que la cuota pertenezca a la cuenta. Luego invocan
+`create_monthly_charge` o `record_payment` con el cliente autenticado. La base
+garantiza unicidad del mes y controla el saldo bajo bloqueo incluso si dos
+operadores registran pagos simultáneamente. Solo tras confirmar un identificador
+de resultado se revalida la cuenta y se redirige con el mensaje de éxito.
+
+Durante el envío el formulario queda deshabilitado. No hay reintentos automáticos.
+Si se pierde la respuesta, no puede saberse si la base confirmó: se conserva la
+entrada, se bloquea el botón y se pide volver a la cuenta a revisar los importes
+antes de cargar nuevamente. Esto no constituye idempotencia entre solicitudes
+independientes; no se debe volver a registrar un pago ya reflejado en la cuenta.
+
+Validación focalizada de formularios, fechas, importes y acciones en Vitest.
+`payment_creation.test.sql` cubre las funciones y RLS con datos ficticios.
+`scripts/probar-concurrencia-pagos.py` comprueba dos conexiones simultáneas en
+el aislamiento `read committed` de la API: rechaza exceso y permite completar
+el saldo exacto. SQL y concurrencia corren en CI; no requieren Docker local ni
+modifican el proyecto remoto. No hay migraciones nuevas.

@@ -7,6 +7,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Creación de cuotas desde la cuenta de una estadía, con importe sugerido y
+  vencimiento ajustado al mes. Registro de pagos totales o parciales con fecha,
+  medio, referencia y observaciones; validación de saldo y errores por campo.
+  Los resultados inciertos bloquean el reenvío desde el formulario y piden
+  revisar la cuenta. Pruebas financieras SQL y de concurrencia en CI.
+
+### Agregado
 - Contabilidad permite consultar cuentas por estadía activa o finalizada y sus
   cuotas con importe, pagos vigentes acumulados, saldo, estado y vencimiento.
   Los listados se paginan de a 50 con totales exactos y errores recuperables.

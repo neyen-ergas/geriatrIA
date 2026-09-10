@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createClient as crearSupabase } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
-import { listarCuentas, listarCuotas, obtenerCuenta } from "./pagos-datos";
+import { listarCuentas, listarCuotas, obtenerCuenta, obtenerCuota } from "./pagos-datos";
 
 vi.mock("server-only", () => ({}));
 vi.mock("@/lib/supabase/server", () => ({ createClient: vi.fn() }));
@@ -44,6 +44,13 @@ beforeEach(() => {
 });
 
 describe("lecturas de cuentas y cuotas", () => {
+  it("busca la cuota por su id y por estadía antes de permitir un pago", async () => {
+    const cuotaId = "22222222-2222-4222-8222-222222222222";
+    respuesta = [{ ...cuota, id: cuotaId }];
+    expect((await obtenerCuota(estadia, cuotaId))?.id).toBe(cuotaId);
+    expect(solicitudes[0].url.searchParams.get("id")).toBe(`eq.${cuotaId}`);
+    expect(solicitudes[0].url.searchParams.get("admission_id")).toBe(`eq.${estadia}`);
+  });
   it("cuenta sin descargar cuotas y aplica el mismo filtro de estadía a ambas lecturas", async () => {
     const resultado = await listarCuotas(estadia, "26");
     expect(resultado).toEqual({ cuotas: [cuota], total: 1255, pagina: 26 });

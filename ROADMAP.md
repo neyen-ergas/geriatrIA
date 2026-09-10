@@ -160,15 +160,15 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 
 ## Fase 6 — Contabilidad, interfaz
 
-La consulta de cuentas ya usa la base existente. Las escrituras se incorporan
-en los próximos incrementos.
+La consulta de cuentas, la creación de cuotas y el registro de pagos ya usan
+la base existente. Anulaciones y comprobantes siguen en los próximos incrementos.
 
 - [x] `src/lib/pagos.ts` y `src/lib/pagos-datos.ts` sobre la vista
       `monthly_charge_balances`.
 - [x] Pantalla de cuotas de un residente: períodos, importe, pagado y saldo.
-- [ ] Crear la cuota de un período, con el importe precargado desde
+- [x] Crear la cuota de un período, con el importe precargado desde
       `admissions.monthly_fee` y confirmable antes de guardar.
-- [ ] Registrar un pago, total o parcial.
+- [x] Registrar un pago, total o parcial.
 - [ ] Anular un pago y cancelar una cuota, con motivo.
 - [ ] Listado de vencimientos del mes, usando `due_day`.
 - [ ] Bucket **privado** de Supabase Storage para los comprobantes, y carga
@@ -177,6 +177,9 @@ en los próximos incrementos.
 - [ ] Probar las funciones financieras con datos sintéticos: pagos parciales,
       concurrencia, exceso de saldo, anulaciones y acceso sin sesión. Estas
       pruebas acompañan los PRs que incorporan cada operación a la interfaz.
+      Creación de cuotas, pagos parciales y totales, exceso de saldo, acceso
+      sin identidad y concurrencia de pagos ya cubiertos en CI; faltan los
+      escenarios de las futuras interfaces de anulación.
 
 ## Fase 7 — Inicio
 

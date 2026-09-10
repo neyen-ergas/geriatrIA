@@ -6,11 +6,11 @@ import { REGISTROS_POR_PAGINA, paginaListado } from "@/lib/paginacion";
 import type { Tables } from "@/types/database";
 
 export type Cuenta = Pick<Tables<"admissions">,
-  "id" | "admitted_at" | "discharged_at"
+  "id" | "admitted_at" | "discharged_at" | "monthly_fee" | "due_day" | "currency"
 > & { residents: Pick<Tables<"residents">, "first_name" | "last_name" | "dni"> };
 
 const COLUMNAS_CUENTA = `
-  id, admitted_at, discharged_at,
+  id, admitted_at, discharged_at, monthly_fee, due_day, currency,
   residents!inner (first_name, last_name, dni)
 `;
 const COLUMNAS_CUOTA = `
@@ -80,4 +80,19 @@ export async function listarCuotas(
     cuotas.push(cuota);
   }
   return { cuotas, total: count, pagina };
+}
+
+export async function obtenerCuota(
+  admissionId: string, cuotaId: string,
+): Promise<Cuota | null> {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    .test(cuotaId)) return null;
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("monthly_charge_balances")
+    .select(COLUMNAS_CUOTA).eq("admission_id", admissionId)
+    .eq("id", cuotaId).maybeSingle();
+  if (error) throw new Error("No se pudo leer la cuota.");
+  if (!data) return null;
+  if (!esCuota(data)) throw new Error("No se pudo interpretar la cuota.");
+  return data;
 }
