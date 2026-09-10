@@ -7,6 +7,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Corregido
+- Admisión ofrece volver a cargar ante fallos de lectura, sin exponer errores
+  internos. Las escrituras interrumpidas piden revisar la consulta antes de
+  volver a guardar; no se reintentan automáticamente ni se confirma un éxito
+  sin respuesta. Se explican permisos, sesión y conflictos de operaciones.
+
+### Corregido
 - Residentes e historial paginados de a 50 con totales exactos. La última baja
   y la existencia de un ingreso activo se consultan por persona en la base,
   evitando habilitar reingresos por listas truncadas.

@@ -37,6 +37,30 @@ afterEach(() => vi.useRealTimers());
 
 describe("Server Actions de Admisión", () => {
   it.each(ACCIONES)(
+    "%s maneja una conexión interrumpida sin filtrar ni repetir la escritura",
+    async (accion) => {
+      const datos = formulario();
+      if (accion === cancelarVisita)
+        datos.set("estado_esperado", "visita_agendada");
+      mocks.rpc.mockRejectedValue(new Error("Detalle interno con dato privado"));
+      const resultado = await accion(INICIAL, datos);
+      expect(resultado.ok).toBe(false);
+      expect(resultado.error).toContain("Recargá");
+      expect(resultado.error).not.toContain("dato privado");
+      expect(mocks.rpc).toHaveBeenCalledTimes(1);
+      expect(mocks.revalidar).not.toHaveBeenCalled();
+    },
+  );
+
+  it("devuelve un error seguro si no puede crear el cliente", async () => {
+    mocks.cliente.mockRejectedValue(new Error("Configuración interna"));
+    expect(await guardarNotas(INICIAL, formulario())).toMatchObject({
+      ok: false, error: expect.stringContaining("Recargá"),
+    });
+    expect(mocks.rpc).not.toHaveBeenCalled();
+    expect(mocks.revalidar).not.toHaveBeenCalled();
+  });
+  it.each(ACCIONES)(
     "%s exige sesión antes de acceder a la base",
     async (accion) => {
       mocks.sesion.mockRejectedValue(new Error("sin sesión"));

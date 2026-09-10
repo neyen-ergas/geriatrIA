@@ -31,7 +31,7 @@ export async function listarConsultas(
 
   const { data, error } = await consulta;
   if (error) {
-    throw new Error(`No se pudieron leer las consultas: ${error.message}`);
+    throw new Error("No se pudieron leer las consultas.");
   }
 
   return (data ?? []) as Consulta[];

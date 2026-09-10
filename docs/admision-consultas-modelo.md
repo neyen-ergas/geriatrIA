@@ -106,6 +106,24 @@ momento y autor en `visit_events`, dentro de la misma transacción.
 El historial sobrescrito previamente no se reconstruye.
 Ver [historial de visitas](admision-historial.md).
 
+## Errores recuperables
+
+Si falla la carga, la pantalla de error de Admisión permite volver a cargar
+la misma URL, conservando filtro y página. No muestra el mensaje interno ni
+el identificador de error de Next. La recarga vuelve a ejecutar la lectura;
+no repite una Server Action.
+
+Las acciones conservan la verificación de sesión fuera del manejo de errores
+de escritura, para respetar la redirección al login. Si falla la creación del
+cliente o se interrumpe la RPC, devuelven un mensaje seguro. Una respuesta
+perdida no demuestra que la operación haya fallado: se pide recargar y revisar
+el estado antes de guardar otra vez. No hay reintentos de escritura desde la
+aplicación ni confirmación de éxito sin respuesta.
+
+Los conflictos, turnos ocupados, datos inválidos y problemas de acceso tienen
+mensajes propios. Los errores desconocidos no exponen códigos, datos de la
+familia ni detalles de Supabase. No requiere migraciones.
+
 ## Paginación de la bandeja
 
 La bandeja carga 50 consultas por página, ordenadas por `creado_en desc, id desc`.

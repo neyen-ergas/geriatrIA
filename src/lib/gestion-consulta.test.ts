@@ -126,8 +126,26 @@ describe("errores de escritura", () => {
 
   it("no devuelve códigos internos para errores inesperados", () => {
     expect(mensajeErrorGestionConsulta({ code: "XX000" })).toBe(
-      "No se pudo guardar el cambio. Intentá nuevamente en unos minutos.",
+      "No se pudo confirmar el cambio. Recargá la consulta antes de volver a guardar.",
     );
+  });
+
+  it.each([null, undefined, new Error("dato privado"), { code: "XX000", message: "dato privado" }])(
+    "no filtra detalles y pide revisar el estado ante una respuesta incierta",
+    (error) => {
+      const mensaje = mensajeErrorGestionConsulta(error);
+      expect(mensaje).toContain("Recargá");
+      expect(mensaje).not.toContain("dato privado");
+      expect(mensaje).not.toContain("XX000");
+    },
+  );
+
+  it.each(["42501", "PGRST301"])("explica el problema de acceso %s", (code) => {
+    expect(mensajeErrorGestionConsulta({ code })).toContain("iniciar sesión");
+  });
+
+  it("pide recargar si hubo un bloqueo entre operaciones", () => {
+    expect(mensajeErrorGestionConsulta({ code: "40P01" })).toContain("Recargá");
   });
 });
 
