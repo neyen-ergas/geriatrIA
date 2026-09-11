@@ -33,6 +33,7 @@ export async function anularPago(
   const ruta = `/contabilidad/${admissionId}/cuotas/${cuotaId}`;
   revalidatePath(`/contabilidad/${admissionId}`);
   revalidatePath(ruta);
+  revalidatePath("/contabilidad/vencimientos");
   redirect(`${ruta}?anulado=pago`);
 }
 
@@ -62,5 +63,6 @@ export async function cancelarCuota(
   const ruta = `/contabilidad/${admissionId}/cuotas/${cuotaId}`;
   revalidatePath(`/contabilidad/${admissionId}`);
   revalidatePath(ruta);
+  revalidatePath("/contabilidad/vencimientos");
   redirect(`${ruta}?anulado=cuota`);
 }

@@ -161,7 +161,8 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 ## Fase 6 — Contabilidad, interfaz
 
 La consulta de cuentas y movimientos, la creación de cuotas, los pagos y las
-anulaciones ya usan la base existente. Vencimientos y comprobantes siguen pendientes.
+anulaciones ya usan la base existente. Los vencimientos mensuales están disponibles;
+quedan pendientes los comprobantes privados.
 
 - [x] `src/lib/pagos.ts` y `src/lib/pagos-datos.ts` sobre la vista
       `monthly_charge_balances`.
@@ -170,7 +171,8 @@ anulaciones ya usan la base existente. Vencimientos y comprobantes siguen pendie
       `admissions.monthly_fee` y confirmable antes de guardar.
 - [x] Registrar un pago, total o parcial.
 - [x] Anular un pago y cancelar una cuota, con motivo y detalle de movimientos.
-- [ ] Listado de vencimientos del mes, usando `due_day`.
+- [x] Listado de vencimientos del mes, usando la fecha confirmada de cada cuota
+      (sugerida desde `due_day` al crearla), con filtro de vencidas y saldo pendiente.
 - [ ] Bucket **privado** de Supabase Storage para los comprobantes, y carga
       opcional al registrar un pago.
 - [x] Traducir cada error de las funciones de pago a un mensaje entendible.

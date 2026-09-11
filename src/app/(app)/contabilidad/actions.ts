@@ -30,6 +30,7 @@ export async function crearCuota(
     return { valores, errores: {}, ...errorCargaPago(error) };
   }
   revalidatePath(`/contabilidad/${admissionId}`);
+  revalidatePath("/contabilidad/vencimientos");
   redirect(`/contabilidad/${admissionId}?cuota=1`);
 }
 
@@ -54,5 +55,6 @@ export async function registrarPago(
   }
   revalidatePath(`/contabilidad/${admissionId}`);
   revalidatePath(`/contabilidad/${admissionId}/cuotas/${cuotaId}`);
+  revalidatePath("/contabilidad/vencimientos");
   redirect(`/contabilidad/${admissionId}?pago=1`);
 }

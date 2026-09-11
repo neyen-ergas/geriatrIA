@@ -59,6 +59,7 @@ describe.each(acciones)("anulación financiera", accion => {
     await expect(accion(formulario())).rejects.toThrow("REDIRECT");
     expect(mocks.revalidar.mock.calls).toEqual([
       ["/contabilidad/estadia"], ["/contabilidad/estadia/cuotas/cuota"],
+      ["/contabilidad/vencimientos"],
     ]);
   });
 });
