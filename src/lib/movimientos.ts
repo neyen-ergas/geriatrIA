@@ -3,7 +3,7 @@ import { MEDIOS_PAGO } from "@/lib/cargar-pagos";
 
 export type Movimiento = Pick<Tables<"payments">,
   "id" | "amount" | "paid_on" | "payment_method" | "reference" | "notes"
-  | "created_at" | "voided_at" | "voided_reason"
+  | "created_at" | "voided_at" | "voided_reason" | "receipt_path"
 >;
 
 export function etiquetaMedio(medio: string): string {

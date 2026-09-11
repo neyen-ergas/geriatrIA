@@ -162,7 +162,8 @@ prueban localmente con datos sintéticos antes de planificar su aplicación.
 
 La consulta de cuentas y movimientos, la creación de cuotas, los pagos y las
 anulaciones ya usan la base existente. Los vencimientos mensuales están disponibles;
-quedan pendientes los comprobantes privados.
+los comprobantes privados están implementados y requieren aplicar su migración
+antes del despliegue (ver `docs/comprobantes-privados.md`).
 
 - [x] `src/lib/pagos.ts` y `src/lib/pagos-datos.ts` sobre la vista
       `monthly_charge_balances`.
@@ -173,7 +174,7 @@ quedan pendientes los comprobantes privados.
 - [x] Anular un pago y cancelar una cuota, con motivo y detalle de movimientos.
 - [x] Listado de vencimientos del mes, usando la fecha confirmada de cada cuota
       (sugerida desde `due_day` al crearla), con filtro de vencidas y saldo pendiente.
-- [ ] Bucket **privado** de Supabase Storage para los comprobantes, y carga
+- [x] Bucket **privado** de Supabase Storage para los comprobantes, y carga
       opcional al registrar un pago.
 - [x] Traducir cada error de las funciones de pago a un mensaje entendible.
 - [x] Probar las funciones financieras con datos sintéticos: pagos parciales,

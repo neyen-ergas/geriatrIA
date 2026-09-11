@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requerirSesion } from "@/lib/auth";
+import { cargarComprobante } from "@/lib/comprobantes-datos";
 import {
   errorCargaPago, leerCargaPago, validarCargaCuota, validarCargaPago,
   type EstadoCargaPago,
@@ -48,7 +49,12 @@ export async function registrarPago(
       valores, errores: validacion.errores, mensaje: "Revisá los campos marcados.",
     };
     const supabase = await createClient();
-    const { data, error } = await supabase.rpc("record_payment", validacion.datos);
+    const comprobante = await cargarComprobante(supabase, admissionId, cuotaId, formData.get("comprobante"));
+    if (!comprobante.ok) return { valores, errores: { comprobante: comprobante.error }, mensaje: comprobante.error };
+    const { data, error } = await supabase.rpc("record_payment", {
+      ...validacion.datos,
+      ...(comprobante.ruta ? { p_receipt_path: comprobante.ruta } : {}),
+    });
     if (error || !data) return { valores, errores: {}, ...errorCargaPago(error) };
   } catch (error) {
     return { valores, errores: {}, ...errorCargaPago(error) };

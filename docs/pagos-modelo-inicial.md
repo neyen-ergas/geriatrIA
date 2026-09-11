@@ -17,7 +17,8 @@ pantallas se incorporarán en incrementos posteriores.
 - La consulta de cuentas y cuotas está disponible en `/contabilidad`, con
   acceso a estadías activas y finalizadas. Permite crear cuotas y registrar
   pagos totales o parciales, consultar movimientos y anular pagos o cuotas con
-  motivo. El bucket privado de comprobantes todavía está pendiente.
+  motivo. Los comprobantes privados están implementados; requieren aplicar la
+  migración y seguir `docs/comprobantes-privados.md` antes del despliegue.
 - El listado mensual de vencimientos permite consultar cuotas creadas con saldo
   y filtrar solamente las vencidas.
 
@@ -193,7 +194,7 @@ primero deberán anularse explícitamente.
 La ruta prevista será similar a:
 
 ```text
-{admission_id}/{monthly_charge_id}/{payment_id}/{archivo}
+{user_id}/{admission_id}/{monthly_charge_id}/{uuid}.{extension}
 ```
 
 ## Seguridad y auditoría
@@ -232,7 +233,8 @@ La ruta prevista será similar a:
 3. Completado: pantalla de cuenta corriente con cuotas, saldos y vencimientos.
 4. Completado: formulario para crear cuotas y registrar pagos.
 5. Completado: detalle de movimientos y acciones de anulación en la interfaz.
-6. Añadir la carga privada de comprobantes en un incremento separado.
+6. Implementado: carga privada de comprobantes; despliegue según
+   `docs/comprobantes-privados.md`.
 
 Cada etapa se publicará en un PR acotado y verificable.
 

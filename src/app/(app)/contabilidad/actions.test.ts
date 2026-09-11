@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { crearCuota, registrarPago } from "./actions";
 
+vi.mock("server-only", () => ({}));
+
 const mocks = vi.hoisted(() => ({ sesion: vi.fn(), cuenta: vi.fn(), cuota: vi.fn(),
   cliente: vi.fn(), rpc: vi.fn(), revalidar: vi.fn(), redirigir: vi.fn() }));
 vi.mock("@/lib/auth", () => ({ requerirSesion: mocks.sesion }));
