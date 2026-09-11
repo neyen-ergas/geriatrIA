@@ -22,6 +22,10 @@ export default async function ContabilidadPage({ searchParams }: {
       <p className="mt-1 text-sm text-slate-500">
         Elegí una estadía para consultar sus cuotas, pagos acumulados y saldos.
       </p>
+      <Link href="/contabilidad/vencimientos"
+        className="mt-4 inline-block rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
+        Vencimientos del mes
+      </Link>
       <nav aria-label="Estado de las estadías" className="mt-6 flex gap-2">
         {[false, true].map(finalizada => (
           <Link key={String(finalizada)} href={enlaceContabilidad(1, finalizada)}

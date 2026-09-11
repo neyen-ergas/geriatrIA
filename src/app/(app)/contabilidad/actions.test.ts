@@ -42,6 +42,7 @@ describe.each(acciones)("escritura financiera", accion => {
     await expect(accion(formulario())).rejects.toThrow("REDIRECT");
     expect(mocks.rpc).toHaveBeenCalledTimes(1);
     expect(mocks.revalidar).toHaveBeenCalledWith("/contabilidad/estadia");
+    expect(mocks.revalidar).toHaveBeenCalledWith("/contabilidad/vencimientos");
     expect(mocks.redirigir).toHaveBeenCalledTimes(1);
   });
   it("no escribe datos inválidos", async () => {

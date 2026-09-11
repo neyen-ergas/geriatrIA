@@ -7,6 +7,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Listado mensual de cuotas con saldo pendiente, con selección de mes y filtro
+  de vencidas, incluidos ingresos finalizados. Muestra vencimiento confirmado,
+  saldo y enlaces a cuenta, movimientos y registro de pago. Paginación y conteos
+  exactos; se actualiza al crear cuotas, registrar pagos o anular movimientos.
+
+### Agregado
 - Detalle de pagos por cuota con fecha, importe, medio, referencia, observaciones
   y estado, incluidos los anulados. Permite anular pagos y cuotas con motivo,
   conservando el historial y actualizando los saldos. Las cuotas con pagos

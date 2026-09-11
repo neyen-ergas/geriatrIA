@@ -18,6 +18,8 @@ pantallas se incorporarán en incrementos posteriores.
   acceso a estadías activas y finalizadas. Permite crear cuotas y registrar
   pagos totales o parciales, consultar movimientos y anular pagos o cuotas con
   motivo. El bucket privado de comprobantes todavía está pendiente.
+- El listado mensual de vencimientos permite consultar cuotas creadas con saldo
+  y filtrar solamente las vencidas.
 
 ## Objetivo
 
@@ -317,3 +319,30 @@ existentes; la interfaz todavía no resuelve nombres de usuarios o empleados.
 historial, saldo, reemplazos y permisos. La prueba de concurrencia también cubre
 cancelar mientras otro usuario registra un pago, en ambos órdenes. Todo corre
 en la base aislada de CI; esta entrega no modifica el esquema remoto.
+
+## Vencimientos mensuales
+
+`/contabilidad/vencimientos` abre desde Contabilidad y propone el mes actual
+según la fecha de Argentina. Permite elegir otro mes y ver todas las cuotas
+con saldo o solamente las vencidas. Una fecha igual al día actual no se
+considera vencida: la condición la calcula la vista en Supabase.
+
+Se filtra por `monthly_charge_balances.due_date`, `balance > 0` y cuota no
+anulada. La fecha es la confirmada al crear la cuota, sugerida entonces desde
+`admissions.due_day`; cambiar el día de cobro de la estadía no modifica cuotas
+históricas. El mes no se deriva de la fecha del pago ni del día de cobro actual.
+
+Incluye estadías activas y finalizadas, con el residente y las fechas de la
+estadía para distinguir reingresos. Cada cuota permite abrir su cuenta, ver
+movimientos o registrar un pago. No incluye meses sin cuota creada ni deuda de
+otros meses, y no presenta un total monetario obtenido de una página parcial.
+
+Las consultas autenticadas respetan RLS. Conteo y filas usan los mismos filtros
+y relaciones, con páginas de 50 ordenadas por vencimiento e identificador.
+Los enlaces conservan mes y filtro; cambiar el formulario vuelve a la primera
+página. Un parámetro de mes inválido se reemplaza por el mes actual.
+
+Crear cuotas, registrar pagos y anular pagos o cuotas revalida también este
+listado. Conteo y filas son lecturas independientes: un cambio simultáneo de
+otra sesión se refleja al recargar. Los errores usan la pantalla recuperable
+de Contabilidad. No requiere migraciones ni modifica datos remotos.
