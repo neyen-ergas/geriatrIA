@@ -7,6 +7,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Comprobantes opcionales JPG, PNG y PDF de hasta 3 MiB al registrar pagos,
+  almacenados en un bucket privado y descargables desde el detalle mediante
+  enlaces temporales. Se conservan tras anular el pago. Requiere la migración
+  `20260911230000_private_payment_receipts.sql` antes de desplegar la interfaz.
+
+### Agregado
 - Listado mensual de cuotas con saldo pendiente, con selección de mes y filtro
   de vencidas, incluidos ingresos finalizados. Muestra vencimiento confirmado,
   saldo y enlaces a cuenta, movimientos y registro de pago. Paginación y conteos

@@ -29,6 +29,13 @@ export function ListaMovimientos({ movimientos, moneda, admissionId, cuotaId }: 
             <p className="mt-1 text-xs text-slate-500">Registrado {formatearMomentoPago(pago.created_at)}</p>
             {pago.reference && <p className="mt-3 break-words text-sm text-slate-600">Referencia: {pago.reference}</p>}
             {pago.notes && <p className="mt-2 whitespace-pre-wrap break-words text-sm text-slate-600">Observaciones: {pago.notes}</p>}
+            {pago.receipt_path && (
+              <a href={`/contabilidad/${admissionId}/cuotas/${cuotaId}/comprobante/${pago.id}`}
+                target="_blank" rel="noopener noreferrer"
+                className="mt-3 inline-block text-sm font-medium text-sky-700 hover:underline">
+                Descargar comprobante
+              </a>
+            )}
             {pago.voided_at ? (
               <div className="mt-3 rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
                 <p>Anulado {formatearMomentoPago(pago.voided_at)}</p>

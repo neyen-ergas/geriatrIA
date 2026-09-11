@@ -6,7 +6,7 @@ import type { Movimiento } from "@/lib/movimientos";
 
 const COLUMNAS_MOVIMIENTO = `
   id, amount, paid_on, payment_method, reference, notes,
-  created_at, voided_at, voided_reason
+  created_at, voided_at, voided_reason, receipt_path
 `;
 
 /** La página verifica primero que la cuota pertenezca a la estadía solicitada. */

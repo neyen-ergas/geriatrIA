@@ -10,7 +10,7 @@ vi.mock("../../../formulario-anulacion", () => ({
 const pago: Movimiento = {
   id: "ficticio", amount: 1250.5, paid_on: "2026-09-01",
   payment_method: "bank_transfer", reference: "TEST-123", notes: "<script>privado</script>",
-  created_at: "2026-09-01T02:00:00Z", voided_at: null, voided_reason: null,
+  created_at: "2026-09-01T02:00:00Z", voided_at: null, voided_reason: null, receipt_path: null,
 };
 
 it("presenta el pago original y su anulación sin ofrecer anularlo nuevamente", () => {

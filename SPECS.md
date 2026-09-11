@@ -28,7 +28,7 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
 | Inicio | Panel del día: qué hay pendiente ahora. | Placeholder |
 | Admisión | Consultas entrantes, llamados y agenda de visitas. | Funcionando |
 | Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
-| Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos, anulaciones y vencimientos |
+| Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos, anulaciones, vencimientos y comprobantes privados |
 | Empleados | Personal de la residencia y sus datos laborales. | Placeholder |
 | Turnos | Grilla de turnos del personal. | Placeholder |
 | Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |

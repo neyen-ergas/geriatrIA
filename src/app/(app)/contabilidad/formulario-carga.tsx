@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import { Button, Card, Input, Label, Textarea } from "@/components/ui";
+import { MAX_COMPROBANTE_BYTES, TIPOS_COMPROBANTE } from "@/lib/comprobantes";
 import {
   MEDIOS_PAGO, vencimientoSugerido, type EstadoCargaPago,
 } from "@/lib/cargar-pagos";
@@ -23,6 +24,7 @@ export function FormularioCarga({ modo, valoresIniciales, diaVencimiento = 10,
   } as EstadoCargaPago);
   const [periodo, setPeriodo] = useState(valoresIniciales.periodo ?? "");
   const [vencimiento, setVencimiento] = useState(valoresIniciales.vencimiento ?? "");
+  const [errorArchivo, setErrorArchivo] = useState<string | null>(null);
   const atributos = (campo: string) => ({
     id: campo, name: campo,
     "aria-invalid": Boolean(estado.errores[campo]),
@@ -94,6 +96,18 @@ export function FormularioCarga({ modo, valoresIniciales, diaVencimiento = 10,
                 <Label htmlFor="referencia">Referencia de la operación (opcional)</Label>
                 <Input {...atributos("referencia")} defaultValue={estado.valores.referencia} />
               </div>
+              <div>
+                <Label htmlFor="comprobante">Comprobante (opcional)</Label>
+                <Input {...atributos("comprobante")} type="file" accept={TIPOS_COMPROBANTE}
+                  onChange={evento => {
+                    const archivo = evento.target.files?.[0];
+                    setErrorArchivo(archivo && archivo.size > MAX_COMPROBANTE_BYTES
+                      ? "El comprobante no puede superar los 3 MB." : null);
+                  }} />
+                <p className="mt-1 text-xs text-slate-500">JPG, PNG o PDF, hasta 3 MB. Se guarda de forma privada. Si el envío falla, seleccioná el archivo nuevamente.</p>
+                {errorArchivo && <p role="alert" className="mt-1 text-sm text-red-700">{errorArchivo}</p>}
+                {errorCampo("comprobante")}
+              </div>
             </>
           )}
           <div>
@@ -101,7 +115,7 @@ export function FormularioCarga({ modo, valoresIniciales, diaVencimiento = 10,
             <Textarea {...atributos("notas")} defaultValue={estado.valores.notas} />
             {errorCampo("notas")}
           </div>
-          <Button type="submit">
+          <Button type="submit" disabled={Boolean(errorArchivo)}>
             {pendiente ? "Guardando…" : modo === "cuota" ? "Crear cuota" : "Registrar pago"}
           </Button>
         </fieldset>
