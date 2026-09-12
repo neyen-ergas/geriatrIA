@@ -79,6 +79,9 @@ jobs:
       - name: Concurrent payments
         run: python3 scripts/probar-concurrencia-pagos.py
 
+      - name: Concurrent consultation conversion
+        run: python3 scripts/probar-concurrencia-conversion.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop
