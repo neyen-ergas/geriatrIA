@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import { useActionState, useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
@@ -214,7 +215,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
           className="flex flex-wrap gap-2"
         >
           <VersionConsulta consulta={consulta} />
-          {TRANSICIONES[consulta.estado].map((destino) => (
+          {!consulta.ingreso_id && TRANSICIONES[consulta.estado].filter(destino => destino !== "ingreso").map((destino) => (
             <Button
               key={destino}
               type="submit"
@@ -232,6 +233,15 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
           <p role="alert" className="mt-2 text-sm text-red-600">
             {resEstado.error}
           </p>
+        )}
+        {consulta.ingreso_id ? (
+          <Link className="mt-3 inline-block text-sm font-medium underline" href={`/contabilidad/${consulta.ingreso_id}`}>
+            Ver cuenta del ingreso
+          </Link>
+        ) : (consulta.estado === "visita_agendada" || consulta.estado === "ingreso") && (
+          <Link className="mt-3 inline-block text-sm font-medium underline" href={`/admision/${consulta.id}/ingreso`}>
+            Registrar ingreso
+          </Link>
         )}
       </div>
 

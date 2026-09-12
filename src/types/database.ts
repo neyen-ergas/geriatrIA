@@ -107,6 +107,42 @@ export type Database = {
         }
         Relationships: []
       }
+      consultation_admissions: {
+        Row: {
+          admission_id: string
+          consultation_id: string
+          converted_at: string
+          converted_by: string
+        }
+        Insert: {
+          admission_id: string
+          consultation_id: string
+          converted_at?: string
+          converted_by: string
+        }
+        Update: {
+          admission_id?: string
+          consultation_id?: string
+          converted_at?: string
+          converted_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_admissions_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: true
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consultation_admissions_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: true
+            referencedRelation: "consulta"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       family_contacts: {
         Row: {
           created_at: string
@@ -397,6 +433,33 @@ export type Database = {
     Functions: {
       cancel_monthly_charge: {
         Args: { p_monthly_charge_id: string; p_reason: string }
+        Returns: string
+      }
+      convert_consultation_admission: {
+        Args: {
+          p_administrative_notes?: string
+          p_admitted_at: string
+          p_consultation_id: string
+          p_contact_first_name?: string
+          p_contact_is_emergency_contact?: boolean
+          p_contact_is_payment_responsible?: boolean
+          p_contact_last_name?: string
+          p_contact_notes?: string
+          p_contact_phone?: string
+          p_contact_relationship?: string
+          p_due_day: number
+          p_expected_updated_at: string
+          p_monthly_fee: number
+          p_resident_address?: string
+          p_resident_birth_date?: string
+          p_resident_dni?: string
+          p_resident_first_name?: string
+          p_resident_id?: string
+          p_resident_last_name?: string
+          p_resident_notes?: string
+          p_resident_phone?: string
+          p_room?: string
+        }
         Returns: string
       }
       create_initial_admission: {

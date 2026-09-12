@@ -1,4 +1,5 @@
 import "server-only";
+import { listarVinculosConsultas } from "@/lib/conversion-consulta-datos";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ESTADOS, type Consulta, type Estado } from "@/lib/admision";
@@ -34,7 +35,9 @@ export async function listarConsultas(
     throw new Error("No se pudieron leer las consultas.");
   }
 
-  return (data ?? []) as Consulta[];
+  const filas = (data ?? []) as Consulta[];
+  const vinculos = await listarVinculosConsultas(filas.map(fila => fila.id));
+  return filas.map(fila => ({ ...fila, ingreso_id: vinculos[fila.id] ?? null }));
 }
 
 /** Cuántas consultas hay en cada estado, para las tarjetas del encabezado. */

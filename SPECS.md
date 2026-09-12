@@ -293,6 +293,14 @@ Ver `docs/admision-historial.md` para alcance y despliegue.
 
 ### 6.2 `residents`, `family_contacts`, `admissions`
 
+`consultation_admissions` vincula una consulta con una única estadía y registra
+autor y fecha. La conversión desde Admisión usa `convert_consultation_admission`
+con sesión y versión de consulta. Crea persona/contacto/estadía o reingresa una
+ficha existente, y cierra la visita en una transacción idempotente. Una consulta
+vinculada conserva sus notas y el acceso a la cuenta, pero no se reabre.
+La búsqueda de ficha por DNI se envía por formulario, sin DNI en la URL.
+Ver `docs/admision-ingreso.md`.
+
 Nombres en inglés, acordados en su documento de diseño.
 
 **Por qué residente e ingreso están separados:** `residents` es la persona y

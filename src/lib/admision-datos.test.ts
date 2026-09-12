@@ -3,8 +3,10 @@ import { createClient } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { Database } from "@/types/database";
 import { contarPorEstado, listarConsultas } from "./admision-datos";
+import { listarVinculosConsultas } from "@/lib/conversion-consulta-datos";
 
 vi.mock("server-only", () => ({}));
+vi.mock("@/lib/conversion-consulta-datos", () => ({ listarVinculosConsultas: vi.fn(async () => ({})) }));
 vi.mock("@/lib/supabase/admin", () => ({ createAdminClient: vi.fn() }));
 
 // El cliente real de Supabase habla con una API sintética con límite de filas.
@@ -30,6 +32,14 @@ beforeEach(() => {
 });
 
 describe("lecturas de Admisión con más de 1.000 consultas", () => {
+  it("agrega el ingreso vinculado leyendo solo los ids de la página", async () => {
+    vi.mocked(listarVinculosConsultas).mockResolvedValueOnce({ "00001255": "ingreso" });
+    const consultas = await listarConsultas();
+    expect(consultas[0].ingreso_id).toBe("ingreso");
+    expect(consultas[1].ingreso_id).toBeNull();
+    expect(listarVinculosConsultas).toHaveBeenLastCalledWith(consultas.map(c => c.id));
+  });
+
   it("cuenta en la base sin descargar las filas ni truncar los totales", async () => {
     expect(await contarPorEstado()).toEqual({
       nuevo: 1205, contactado: 50, visita_agendada: 0, ingreso: 0, descartada: 0,

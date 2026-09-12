@@ -192,7 +192,7 @@ antes del despliegue (ver `docs/comprobantes-privados.md`).
 
 ## Fase 8 — Admisión, segunda entrega
 
-- [ ] **Cerrar el circuito Admisión → Residentes**, antes de la agenda y del
+- [x] **Cerrar el circuito Admisión → Residentes**, antes de la agenda y del
       panel de Inicio: vincular la consulta al residente y su estadía,
       precargar datos, evitar conversiones duplicadas y guardar la conversión
       en una transacción. Contemplar personas que ya tienen ficha.

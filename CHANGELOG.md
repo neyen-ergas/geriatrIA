@@ -7,6 +7,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Conversión de consultas a ingresos desde Admisión: alta de persona nueva con
+  contacto sugerido o búsqueda por DNI para reingresar una ficha existente.
+  Guarda estadía, vínculo y cierre de visita en una transacción; repetir el
+  envío recupera la misma cuenta. Impide reabrir consultas vinculadas y conserva
+  sus notas. Requiere `20260912000000_convert_consultation_admission.sql`.
+
+### Agregado
 - Comprobantes opcionales JPG, PNG y PDF de hasta 3 MiB al registrar pagos,
   almacenados en un bucket privado y descargables desde el detalle mediante
   enlaces temporales. Se conservan tras anular el pago. Requiere la migración

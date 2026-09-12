@@ -10,6 +10,7 @@
 
 export type Consulta = {
   id: string;
+  ingreso_id?: string | null;
   creado_en: string;
   actualizado_en: string;
   nombre: string;
