@@ -67,5 +67,7 @@ async function guardarCambio(
   }
 
   revalidatePath("/admision");
+  revalidatePath("/admision/agenda");
+  revalidatePath(`/admision/${validacion.datos.p_id}`);
   return { ok: true, error: null };
 }

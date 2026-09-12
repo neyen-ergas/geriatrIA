@@ -40,6 +40,16 @@ export async function listarConsultas(
   return filas.map(fila => ({ ...fila, ingreso_id: vinculos[fila.id] ?? null }));
 }
 
+export async function obtenerConsulta(id: string): Promise<Consulta | null> {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null;
+  const { data, error } = await createAdminClient().from("consulta")
+    .select(COLUMNAS).eq("id", id).maybeSingle();
+  if (error) throw new Error("No se pudo leer la consulta.");
+  if (!data) return null;
+  const vinculos = await listarVinculosConsultas([id]);
+  return { ...data, ingreso_id: vinculos[id] ?? null } as Consulta;
+}
+
 /** Cuántas consultas hay en cada estado, para las tarjetas del encabezado. */
 export async function contarPorEstado(): Promise<Record<Estado, number>> {
   const supabase = createAdminClient();

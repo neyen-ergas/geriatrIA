@@ -41,7 +41,10 @@ describe.each(ACCIONES)("conversión desde una consulta", (accion) => {
       expect.objectContaining({ p_consultation_id: "consulta", p_expected_updated_at: VERSION,
         p_admitted_at: "2025-02-01", p_monthly_fee: 100, p_due_day: 10 }));
     expect(mocks.redirigir).toHaveBeenCalledWith("/contabilidad/estadia");
-    expect(mocks.revalidar.mock.calls.flat()).toEqual(["/admision", "/residentes", "/contabilidad"]);
+    expect(mocks.revalidar).toHaveBeenCalledWith("/admision/agenda");
+    expect(mocks.revalidar).toHaveBeenCalledWith("/admision/[consultaId]", "page");
+    expect(mocks.revalidar).toHaveBeenCalledWith("/residentes");
+    expect(mocks.revalidar).toHaveBeenCalledWith("/contabilidad");
   });
   it("recupera el ingreso ya creado incluso si el formulario reenviado está vacío", async () => {
     mocks.vinculos.mockResolvedValue({ consulta: "anterior" });

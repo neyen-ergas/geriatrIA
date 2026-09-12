@@ -33,8 +33,8 @@ conoce la disponibilidad real de la residencia es el equipo, no la familia.
 6. Cerrar la consulta como ingreso o como descartada.
 7. Guardar notas internas del equipo en cualquier momento.
 
-Queda para entregas posteriores la vista de agenda por día y la conversión de una
-consulta con estado `ingreso` en un residente con su primer ingreso.
+Las entregas posteriores incorporaron la agenda semanal y la
+[conversión de consulta en ingreso](admision-ingreso.md).
 
 ## Reglas acordadas
 
@@ -252,6 +252,30 @@ del CRM. Ver [aplicación y recuperación](admision-transiciones-despliegue.md).
 
 ## Próximo paso
 
-Vista de agenda: los turnos de la semana en una grilla, para ver de un vistazo qué
-franjas quedan libres antes de llamar a una familia. Después de eso, cómo una
-consulta con estado `ingreso` se convierte en un residente con su primer ingreso.
+Reservar desde un turno libre de la grilla, eligiendo una consulta existente.
+La búsqueda por nombre o teléfono en la bandeja también queda pendiente.
+
+## Agenda semanal
+
+`/admision/agenda` muestra lunes a domingo, con mañana y tarde por día. La semana
+actual se determina con la fecha argentina; la navegación y el selector de fecha
+usan `?semana=AAAA-MM-DD`, normalizado al lunes. Un parámetro inválido vuelve a la
+semana actual. El cálculo de días no depende de la zona horaria del servidor.
+
+Solo se leen consultas en `visita_agendada` dentro de esa semana, con un máximo
+de 14 turnos por el índice único existente. El filtro se aplica en la base antes
+del límite. Si la lectura falla o devuelve turnos inconsistentes, se muestra el
+error recuperable de Admisión; no se presenta una disponibilidad vacía.
+
+Las visitas cerradas, convertidas o canceladas no ocupan turnos. La grilla no es
+un registro de asistencia ni reconstruye la ocupación histórica: en días pasados
+sin turno vigente dice «Sin visita agendada», en los demás dice «Libre».
+
+Cada visita muestra contacto y teléfono y abre `/admision/[consultaId]`, con las
+acciones existentes y un enlace a la semana de origen. Reprogramar, cancelar o
+convertir invalida también agenda y detalle. La reserva se confirma siempre en
+la base: un turno visto libre puede ocuparse antes de guardar.
+
+Ambas pantallas exigen sesión antes de usar lecturas administrativas del
+servidor. Se descargan solo los campos necesarios para la grilla; las notas se
+leen al abrir la consulta. Esta entrega no cambia el esquema ni la landing.

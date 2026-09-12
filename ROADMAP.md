@@ -196,9 +196,8 @@ antes del despliegue (ver `docs/comprobantes-privados.md`).
       panel de Inicio: vincular la consulta al residente y su estadía,
       precargar datos, evitar conversiones duplicadas y guardar la conversión
       en una transacción. Contemplar personas que ya tienen ficha.
-- [ ] Vista de agenda semanal: grilla de días por franja, para ver de un vistazo
-      qué turnos quedan libres antes de llamar a una familia. Es el próximo paso
-      que pide `docs/admision-consultas-modelo.md`.
+- [x] Vista de agenda semanal: grilla de lunes a domingo por franja, navegación
+      entre semanas y apertura de cada consulta para gestionar la visita.
 - [ ] Agendar la visita directamente desde un hueco libre de la grilla.
 - [ ] Búsqueda por nombre o teléfono dentro de la bandeja.
 

@@ -76,6 +76,9 @@ export default async function AdmisionPage({
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-900">Admisión</h1>
+      <Link href="/admision/agenda" className="mt-3 inline-block rounded-lg border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-medium text-sky-800">
+        Ver agenda semanal
+      </Link>
       <p className="mt-1 text-sm text-slate-500">
         Consultas recibidas desde la web de la residencia. La visita presencial
         se agenda acá, después de llamar a la familia.

@@ -90,6 +90,8 @@ describe("Server Actions de Admisión", () => {
       }),
     );
     expect(mocks.revalidar).toHaveBeenCalledWith("/admision");
+    expect(mocks.revalidar).toHaveBeenCalledWith("/admision/agenda");
+    expect(mocks.revalidar).toHaveBeenCalledWith(`/admision/${formulario().get("id")}`);
   });
 
   it.each(ACCIONES)(
