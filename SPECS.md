@@ -291,7 +291,11 @@ el autor desde `auth.uid()` y exige identidad; las Server Actions la invocan
 con el cliente autenticado. Los eventos se insertan en la misma transacción.
 Ver `docs/admision-historial.md` para alcance y despliegue.
 
-### 6.2 `residents`, `family_contacts`, `admissions`
+La agenda de Admisión muestra semanas de lunes a domingo con las dos franjas
+vigentes. Filtra `visita_agendada` por fechas en la base, sin descargar el
+historial completo. Los turnos cerrados se liberan; una falla de lectura no se
+presenta como disponibilidad libre. El detalle de consulta mantiene la semana
+de origen y reutiliza las acciones con control de versión. No requiere SQL nuevo.
 
 `consultation_admissions` vincula una consulta con una única estadía y registra
 autor y fecha. La conversión desde Admisión usa `convert_consultation_admission`
@@ -300,6 +304,8 @@ ficha existente, y cierra la visita en una transacción idempotente. Una consult
 vinculada conserva sus notas y el acceso a la cuenta, pero no se reabre.
 La búsqueda de ficha por DNI se envía por formulario, sin DNI en la URL.
 Ver `docs/admision-ingreso.md`.
+
+### 6.2 `residents`, `family_contacts`, `admissions`
 
 Nombres en inglés, acordados en su documento de diseño.
 

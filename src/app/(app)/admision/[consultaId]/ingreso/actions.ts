@@ -85,6 +85,8 @@ export async function convertirReingreso(
 
 function irACuenta(ingreso: string): never {
   revalidatePath("/admision");
+  revalidatePath("/admision/agenda");
+  revalidatePath("/admision/[consultaId]", "page");
   revalidatePath("/residentes");
   revalidatePath("/contabilidad");
   redirect(`/contabilidad/${ingreso}`);

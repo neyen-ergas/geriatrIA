@@ -7,6 +7,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Agenda semanal de Admisión con turnos de mañana y tarde, navegación por semana
+  o fecha y apertura de cada consulta para reprogramar, cancelar o registrar el
+  ingreso. Muestra solo visitas agendadas y distingue los días pasados de turnos
+  libres. Los cambios actualizan agenda y detalle. No requiere migración.
+
+### Agregado
 - Conversión de consultas a ingresos desde Admisión: alta de persona nueva con
   contacto sugerido o búsqueda por DNI para reingresar una ficha existente.
   Guarda estadía, vínculo y cierre de visita en una transacción; repetir el
