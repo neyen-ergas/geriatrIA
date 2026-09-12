@@ -32,7 +32,7 @@ def probar():
         primera = sesion(f"begin; {autenticacion} {convertir} as ingreso \\gset\n\\echo :ingreso\n")
         ingreso = primera.stdout.readline().strip()
         assert str(uuid.UUID(ingreso)) == ingreso
-        segunda = sesion(f"set application_name = '{nombre}'; begin; {autenticacion} {convertir}; commit;")
+        segunda = sesion(f"set application_name = '{nombre}'; begin; {autenticacion} {convertir}; commit;\n")
         esperar_bloqueo(nombre, segunda)
         _, error_a = primera.communicate("commit;\n", timeout=15)
         assert primera.returncode == 0, error_a
