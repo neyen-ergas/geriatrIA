@@ -13,7 +13,7 @@ def probar():
     nombre = f"prueba_empleados_{uuid.uuid4().hex}"
     empleado = None
     primera = segunda = None
-    ejecutar(f"insert into auth.users (id) values ('{usuario}');")
+    ejecutar(f"insert into auth.users (id) values ('{usuario}'); insert into public.user_access (user_id, role) values ('{usuario}', 'admin');")
     autenticacion = f"""
         set local role authenticated;
         select set_config('request.jwt.claim.sub', '{usuario}', true) \\gset
@@ -47,7 +47,7 @@ def probar():
                 proceso.communicate()
         if empleado:
             ejecutar(f"delete from public.employees where id = '{empleado}';")
-        ejecutar(f"delete from auth.users where id = '{usuario}';")
+        ejecutar(f"delete from public.user_access where user_id = '{usuario}'; delete from auth.users where id = '{usuario}';")
 
 
 if __name__ == "__main__":

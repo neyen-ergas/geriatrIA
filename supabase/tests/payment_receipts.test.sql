@@ -9,6 +9,7 @@ select is((select file_size_limit from storage.buckets where id = 'payment-recei
   3145728::bigint, 'limita comprobantes a 3 MiB');
 insert into auth.users (id) values
   ('50000000-0000-4000-8000-000000000098'), ('50000000-0000-4000-8000-000000000099');
+insert into public.user_access (user_id, role) values ('50000000-0000-4000-8000-000000000098', 'admin'), ('50000000-0000-4000-8000-000000000099', 'admin');
 insert into residents (id, first_name, last_name, dni, birth_date) values
   ('50000000-0000-4000-8000-000000000001', 'Prueba ficticia', 'Adjuntos', 'TEST-ADJUNTOS', '1940-01-01');
 insert into admissions (id, resident_id, admitted_at, monthly_fee, due_day) values

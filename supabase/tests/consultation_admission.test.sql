@@ -3,6 +3,7 @@ create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 select no_plan();
 insert into auth.users (id) values ('60000000-0000-4000-8000-000000000099');
+insert into public.user_access (user_id, role) values ('60000000-0000-4000-8000-000000000099', 'admin');
 insert into consulta (id, nombre, telefono, estado, visita_fecha, visita_franja) values
   ('60000000-0000-4000-8000-000000000001', 'Contacto ficticio', '0000000', 'visita_agendada', '2025-01-01', 'manana'),
   ('60000000-0000-4000-8000-000000000002', 'Contacto ficticio', '0000000', 'ingreso', null, null),

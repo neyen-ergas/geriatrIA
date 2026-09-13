@@ -4,6 +4,7 @@ set local search_path = public, extensions;
 select no_plan();
 
 insert into auth.users (id) values ('40000000-0000-4000-8000-000000000099');
+insert into public.user_access (user_id, role) values ('40000000-0000-4000-8000-000000000099', 'admin');
 insert into residents (id, first_name, last_name, dni, birth_date)
 values ('40000000-0000-4000-8000-000000000001', 'Prueba ficticia', 'Anulaciones', 'TEST-ANULACIONES', '1940-01-01');
 insert into admissions (id, resident_id, admitted_at, monthly_fee, due_day)

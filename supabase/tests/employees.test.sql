@@ -3,6 +3,7 @@ create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 select no_plan();
 insert into auth.users (id) values ('70000000-0000-4000-8000-000000000099');
+insert into public.user_access (user_id, role) values ('70000000-0000-4000-8000-000000000099', 'admin');
 set local role anon;
 select throws_ok($$ select * from employees $$, '42501', null, 'anónimo no lee personal');
 select throws_ok($$ select save_employee(null,null,'Ficticio','Prueba','TEST-EMP','Cuidador','2025-01-01') $$,

@@ -13,7 +13,7 @@ def probar():
     dni = f"TEST-{consulta}"
     primera = segunda = None
     ejecutar(f"""
-        insert into auth.users (id) values ('{usuario}');
+        insert into auth.users (id) values ('{usuario}'); insert into public.user_access (user_id, role) values ('{usuario}', 'admin');
         insert into public.consulta (id, nombre, telefono, estado, visita_fecha, visita_franja)
         values ('{consulta}', 'Prueba ficticia', '000000', 'visita_agendada', '2025-01-01', 'manana');
     """)
@@ -61,7 +61,7 @@ def probar():
             delete from public.family_contacts where resident_id in (select id from public.residents where dni = '{dni}');
             delete from public.residents where dni = '{dni}';
             delete from public.consulta where id = '{consulta}';
-            delete from auth.users where id = '{usuario}';
+            delete from public.user_access where user_id = '{usuario}'; delete from auth.users where id = '{usuario}';
         """)
 
 
