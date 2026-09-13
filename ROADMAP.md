@@ -205,8 +205,8 @@ antes del despliegue (ver `docs/comprobantes-privados.md`).
 
 Acá aparece el primer usuario que no es el dueño, y con él la autorización real.
 
-- [ ] Modelo de datos de empleados: datos personales y laborales.
-- [ ] Alta, edición y baja de empleados.
+- [x] Modelo inicial de empleados: ficha personal y laboral, sin cuentas de acceso.
+- [x] Alta, edición de activos y baja de empleados; ficha dada de baja solo de consulta.
 - [ ] Modelo de roles y permisos por sección.
 - [ ] Reemplazar las políticas actuales, que solo distinguen "hay sesión" de "no
       hay sesión", por políticas por rol.

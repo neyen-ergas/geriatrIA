@@ -7,6 +7,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Gestión administrativa de Empleados: listado paginado de activos y bajas,
+  ficha, alta, edición y baja con fecha/motivo. DNI único normalizado, fechas
+  coherentes y control de versión para evitar sobrescrituras. Las bajas se
+  conservan como consulta. No crea cuentas ni asigna roles. Requiere aplicar
+  `20260913000000_manage_employees.sql` antes de desplegar la interfaz.
+
+### Agregado
 - Reserva de visitas desde un turno libre, con selección y búsqueda de familias,
   paginación y control existente de versión y turno único. No crea consultas.
 - Búsqueda de consultas por nombre o teléfono en Admisión, conservada al cambiar

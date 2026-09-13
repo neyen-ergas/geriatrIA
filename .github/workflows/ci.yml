@@ -82,6 +82,9 @@ jobs:
       - name: Concurrent consultation conversion
         run: python3 scripts/probar-concurrencia-conversion.py
 
+      - name: Concurrent employee changes
+        run: python3 scripts/probar-concurrencia-empleados.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop
