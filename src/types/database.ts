@@ -143,6 +143,63 @@ export type Database = {
           },
         ]
       }
+      employees: {
+        Row: {
+          birth_date: string | null
+          created_at: string
+          created_by: string
+          dni: string
+          email: string | null
+          first_name: string
+          hired_at: string
+          id: string
+          job_title: string
+          last_name: string
+          notes: string | null
+          phone: string | null
+          terminated_at: string | null
+          termination_reason: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          birth_date?: string | null
+          created_at?: string
+          created_by: string
+          dni: string
+          email?: string | null
+          first_name: string
+          hired_at: string
+          id?: string
+          job_title: string
+          last_name: string
+          notes?: string | null
+          phone?: string | null
+          terminated_at?: string | null
+          termination_reason?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          birth_date?: string | null
+          created_at?: string
+          created_by?: string
+          dni?: string
+          email?: string | null
+          first_name?: string
+          hired_at?: string
+          id?: string
+          job_title?: string
+          last_name?: string
+          notes?: string | null
+          phone?: string | null
+          terminated_at?: string | null
+          termination_reason?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: []
+      }
       family_contacts: {
         Row: {
           created_at: string
@@ -506,6 +563,31 @@ export type Database = {
           p_payment_method: string
           p_receipt_path?: string
           p_reference?: string
+        }
+        Returns: string
+      }
+      save_employee: {
+        Args: {
+          p_birth_date?: string
+          p_dni?: string
+          p_email?: string
+          p_expected_updated_at?: string
+          p_first_name?: string
+          p_hired_at?: string
+          p_id?: string
+          p_job_title?: string
+          p_last_name?: string
+          p_notes?: string
+          p_phone?: string
+        }
+        Returns: string
+      }
+      terminate_employee: {
+        Args: {
+          p_expected_updated_at: string
+          p_id: string
+          p_reason: string
+          p_terminated_at: string
         }
         Returns: string
       }

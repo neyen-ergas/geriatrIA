@@ -26,3 +26,14 @@ Migración aditiva `20260913000000_manage_employees.sql`, antes de la interfaz.
 No modifica residentes, consultas ni cuentas de Auth. Para volver al código
 anterior, conservar las fichas y la migración; corregir con otra migración.
 Pruebas solo con datos ficticios en CI, sin Docker local.
+
+Cada pantalla y acción verifica sesión antes de consultar. Listados con conteo
+exacto y orden por apellido, nombre e id; no descargan todas las personas para
+contar. El detalle ofrece edición y baja solo mientras la ficha sigue activa.
+Errores de carga permiten recargar; errores de escritura conservan el formulario
+y no reintentan ni muestran mensajes internos. Una respuesta perdida requiere
+revisar la ficha antes de reenviar, también al registrar un alta.
+
+La verificación incluye datos por encima de mil empleados, permisos SQL, errores
+por campo y dos sesiones simultáneas: la baja con una versión anterior espera
+la edición y se rechaza sin sobrescribirla.

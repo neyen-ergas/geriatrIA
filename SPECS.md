@@ -29,7 +29,7 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
 | Admisión | Consultas entrantes, llamados y agenda de visitas. | Funcionando |
 | Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
 | Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos, anulaciones, vencimientos y comprobantes privados |
-| Empleados | Personal de la residencia y sus datos laborales. | Placeholder |
+| Empleados | Personal de la residencia y sus datos laborales. | Ficha, alta, edición y baja; cuentas y roles pendientes |
 | Turnos | Grilla de turnos del personal. | Placeholder |
 | Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |
 
@@ -108,7 +108,8 @@ src/
         reingreso/[residentId]/
       contabilidad/           Cuentas de estadías activas y finalizadas.
         [admissionId]/        Cuotas, pagos acumulados y saldos de una estadía.
-      empleados/ turnos/ entrevistas/   Placeholders.
+      empleados/              Fichas, alta, edición y baja del personal.
+      turnos/ entrevistas/    Placeholders.
       layout.tsx              Sidebar + topbar + verificación de sesión.
       page.tsx                Inicio.
     login/                    Acceso; sin registro público.
@@ -398,7 +399,17 @@ Fuera de alcance de esta versión: facturación fiscal, egresos, sueldos,
 conciliaciones, reintegros automáticos, pasarelas de pago y recordatorios de
 deuda. Los comprobantes en bucket privado están pendientes.
 
-### 6.4 Sin diseñar
+### 6.4 Empleados
+
+`employees` guarda nombre, apellido, DNI único normalizado, nacimiento opcional,
+teléfono, correo, puesto, fecha de alta, observaciones y baja con fecha/motivo.
+Usa RLS de lectura para el perfil autenticado actual; las escrituras se realizan
+solo mediante `save_employee` y `terminate_employee`, con identidad y control
+de versión. Conserva autor de alta y último cambio. Las fichas dadas de baja
+no se editan ni eliminan. Cuentas, roles, períodos de recontratación y auditoría
+completa quedan pendientes. Ver `docs/empleados.md`.
+
+### 6.5 Sin diseñar
 
 La forma exacta se define al empezar cada módulo, no antes.
 
@@ -409,7 +420,7 @@ La forma exacta se define al empezar cada módulo, no antes.
 | `medications` | Medicamento, dosis, frecuencia, horarios y vigencia. |
 | `special_needs` | Alimentación, alergias, movilidad, cuidados especiales. |
 | `inventory_items` | Pertenencias entregadas en cada ingreso. |
-| `employees`, `shifts` | Personal y grilla de turnos. |
+| `shifts` | Grilla de turnos del personal. |
 
 ---
 
