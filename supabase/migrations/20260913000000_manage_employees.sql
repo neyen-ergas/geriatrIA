@@ -61,8 +61,9 @@ create trigger employees_guard before insert or update on public.employees
 for each row execute function public.guard_employee();
 
 create function public.save_employee(
-  p_id uuid, p_expected_updated_at timestamptz,
-  p_first_name text, p_last_name text, p_dni text, p_job_title text, p_hired_at date,
+  p_id uuid default null, p_expected_updated_at timestamptz default null,
+  p_first_name text default null, p_last_name text default null, p_dni text default null,
+  p_job_title text default null, p_hired_at date default null,
   p_birth_date date default null, p_phone text default null,
   p_email text default null, p_notes text default null
 )
