@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Agenda de visitas · geriatrIA" };
 export default async function AgendaPage({ searchParams }: {
   searchParams: Promise<{ semana?: string | string[] }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.read");
   const hoy = hoyEnArgentina();
   const semana = semanaAgenda((await searchParams).semana, hoy);
   const visitas = await listarVisitasSemana(semana.inicio);

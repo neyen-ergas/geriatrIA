@@ -1,4 +1,4 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderConPermisos as renderToStaticMarkup } from "@/test/render-con-permisos";
 import { beforeEach, expect, it, vi } from "vitest";
 import InicioPage from "./page";
 const mocks = vi.hoisted(() => ({ sesion: vi.fn(), datos: vi.fn() }));

@@ -1,14 +1,13 @@
 import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import type { Tables } from "@/types/database";
 
 export async function obtenerConsultaConversion(id: string): Promise<Pick<Tables<"consulta">,
   "id" | "nombre" | "telefono" | "estado" | "actualizado_en"
 > | null> {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null;
-  const { data, error } = await createAdminClient().from("consulta")
+  const { data, error } = await (await createClient()).from("consulta")
     .select("id, nombre, telefono, estado, actualizado_en").eq("id", id).maybeSingle();
   if (error) throw new Error("No se pudo leer la consulta.");
   return data;

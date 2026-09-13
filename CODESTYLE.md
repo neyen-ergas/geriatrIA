@@ -103,9 +103,8 @@ Los consumen componentes cliente, y todo lo que importen termina en el bundle
 del navegador. Además son funciones puras: es la lógica que se puede testear sin
 levantar nada.
 
-`<modulo>-datos.ts` toca la base y lleva `server-only` sin excepción. En el caso
-de admisión usa además la clave `service_role`, que saltea RLS: arrastrarlo al
-cliente filtraría una credencial con acceso total.
+`<modulo>-datos.ts` toca la base y lleva `server-only` sin excepción. Todas las
+lecturas del CRM, incluida Admisión, usan la sesión y respetan RLS.
 
 Las pantallas van en `src/app/(app)/<modulo>/`. Los componentes que usa un solo
 módulo viven junto a su `page.tsx`; los que comparten dos o más suben a
@@ -191,7 +190,7 @@ export async function agendarVisita(
   _previo: Resultado,
   formData: FormData,
 ): Promise<Resultado> {
-  await requerirSesion();        // 1. sesión, siempre primero
+  await requerirSesion("operational.write"); // sesión y permiso, primero
   // 2. leer y validar la entrada
   // 3. escribir
   // 4. traducir el error de la base
@@ -202,7 +201,7 @@ export async function agendarVisita(
 
 Reglas que se aplican sin excepción:
 
-1. **`requerirSesion()` es la primera línea.** El layout de `(app)` no protege
+1. **`requerirSesion(permiso)` es la primera línea.** El layout de `(app)` no protege
    las acciones: se invocan por POST contra su propia ruta y no pasan por él.
 2. **Los errores se devuelven, no se lanzan.** Una Server Action devuelve
    `{ error, ok }` y el formulario lo muestra. Lanzar rompe la pantalla.

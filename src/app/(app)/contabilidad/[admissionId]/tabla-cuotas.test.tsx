@@ -1,4 +1,4 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderConPermisos as renderToStaticMarkup } from "@/test/render-con-permisos";
 import { describe, expect, it } from "vitest";
 import { enlaceContabilidad, formatearFechaPago, type Cuota } from "@/lib/pagos";
 import { TablaCuotas } from "./tabla-cuotas";

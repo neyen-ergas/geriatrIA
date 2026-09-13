@@ -2,8 +2,8 @@
  * Modelo compartido del módulo de admisión: tipos y etiquetas que necesitan
  * tanto el servidor como los componentes cliente.
  *
- * Las consultas a la base viven aparte, en `admision-datos.ts`, porque usan la
- * clave service_role y no pueden entrar al bundle del navegador.
+ * Las consultas a la base viven aparte, en `admision-datos.ts`, porque usan
+ * la sesión del servidor y no pueden entrar al bundle del navegador.
  *
  * El esquema está documentado en docs/admision-consultas-modelo.md.
  */

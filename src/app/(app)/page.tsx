@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SoloGestion } from "@/components/permisos";
 import { Card } from "@/components/ui";
 import { requerirSesion } from "@/lib/auth";
 import { obtenerInicio } from "@/lib/inicio-datos";
@@ -8,7 +9,7 @@ import { formatearFechaPago } from "@/lib/pagos";
 
 export const metadata: Metadata = { title: "Inicio · geriatrIA" };
 export default async function InicioPage(): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.read");
   const hoy = hoyEnArgentina();
   const bloques = await obtenerInicio(hoy);
   return <div>
@@ -16,7 +17,7 @@ export default async function InicioPage(): Promise<React.ReactElement> {
     <p className="mt-2 text-sm text-slate-600">Pendientes al {formatearFechaPago(hoy)} · Hora de Argentina</p>
     <nav aria-label="Accesos rápidos" className="mt-5 flex flex-wrap gap-3 text-sm font-medium">
       <Link className="rounded-lg bg-slate-900 px-4 py-2 text-white" href="/admision/agenda">Agenda de visitas</Link>
-      <Link className="rounded-lg border bg-white px-4 py-2" href="/residentes/nuevo">Registrar ingreso</Link>
+      <SoloGestion><Link className="rounded-lg border bg-white px-4 py-2" href="/residentes/nuevo">Registrar ingreso</Link></SoloGestion>
       <Link className="rounded-lg border bg-white px-4 py-2" href="/contabilidad/vencimientos?alcance=todas">Revisar cuotas vencidas</Link>
     </nav>
     <div className="mt-6 grid items-start gap-5 md:grid-cols-2 xl:grid-cols-3">

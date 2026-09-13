@@ -16,7 +16,7 @@ export const metadata: Metadata = { title: "Reservar visita · geriatrIA" };
 export default async function ReservarPage({ searchParams }: {
   searchParams: Promise<{ fecha?: string; franja?: string; buscar?: string; pagina?: string }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const { fecha, franja, buscar, pagina: paginaParam } = await searchParams;
   if (typeof fecha !== "string" || !esFechaValida(fecha) || !esFranja(franja)) notFound();
   const semana = semanaAgenda(fecha, hoyEnArgentina());

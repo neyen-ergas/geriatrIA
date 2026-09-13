@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SoloGestion } from "@/components/permisos";
 import { Badge, Card } from "@/components/ui";
 import { COLORES_CUOTA, ETIQUETAS_CUOTA, formatearFechaPago, formatearImporte } from "@/lib/pagos";
 import type { Vencimiento } from "@/lib/vencimientos-datos";
@@ -42,7 +43,7 @@ export function ListaVencimientos({ vencimientos, vencidas, todosLosMeses = fals
             </p>
             <div className="mt-4 flex flex-wrap gap-4 text-sm font-medium text-sky-700">
               <Link href={`/contabilidad/${estadia.id}/cuotas/${cuota.id}`} className="hover:underline">Ver movimientos</Link>
-              <Link href={`/contabilidad/${estadia.id}/pago/${cuota.id}`} className="hover:underline">Registrar pago</Link>
+              <SoloGestion><Link href={`/contabilidad/${estadia.id}/pago/${cuota.id}`} className="hover:underline">Registrar pago</Link></SoloGestion>
               <Link href={`/contabilidad/${estadia.id}`} className="hover:underline">Ver cuenta</Link>
             </div>
           </Card>

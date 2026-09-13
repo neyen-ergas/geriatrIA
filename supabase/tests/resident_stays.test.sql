@@ -35,6 +35,9 @@ select ok((select bool_and(relrowsecurity) from pg_class
   where oid in ('public.residents'::regclass, 'public.admissions'::regclass,
     'public.family_contacts'::regclass)), 'RLS continúa activada');
 
+insert into auth.users (id) values ('10000000-0000-4000-8000-000000000099');
+insert into public.user_access (user_id, role) values ('10000000-0000-4000-8000-000000000099', 'admin');
+
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000099', true);
 

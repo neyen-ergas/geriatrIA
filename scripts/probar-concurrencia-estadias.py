@@ -53,10 +53,13 @@ def esperar_bloqueo(nombre, proceso):
 
 
 def probar(aislamiento, caso):
+    usuario = str(uuid.uuid4())
     residente = str(uuid.uuid4())
     nombre = f"prueba_estadias_{uuid.uuid4().hex}"
     primera = segunda = None
     ejecutar(f"""
+        insert into auth.users (id) values ('{usuario}');
+        insert into public.user_access (user_id, role) values ('{usuario}', 'admin');
         insert into public.residents (id, first_name, last_name, dni, birth_date)
         values ('{residente}', 'Prueba ficticia', 'Concurrencia',
             'TEST-{residente}', '1940-01-01');
@@ -82,10 +85,10 @@ def probar(aislamiento, caso):
         esperado = "23514"
     if aislamiento == "repeatable read":
         esperado = "40001"
-    autenticacion = r"""
+    autenticacion = rf"""
         set local role authenticated;
         select set_config('request.jwt.claim.sub',
-            '10000000-0000-4000-8000-000000000099', true) \gset
+            '{usuario}', true) \gset
     """
     try:
         primera = sesion(f"begin; {autenticacion} {escritura_a} \\echo LISTO\n")
@@ -123,6 +126,8 @@ def probar(aislamiento, caso):
         ejecutar(f"""
             delete from public.admissions where resident_id = '{residente}';
             delete from public.residents where id = '{residente}';
+            delete from public.user_access where user_id = '{usuario}';
+            delete from auth.users where id = '{usuario}';
         """)
 
 

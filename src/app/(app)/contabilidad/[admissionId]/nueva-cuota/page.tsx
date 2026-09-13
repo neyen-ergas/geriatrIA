@@ -9,7 +9,7 @@ import { FormularioCarga } from "../../formulario-carga";
 export default async function NuevaCuotaPage({ params }: {
   params: Promise<{ admissionId: string }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const { admissionId } = await params;
   const cuenta = await obtenerCuenta(admissionId);
   if (!cuenta) notFound();

@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createClient } from "@supabase/supabase-js";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient as crearClienteSesion } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 import { contarPorEstado, listarConsultas } from "./admision-datos";
 import { listarVinculosConsultas } from "@/lib/conversion-consulta-datos";
 
 vi.mock("server-only", () => ({}));
 vi.mock("@/lib/conversion-consulta-datos", () => ({ listarVinculosConsultas: vi.fn(async () => ({})) }));
-vi.mock("@/lib/supabase/admin", () => ({ createAdminClient: vi.fn() }));
+vi.mock("@/lib/supabase/server", () => ({ createClient: vi.fn() }));
 
 // El cliente real de Supabase habla con una API sintética con límite de filas.
 // Todas las fechas coinciden para que el orden necesite desempatar por id.
@@ -24,7 +24,7 @@ beforeEach(() => {
   solicitudes.length = 0;
   fallar = false;
   omitirConteo = false;
-  vi.mocked(createAdminClient).mockReturnValue(createClient<Database>(
+  vi.mocked(crearClienteSesion).mockResolvedValue(createClient<Database>(
     "https://supabase.invalid",
     "clave-ficticia",
     { global: { fetch: responder }, auth: { persistSession: false } },

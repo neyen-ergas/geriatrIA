@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET(_peticion: Request, { params }: {
   params: Promise<{ admissionId: string; cuotaId: string; pagoId: string }>;
 }): Promise<Response> {
-  await requerirSesion();
+  await requerirSesion("operational.read");
   const { admissionId, cuotaId, pagoId } = await params;
   try {
     const cuota = await obtenerCuota(admissionId, cuotaId);

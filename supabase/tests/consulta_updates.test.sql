@@ -5,6 +5,7 @@ set local search_path = public, extensions;
 select no_plan();
 
 insert into auth.users (id) values ('00000000-0000-4000-8000-000000000099');
+insert into public.user_access (user_id, role) values ('00000000-0000-4000-8000-000000000099', 'admin');
 select set_config('request.jwt.claim.sub',
   '00000000-0000-4000-8000-000000000099', true);
 

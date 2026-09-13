@@ -85,6 +85,9 @@ jobs:
       - name: Concurrent employee changes
         run: python3 scripts/probar-concurrencia-empleados.py
 
+      - name: Concurrent access changes
+        run: python3 scripts/probar-concurrencia-accesos.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop

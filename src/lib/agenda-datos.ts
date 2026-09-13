@@ -1,13 +1,13 @@
 import "server-only";
+import { createClient } from "@/lib/supabase/server";
 
-import { createAdminClient } from "@/lib/supabase/admin";
 import { esFranja } from "@/lib/admision";
 import { semanaAgenda, TURNOS_POR_SEMANA, type VisitaAgenda } from "@/lib/agenda";
 
 export async function listarVisitasSemana(inicio: string): Promise<VisitaAgenda[]> {
   const semana = semanaAgenda(inicio, inicio);
   if (semana.inicio !== inicio) throw new Error("La semana no es válida.");
-  const { data, error } = await createAdminClient().from("consulta")
+  const { data, error } = await (await createClient()).from("consulta")
     .select("id, nombre, telefono, visita_fecha, visita_franja")
     .eq("estado", "visita_agendada")
     .gte("visita_fecha", semana.inicio).lte("visita_fecha", semana.fin)

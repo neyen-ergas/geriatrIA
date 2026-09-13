@@ -1,8 +1,10 @@
 "use client";
+
 import Link from "next/link";
 
 import { useActionState, useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
+import { SoloGestion, usePuedeGestionar } from "@/components/permisos";
 import { Badge, Button, Card, Input, Label } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import {
@@ -41,6 +43,7 @@ const fechaHora = new Intl.DateTimeFormat("es-AR", {
 });
 
 export function ConsultaCard({ consulta }: { consulta: Consulta }) {
+  const puedeGestionar = usePuedeGestionar();
   const [resEstado, enviarEstado, cambiandoEstado] = useActionState(
     cambiarEstado,
     estadoInicial,
@@ -75,7 +78,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
   const agendada = consulta.estado === "visita_agendada";
   const cerrada =
     consulta.estado === "ingreso" || consulta.estado === "descartada";
-  const mostrarFormulario = !cerrada && (!agendada || reprogramando);
+  const mostrarFormulario = puedeGestionar && !cerrada && (!agendada || reprogramando);
 
   // La key por versión renueva también los campos no controlados al refrescar
   // los datos: nunca combina valores viejos con un token de escritura nuevo.
@@ -123,7 +126,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
               · {FRANJAS[consulta.visita_franja]}
             </span>
           </div>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <SoloGestion><div className="mt-2 flex flex-wrap gap-2">
             <Button
               type="button"
               variant="outline"
@@ -146,7 +149,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
                 Cancelar visita
               </Button>
             </form>
-          </div>
+          </div></SoloGestion>
           {resCancelar.error && (
             <p role="alert" className="mt-2 text-sm text-red-600">
               {resCancelar.error}
@@ -209,7 +212,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       {/* ── Estado ────────────────────────────────────────────────────── */}
 
       <div className="mt-5">
-        <form
+        <SoloGestion><form
           key={`estado-${consulta.actualizado_en}`}
           action={enviarEstado}
           className="flex flex-wrap gap-2"
@@ -228,7 +231,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
               {ACCION_ESTADO[destino]}
             </Button>
           ))}
-        </form>
+        </form></SoloGestion>
         {resEstado.error && (
           <p role="alert" className="mt-2 text-sm text-red-600">
             {resEstado.error}
@@ -239,15 +242,15 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
             Ver cuenta del ingreso
           </Link>
         ) : (consulta.estado === "visita_agendada" || consulta.estado === "ingreso") && (
-          <Link className="mt-3 inline-block text-sm font-medium underline" href={`/admision/${consulta.id}/ingreso`}>
+          <SoloGestion><Link className="mt-3 inline-block text-sm font-medium underline" href={`/admision/${consulta.id}/ingreso`}>
             Registrar ingreso
-          </Link>
+          </Link></SoloGestion>
         )}
       </div>
 
       {/* ── Notas internas ────────────────────────────────────────────── */}
 
-      <form
+      {puedeGestionar ? <form
         key={`notas-${consulta.actualizado_en}`}
         action={enviarNotas}
         className="mt-5"
@@ -283,7 +286,10 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
             </span>
           )}
         </div>
-      </form>
+      </form> : <div className="mt-5">
+        <p className="text-sm font-medium">Notas internas</p>
+        <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">{consulta.notas_internas || "Sin notas."}</p>
+      </div>}
 
       <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-400">
         Recibida el {fechaHora.format(new Date(consulta.creado_en))} · origen{" "}

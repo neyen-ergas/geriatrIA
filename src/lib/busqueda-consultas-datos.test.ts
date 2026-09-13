@@ -1,18 +1,18 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { createClient } from "@supabase/supabase-js";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient as crearClienteSesion } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 import { contarPorEstado, listarConsultas } from "./admision-datos";
 import { listarCandidatasVisita } from "./reserva-visita-datos";
 vi.mock("server-only", () => ({}));
-vi.mock("@/lib/supabase/admin", () => ({ createAdminClient: vi.fn() }));
+vi.mock("@/lib/supabase/server", () => ({ createClient: vi.fn() }));
 vi.mock("@/lib/conversion-consulta-datos", () => ({ listarVinculosConsultas: async () => ({}) }));
 let solicitudes: URL[];
 const filas = Array.from({ length: 1255 }, (_, i) => ({ id: String(i).padStart(5, "0"),
   nombre: i < 1205 ? "Ana" : "Otra", telefono: "000000", estado: i < 1205 ? "nuevo" : "ingreso" }));
 beforeEach(() => {
   solicitudes = [];
-  vi.mocked(createAdminClient).mockReturnValue(createClient<Database>("https://supabase.invalid", "clave-ficticia", {
+  vi.mocked(crearClienteSesion).mockResolvedValue(createClient<Database>("https://supabase.invalid", "clave-ficticia", {
     auth: { persistSession: false }, global: { fetch: async (entrada, opciones) => {
       const url = new URL(String(entrada)); solicitudes.push(url);
       let resultado = [...filas];

@@ -12,7 +12,7 @@ export async function anularPago(
   admissionId: string, cuotaId: string, pagoId: string,
   _anterior: EstadoAnulacion, datos: FormData,
 ): Promise<EstadoAnulacion> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const motivo = leerMotivoAnulacion(datos);
   if (!motivo) return { motivo, error: "Ingresá el motivo de la anulación." };
   try {
@@ -42,7 +42,7 @@ export async function cancelarCuota(
   admissionId: string, cuotaId: string,
   _anterior: EstadoAnulacion, datos: FormData,
 ): Promise<EstadoAnulacion> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const motivo = leerMotivoAnulacion(datos);
   if (!motivo) return { motivo, error: "Ingresá el motivo de la anulación." };
   try {

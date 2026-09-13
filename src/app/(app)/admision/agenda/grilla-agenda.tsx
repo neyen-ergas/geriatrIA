@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SoloGestion } from "@/components/permisos";
 import { Card } from "@/components/ui";
 import { FRANJAS, type Franja } from "@/lib/admision";
 import { etiquetaDiaAgenda, type SemanaAgenda, type VisitaAgenda } from "@/lib/agenda";
@@ -36,7 +37,7 @@ export function GrillaAgenda({ semana, visitas, hoy }: {
                   ) : (
                     <>
                       <p className="mt-3 text-sm text-slate-500">{dia < hoy ? "Sin visita agendada" : "Libre"}</p>
-                      {dia >= hoy && <Link href={`/admision/agenda/reservar?fecha=${dia}&franja=${franja}`} className="mt-3 inline-block text-sm font-medium underline">Reservar visita</Link>}
+                      {dia >= hoy && <SoloGestion><Link href={`/admision/agenda/reservar?fecha=${dia}&franja=${franja}`} className="mt-3 inline-block text-sm font-medium underline">Reservar visita</Link></SoloGestion>}
                     </>
                   )}
                 </Card>

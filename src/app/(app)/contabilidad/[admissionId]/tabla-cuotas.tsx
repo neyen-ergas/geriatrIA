@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SoloGestion } from "@/components/permisos";
 import { Badge, Card } from "@/components/ui";
 import {
   COLORES_CUOTA, ETIQUETAS_CUOTA, formatearFechaPago,
@@ -57,10 +58,10 @@ export function TablaCuotas({ cuotas, admissionId }: {
                     </Link>
                   )}
                   {admissionId && cuota.balance > 0 && cuota.payment_status !== "cancelled" && (
-                    <Link href={`/contabilidad/${admissionId}/pago/${cuota.id}`}
+                    <SoloGestion><Link href={`/contabilidad/${admissionId}/pago/${cuota.id}`}
                       className="mt-3 inline-block text-sm font-medium text-sky-700 hover:underline">
                       Registrar pago
-                    </Link>
+                    </Link></SoloGestion>
                   )}
                 </td>
               </tr>

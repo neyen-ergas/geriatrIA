@@ -1,11 +1,11 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { createClient } from "@supabase/supabase-js";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient as crearClienteSesion } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 import { listarVisitasSemana } from "./agenda-datos";
 
 vi.mock("server-only", () => ({}));
-vi.mock("@/lib/supabase/admin", () => ({ createAdminClient: vi.fn() }));
+vi.mock("@/lib/supabase/server", () => ({ createClient: vi.fn() }));
 const visita = { id: "consulta", nombre: "Prueba ficticia", telefono: "000000", estado: "visita_agendada",
   visita_fecha: "2026-09-07", visita_franja: "manana" };
 let solicitudes: URL[];
@@ -13,7 +13,7 @@ let fallo: boolean;
 let respuestaForzada: unknown[] | undefined;
 beforeEach(() => {
   solicitudes = []; fallo = false; respuestaForzada = undefined;
-  vi.mocked(createAdminClient).mockReturnValue(createClient<Database>("https://supabase.invalid", "clave-ficticia", {
+  vi.mocked(crearClienteSesion).mockResolvedValue(createClient<Database>("https://supabase.invalid", "clave-ficticia", {
     auth: { persistSession: false }, global: { fetch: async entrada => {
       const url = new URL(String(entrada)); solicitudes.push(url);
       if (fallo) return new Response(JSON.stringify({ message: "DATO PRIVADO" }), { status: 500 });

@@ -14,7 +14,7 @@ export default async function IngresoConsultaPage({ params, searchParams }: {
   params: Promise<{ consultaId: string }>;
   searchParams: Promise<{ residente?: string }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const { consultaId } = await params;
   const consulta = await obtenerConsultaConversion(consultaId);
   if (!consulta) notFound();

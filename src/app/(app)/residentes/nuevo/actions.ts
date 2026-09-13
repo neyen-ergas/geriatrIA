@@ -18,7 +18,7 @@ export async function registrarPrimerIngreso(
   _estadoAnterior: EstadoFormularioIngreso,
   formData: FormData,
 ): Promise<EstadoFormularioIngreso> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
 
   const valores = leerValoresPrimerIngreso(formData);
   const validacion = validarPrimerIngreso(formData, hoyEnArgentina());

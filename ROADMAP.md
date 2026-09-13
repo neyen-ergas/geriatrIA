@@ -207,17 +207,14 @@ Acá aparece el primer usuario que no es el dueño, y con él la autorización r
 
 - [x] Modelo inicial de empleados: ficha personal y laboral, sin cuentas de acceso.
 - [x] Alta, edición de activos y baja de empleados; ficha dada de baja solo de consulta.
-- [ ] Modelo de roles y permisos por sección.
-- [ ] Reemplazar las políticas actuales, que solo distinguen "hay sesión" de "no
-      hay sesión", por políticas por rol.
-- [ ] **Sacar `consulta` del acceso con `service_role`** y darle RLS con
-      políticas, como el resto de las tablas. Es la última tabla que depende de
-      una clave que saltea RLS, y la deuda de seguridad más vieja del proyecto.
+- [x] Modelo de roles y permisos por sección: Administrador, Gestión y Solo lectura.
+- [x] Políticas restrictivas por rol, RPC autorizadas y administración de accesos.
+- [x] Sacar `consulta` del acceso con `service_role`: lecturas con sesión y RLS.
 - [ ] Vincular cada cuenta de Supabase Auth con su empleado.
 - [x] Autoría de creación y anulación de movimientos financieros en el esquema.
 - [ ] Extender la auditoría de Admisión de la Fase 5A a los demás cambios
       operativos, incluidos los datos de residentes, y ofrecer su consulta.
-- [ ] Documentar el modelo de roles en `docs/`.
+- [x] Documentar el modelo de roles en `docs/permisos.md`.
 
 ## Fase 10 — Turnos
 

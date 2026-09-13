@@ -17,7 +17,7 @@ def probar(segundo_importe, caso="pagos"):
     nombre = f"prueba_pagos_{uuid.uuid4().hex}"
     primera = segunda = None
     ejecutar(f"""
-        insert into auth.users (id) values ('{usuario}');
+        insert into auth.users (id) values ('{usuario}'); insert into public.user_access (user_id, role) values ('{usuario}', 'admin');
         insert into public.residents (id, first_name, last_name, dni, birth_date)
         values ('{residente}', 'Prueba ficticia', 'Pagos', 'TEST-{residente}', '1940-01-01');
         insert into public.admissions (id, resident_id, admitted_at, monthly_fee, due_day)
@@ -81,7 +81,7 @@ def probar(segundo_importe, caso="pagos"):
             delete from public.monthly_charges where id = '{cuota}';
             delete from public.admissions where id = '{estadia}';
             delete from public.residents where id = '{residente}';
-            delete from auth.users where id = '{usuario}';
+            delete from public.user_access where user_id = '{usuario}'; delete from auth.users where id = '{usuario}';
         """)
 
 

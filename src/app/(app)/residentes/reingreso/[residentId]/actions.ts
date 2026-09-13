@@ -19,7 +19,7 @@ export async function reingresarResidente(
   _estadoAnterior: EstadoReingreso,
   formData: FormData,
 ): Promise<EstadoReingreso> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
 
   const valores = leerValoresReingreso(formData);
   const supabase = await createClient();

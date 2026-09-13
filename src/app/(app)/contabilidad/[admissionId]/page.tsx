@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SoloGestion } from "@/components/permisos";
 import { Card } from "@/components/ui";
 import { PaginacionListado } from "@/components/paginacion-listado";
 import { requerirSesion } from "@/lib/auth";
@@ -14,7 +15,7 @@ export default async function CuentaPage({ params, searchParams }: {
   params: Promise<{ admissionId: string }>;
   searchParams: Promise<{ pagina?: string | string[]; cuota?: string; pago?: string }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.read");
   const { admissionId } = await params;
   const cuenta = await obtenerCuenta(admissionId);
   if (!cuenta) notFound();
@@ -41,10 +42,10 @@ export default async function CuentaPage({ params, searchParams }: {
           {parametros.pago === "1" ? "Pago registrado. El saldo está actualizado." : "Cuota creada."}
         </p>
       )}
-      <Link href={`${ruta}/nueva-cuota`}
+      <SoloGestion><Link href={`${ruta}/nueva-cuota`}
         className="mt-6 inline-block rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
         Crear cuota
-      </Link>
+      </Link></SoloGestion>
       {cuotas.length === 0 ? (
         <Card className="mt-6 p-8 text-center">
           <h2 className="font-semibold text-slate-800">Todavía no hay cuotas registradas</h2>

@@ -9,6 +9,39 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      access_events: {
+        Row: {
+          changed_at: string
+          changed_by: string
+          id: number
+          new_enabled: boolean
+          new_role: string
+          old_enabled: boolean | null
+          old_role: string | null
+          user_id: string
+        }
+        Insert: {
+          changed_at?: string
+          changed_by: string
+          id?: never
+          new_enabled: boolean
+          new_role: string
+          old_enabled?: boolean | null
+          old_role?: string | null
+          user_id: string
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string
+          id?: never
+          new_enabled?: boolean
+          new_role?: string
+          old_enabled?: boolean | null
+          old_role?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       admissions: {
         Row: {
           administrative_notes: string | null
@@ -405,6 +438,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_access: {
+        Row: {
+          enabled: boolean
+          role: string
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+        }
+        Insert: {
+          enabled?: boolean
+          role: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+        }
+        Update: {
+          enabled?: boolean
+          role?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       visit_events: {
         Row: {
           action: string
@@ -553,6 +610,18 @@ export type Database = {
         }
         Returns: string
       }
+      current_app_role: { Args: never; Returns: string }
+      has_permission: { Args: { p_permission: string }; Returns: boolean }
+      list_user_access: {
+        Args: never
+        Returns: {
+          email: string
+          enabled: boolean
+          role: string
+          updated_at: string
+          user_id: string
+        }[]
+      }
       normalize_resident_dni: { Args: { p_dni: string }; Returns: string }
       record_payment: {
         Args: {
@@ -566,6 +635,7 @@ export type Database = {
         }
         Returns: string
       }
+      require_permission: { Args: { p_permission: string }; Returns: undefined }
       save_employee: {
         Args: {
           p_birth_date?: string
@@ -581,6 +651,15 @@ export type Database = {
           p_phone?: string
         }
         Returns: string
+      }
+      set_user_access: {
+        Args: {
+          p_enabled: boolean
+          p_expected_updated_at?: string
+          p_role: string
+          p_user_id: string
+        }
+        Returns: undefined
       }
       terminate_employee: {
         Args: {

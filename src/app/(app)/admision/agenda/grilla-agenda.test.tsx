@@ -1,4 +1,4 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderConPermisos as renderToStaticMarkup } from "@/test/render-con-permisos";
 import { expect, it } from "vitest";
 import { semanaAgenda } from "@/lib/agenda";
 import { GrillaAgenda } from "./grilla-agenda";
@@ -18,4 +18,10 @@ it("muestra ocupados, libres y días pasados con enlaces que conservan la semana
   expect(html).toContain('/reservar?fecha=2026-09-09&amp;franja=manana');
   expect(html).not.toContain('/reservar?fecha=2026-09-07');
   expect(html).not.toContain('/reservar?fecha=2026-09-10&amp;franja=manana');
+});
+
+it("Solo lectura ve disponibilidad sin enlaces de reserva", () => {
+  const html = renderToStaticMarkup(<GrillaAgenda hoy="2026-09-09" semana={semanaAgenda("2026-09-07", "2026-09-09")} visitas={[]} />, "readonly");
+  expect(html).toContain("Libre");
+  expect(html).not.toContain("Reservar visita");
 });

@@ -16,7 +16,7 @@ export default async function VencimientosPage({ searchParams }: {
     alcance?: string | string[];
   }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.read");
   const parametros = await searchParams;
   const mes = mesVencimientos(parametros.mes, hoyEnArgentina());
   const todosLosMeses = parametros.alcance === "todas";

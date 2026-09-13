@@ -7,7 +7,7 @@ import { darBajaEmpleado } from "../../actions";
 import { FormularioEmpleado } from "../../formulario-empleado";
 
 export default async function BajaEmpleadoPage({ params }: { params: Promise<{ empleadoId: string }> }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("administration");
   const empleado = await obtenerEmpleado((await params).empleadoId);
   if (!empleado) notFound();
   const volver = `/empleados/${empleado.id}`;

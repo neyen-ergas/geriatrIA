@@ -13,7 +13,7 @@ export default async function ConsultaPage({ params, searchParams }: {
   params: Promise<{ consultaId: string }>;
   searchParams: Promise<{ semana?: string | string[] }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.read");
   const consulta = await obtenerConsulta((await params).consultaId);
   if (!consulta) notFound();
   const semana = semanaAgenda((await searchParams).semana, hoyEnArgentina());

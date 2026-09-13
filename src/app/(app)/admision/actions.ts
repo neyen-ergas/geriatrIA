@@ -16,7 +16,7 @@ export async function cambiarEstado(
   _previo: Resultado,
   formData: FormData,
 ): Promise<Resultado> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   return guardarCambio("change_state", formData);
 }
 
@@ -24,7 +24,7 @@ export async function agendarVisita(
   _previo: Resultado,
   formData: FormData,
 ): Promise<Resultado> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   return guardarCambio("schedule_visit", formData);
 }
 
@@ -32,7 +32,7 @@ export async function cancelarVisita(
   _previo: Resultado,
   formData: FormData,
 ): Promise<Resultado> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   return guardarCambio("cancel_visit", formData);
 }
 
@@ -40,7 +40,7 @@ export async function guardarNotas(
   _previo: Resultado,
   formData: FormData,
 ): Promise<Resultado> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   return guardarCambio("save_notes", formData);
 }
 

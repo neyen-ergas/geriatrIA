@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, TriangleAlert } from "lucide-react";
+import { requerirSesion } from "@/lib/auth";
 import { Badge, Card } from "@/components/ui";
 import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import { obtenerIngresoActivoParaBaja } from "@/lib/residentes-datos";
@@ -28,6 +29,7 @@ export default async function BajaResidentePage({
 }: {
   params: Promise<{ admissionId: string }>;
 }) {
+  await requerirSesion("operational.write");
   const { admissionId } = await params;
   const ingreso = await obtenerIngresoActivoParaBaja(admissionId);
 

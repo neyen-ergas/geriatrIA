@@ -7,6 +7,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Perfiles Administrador, Gestión y Solo lectura, con pantalla de Accesos para
+  asignar o suspender cuentas existentes. RLS y RPC verifican permisos vigentes;
+  la revocación no depende de renovar el JWT. Protege al último administrador
+  y registra cambios de acceso con autor y versión. Requiere
+  `20260914000000_user_access.sql` antes del despliegue.
+- Lecturas de consultas con sesión: el CRM elimina el cliente y la variable
+  `service_role`. Empleados queda exclusivo de Administrador; Solo lectura
+  conserva consultas, residentes, movimientos y comprobantes sin modificarlos.
+
+### Agregado
 - Gestión administrativa de Empleados: listado paginado de activos y bajas,
   ficha, alta, edición y baja con fecha/motivo. DNI único normalizado, fechas
   coherentes y control de versión para evitar sobrescrituras. Las bajas se

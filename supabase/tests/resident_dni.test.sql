@@ -8,6 +8,9 @@ select is(normalize_resident_dni(U&' 00.123\00a0456\202f\0009'),
 select is(normalize_resident_dni('TEST-DNI'), 'TEST-DNI',
   'no transforma otros caracteres del identificador');
 
+insert into auth.users (id) values ('20000000-0000-4000-8000-000000000099');
+insert into public.user_access (user_id, role) values ('20000000-0000-4000-8000-000000000099', 'admin');
+
 set local role authenticated;
 select set_config('request.jwt.claim.sub',
   '20000000-0000-4000-8000-000000000099', true);
