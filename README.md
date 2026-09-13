@@ -155,10 +155,10 @@ datos reales en pruebas.
 
 **Pendiente**
 
-- **Inicio**, **Empleados**, **Turnos** y **Entrevistas**.
-- Modelo de roles. Hoy existe un solo perfil, el del dueño, y las políticas de
-  la base solo distinguen si hay sesión o no.
-- Agenda semanal de visitas, y la conversión de una consulta en residente.
+- **Turnos** y **Entrevistas**.
+- Vincular empleados con cuentas y ampliar la auditoría. Los perfiles y sus
+  permisos están implementados; ver [docs/permisos.md](docs/permisos.md).
+- Nuevos flujos posteriores a la agenda y conversión ya implementadas.
 - Documentación e información médica del residente.
 
 El detalle, en orden de trabajo, está en [ROADMAP.md](ROADMAP.md).

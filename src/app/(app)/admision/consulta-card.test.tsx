@@ -1,5 +1,5 @@
 import * as React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderConPermisos as renderToStaticMarkup } from "@/test/render-con-permisos";
 import { expect, it, vi } from "vitest";
 import type { Consulta } from "@/lib/admision";
 import { ConsultaCard } from "./consulta-card";
@@ -25,4 +25,11 @@ it("una consulta vinculada muestra la cuenta y permite notas, sin reabrir", () =
   expect(html).toContain("Guardar notas");
   expect(html).not.toContain("Marcar contactada");
   expect(html).not.toContain("Registrar ingreso");
+});
+
+it("Solo lectura conserva notas y visita pero no ofrece mutaciones", () => {
+  const html = renderToStaticMarkup(<ConsultaCard consulta={{ ...CONSULTA, notas_internas: "Nota ficticia" }} />, "readonly");
+  expect(html).toContain("Nota ficticia");
+  expect(html).toContain("Visita el");
+  for (const texto of ["<form", "Registrar ingreso", "Guardar notas", "Reprogramar", "Cancelar visita"]) expect(html).not.toContain(texto);
 });

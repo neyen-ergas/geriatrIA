@@ -15,7 +15,7 @@ import { createClient } from "@/lib/supabase/server";
 export async function crearCuota(
   admissionId: string, _anterior: EstadoCargaPago, formData: FormData,
 ): Promise<EstadoCargaPago> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const valores = leerCargaPago(formData);
   try {
     const cuenta = await obtenerCuenta(admissionId);
@@ -40,7 +40,7 @@ export async function registrarPago(
   admissionId: string, cuotaId: string,
   _anterior: EstadoCargaPago, formData: FormData,
 ): Promise<EstadoCargaPago> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const valores = leerCargaPago(formData);
   try {
     const cuota = await obtenerCuota(admissionId, cuotaId);

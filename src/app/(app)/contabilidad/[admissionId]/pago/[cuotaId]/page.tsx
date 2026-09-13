@@ -10,7 +10,7 @@ import { FormularioCarga } from "../../../formulario-carga";
 export default async function NuevoPagoPage({ params }: {
   params: Promise<{ admissionId: string; cuotaId: string }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const { admissionId, cuotaId } = await params;
   const cuenta = await obtenerCuenta(admissionId);
   if (!cuenta) notFound();

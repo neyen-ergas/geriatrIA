@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { requerirSesion } from "@/lib/auth";
 import { hoyEnArgentina, type ValoresPrimerIngreso } from "@/lib/primer-ingreso";
 import { obtenerIngresoActivoParaEditar } from "@/lib/residentes-datos";
 import { FormularioPrimerIngreso } from "../../nuevo/formulario-primer-ingreso";
@@ -16,6 +17,7 @@ export default async function EditarResidentePage({
 }: {
   params: Promise<{ admissionId: string }>;
 }) {
+  await requerirSesion("operational.write");
   const { admissionId } = await params;
   const datos = await obtenerIngresoActivoParaEditar(admissionId);
 

@@ -1,4 +1,4 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderConPermisos as renderToStaticMarkup } from "@/test/render-con-permisos";
 import { expect, it, vi } from "vitest";
 import type { Movimiento } from "@/lib/movimientos";
 import { ListaMovimientos } from "./lista-movimientos";

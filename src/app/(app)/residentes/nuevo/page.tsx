@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { requerirSesion } from "@/lib/auth";
 import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import { registrarPrimerIngreso } from "./actions";
 import { FormularioPrimerIngreso } from "./formulario-primer-ingreso";
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
   title: "Nuevo ingreso · geriatrIA",
 };
 
-export default function NuevoIngresoPage() {
+export default async function NuevoIngresoPage() {
+  await requerirSesion("operational.write");
   return (
     <div className="mx-auto max-w-4xl">
       <Link

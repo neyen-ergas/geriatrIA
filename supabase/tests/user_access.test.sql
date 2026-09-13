@@ -43,9 +43,11 @@ select throws_ok($$select save_employee()$$, '42501', 'permission_denied', 'Gest
 select throws_ok($$select terminate_employee(null,null,null,null)$$, '42501', 'permission_denied', 'Gestión no da bajas de empleados');
 select throws_ok($$select set_user_access('80000000-0000-4000-8000-000000000002','admin',true)$$, '42501', 'permission_denied', 'no se eleva a sí mismo');
 select create_monthly_charge('80000000-0000-4000-8000-000000000012','2025-01-01','2025-01-10',100) as cuota \gset
-select record_payment(:'cuota','2025-01-05',10,'cash') as pago \gset
+select '80000000-0000-4000-8000-000000000002/80000000-0000-4000-8000-000000000012/' || :'cuota' || '/ficticio.pdf' as ruta \gset
+insert into storage.objects (bucket_id, name) values ('payment-receipts', :'ruta');
+select record_payment(:'cuota','2025-01-05',10,'cash',null,:'ruta') as pago \gset
 select lives_ok($$select update_consulta('80000000-0000-4000-8000-000000000010',
-  (select actualizado_en from consulta where id = '80000000-0000-4000-8000-000000000010'), 'nuevo', 'notes', p_notes := 'Nota ficticia')$$,
+  (select actualizado_en from consulta where id = '80000000-0000-4000-8000-000000000010'), 'nuevo', 'save_notes', p_notes := 'Nota ficticia')$$,
   'Gestión actualiza consultas');
 
 select set_config('request.jwt.claim.sub', '80000000-0000-4000-8000-000000000003', true);
@@ -54,10 +56,13 @@ select is((select count(*) from consulta), 1::bigint, 'consulta se lee con RLS y
 select is((select count(*) from residents), 1::bigint, 'Solo lectura ve residentes');
 select is((select count(*) from monthly_charge_balances), 1::bigint, 'Solo lectura ve saldos');
 select is((select count(*) from payments), 1::bigint, 'Solo lectura ve pagos');
+select is((select count(*) from storage.objects where bucket_id = 'payment-receipts'), 1::bigint, 'Solo lectura descarga comprobantes vinculados');
+select throws_ok(format($$insert into storage.objects (bucket_id, name) values ('payment-receipts', %L)$$,
+  replace(:'ruta', '000000000002/', '000000000003/')), '42501', null, 'Solo lectura no carga comprobantes');
 select is((select count(*) from employees), 0::bigint, 'Solo lectura no ve empleados');
 select throws_ok($$insert into residents(first_name,last_name,dni,birth_date) values ('X','X','TEST-DENEGADO','1940-01-01')$$,
   '42501', null, 'RLS bloquea INSERT directo');
-select is((with cambios as (update residents set first_name = 'Alterado' returning id) select count(*) from cambios), 0::bigint, 'RLS bloquea UPDATE directo');
+select results_eq($$update residents set first_name = 'Alterado' returning id$$, array[]::uuid[], 'RLS bloquea UPDATE directo');
 select throws_ok($$select create_monthly_charge(null,null,null,null)$$, '42501', 'permission_denied', 'rechaza cuota antes de validar entrada');
 select throws_ok($$select record_payment(null,null,null,null)$$, '42501', 'permission_denied', 'rechaza pago');
 select throws_ok($$select void_payment(null,null)$$, '42501', 'permission_denied', 'rechaza anulación de pago');
@@ -82,6 +87,7 @@ select is((select count(*) from access_events), 2::bigint, 'registra autor y cam
 select ok((select bool_and(changed_by = auth.uid()) from access_events), 'autor proviene de la sesión');
 select set_config('request.jwt.claim.sub', '80000000-0000-4000-8000-000000000002', true);
 select is((select count(*) from consulta), 0::bigint, 'suspensión revoca lecturas conservando el mismo JWT');
+select is((select count(*) from storage.objects where bucket_id = 'payment-receipts'), 0::bigint, 'suspensión bloquea incluso sus propias cargas');
 select throws_ok($$select record_payment(null,null,null,null)$$, '42501', 'permission_denied', 'suspensión revoca escrituras');
 select set_config('request.jwt.claim.sub', '', true);
 select throws_ok($$select create_monthly_charge(null,null,null,null)$$, '42501', 'authentication_required', 'JWT sin identidad no escribe');

@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Empleados · geriatrIA" };
 export default async function EmpleadosPage({ searchParams }: {
   searchParams: Promise<{ estado?: string | string[]; pagina?: string | string[] }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("administration");
   const parametros = await searchParams;
   const bajas = parametros.estado === "bajas";
   const { empleados, total, pagina } = await listarEmpleados(bajas, parametros.pagina);

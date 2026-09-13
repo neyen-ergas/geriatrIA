@@ -12,6 +12,8 @@ import {
   TriangleAlert,
   UsersRound,
 } from "lucide-react";
+import { requerirSesion } from "@/lib/auth";
+import { SoloGestion } from "@/components/permisos";
 import { Avatar, Badge, Card } from "@/components/ui";
 import { PaginacionListado } from "@/components/paginacion-listado";
 import { paginaListado } from "@/lib/paginacion";
@@ -51,6 +53,7 @@ export default async function ResidentesPage({
     pagina?: string | string[];
   }>;
 }) {
+  await requerirSesion("operational.read");
   const { actualizado, baja, creado, estado, reingreso, pagina: paginaParam } =
     await searchParams;
   const mostrarBajas = estado === "bajas";
@@ -82,13 +85,13 @@ export default async function ResidentesPage({
             Ingresos vigentes e historial de estadías finalizadas.
           </p>
         </div>
-        <Link
+        <SoloGestion><Link
           href="/residentes/nuevo"
           className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-medium text-white transition-colors hover:bg-slate-800"
         >
           <Plus className="h-4 w-4" />
           Nuevo ingreso
-        </Link>
+        </Link></SoloGestion>
       </div>
 
       {creado === "1" && (
@@ -313,20 +316,20 @@ function TablaActivos({ residentes }: { residentes: ResidenteActivo[] }) {
                   </td>
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-1">
-                      <Link
+                      <SoloGestion><Link
                         href={`/residentes/${admissionId}/editar`}
                         className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
                       >
                         <Pencil className="h-4 w-4" />
                         Editar
-                      </Link>
-                      <Link
+                      </Link></SoloGestion>
+                      <SoloGestion><Link
                         href={`/residentes/${admissionId}/baja`}
                         className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 hover:text-red-700"
                       >
                         <LogOut className="h-4 w-4" />
                         Dar de baja
-                      </Link>
+                      </Link></SoloGestion>
                     </div>
                   </td>
                 </tr>
@@ -409,13 +412,13 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
                     </td>
                     <td className="px-5 py-4">
                       {canBeReadmitted ? (
-                        <Link
+                        <SoloGestion><Link
                           href={`/residentes/reingreso/${resident.id}`}
                           className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800"
                         >
                           <RotateCcw className="h-4 w-4" />
                           Reingresar
-                        </Link>
+                        </Link></SoloGestion>
                       ) : (
                         <span className="text-xs text-slate-400">—</span>
                       )}

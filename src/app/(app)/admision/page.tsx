@@ -61,7 +61,7 @@ export default async function AdmisionPage({
 }) {
   // El cliente admin saltea RLS, así que la sesión es lo único que separa estos
   // datos de cualquiera. El layout ya la verifica; acá se repite a propósito.
-  await requerirSesion();
+  await requerirSesion("operational.read");
 
   const { estado: estadoParam, pagina: paginaParam, buscar } = await searchParams;
   const busqueda = busquedaConsultas(buscar);

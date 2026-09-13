@@ -5,7 +5,7 @@ import { semanaAgenda } from "@/lib/agenda";
 import { agendarVisita, type Resultado } from "../../actions";
 
 export async function reservarVisita(fecha: string, franja: string, anterior: Resultado, datos: FormData): Promise<Resultado> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   datos.set("visita_fecha", fecha);
   datos.set("visita_franja", franja);
   const resultado = await agendarVisita(anterior, datos);

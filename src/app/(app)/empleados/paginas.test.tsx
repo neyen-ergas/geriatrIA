@@ -1,4 +1,4 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderConPermisos as renderToStaticMarkup } from "@/test/render-con-permisos";
 import { beforeEach, expect, it, vi } from "vitest";
 import EmpleadosPage from "./page";
 import EmpleadoPage from "./[empleadoId]/page";

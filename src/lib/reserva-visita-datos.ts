@@ -1,5 +1,5 @@
 import "server-only";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { filtroBusquedaConsultas } from "@/lib/busqueda-consultas";
 import { paginaListado, REGISTROS_POR_PAGINA } from "@/lib/paginacion";
 import type { Tables } from "@/types/database";
@@ -9,7 +9,7 @@ export type CandidataVisita = Pick<Tables<"consulta">, "id" | "nombre" | "telefo
 export async function listarCandidatasVisita(busqueda: string, paginaParam: unknown): Promise<{
   consultas: CandidataVisita[]; total: number; pagina: number;
 }> {
-  const supabase = createAdminClient();
+  const supabase = await createClient();
   const consulta = (conteo: boolean) => {
     let seleccion = supabase.from("consulta")
       .select("id, nombre, telefono, estado, actualizado_en", conteo ? { count: "exact", head: true } : {})

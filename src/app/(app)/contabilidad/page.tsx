@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: "Contabilidad · geriatrIA" };
 export default async function ContabilidadPage({ searchParams }: {
   searchParams: Promise<{ estado?: string; pagina?: string | string[] }>;
 }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("operational.read");
   const parametros = await searchParams;
   const bajas = parametros.estado === "bajas";
   const { cuentas, total, pagina } = await listarCuentas(bajas, parametros.pagina);

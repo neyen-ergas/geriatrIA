@@ -22,7 +22,7 @@ export async function darDeBajaResidente(
   _estadoAnterior: EstadoBajaResidente,
   formData: FormData,
 ): Promise<EstadoBajaResidente> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
 
   const valores = leerValoresBaja(formData);
   const validacion = validarBajaResidente(

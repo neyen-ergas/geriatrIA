@@ -14,7 +14,7 @@ import { createClient } from "@/lib/supabase/server";
 export async function buscarPersonaIngreso(
   consultaId: string, _anterior: { error: string | null }, datos: FormData,
 ): Promise<{ error: string | null }> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const valor = datos.get("dni");
   const dni = typeof valor === "string" ? normalizarDni(valor) : "";
   if (!dni) return { error: "Ingresá el DNI del residente." };
@@ -33,7 +33,7 @@ export async function convertirPersonaNueva(
   consultaId: string, version: string,
   _anterior: EstadoFormularioIngreso, datos: FormData,
 ): Promise<EstadoFormularioIngreso> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const valores = leerValoresPrimerIngreso(datos);
   let previo: string | undefined;
   try { previo = (await listarVinculosConsultas([consultaId]))[consultaId]; }
@@ -57,7 +57,7 @@ export async function convertirReingreso(
   consultaId: string, version: string, residentId: string,
   _anterior: EstadoReingreso, datos: FormData,
 ): Promise<EstadoReingreso> {
-  await requerirSesion();
+  await requerirSesion("operational.write");
   const valores = leerValoresReingreso(datos);
   let previo: string | undefined;
   try { previo = (await listarVinculosConsultas([consultaId]))[consultaId]; }

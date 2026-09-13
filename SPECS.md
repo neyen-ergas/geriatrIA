@@ -29,7 +29,7 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
 | Admisión | Consultas entrantes, llamados y agenda de visitas. | Funcionando |
 | Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
 | Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos, anulaciones, vencimientos y comprobantes privados |
-| Empleados | Personal de la residencia y sus datos laborales. | Ficha, alta, edición y baja; cuentas y roles pendientes |
+| Empleados | Personal de la residencia y sus datos laborales. | Ficha, alta, edición y baja, exclusiva de Administrador |
 | Turnos | Grilla de turnos del personal. | Placeholder |
 | Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |
 
@@ -162,10 +162,10 @@ Supabase Auth con correo y contraseña.
   propia ruta y no pasan por el layout. Cada acción llama a `requerirSesion()`
   como primera línea.
 
-Hoy existe un solo perfil: el dueño o administrador. **No hay modelo de roles.**
-Las políticas RLS actuales solo distinguen "hay sesión" de "no hay sesión". El
-modelo de roles se diseña cuando entren empleados con distintos niveles de
-acceso.
+Existen Administrador, Gestión y Solo lectura. Gestión opera Admisión,
+Residentes y Contabilidad; Solo lectura consulta esas secciones. Empleados y
+Accesos son exclusivos de Administrador. Las cuentas nuevas no tienen acceso
+hasta su asignación explícita. Ver [docs/permisos.md](docs/permisos.md).
 
 ---
 
@@ -177,23 +177,20 @@ El sistema guarda datos de salud y datos personales de terceros.
 
 | Tablas | RLS | Cómo escribe la aplicación |
 | --- | --- | --- |
-| `consulta` | Activada **sin políticas**; acceso directo de `anon` y `authenticated` revocado | Lecturas e INSERT de landing con `service_role`; cambios del CRM mediante `update_consulta` y cliente autenticado |
+| `consulta` | Lectura por perfil operativo; anon sin acceso | CRM con sesión y `update_consulta`; landing conserva INSERT existente |
 | `residents`, `family_contacts`, `admissions` | Activada con políticas para `authenticated` | Cliente autenticado; altas y ediciones vía funciones transaccionales |
 | `monthly_charges`, `payments` | Activada, **solo lectura** para `authenticated` | Exclusivamente vía funciones `security definer`; sin `insert`, `update` ni `delete` directos |
 
-La dirección es clara y no se revierte: **cada tabla nueva usa RLS con políticas
-y escrituras por función controlada**. El acceso con `service_role` es una
-excepción heredada, limitada a `consulta`, y está en el ROADMAP para eliminarse.
+**Cada tabla nueva usa RLS con políticas y escrituras por función controlada**.
+Las políticas restrictivas aplican el perfil vigente; las RPC definer verifican
+el permiso antes de leer o escribir. Storage aplica los mismos permisos
+operativos y Empleados exige Administrador.
 
 ### La clave `service_role`
 
-- **Saltea RLS.** Nunca lleva el prefijo `NEXT_PUBLIC_`, nunca se importa desde
-  código que corra en el navegador y se usa exclusivamente desde
-  `src/lib/supabase/admin.ts`, que declara `import "server-only"` para que el
-  build falle si alguien la arrastra al cliente.
-- Mientras `consulta` se lea así, **la autenticación del CRM es la única barrera
-  sobre esos datos**. Por eso cada Server Component y cada Server Action del
-  módulo de admisión verifica la sesión, sin confiar solo en el middleware.
+El CRM no la utiliza: todas sus lecturas y escrituras usan la sesión. La landing
+externa conserva su integración existente de INSERT; nunca lleva una clave
+secreta al navegador.
 
 ### Reglas que no se negocian
 
@@ -209,12 +206,9 @@ excepción heredada, limitada a `consulta`, y está en el ROADMAP para eliminars
 ```text
 NEXT_PUBLIC_SUPABASE_URL              URL del proyecto
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY  Clave publicable (sb_publishable_...)
-SUPABASE_SERVICE_ROLE_KEY             service_role clásica, solo servidor
 ```
 
-Advertencia conocida: el proyecto **no acepta el formato nuevo de claves
-secretas** (`sb_secret_...`); PostgREST responde `Invalid API key`. Va la
-`service_role` clásica, que es además la que usa la landing.
+El CRM requiere únicamente la URL y la clave publicable, además de la sesión.
 
 ---
 
@@ -256,7 +250,7 @@ Una versión vieja produce un conflicto, también al reprogramar sin cambiar
 de estado o al guardar notas. No se reintenta automáticamente.
 
 La función es `security definer` con `search_path` vacío y exige `auth.uid()`.
-`service_role` conserva `select` e `insert` para las lecturas y la landing,
+`service_role` conserva permisos heredados de `select` e `insert` para la landing,
 pero no tiene `update` directo. Las Server Actions exigen sesión antes de
 invocar la función con el cliente autenticado. El detalle de transiciones,
 incluidas las reaperturas, está en `docs/admision-consultas-modelo.md`.
@@ -294,7 +288,7 @@ Conteos y página no forman una instantánea; las modificaciones concurrentes
 pueden reflejarse al recargar. No requiere funciones SQL adicionales.
 
 El historial de agenda vive en `visit_events`, con RLS de lectura para el
-perfil autenticado actual y sin escrituras directas. `update_consulta` obtiene
+perfil operativo vigente y sin escrituras directas. `update_consulta` obtiene
 el autor desde `auth.uid()` y exige identidad; las Server Actions la invocan
 con el cliente autenticado. Los eventos se insertan en la misma transacción.
 Ver `docs/admision-historial.md` para alcance y despliegue.
@@ -403,10 +397,10 @@ deuda. Los comprobantes en bucket privado están pendientes.
 
 `employees` guarda nombre, apellido, DNI único normalizado, nacimiento opcional,
 teléfono, correo, puesto, fecha de alta, observaciones y baja con fecha/motivo.
-Usa RLS de lectura para el perfil autenticado actual; las escrituras se realizan
+Usa RLS de lectura exclusiva de Administrador; las escrituras se realizan
 solo mediante `save_employee` y `terminate_employee`, con identidad y control
 de versión. Conserva autor de alta y último cambio. Las fichas dadas de baja
-no se editan ni eliminan. Cuentas, roles, períodos de recontratación y auditoría
+no se editan ni eliminan. Vínculo con cuentas, períodos de recontratación y auditoría
 completa quedan pendientes. Ver `docs/empleados.md`.
 
 ### 6.5 Sin diseñar

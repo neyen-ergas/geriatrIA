@@ -1,7 +1,7 @@
 import "server-only";
+import { createClient } from "@/lib/supabase/server";
 import { listarVinculosConsultas } from "@/lib/conversion-consulta-datos";
 
-import { createAdminClient } from "@/lib/supabase/admin";
 import { ESTADOS, type Consulta, type Estado } from "@/lib/admision";
 import { CONSULTAS_POR_PAGINA } from "@/lib/paginacion-admision";
 import { filtroBusquedaConsultas } from "@/lib/busqueda-consultas";
@@ -20,7 +20,7 @@ export async function listarConsultas(
   if (!Number.isSafeInteger(pagina) || pagina < 1) {
     throw new Error("La página de consultas no es válida.");
   }
-  const supabase = createAdminClient();
+  const supabase = await createClient();
   const inicio = (pagina - 1) * CONSULTAS_POR_PAGINA;
 
   let consulta = supabase
@@ -46,7 +46,7 @@ export async function listarConsultas(
 
 export async function obtenerConsulta(id: string): Promise<Consulta | null> {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null;
-  const { data, error } = await createAdminClient().from("consulta")
+  const { data, error } = await (await createClient()).from("consulta")
     .select(COLUMNAS).eq("id", id).maybeSingle();
   if (error) throw new Error("No se pudo leer la consulta.");
   if (!data) return null;
@@ -56,7 +56,7 @@ export async function obtenerConsulta(id: string): Promise<Consulta | null> {
 
 /** Cuántas consultas hay en cada estado, para las tarjetas del encabezado. */
 export async function contarPorEstado(busqueda = ""): Promise<Record<Estado, number>> {
-  const supabase = createAdminClient();
+  const supabase = await createClient();
 
   const conteo: Record<Estado, number> = {
     nuevo: 0,

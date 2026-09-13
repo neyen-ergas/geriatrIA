@@ -6,6 +6,7 @@ import {
   CalendarClock,
   Wallet,
   MessageSquare,
+  ShieldCheck,
 } from "lucide-react";
 
 // Ordenadas según el recorrido del negocio: primero entra la consulta, después
@@ -18,4 +19,5 @@ export const NAV = [
   { href: "/turnos", label: "Turnos", icon: CalendarClock },
   { href: "/contabilidad", label: "Contabilidad", icon: Wallet },
   { href: "/entrevistas", label: "Entrevistas", icon: MessageSquare },
+  { href: "/accesos", label: "Accesos", icon: ShieldCheck },
 ];

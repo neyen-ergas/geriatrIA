@@ -1,17 +1,20 @@
 "use client";
 
 import { useActionState, useId } from "react";
+import { usePuedeGestionar } from "@/components/permisos";
 import { Button, Label, Textarea } from "@/components/ui";
 import type { EstadoAnulacion } from "@/lib/anular-pagos";
 
 export function FormularioAnulacion({ tipo, formAction }: {
   tipo: "pago" | "cuota";
   formAction: (anterior: EstadoAnulacion, datos: FormData) => Promise<EstadoAnulacion>;
-}): React.ReactElement {
+}): React.ReactElement | null {
+  const puedeGestionar = usePuedeGestionar();
   const id = useId();
   const [estado, action, pendiente] = useActionState(formAction, {
     motivo: "", error: null,
   } as EstadoAnulacion);
+  if (!puedeGestionar) return null;
   return (
     <details className="mt-4 rounded-lg border border-red-200 p-4">
       <summary className="cursor-pointer text-sm font-medium text-red-700">

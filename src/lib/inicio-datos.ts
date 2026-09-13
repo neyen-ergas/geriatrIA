@@ -1,5 +1,4 @@
 import "server-only";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { FRANJAS, esFranja } from "@/lib/admision";
 import { enlaceAgenda, semanaAgenda } from "@/lib/agenda";
@@ -31,7 +30,7 @@ export async function obtenerInicio(hoy: string): Promise<BloqueInicio[]> {
 }
 
 async function sinLlamar(): Promise<Resumen> {
-  const { data, error, count } = await createAdminClient().from("consulta")
+  const { data, error, count } = await (await createClient()).from("consulta")
     .select("id, nombre, telefono", { count: "exact" }).eq("estado", "nuevo")
     .order("creado_en").order("id").limit(ELEMENTOS_POR_BLOQUE);
   if (error || !data || count === null) throw new Error("No se pudieron leer las consultas pendientes.");
@@ -40,7 +39,7 @@ async function sinLlamar(): Promise<Resumen> {
 }
 
 async function visitasDia(fecha: string): Promise<Resumen> {
-  const { data, error, count } = await createAdminClient().from("consulta")
+  const { data, error, count } = await (await createClient()).from("consulta")
     .select("id, nombre, telefono, visita_franja", { count: "exact" })
     .eq("estado", "visita_agendada").eq("visita_fecha", fecha)
     .order("visita_franja").order("id").limit(ELEMENTOS_POR_BLOQUE);

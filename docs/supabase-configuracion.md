@@ -6,12 +6,9 @@ credenciales y los datos permanecen separados.
 
 ## Estado actual
 
-El repositorio contiene los clientes de Supabase, el soporte SSR para Next.js,
-la CLI y dos migraciones versionadas. La primera reproduce la tabla `consulta`
-que ya usa el módulo de admisión. La segunda crea el esquema inicial de
-residentes y todavía debe revisarse antes de aplicarse al proyecto remoto; las
-pantallas de residentes aún no consultan datos. Un ensayo con `db push
---dry-run` confirmó ese orden sin modificar la base.
+El esquema completo está versionado en `supabase/migrations`. Aplicar las
+migraciones por instalación antes del código que las necesita. La inicialización
+de roles y su orden de despliegue están en [permisos.md](permisos.md).
 
 ## Variables de entorno
 
@@ -22,22 +19,14 @@ pantallas de residentes aún no consultan datos. Un ensayo con `db push
 ```text
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-SUPABASE_SERVICE_ROLE_KEY
 ```
 
 `.env.local` está ignorado por Git. La contraseña de la base y los tokens
 personales de la CLI no deben guardarse en el repositorio.
 
-`SUPABASE_SERVICE_ROLE_KEY` saltea RLS. Por eso no lleva el prefijo
-`NEXT_PUBLIC_`, nunca se importa desde código que se ejecute en el navegador y,
-al deployar, se carga como variable de entorno del servidor. La usa únicamente
-`src/lib/supabase/admin.ts`, que declara `import "server-only"` para que el build
-falle si alguien la arrastra al cliente por accidente.
-
-Este proyecto todavía no acepta el formato nuevo de claves secretas
-(`sb_secret_...`): PostgREST lo rechaza con `Invalid API key`. Va la
-`service_role` clásica, que es además la que usa la landing. La clave publicable
-(`sb_publishable_...`) sí funciona y es la que va en `NEXT_PUBLIC_`.
+El CRM solo utiliza la URL y la clave publicable junto a la sesión. No requiere
+una clave administrativa. Las credenciales de la landing externa se gestionan
+por separado.
 
 ## CLI y proyecto remoto
 
@@ -60,13 +49,10 @@ Editor una vez iniciado el flujo de migraciones.
 
 - `src/lib/supabase/client.ts`: cliente para componentes del navegador.
 - `src/lib/supabase/server.ts`: cliente nuevo para cada ejecución del servidor.
-- `src/lib/supabase/admin.ts`: cliente administrativo exclusivo del servidor
-  para el módulo de admisión.
 
-Los dos primeros utilizan la URL y la clave publicable. Poder incluir esta clave
+Ambos utilizan la URL y la clave publicable. Poder incluir esta clave
 en el navegador no convierte los datos en públicos: las tablas expuestas deben
-tener RLS y políticas de acceso. El cliente administrativo usa `service_role` y
-debe autorizar cada operación en el servidor porque esa clave saltea RLS.
+tener RLS y políticas de acceso por perfil.
 
 ## Tipos TypeScript
 
@@ -85,9 +71,8 @@ crea y aplica su migración y después se vuelve a ejecutar el comando.
 
 ## Desarrollo local
 
-`supabase/config.toml` describe la futura instancia local. Para ejecutarla será
-necesario instalar Docker. No es un requisito para usar la interfaz actual ni
-para completar esta configuración inicial.
+El desarrollo de interfaz y los tests unitarios no requieren Docker. En este
+flujo, las pruebas SQL, concurrencia y generación de tipos corren en GitHub CI.
 
 Cuando comience el trabajo de base de datos, el flujo será:
 

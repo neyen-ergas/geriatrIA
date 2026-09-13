@@ -8,7 +8,7 @@ import { formatearFechaPago } from "@/lib/pagos";
 
 export const metadata: Metadata = { title: "Ficha de empleado · geriatrIA" };
 export default async function EmpleadoPage({ params }: { params: Promise<{ empleadoId: string }> }): Promise<React.ReactElement> {
-  await requerirSesion();
+  await requerirSesion("administration");
   const empleado = await obtenerEmpleado((await params).empleadoId);
   if (!empleado) notFound();
   const campos = [

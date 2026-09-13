@@ -221,23 +221,11 @@ que existiera este flujo. Aplicarla contra la base actual no cambia nada.
 
 ## Seguridad
 
-La tabla tiene Row Level Security activada **sin políticas**, y `anon` y
-`authenticated` tienen los permisos revocados. Nadie llega a estos datos con la
-clave publicable sin sesión. Las lecturas usan la clave `service_role`, que
-vive exclusivamente del lado del servidor, y la landing conserva INSERT.
-La función `update_consulta` es `security definer`, tiene `search_path` vacío
-y permite ejecución a `authenticated`, exigiendo `auth.uid()` para identificar
-al autor. Las Server Actions la invocan con el cliente autenticado.
-`anon` no puede invocarla. La tabla de eventos tiene RLS de lectura y
-no permite escrituras directas.
-
-Esa clave saltea RLS, así que la base no distingue quién está consultando. La
-protección real del CRM es su autenticación: cada pantalla y cada acción que toque
-esta tabla verifica la sesión antes de leer o escribir, sin confiar únicamente en
-el middleware.
-
-Cuando el proyecto tenga un modelo de roles, corresponderá reemplazar la clave
-`service_role` por políticas RLS por rol. Hasta entonces, el login es la puerta.
+La tabla tiene RLS con lectura para los perfiles operativos habilitados. Todas
+las lecturas del CRM usan la sesión. `update_consulta` exige permiso de gestión
+antes de buscar datos y no admite UPDATE directo; la landing externa conserva
+su INSERT existente. Los eventos también respetan RLS. Ver
+[permisos.md](permisos.md) para revocaciones, Storage y perfiles.
 
 ## Pruebas y despliegue
 

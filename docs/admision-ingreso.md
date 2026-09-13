@@ -28,7 +28,8 @@ permite recuperar ese vínculo antes de reenviar. No hay reintentos automáticos
 Las lecturas del vínculo usan el cliente autenticado y solo los ids de la
 página actual. La consulta original mantiene su lectura administrativa en el
 servidor, detrás de sesión, como el resto de Admisión. La política de lectura
-del vínculo corresponde al perfil único actual; roles futuros quedan pendientes.
+del vínculo corresponde a los perfiles operativos. La conversión exige Gestión
+o Administrador; ver [permisos.md](permisos.md).
 
 Validación: pruebas de acciones para sesión, versión, recuperación y errores;
 SQL para reversión completa, reingreso y protección del vínculo; dos conexiones

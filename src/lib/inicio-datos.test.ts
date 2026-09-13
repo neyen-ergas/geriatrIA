@@ -1,12 +1,10 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { createClient as crearCliente } from "@supabase/supabase-js";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 import { obtenerInicio } from "./inicio-datos";
 
 vi.mock("server-only", () => ({}));
-vi.mock("@/lib/supabase/admin", () => ({ createAdminClient: vi.fn() }));
 vi.mock("@/lib/supabase/server", () => ({ createClient: vi.fn() }));
 let solicitudes: URL[];
 let fallarCuotas: boolean;
@@ -29,7 +27,6 @@ beforeEach(() => {
       });
     } },
   });
-  vi.mocked(createAdminClient).mockReturnValue(cliente);
   vi.mocked(createClient).mockResolvedValue(cliente);
 });
 

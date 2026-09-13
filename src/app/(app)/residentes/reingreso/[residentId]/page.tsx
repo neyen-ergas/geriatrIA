@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, History } from "lucide-react";
+import { requerirSesion } from "@/lib/auth";
 import { Badge, Card } from "@/components/ui";
 import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import { obtenerResidenteParaReingreso } from "@/lib/residentes-datos";
@@ -28,6 +29,7 @@ export default async function ReingresoResidentePage({
 }: {
   params: Promise<{ residentId: string }>;
 }) {
+  await requerirSesion("operational.write");
   const { residentId } = await params;
   const datos = await obtenerResidenteParaReingreso(residentId);
 

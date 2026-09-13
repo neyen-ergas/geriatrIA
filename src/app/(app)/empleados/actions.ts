@@ -8,7 +8,7 @@ import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import { createClient } from "@/lib/supabase/server";
 
 export async function guardarEmpleado(id: string | null, version: string | null, _previo: EstadoEmpleado, datos: FormData): Promise<EstadoEmpleado> {
-  await requerirSesion();
+  await requerirSesion("administration");
   const valores = leerEmpleado(datos);
   const validacion = validarEmpleado(valores, hoyEnArgentina());
   if (!validacion.ok) return { valores, errores: validacion.errores, mensaje: "Revisá los campos marcados." };
@@ -27,7 +27,7 @@ export async function guardarEmpleado(id: string | null, version: string | null,
 }
 
 export async function darBajaEmpleado(id: string, version: string, _previo: EstadoEmpleado, datos: FormData): Promise<EstadoEmpleado> {
-  await requerirSesion();
+  await requerirSesion("administration");
   const valores = leerEmpleado(datos);
   try {
     const empleado = await obtenerEmpleado(id);
