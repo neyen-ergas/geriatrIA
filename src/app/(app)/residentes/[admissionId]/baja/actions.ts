@@ -74,6 +74,7 @@ export async function darDeBajaResidente(
     };
   }
 
+  revalidatePath("/");
   revalidatePath("/residentes");
   redirect("/residentes?estado=bajas&baja=1");
 }

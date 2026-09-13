@@ -34,7 +34,10 @@ export function GrillaAgenda({ semana, visitas, hoy }: {
                       </Link>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm text-slate-500">{dia < hoy ? "Sin visita agendada" : "Libre"}</p>
+                    <>
+                      <p className="mt-3 text-sm text-slate-500">{dia < hoy ? "Sin visita agendada" : "Libre"}</p>
+                      {dia >= hoy && <Link href={`/admision/agenda/reservar?fecha=${dia}&franja=${franja}`} className="mt-3 inline-block text-sm font-medium underline">Reservar visita</Link>}
+                    </>
                   )}
                 </Card>
               );

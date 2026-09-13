@@ -4,6 +4,7 @@ import { listarVinculosConsultas } from "@/lib/conversion-consulta-datos";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ESTADOS, type Consulta, type Estado } from "@/lib/admision";
 import { CONSULTAS_POR_PAGINA } from "@/lib/paginacion-admision";
+import { filtroBusquedaConsultas } from "@/lib/busqueda-consultas";
 
 // Una sola cadena literal: el tipado de `select()` de supabase-js la analiza en
 // tiempo de compilación y no puede seguir una concatenación.
@@ -14,6 +15,7 @@ const COLUMNAS =
 export async function listarConsultas(
   estado?: Estado,
   pagina = 1,
+  busqueda = "",
 ): Promise<Consulta[]> {
   if (!Number.isSafeInteger(pagina) || pagina < 1) {
     throw new Error("La página de consultas no es válida.");
@@ -29,6 +31,8 @@ export async function listarConsultas(
     .range(inicio, inicio + CONSULTAS_POR_PAGINA - 1);
 
   if (estado) consulta = consulta.eq("estado", estado);
+  const filtro = filtroBusquedaConsultas(busqueda);
+  if (filtro) consulta = consulta.or(filtro);
 
   const { data, error } = await consulta;
   if (error) {
@@ -51,7 +55,7 @@ export async function obtenerConsulta(id: string): Promise<Consulta | null> {
 }
 
 /** Cuántas consultas hay en cada estado, para las tarjetas del encabezado. */
-export async function contarPorEstado(): Promise<Record<Estado, number>> {
+export async function contarPorEstado(busqueda = ""): Promise<Record<Estado, number>> {
   const supabase = createAdminClient();
 
   const conteo: Record<Estado, number> = {
@@ -65,10 +69,13 @@ export async function contarPorEstado(): Promise<Record<Estado, number>> {
   // HEAD devuelve el total calculado en Postgres, sin descargar filas ni
   // depender del límite de 1.000 registros de la API.
   await Promise.all(ESTADOS.map(async (estado) => {
-    const { count, error } = await supabase
+    let consulta = supabase
       .from("consulta")
       .select("id", { count: "exact", head: true })
       .eq("estado", estado);
+    const filtro = filtroBusquedaConsultas(busqueda);
+    if (filtro) consulta = consulta.or(filtro);
+    const { count, error } = await consulta;
     if (error || count === null) {
       throw new Error("No se pudieron contar las consultas.");
     }

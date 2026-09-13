@@ -7,6 +7,19 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Reserva de visitas desde un turno libre, con selección y búsqueda de familias,
+  paginación y control existente de versión y turno único. No crea consultas.
+- Búsqueda de consultas por nombre o teléfono en Admisión, conservada al cambiar
+  de estado y página, con conteos exactos filtrados en la base.
+- Inicio muestra consultas sin llamar, visitas de hoy y mañana, cuotas vencidas
+  de todos los meses e ingresos de los últimos siete días, con enlaces a cada
+  pendiente. Cada grupo tiene conteo exacto y un resumen de hasta cinco filas;
+  los errores de carga no se presentan como ceros y no ocultan los demás grupos.
+- Acceso paginado a todas las cuotas vencidas, incluidos meses anteriores y
+  estadías finalizadas. Los cambios de Admisión, Residentes y Contabilidad
+  actualizan Inicio. Sin cambios de esquema ni migraciones.
+
+### Agregado
 - Agenda semanal de Admisión con turnos de mañana y tarde, navegación por semana
   o fecha y apertura de cada consulta para reprogramar, cancelar o registrar el
   ingreso. Muestra solo visitas agendadas y distingue los días pasados de turnos

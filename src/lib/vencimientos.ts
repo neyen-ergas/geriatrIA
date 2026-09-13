@@ -11,8 +11,9 @@ export function limitesMesVencimientos(mes: string): { inicio: string; fin: stri
   return { inicio: `${mes}-01`, fin: vencimientoSugerido(mes, 31) };
 }
 
-export function enlaceVencimientos(mes: string, vencidas: boolean, pagina = 1): string {
+export function enlaceVencimientos(mes: string, vencidas: boolean, pagina = 1, todosLosMeses = false): string {
   const parametros = new URLSearchParams({ mes });
+  if (todosLosMeses) parametros.set("alcance", "todas");
   if (vencidas) parametros.set("estado", "vencidas");
   if (pagina > 1) parametros.set("pagina", String(pagina));
   return `/contabilidad/vencimientos?${parametros}`;

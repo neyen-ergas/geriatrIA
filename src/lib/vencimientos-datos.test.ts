@@ -19,7 +19,7 @@ const filas = [
     id: String(indice).padStart(5, "0"),
     due_date: indice % 2 ? "2026-09-10" : "2026-09-01", is_overdue: indice % 2 === 0,
   })),
-  { ...base, id: "anterior", due_date: "2026-08-31" },
+  { ...base, id: "anterior", due_date: "2026-08-31", is_overdue: true },
   { ...base, id: "siguiente", due_date: "2026-10-01" },
   { ...base, id: "pagada", balance: 0, paid_amount: 100, payment_status: "paid" },
   { ...base, id: "anulada", balance: 0, cancelled_at: "2026-09-01T12:00:00Z", payment_status: "cancelled" },
@@ -94,4 +94,13 @@ it("no interpreta conteo ausente como cero", async () => {
 it("muestra vacío cuando no existen cuotas del mes", async () => {
   expect(await listarVencimientos("2026-07", false, "5"))
     .toEqual({ vencimientos: [], total: 0, pagina: 1 });
+});
+
+it("todas las vencidas incluye meses anteriores y conserva los filtros de saldo y anulación", async () => {
+  const datos = await listarVencimientos("2026-09", false, "1", true);
+  expect(datos.total).toBe(629);
+  expect(datos.vencimientos[0].cuota.id).toBe("anterior");
+  expect(solicitudes.every(s => !s.url.searchParams.has("due_date"))).toBe(true);
+  expect(solicitudes.every(s => s.url.searchParams.get("is_overdue") === "eq.true")).toBe(true);
+  expect(solicitudes.every(s => s.url.searchParams.get("balance") === "gt.0")).toBe(true);
 });

@@ -109,6 +109,7 @@ export async function reingresarResidente(
     };
   }
 
+  revalidatePath("/");
   revalidatePath("/residentes");
   redirect("/residentes?reingreso=1");
 }

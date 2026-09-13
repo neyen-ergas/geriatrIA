@@ -34,6 +34,7 @@ export async function anularPago(
   revalidatePath(`/contabilidad/${admissionId}`);
   revalidatePath(ruta);
   revalidatePath("/contabilidad/vencimientos");
+  revalidatePath("/");
   redirect(`${ruta}?anulado=pago`);
 }
 
@@ -64,5 +65,6 @@ export async function cancelarCuota(
   revalidatePath(`/contabilidad/${admissionId}`);
   revalidatePath(ruta);
   revalidatePath("/contabilidad/vencimientos");
+  revalidatePath("/");
   redirect(`${ruta}?anulado=cuota`);
 }

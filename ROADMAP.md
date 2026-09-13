@@ -185,10 +185,10 @@ antes del despliegue (ver `docs/comprobantes-privados.md`).
 
 ## Fase 7 — Inicio
 
-- [ ] Reemplazar el placeholder por un panel del día que responda "qué hay
+- [x] Reemplazar el placeholder por un panel del día que responda "qué hay
       pendiente ahora": consultas sin llamar, visitas de hoy y mañana, cuotas
       vencidas e ingresos recientes.
-- [ ] Cada dato del panel enlaza a la pantalla donde se resuelve.
+- [x] Cada dato del panel enlaza a la pantalla donde se resuelve.
 
 ## Fase 8 — Admisión, segunda entrega
 
@@ -198,8 +198,8 @@ antes del despliegue (ver `docs/comprobantes-privados.md`).
       en una transacción. Contemplar personas que ya tienen ficha.
 - [x] Vista de agenda semanal: grilla de lunes a domingo por franja, navegación
       entre semanas y apertura de cada consulta para gestionar la visita.
-- [ ] Agendar la visita directamente desde un hueco libre de la grilla.
-- [ ] Búsqueda por nombre o teléfono dentro de la bandeja.
+- [x] Agendar la visita directamente desde un hueco libre de la grilla.
+- [x] Búsqueda por nombre o teléfono dentro de la bandeja.
 
 ## Fase 9 — Empleados y roles
 

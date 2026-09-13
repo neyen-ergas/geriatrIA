@@ -3,12 +3,12 @@ import { Badge, Card } from "@/components/ui";
 import { COLORES_CUOTA, ETIQUETAS_CUOTA, formatearFechaPago, formatearImporte } from "@/lib/pagos";
 import type { Vencimiento } from "@/lib/vencimientos-datos";
 
-export function ListaVencimientos({ vencimientos, vencidas }: {
-  vencimientos: Vencimiento[]; vencidas: boolean;
+export function ListaVencimientos({ vencimientos, vencidas, todosLosMeses = false }: {
+  vencimientos: Vencimiento[]; vencidas: boolean; todosLosMeses?: boolean;
 }): React.ReactElement {
   if (vencimientos.length === 0) return (
     <Card className="mt-6 p-8 text-center text-sm text-slate-600">
-      {vencidas ? "No hay cuotas vencidas con saldo en el mes elegido."
+      {todosLosMeses ? "No hay cuotas vencidas con saldo pendiente." : vencidas ? "No hay cuotas vencidas con saldo en el mes elegido."
         : "No hay cuotas creadas con saldo pendiente en el mes elegido."}
     </Card>
   );

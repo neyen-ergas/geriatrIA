@@ -19,7 +19,7 @@ export default async function AgendaPage({ searchParams }: {
     <div>
       <Link href="/admision" className="text-sm font-medium text-sky-700">← Volver a Admisión</Link>
       <h1 className="mt-4 text-2xl font-bold text-slate-900">Agenda de visitas</h1>
-      <p className="mt-2 text-sm text-slate-600">Una visita por día y franja. Para reservar un turno libre, abrí la consulta de la familia en Admisión.</p>
+      <p className="mt-2 text-sm text-slate-600">Una visita por día y franja. Elegí un turno libre para reservarlo para una familia.</p>
       <nav aria-label="Navegación semanal" className="mt-5 flex flex-wrap items-center gap-4 text-sm font-medium text-sky-700">
         {semana.anterior && <Link href={enlaceAgenda(semana.anterior)}>← Semana anterior</Link>}
         <Link href="/admision/agenda">Esta semana</Link>

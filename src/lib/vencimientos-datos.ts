@@ -22,16 +22,16 @@ const COLUMNAS_VENCIMIENTO = `
 `;
 
 export async function listarVencimientos(
-  mes: string, vencidas: boolean, paginaParam: unknown,
+  mes: string, vencidas: boolean, paginaParam: unknown, todosLosMeses = false,
 ): Promise<{ vencimientos: Vencimiento[]; total: number; pagina: number }> {
   const { inicio, fin } = limitesMesVencimientos(mes);
   const supabase = await createClient();
   const consulta = (conteo: boolean) => {
-    const seleccion = supabase.from("monthly_charge_balances")
+    let seleccion = supabase.from("monthly_charge_balances")
       .select(COLUMNAS_VENCIMIENTO, conteo ? { count: "exact", head: true } : {})
-      .gte("due_date", inicio).lte("due_date", fin)
       .gt("balance", 0).is("cancelled_at", null);
-    return vencidas ? seleccion.eq("is_overdue", true) : seleccion;
+    if (!todosLosMeses) seleccion = seleccion.gte("due_date", inicio).lte("due_date", fin);
+    return vencidas || todosLosMeses ? seleccion.eq("is_overdue", true) : seleccion;
   };
   const { count, error: errorConteo } = await consulta(true);
   if (errorConteo || count === null) throw new Error("No se pudieron contar los vencimientos.");

@@ -80,6 +80,7 @@ export async function actualizarPrimerIngreso(
     };
   }
 
+  revalidatePath("/");
   revalidatePath("/residentes");
   redirect("/residentes?actualizado=1");
 }
