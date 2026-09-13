@@ -66,6 +66,7 @@ async function guardarCambio(
     return { ok: false, error: mensajeErrorGestionConsulta(error) };
   }
 
+  revalidatePath("/");
   revalidatePath("/admision");
   revalidatePath("/admision/agenda");
   revalidatePath(`/admision/${validacion.datos.p_id}`);

@@ -61,6 +61,7 @@ export async function registrarPrimerIngreso(
     };
   }
 
+  revalidatePath("/");
   revalidatePath("/residentes");
   redirect("/residentes?creado=1");
 }

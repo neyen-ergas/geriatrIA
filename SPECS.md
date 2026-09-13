@@ -25,13 +25,20 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
 
 | Sección | Qué resuelve | Estado |
 | --- | --- | --- |
-| Inicio | Panel del día: qué hay pendiente ahora. | Placeholder |
+| Inicio | Panel del día: qué hay pendiente ahora. | Funcionando; consultas, visitas, cuotas vencidas e ingresos recientes |
 | Admisión | Consultas entrantes, llamados y agenda de visitas. | Funcionando |
 | Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
 | Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos, anulaciones, vencimientos y comprobantes privados |
 | Empleados | Personal de la residencia y sus datos laborales. | Placeholder |
 | Turnos | Grilla de turnos del personal. | Placeholder |
 | Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |
+
+Inicio usa la fecha argentina para hoy, mañana y los últimos siete días de
+ingresos. Sus cinco grupos se cargan en paralelo, cada uno con conteo exacto y
+hasta cinco registros; los errores se aíslan por grupo. Los pendientes enlazan
+a la consulta o cuenta/cuota correspondiente. Las cuotas vencidas abarcan todos
+los meses y solo cuotas creadas con saldo, incluidas estadías finalizadas.
+Ver `docs/inicio-y-reservas.md` para lecturas, límites y actualización.
 
 ### Multi-instalación
 

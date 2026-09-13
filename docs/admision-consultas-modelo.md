@@ -250,10 +250,25 @@ revierte sus datos al terminar.
 La migración cambia los permisos de escritura y requiere coordinar el despliegue
 del CRM. Ver [aplicación y recuperación](admision-transiciones-despliegue.md).
 
-## Próximo paso
+## Reserva desde la agenda y búsqueda
 
-Reservar desde un turno libre de la grilla, eligiendo una consulta existente.
-La búsqueda por nombre o teléfono en la bandeja también queda pendiente.
+Los turnos libres de hoy en adelante ofrecen «Reservar visita». La selección
+lista consultas nuevas o contactadas, con búsqueda por nombre o teléfono y
+páginas de 50 familias. Confirmar usa la misma acción y RPC que la bandeja:
+sesión, versión exacta de la consulta, fecha/franja válidas y turno único.
+Si otro operador ocupa el turno o cambia la consulta, se muestra el conflicto
+sin reintentar; al confirmar se abre la consulta con su visita registrada.
+No se crean consultas ni se reprograman visitas existentes desde esta selección.
+
+La bandeja comparte esa búsqueda. Los conteos y filas se filtran en la base;
+los enlaces mantienen búsqueda y estado al paginar. El texto se limita a 80
+caracteres y excluye sintaxis de filtros; los nombres admiten coincidencias
+parciales sin distinguir mayúsculas. Una búsqueda numérica permite separadores
+en el teléfono. No se aplica normalización de acentos.
+
+El texto buscado se conserva en la URL interna para navegación y recarga; puede
+quedar en el historial del navegador. No usar enlaces con nombres o teléfonos
+reales en documentación o reportes públicos. Ver también `inicio-y-reservas.md`.
 
 ## Agenda semanal
 

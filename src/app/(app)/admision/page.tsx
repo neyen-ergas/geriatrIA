@@ -12,6 +12,8 @@ import {
 } from "@/lib/admision";
 import { contarPorEstado, listarConsultas } from "@/lib/admision-datos";
 import { paginaAdmision } from "@/lib/paginacion-admision";
+import { busquedaConsultas } from "@/lib/busqueda-consultas";
+import { enlaceAdmision } from "@/lib/paginacion-admision";
 import { ConsultaCard } from "./consulta-card";
 import { Paginacion } from "./paginacion";
 
@@ -55,23 +57,24 @@ const TARJETAS = [
 export default async function AdmisionPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string | string[]; pagina?: string | string[] }>;
+  searchParams: Promise<{ estado?: string | string[]; pagina?: string | string[]; buscar?: string | string[] }>;
 }) {
   // El cliente admin saltea RLS, así que la sesión es lo único que separa estos
   // datos de cualquiera. El layout ya la verifica; acá se repite a propósito.
   await requerirSesion();
 
-  const { estado: estadoParam, pagina: paginaParam } = await searchParams;
+  const { estado: estadoParam, pagina: paginaParam, buscar } = await searchParams;
+  const busqueda = busquedaConsultas(buscar);
   const filtro: Estado | undefined = esEstado(estadoParam)
     ? estadoParam
     : undefined;
 
-  const conteo = await contarPorEstado();
+  const conteo = await contarPorEstado(busqueda);
   const total = filtro
     ? conteo[filtro]
     : Object.values(conteo).reduce((suma, cantidad) => suma + cantidad, 0);
   const pagina = paginaAdmision(paginaParam, total);
-  const consultas = await listarConsultas(filtro, pagina);
+  const consultas = await listarConsultas(filtro, pagina, busqueda);
 
   return (
     <div>
@@ -99,19 +102,29 @@ export default async function AdmisionPage({
       </div>
 
       <nav className="mt-6 flex flex-wrap gap-2">
-        <FiltroLink activo={!filtro}>Todas</FiltroLink>
+        <FiltroLink activo={!filtro} busqueda={busqueda}>Todas</FiltroLink>
         {ESTADOS.map((estado) => (
-          <FiltroLink key={estado} estado={estado} activo={filtro === estado}>
+          <FiltroLink key={estado} estado={estado} activo={filtro === estado} busqueda={busqueda}>
             {ETIQUETAS_ESTADO[estado]}
           </FiltroLink>
         ))}
       </nav>
 
-      <Paginacion pagina={pagina} total={total} estado={filtro} />
+      <form action="/admision" className="mt-5 flex flex-wrap items-end gap-3">
+        {filtro && <input type="hidden" name="estado" value={filtro} />}
+        <label className="text-sm text-slate-700">Nombre o teléfono
+          <input key={busqueda} name="buscar" maxLength={80} defaultValue={busqueda}
+            className="ml-2 rounded-lg border border-slate-300 px-3 py-2" />
+        </label>
+        <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm text-white">Buscar</button>
+        {busqueda && <Link href={enlaceAdmision(1, filtro)} className="text-sm underline">Limpiar búsqueda</Link>}
+      </form>
+      {busqueda && <p className="mt-3 text-sm text-slate-500">Resultados para «{busqueda}». Los contadores corresponden a esta búsqueda.</p>}
+      <Paginacion pagina={pagina} total={total} estado={filtro} busqueda={busqueda} />
 
       {consultas.length === 0 ? (
         <Card className="mt-6 flex h-48 items-center justify-center p-6 text-sm text-slate-400">
-          {filtro
+          {busqueda ? "No hay consultas que coincidan con la búsqueda." : filtro
             ? `No hay consultas en «${ETIQUETAS_ESTADO[filtro]}».`
             : "Todavía no entró ninguna consulta."}
         </Card>
@@ -123,7 +136,7 @@ export default async function AdmisionPage({
         </div>
       )}
       {consultas.length > 0 && (
-        <Paginacion pagina={pagina} total={total} estado={filtro} />
+        <Paginacion pagina={pagina} total={total} estado={filtro} busqueda={busqueda} />
       )}
     </div>
   );
@@ -133,14 +146,16 @@ function FiltroLink({
   estado,
   activo,
   children,
+  busqueda,
 }: {
   estado?: Estado;
   activo: boolean;
   children: React.ReactNode;
+  busqueda?: string;
 }) {
   return (
     <Link
-      href={estado ? `/admision?estado=${estado}` : "/admision"}
+      href={enlaceAdmision(1, estado, busqueda)}
       className={cn(
         "rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors",
         activo

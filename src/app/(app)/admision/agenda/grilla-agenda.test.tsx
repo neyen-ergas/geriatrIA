@@ -14,4 +14,8 @@ it("muestra ocupados, libres y días pasados con enlaces que conservan la semana
   expect(html).toContain("Familia &lt;script&gt;");
   expect(html).toContain('href="/admision/consulta?semana=2026-09-07"');
   expect(html).toContain('href="tel:000000"');
+  expect(html.match(/>Reservar visita</g)).toHaveLength(9);
+  expect(html).toContain('/reservar?fecha=2026-09-09&amp;franja=manana');
+  expect(html).not.toContain('/reservar?fecha=2026-09-07');
+  expect(html).not.toContain('/reservar?fecha=2026-09-10&amp;franja=manana');
 });
