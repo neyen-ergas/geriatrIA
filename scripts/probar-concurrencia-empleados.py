@@ -9,6 +9,7 @@ ejecutar, sesion, esperar_bloqueo = [utilidades[n] for n in ("ejecutar", "sesion
 
 def probar():
     usuario = str(uuid.uuid4())
+    dni = f"TEST-{uuid.uuid4().hex[:16]}"
     nombre = f"prueba_empleados_{uuid.uuid4().hex}"
     empleado = None
     primera = segunda = None
@@ -19,12 +20,12 @@ def probar():
     """
     try:
         empleado = ejecutar(f"""begin; {autenticacion}
-            select public.save_employee(null,null,'Ficticio','Prueba','TEST-{usuario}','Cuidador','2025-01-01');
+            select public.save_employee(null,null,'Ficticio','Prueba','{dni}','Cuidador','2025-01-01');
             commit;
         """)
         version = ejecutar(f"select updated_at from public.employees where id = '{empleado}';")
         primera = sesion(f"""begin; {autenticacion}
-            select public.save_employee('{empleado}','{version}','Ficticio','Prueba','TEST-{usuario}','Coordinador','2025-01-01') \\gset
+            select public.save_employee('{empleado}','{version}','Ficticio','Prueba','{dni}','Coordinador','2025-01-01') \\gset
             \\echo LISTO
         """)
         assert primera.stdout.readline().strip() == "LISTO"
