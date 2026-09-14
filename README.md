@@ -156,9 +156,9 @@ datos reales en pruebas.
 **Pendiente**
 
 - **Turnos** y **Entrevistas**.
-- Vincular empleados con cuentas y ampliar la auditoría. Los perfiles y sus
-  permisos están implementados; ver [docs/permisos.md](docs/permisos.md).
-- Nuevos flujos posteriores a la agenda y conversión ya implementadas.
+- Ampliar la auditoría. Los perfiles, sus permisos y el vínculo de cuentas con
+  empleados están implementados; ver [docs/permisos.md](docs/permisos.md) y
+  [docs/cuentas-empleados.md](docs/cuentas-empleados.md).
 - Documentación e información médica del residente.
 
 El detalle, en orden de trabajo, está en [ROADMAP.md](ROADMAP.md).

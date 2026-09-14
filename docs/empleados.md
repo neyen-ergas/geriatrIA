@@ -17,9 +17,11 @@ ella. No hay eliminación, reapertura ni recontratación en esta entrega: estas
 últimas necesitan modelar períodos laborales sin sobrescribir una baja.
 
 La ficha no crea una cuenta, invita usuarios ni habilita acceso al sistema.
-Vínculo con Supabase Auth, salarios, turnos y documentos laborales siguen
-pendientes. Los perfiles se administran por separado en Accesos; ver
-[permisos.md](permisos.md).
+La sección Cuenta de acceso permite vincular una cuenta existente con perfil
+asignado. La baja exige suspenderla previamente y conserva esa asociación.
+Ver [cuentas-empleados.md](cuentas-empleados.md) para identidad y correcciones.
+Salarios, turnos y documentos laborales siguen pendientes. Los perfiles se
+administran por separado en Accesos; ver [permisos.md](permisos.md).
 
 Migración aditiva `20260913000000_manage_employees.sql`, antes de la interfaz.
 No modifica residentes, consultas ni cuentas de Auth. Para volver al código

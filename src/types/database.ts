@@ -176,6 +176,48 @@ export type Database = {
           },
         ]
       }
+      employee_account_events: {
+        Row: {
+          changed_at: string
+          changed_by: string
+          employee_id: string | null
+          id: number
+          previous_employee_id: string | null
+          user_id: string
+        }
+        Insert: {
+          changed_at?: string
+          changed_by: string
+          employee_id?: string | null
+          id?: never
+          previous_employee_id?: string | null
+          user_id: string
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string
+          employee_id?: string | null
+          id?: never
+          previous_employee_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_account_events_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employee_account_events_previous_employee_id_fkey"
+            columns: ["previous_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       employees: {
         Row: {
           birth_date: string | null
@@ -440,6 +482,7 @@ export type Database = {
       }
       user_access: {
         Row: {
+          employee_id: string | null
           enabled: boolean
           role: string
           updated_at: string
@@ -447,6 +490,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          employee_id?: string | null
           enabled?: boolean
           role: string
           updated_at?: string
@@ -454,13 +498,22 @@ export type Database = {
           user_id: string
         }
         Update: {
+          employee_id?: string | null
           enabled?: boolean
           role?: string
           updated_at?: string
           updated_by?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_access_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: true
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       visit_events: {
         Row: {
@@ -616,6 +669,9 @@ export type Database = {
         Args: never
         Returns: {
           email: string
+          employee_id: string
+          employee_name: string
+          employee_terminated_at: string
           enabled: boolean
           role: string
           updated_at: string
@@ -651,6 +707,14 @@ export type Database = {
           p_phone?: string
         }
         Returns: string
+      }
+      set_employee_account: {
+        Args: {
+          p_employee_id?: string
+          p_expected_updated_at: string
+          p_user_id: string
+        }
+        Returns: undefined
       }
       set_user_access: {
         Args: {

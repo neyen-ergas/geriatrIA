@@ -1,7 +1,10 @@
 import { expect, it } from "vitest";
-import { enlaceEmpleados, leerEmpleado, validarEmpleado, validarBajaEmpleado } from "./empleados";
+import { enlaceEmpleados, errorEmpleado, leerEmpleado, validarEmpleado, validarBajaEmpleado } from "./empleados";
 
 const base = () => leerEmpleado(formulario());
+it("explica cómo resolver la baja cuando la cuenta sigue habilitada", () => {
+  expect(errorEmpleado({ code: "23514", message: "employee_access_enabled" })).toContain("Suspendé primero la cuenta vinculada");
+});
 it("normaliza DNI y admite contactos y nacimiento vacíos", () => {
   const resultado = validarEmpleado(base(), "2026-09-13");
   expect(resultado).toMatchObject({ ok: true, datos: { p_dni: "12345678", p_birth_date: undefined, p_email: undefined } });

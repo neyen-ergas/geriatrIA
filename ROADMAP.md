@@ -210,7 +210,7 @@ Acá aparece el primer usuario que no es el dueño, y con él la autorización r
 - [x] Modelo de roles y permisos por sección: Administrador, Gestión y Solo lectura.
 - [x] Políticas restrictivas por rol, RPC autorizadas y administración de accesos.
 - [x] Sacar `consulta` del acceso con `service_role`: lecturas con sesión y RLS.
-- [ ] Vincular cada cuenta de Supabase Auth con su empleado.
+- [x] Vincular cuentas de Supabase Auth con empleados, con unicidad e historial.
 - [x] Autoría de creación y anulación de movimientos financieros en el esquema.
 - [ ] Extender la auditoría de Admisión de la Fase 5A a los demás cambios
       operativos, incluidos los datos de residentes, y ofrecer su consulta.

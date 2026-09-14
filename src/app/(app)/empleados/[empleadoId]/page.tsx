@@ -4,13 +4,16 @@ import { notFound } from "next/navigation";
 import { Card } from "@/components/ui";
 import { requerirSesion } from "@/lib/auth";
 import { obtenerEmpleado } from "@/lib/empleados-datos";
+import { listarAccesos } from "@/lib/accesos-datos";
 import { formatearFechaPago } from "@/lib/pagos";
+import { CuentaEmpleado } from "../cuenta-empleado";
 
 export const metadata: Metadata = { title: "Ficha de empleado · geriatrIA" };
 export default async function EmpleadoPage({ params }: { params: Promise<{ empleadoId: string }> }): Promise<React.ReactElement> {
   await requerirSesion("administration");
   const empleado = await obtenerEmpleado((await params).empleadoId);
   if (!empleado) notFound();
+  const cuentas = await listarAccesos();
   const campos = [
     ["DNI", empleado.dni], ["Puesto", empleado.job_title], ["Fecha de alta", formatearFechaPago(empleado.hired_at)],
     ["Nacimiento", empleado.birth_date ? formatearFechaPago(empleado.birth_date) : "Sin informar"],
@@ -29,5 +32,6 @@ export default async function EmpleadoPage({ params }: { params: Promise<{ emple
       <Link href={`/empleados/${empleado.id}/editar`} className="text-sky-800 underline">Editar ficha</Link>
       <Link href={`/empleados/${empleado.id}/baja`} className="text-red-700 underline">Dar de baja</Link>
     </nav>}
+    <CuentaEmpleado empleadoId={empleado.id} inactivo={empleado.terminated_at !== null} cuentas={cuentas} />
   </div>;
 }

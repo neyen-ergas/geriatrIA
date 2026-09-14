@@ -30,6 +30,7 @@ it("conserva versión exacta, valida perfil y actualiza la navegación", async (
 it.each([
   ["40001", "access_changed", "Volvé a cargar"],
   ["23514", "last_admin_required", "al menos un Administrador"],
+  ["23514", "employee_inactive", "debe permanecer suspendida"],
   ["42501", "DATO PRIVADO", "Revisá tus permisos"],
 ])("traduce el rechazo %s sin reintentar", async (code, message, esperado) => {
   mocks.rpc.mockResolvedValue({ error: { code, message } });
