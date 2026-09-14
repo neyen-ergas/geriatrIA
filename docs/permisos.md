@@ -49,7 +49,8 @@ permisos hasta que un Administrador les asigne perfil y las habilite.
   ya descargados ni interrumpe lecturas iniciadas antes de la revocación.
 - `access_events` conserva antes/después, fecha y autor tomado de la sesión.
   Solo admin puede leerlo, nadie escribe directamente desde el cliente. La
-  pantalla de historial completo queda pendiente junto a la auditoría general.
+  pantalla de [Auditoría](auditoria.md) permite consultar ese historial y los
+  demás cambios operativos, exclusivamente como Administrador.
 
 ## Instalación y recuperación
 

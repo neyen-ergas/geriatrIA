@@ -95,6 +95,54 @@ export type Database = {
           },
         ]
       }
+      audit_events: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_label: string | null
+          changed_fields: string[]
+          id: number
+          new_values: Json | null
+          occurred_at: string
+          old_values: Json | null
+          origin: string
+          record_id: string
+          record_label: string | null
+          source_key: string | null
+          table_name: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_label?: string | null
+          changed_fields: string[]
+          id?: never
+          new_values?: Json | null
+          occurred_at?: string
+          old_values?: Json | null
+          origin?: string
+          record_id: string
+          record_label?: string | null
+          source_key?: string | null
+          table_name: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_label?: string | null
+          changed_fields?: string[]
+          id?: never
+          new_values?: Json | null
+          occurred_at?: string
+          old_values?: Json | null
+          origin?: string
+          record_id?: string
+          record_label?: string | null
+          source_key?: string | null
+          table_name?: string
+        }
+        Relationships: []
+      }
       consulta: {
         Row: {
           actualizado_en: string

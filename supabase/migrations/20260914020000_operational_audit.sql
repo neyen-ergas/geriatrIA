@@ -35,6 +35,7 @@ grant select on public.audit_events to authenticated;
 create policy audit_events_admin_read on public.audit_events for select to authenticated
 using ((select public.has_permission('administration')));
 create index audit_events_time on public.audit_events (occurred_at desc, id desc);
+create index audit_events_table_time on public.audit_events (table_name, occurred_at desc, id desc);
 create index audit_events_record on public.audit_events (table_name, record_id, occurred_at desc, id desc);
 create index audit_events_actor on public.audit_events (actor_id, occurred_at desc, id desc);
 
@@ -145,5 +146,22 @@ update public.audit_events a set changed_fields = (
   select coalesce(array_agg(field order by field),array[]::text[]) from unnest(a.changed_fields) field
   where (a.old_values -> field) is distinct from (a.new_values -> field)
 ) where origin = 'historical';
+
+-- Referencias legibles al importar, no supuestos sobre nombres o correos que
+-- esas personas tenían en el pasado. El detalle histórico sigue siendo parcial.
+update public.audit_events a set actor_label = u.email from auth.users u
+where a.origin = 'historical' and a.actor_id = u.id;
+update public.audit_events a set record_label = case a.table_name
+  when 'consulta' then (select nombre from public.consulta where id = a.record_id)
+  when 'user_access' then (select email from auth.users where id = a.record_id)
+  when 'employees' then (select last_name || ', ' || first_name from public.employees where id = a.record_id)
+  when 'consultation_admissions' then (select nombre from public.consulta where id = a.record_id)
+  when 'monthly_charges' then (select r.last_name || ', ' || r.first_name from public.monthly_charges c
+    join public.admissions s on s.id = c.admission_id join public.residents r on r.id = s.resident_id where c.id = a.record_id)
+  when 'payments' then (select r.last_name || ', ' || r.first_name from public.payments p
+    join public.monthly_charges c on c.id = p.monthly_charge_id join public.admissions s on s.id = c.admission_id
+    join public.residents r on r.id = s.resident_id where p.id = a.record_id)
+  else null end
+where a.origin = 'historical';
 
 commit;

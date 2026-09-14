@@ -7,6 +7,7 @@ import {
   Wallet,
   MessageSquare,
   ShieldCheck,
+  History,
 } from "lucide-react";
 
 // Ordenadas según el recorrido del negocio: primero entra la consulta, después
@@ -20,4 +21,5 @@ export const NAV = [
   { href: "/contabilidad", label: "Contabilidad", icon: Wallet },
   { href: "/entrevistas", label: "Entrevistas", icon: MessageSquare },
   { href: "/accesos", label: "Accesos", icon: ShieldCheck },
+  { href: "/auditoria", label: "Auditoría", icon: History },
 ];

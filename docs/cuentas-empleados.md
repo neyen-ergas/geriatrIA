@@ -36,7 +36,7 @@ la baja ni edita los datos laborales de una ficha inactiva.
 con FK restrictiva y restricción única. No completa vínculos existentes.
 `employee_account_events` conserva cuenta, ficha anterior/nueva, fecha y autor;
 solo Administrador puede leerlo y el cliente no puede escribirlo directamente.
-El historial visual queda pendiente junto a la auditoría general.
+El historial visual se consulta en [Auditoría](auditoria.md), sección Accesos y cuentas.
 
 `set_employee_account` exige Administrador y la versión exacta del acceso,
 rechaza cuentas sin perfil y evita reemplazar silenciosamente otra asociación.

@@ -7,6 +7,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Auditoría exclusiva de Administrador: filtros, paginación y comparación de
+  valores anteriores/nuevos en nueve tablas operativas. Captura transaccional
+  con autor, motivos de bajas/anulaciones y referencias históricas; importación
+  explícitamente parcial de los hechos previos verificables. Requiere aplicar
+  `20260914020000_operational_audit.sql` antes de la interfaz. Ver `docs/auditoria.md`.
+
+### Agregado
 - Vínculo explícito entre cuentas y fichas de empleados, administrado desde la
   ficha y visible en Accesos. Una cuenta por empleado, versión compartida con
   los permisos y registro de vínculos/correcciones con autor. Vincular o
