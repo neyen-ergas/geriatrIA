@@ -106,6 +106,7 @@ src/
         [admissionId]/editar/
         [admissionId]/baja/
         reingreso/[residentId]/
+        ficha/[residentId]/     Consulta de persona, contactos y estadías.
       contabilidad/           Cuentas de estadías activas y finalizadas.
         [admissionId]/        Cuotas, pagos acumulados y saldos de una estadía.
       empleados/              Fichas, alta, edición y baja del personal.
@@ -314,6 +315,11 @@ Nombres en inglés, acordados en su documento de diseño.
 **Por qué residente e ingreso están separados:** `residents` es la persona y
 conserva sus datos aunque deje la institución. `admissions` es cada estadía.
 Permite dar de baja y reingresar sin duplicar identidad ni perder historia.
+
+La ficha de consulta reúne datos personales y contactos actuales junto al
+historial paginado de estadías, con acceso a la cuenta de cada ingreso. Disponible
+para los tres perfiles operativos; Solo lectura no ve acciones de gestión.
+Ver [docs/ficha-residente.md](docs/ficha-residente.md).
 
 - `residents` — `first_name`, `last_name`, `dni` (**único**), `birth_date`,
   `phone`, `address`, `notes`. Los campos de texto obligatorios tienen `check`

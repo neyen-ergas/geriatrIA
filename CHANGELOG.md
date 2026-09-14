@@ -7,6 +7,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Ficha de consulta del residente desde Activos y Bajas, con datos personales,
+  contactos y estadías paginadas, motivos de baja y acceso a cada cuenta.
+  Disponible para los tres perfiles; las acciones existentes respetan permisos
+  y estado actual aunque se consulte una página histórica. No requiere migración.
+
+### Agregado
 - Auditoría exclusiva de Administrador: filtros, paginación y comparación de
   valores anteriores/nuevos en nueve tablas operativas. Captura transaccional
   con autor, motivos de bajas/anulaciones y referencias históricas; importación
