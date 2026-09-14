@@ -321,6 +321,12 @@ historial paginado de estadías, con acceso a la cuenta de cada ingreso. Disponi
 para los tres perfiles operativos; Solo lectura no ve acciones de gestión.
 Ver [docs/ficha-residente.md](docs/ficha-residente.md).
 
+Administrador y Gestión agregan y editan contactos desde la ficha, tengan o no
+estadía activa. `save_family_contact` conserva la pertenencia al residente y
+comprueba la versión al editar. La edición del ingreso también envía la versión
+del contacto inicial para evitar sobrescrituras entre formularios. Ver
+[docs/familiares.md](docs/familiares.md).
+
 - `residents` — `first_name`, `last_name`, `dni` (**único**), `birth_date`,
   `phone`, `address`, `notes`. Los campos de texto obligatorios tienen `check`
   de no-vacío.
@@ -422,12 +428,15 @@ La forma exacta se define al empezar cada módulo, no antes.
 
 | Tabla | Alcance |
 | --- | --- |
-| `resident_documents` | Metadatos y ruta de la imagen privada en Storage. |
-| `medical_indications` | Indicaciones médicas vigentes e históricas. |
-| `medications` | Medicamento, dosis, frecuencia, horarios y vigencia. |
-| `special_needs` | Alimentación, alergias, movilidad, cuidados especiales. |
-| `inventory_items` | Pertenencias entregadas en cada ingreso. |
 | `shifts` | Grilla de turnos del personal. |
+
+La documentación, salud y pertenencias ya se implementan en las tablas
+`resident_documents`, `medical_indications`, `medications`, `special_needs` e
+`inventory_items`. Los tres perfiles consultan; Administrador y Gestión guardan
+mediante `save_resident_record`, con versión y archivo con motivo. Los documentos
+van a un bucket privado y las pertenencias quedan vinculadas a una estadía.
+Ver [docs/ficha-integral.md](docs/ficha-integral.md) para campos, vigencias,
+permisos, archivos y límites del módulo.
 
 ---
 

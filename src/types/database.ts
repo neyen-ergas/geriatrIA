@@ -373,6 +373,193 @@ export type Database = {
           },
         ]
       }
+      inventory_items: {
+        Row: {
+          admission_id: string
+          archived_at: string | null
+          archived_reason: string | null
+          created_at: string
+          created_by: string
+          description: string
+          id: string
+          notes: string | null
+          quantity: number
+          received_on: string
+          resident_id: string
+          returned_on: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          admission_id: string
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by: string
+          description: string
+          id: string
+          notes?: string | null
+          quantity: number
+          received_on: string
+          resident_id: string
+          returned_on?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          admission_id?: string
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string
+          id?: string
+          notes?: string | null
+          quantity?: number
+          received_on?: string
+          resident_id?: string
+          returned_on?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_items_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_items_resident_id_fkey"
+            columns: ["resident_id"]
+            isOneToOne: false
+            referencedRelation: "residents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medical_indications: {
+        Row: {
+          archived_at: string | null
+          archived_reason: string | null
+          created_at: string
+          created_by: string
+          ends_on: string | null
+          id: string
+          instructions: string
+          professional: string
+          resident_id: string
+          starts_on: string
+          title: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by: string
+          ends_on?: string | null
+          id: string
+          instructions: string
+          professional: string
+          resident_id: string
+          starts_on: string
+          title: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by?: string
+          ends_on?: string | null
+          id?: string
+          instructions?: string
+          professional?: string
+          resident_id?: string
+          starts_on?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medical_indications_resident_id_fkey"
+            columns: ["resident_id"]
+            isOneToOne: false
+            referencedRelation: "residents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medications: {
+        Row: {
+          archived_at: string | null
+          archived_reason: string | null
+          created_at: string
+          created_by: string
+          dose: string
+          ends_on: string | null
+          frequency: string
+          id: string
+          name: string
+          notes: string | null
+          professional: string
+          resident_id: string
+          schedule: string
+          starts_on: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by: string
+          dose: string
+          ends_on?: string | null
+          frequency: string
+          id: string
+          name: string
+          notes?: string | null
+          professional: string
+          resident_id: string
+          schedule: string
+          starts_on: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by?: string
+          dose?: string
+          ends_on?: string | null
+          frequency?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          professional?: string
+          resident_id?: string
+          schedule?: string
+          starts_on?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medications_resident_id_fkey"
+            columns: ["resident_id"]
+            isOneToOne: false
+            referencedRelation: "residents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       monthly_charges: {
         Row: {
           admission_id: string
@@ -489,6 +676,62 @@ export type Database = {
           },
         ]
       }
+      resident_documents: {
+        Row: {
+          archived_at: string | null
+          archived_reason: string | null
+          created_at: string
+          created_by: string
+          document_type: string
+          file_path: string
+          id: string
+          issued_on: string | null
+          notes: string | null
+          resident_id: string
+          title: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by: string
+          document_type: string
+          file_path: string
+          id: string
+          issued_on?: string | null
+          notes?: string | null
+          resident_id: string
+          title: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by?: string
+          document_type?: string
+          file_path?: string
+          id?: string
+          issued_on?: string | null
+          notes?: string | null
+          resident_id?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resident_documents_resident_id_fkey"
+            columns: ["resident_id"]
+            isOneToOne: false
+            referencedRelation: "residents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       residents: {
         Row: {
           address: string | null
@@ -527,6 +770,53 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      special_needs: {
+        Row: {
+          archived_at: string | null
+          archived_reason: string | null
+          category: string
+          created_at: string
+          created_by: string
+          details: string
+          id: string
+          resident_id: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          category: string
+          created_at?: string
+          created_by: string
+          details: string
+          id: string
+          resident_id: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          archived_at?: string | null
+          archived_reason?: string | null
+          category?: string
+          created_at?: string
+          created_by?: string
+          details?: string
+          id?: string
+          resident_id?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "special_needs_resident_id_fkey"
+            columns: ["resident_id"]
+            isOneToOne: false
+            referencedRelation: "residents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_access: {
         Row: {
@@ -740,6 +1030,7 @@ export type Database = {
         Returns: string
       }
       require_permission: { Args: { p_permission: string }; Returns: undefined }
+      resident_record_fields: { Args: { p_section: string }; Returns: string[] }
       save_employee: {
         Args: {
           p_birth_date?: string
@@ -753,6 +1044,32 @@ export type Database = {
           p_last_name?: string
           p_notes?: string
           p_phone?: string
+        }
+        Returns: string
+      }
+      save_family_contact: {
+        Args: {
+          p_expected_updated_at?: string
+          p_first_name?: string
+          p_id: string
+          p_is_emergency_contact?: boolean
+          p_is_payment_responsible?: boolean
+          p_last_name?: string
+          p_notes?: string
+          p_phone?: string
+          p_relationship?: string
+          p_resident_id: string
+        }
+        Returns: string
+      }
+      save_resident_record: {
+        Args: {
+          p_archive_reason?: string
+          p_expected_updated_at?: string
+          p_id: string
+          p_resident_id: string
+          p_section: string
+          p_values?: Json
         }
         Returns: string
       }
@@ -796,6 +1113,7 @@ export type Database = {
           p_contact_phone: string
           p_contact_relationship: string
           p_due_day: number
+          p_expected_contact_updated_at?: string
           p_monthly_fee: number
           p_resident_address?: string
           p_resident_birth_date: string

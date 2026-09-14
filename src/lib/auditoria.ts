@@ -1,11 +1,13 @@
 import type { Tables } from "@/types/database";
 
-export const TABLAS_AUDITORIA = ["consulta", "residents", "family_contacts", "admissions", "monthly_charges", "payments", "employees", "user_access", "consultation_admissions"] as const;
+export const TABLAS_AUDITORIA = ["consulta", "residents", "family_contacts", "admissions", "monthly_charges", "payments", "employees", "user_access", "consultation_admissions", "resident_documents", "medical_indications", "medications", "special_needs", "inventory_items"] as const;
 export type TablaAuditoria = (typeof TABLAS_AUDITORIA)[number];
 export const ETIQUETAS_TABLA: Record<TablaAuditoria, string> = {
   consulta: "Consultas y visitas", residents: "Residentes", family_contacts: "Familiares",
   admissions: "Estadías", monthly_charges: "Cuotas", payments: "Pagos",
   employees: "Empleados", user_access: "Accesos y cuentas", consultation_admissions: "Conversión a ingreso",
+  resident_documents: "Documentos del residente", medical_indications: "Indicaciones médicas",
+  medications: "Medicación", special_needs: "Cuidados especiales", inventory_items: "Pertenencias",
 };
 export const ACCIONES_AUDITORIA = ["insert", "update", "delete"] as const;
 export type AccionAuditoria = (typeof ACCIONES_AUDITORIA)[number];

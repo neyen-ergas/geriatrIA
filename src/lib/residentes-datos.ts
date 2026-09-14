@@ -24,6 +24,7 @@ type ResidenteEditable = Pick<
 type ContactoEditable = Pick<
   Tables<"family_contacts">,
   | "id"
+  | "updated_at"
   | "first_name"
   | "last_name"
   | "relationship"
@@ -311,8 +312,8 @@ export async function obtenerIngresoActivoParaBaja(
 
 /**
  * Datos del alta original que todavía pueden modificarse. El primer ingreso
- * crea un único contacto; por eso se toma el más antiguo. La futura gestión de
- * múltiples contactos tendrá su propia pantalla.
+ * crea un único contacto; por eso se toma el más antiguo. Los contactos
+ * adicionales se gestionan desde la ficha de consulta del residente.
  */
 export async function obtenerIngresoActivoParaEditar(
   admissionId: string,
@@ -341,10 +342,11 @@ export async function obtenerIngresoActivoParaEditar(
     supabase
       .from("family_contacts")
       .select(
-        "id, first_name, last_name, relationship, phone, is_emergency_contact, is_payment_responsible, notes",
+        "id, updated_at, first_name, last_name, relationship, phone, is_emergency_contact, is_payment_responsible, notes",
       )
       .eq("resident_id", admission.resident_id)
       .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
       .limit(1)
       .maybeSingle(),
   ]);

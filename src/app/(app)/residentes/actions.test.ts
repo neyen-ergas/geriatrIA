@@ -20,7 +20,7 @@ vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidar }));
 vi.mock("next/navigation", () => ({ redirect: mocks.redirigir }));
 
 const INICIAL = { errores: {}, mensaje: null, valores: {} };
-const IDS = { admissionId: "ingreso", residentId: "persona", contactId: "contacto" };
+const IDS = { admissionId: "ingreso", residentId: "persona", contactId: "contacto", contactVersion: "2026-03-05T12:00:00Z" };
 const ACCIONES = [
   { nombre: "alta", ejecutar: (datos: FormData) =>
     registrarPrimerIngreso(INICIAL, datos) },

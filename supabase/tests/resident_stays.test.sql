@@ -115,7 +115,8 @@ select throws_ok($$select pg_temp.comprobar($q$
     '10000000-0000-4000-8000-000000000012',
     'Nombre cambiado', 'Uno', 'TEST-FECHAS-1', '1940-01-01',
     'Contacto cambiado', 'Uno', 'Familiar', '000000', true, true,
-    '2026-01-15', 200, 10)
+    '2026-01-15', 200, 10, p_expected_contact_updated_at :=
+      (select updated_at from family_contacts where id = '10000000-0000-4000-8000-000000000010'))
 $q$)$$, '23P01', 'admissions_stays_overlap', 'RPC de edición rechaza historia superpuesta');
 select is((select first_name from residents where dni = 'TEST-FECHAS-1'),
   'Persona ficticia', 'la edición fallida revierte la persona');

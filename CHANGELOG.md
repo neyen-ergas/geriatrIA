@@ -7,6 +7,20 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Ficha integral con documentos privados JPG/PNG/PDF, indicaciones médicas,
+  medicación con vigencia, cuidados especiales y pertenencias por estadía.
+  Consulta paginada, altas/ediciones con versión y archivo con motivo. Auditoría
+  ampliada a las cinco tablas; descargas privadas de corta duración. Requiere
+  `20260914040000_resident_records.sql`. Alcance en `docs/ficha-integral.md`.
+
+### Agregado
+- Alta y edición de familiares desde la ficha del residente para Administrador
+  y Gestión. Controles de pertenencia y versión, reenvío de alta sin duplicación
+  y auditoría automática. La edición del ingreso también protege la versión del
+  contacto inicial. Requiere `20260914030000_manage_family_contacts.sql`; tras el
+  despliegue hay que recargar los formularios antiguos de edición de ingreso.
+
+### Agregado
 - Ficha de consulta del residente desde Activos y Bajas, con datos personales,
   contactos y estadías paginadas, motivos de baja y acceso a cada cuenta.
   Disponible para los tres perfiles; las acciones existentes respetan permisos
