@@ -94,6 +94,9 @@ jobs:
       - name: Audit historical migration
         run: python3 scripts/probar-importacion-auditoria.py
 
+      - name: Concurrent family contact edits
+        run: python3 scripts/probar-concurrencia-familiares.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop

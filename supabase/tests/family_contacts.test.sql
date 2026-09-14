@@ -50,6 +50,14 @@ select throws_ok(format($$select save_family_contact('87000000-0000-4000-8000-00
  %L,'Familiar','Ficticio','Hija','2222222')$$, :'actual'),'40001','contact_changed','edición de ingreso invalida el formulario de familiar');
 select lives_ok($$select save_family_contact('87000000-0000-4000-8000-000000000011','87000000-0000-4000-8000-000000000021',
  null,'Otro','Familiar','Hijo','0000000')$$,'contactos no dependen de tener estadía activa');
+select lives_ok($$select update_active_admission(
+ '87000000-0000-4000-8000-000000000010','87000000-0000-4000-8000-000000000020','87000000-0000-4000-8000-000000000030',
+ 'Persona','Ficticia','TEST-FAMILY-A','1940-01-01','Familiar','Ficticio','Hija','3333333',true,true,'2025-01-01',100,10)$$,
+ 'cliente anterior puede guardar si conserva exactamente el contacto actual');
+select throws_ok($$select update_active_admission(
+ '87000000-0000-4000-8000-000000000010','87000000-0000-4000-8000-000000000020','87000000-0000-4000-8000-000000000030',
+ 'Persona','Ficticia','TEST-FAMILY-A','1940-01-01','Familiar','Ficticio','Hija','4444444',true,true,'2025-01-01',100,10)$$,
+ '40001','contact_changed','sin versión nunca puede modificar el contacto');
 reset role;
 select is((select count(*) from audit_events where table_name = 'family_contacts' and record_id = '87000000-0000-4000-8000-000000000020'),3::bigint,
  'auditoría registra alta y dos cambios, sin reenvíos ni fallos');

@@ -756,6 +756,21 @@ export type Database = {
         }
         Returns: string
       }
+      save_family_contact: {
+        Args: {
+          p_expected_updated_at?: string
+          p_first_name?: string
+          p_id: string
+          p_is_emergency_contact?: boolean
+          p_is_payment_responsible?: boolean
+          p_last_name?: string
+          p_notes?: string
+          p_phone?: string
+          p_relationship?: string
+          p_resident_id: string
+        }
+        Returns: string
+      }
       set_employee_account: {
         Args: {
           p_employee_id?: string
@@ -796,6 +811,7 @@ export type Database = {
           p_contact_phone: string
           p_contact_relationship: string
           p_due_day: number
+          p_expected_contact_updated_at?: string
           p_monthly_fee: number
           p_resident_address?: string
           p_resident_birth_date: string

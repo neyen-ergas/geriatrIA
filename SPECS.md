@@ -321,6 +321,12 @@ historial paginado de estadías, con acceso a la cuenta de cada ingreso. Disponi
 para los tres perfiles operativos; Solo lectura no ve acciones de gestión.
 Ver [docs/ficha-residente.md](docs/ficha-residente.md).
 
+Administrador y Gestión agregan y editan contactos desde la ficha, tengan o no
+estadía activa. `save_family_contact` conserva la pertenencia al residente y
+comprueba la versión al editar. La edición del ingreso también envía la versión
+del contacto inicial para evitar sobrescrituras entre formularios. Ver
+[docs/familiares.md](docs/familiares.md).
+
 - `residents` — `first_name`, `last_name`, `dni` (**único**), `birth_date`,
   `phone`, `address`, `notes`. Los campos de texto obligatorios tienen `check`
   de no-vacío.

@@ -15,11 +15,13 @@ import { createClient } from "@/lib/supabase/server";
 export type IdentificadoresEdicion = {
   admissionId: string;
   contactId: string;
+  contactVersion: string;
   residentId: string;
 };
 
 const UNIQUE_VIOLATION = "23505";
 const NO_DATA_FOUND = "P0002";
+const SERIALIZATION_FAILURE = "40001";
 
 export async function actualizarPrimerIngreso(
   ids: IdentificadoresEdicion,
@@ -44,10 +46,15 @@ export async function actualizarPrimerIngreso(
     ...validacion.datos,
     p_admission_id: ids.admissionId,
     p_contact_id: ids.contactId,
+    p_expected_contact_updated_at: ids.contactVersion,
     p_resident_id: ids.residentId,
   });
 
   if (error) {
+    if (error.code === SERIALIZATION_FAILURE && error.message === "contact_changed") {
+      return { errores: {}, valores,
+        mensaje: "El contacto cambió. Recargá el ingreso y revisá sus datos antes de guardar." };
+    }
     const mensaje = mensajeErrorEstadia(error);
     if (mensaje) return { errores: {}, mensaje, valores };
 
@@ -82,5 +89,6 @@ export async function actualizarPrimerIngreso(
 
   revalidatePath("/");
   revalidatePath("/residentes");
+  revalidatePath(`/residentes/ficha/${ids.residentId}`);
   redirect("/residentes?actualizado=1");
 }

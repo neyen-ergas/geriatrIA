@@ -14,7 +14,7 @@ const enlace = "text-sm font-medium text-sky-800 underline underline-offset-2";
 export default async function FichaResidentePage({ params, searchParams }: {
   params: Promise<{ residentId: string }>;
   searchParams: Promise<{
-    estadias?: string | string[]; contactos?: string | string[];
+    estadias?: string | string[]; contactos?: string | string[]; contacto?: string;
   }>;
 }): Promise<React.ReactElement> {
   const rol = await requerirSesion("operational.read");
@@ -64,6 +64,11 @@ export default async function FichaResidentePage({ params, searchParams }: {
 
     <section aria-labelledby="familiares">
       <h2 id="familiares" className="text-lg font-semibold">Familiares y contactos</h2>
+      {paginas.contacto === "1" && <p role="status"
+        className="my-3 text-sm text-emerald-700">Contacto guardado.</p>}
+      {puedeGestionar && <p className="mt-2"><Link
+        href={`/residentes/ficha/${residente.id}/familiares/nuevo`} className={enlace}
+      >Agregar contacto</Link></p>}
       <p className="mt-1 text-sm text-slate-500">
         Contactos actuales de la persona, compartidos entre sus estadías.
       </p>
@@ -84,6 +89,9 @@ export default async function FichaResidentePage({ params, searchParams }: {
                 valor={contacto.is_payment_responsible ? "Sí" : "No"} />
               <Dato titulo="Observaciones" valor={contacto.notes} />
             </dl>
+            {puedeGestionar && <p className="mt-4"><Link
+              href={`/residentes/ficha/${residente.id}/familiares/${contacto.id}/editar`}
+              className={enlace}>Editar contacto</Link></p>}
           </Card>
         </li>)}
       </ul>}

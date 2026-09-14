@@ -7,6 +7,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Alta y edición de familiares desde la ficha del residente para Administrador
+  y Gestión. Controles de pertenencia y versión, reenvío de alta sin duplicación
+  y auditoría automática. La edición del ingreso también protege la versión del
+  contacto inicial. Requiere `20260914030000_manage_family_contacts.sql`; tras el
+  despliegue hay que recargar los formularios antiguos de edición de ingreso.
+
+### Agregado
 - Ficha de consulta del residente desde Activos y Bajas, con datos personales,
   contactos y estadías paginadas, motivos de baja y acceso a cada cuenta.
   Disponible para los tres perfiles; las acciones existentes respetan permisos

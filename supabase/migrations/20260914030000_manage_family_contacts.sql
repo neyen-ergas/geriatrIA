@@ -141,7 +141,14 @@ begin
     notes = nullif(btrim(p_contact_notes), '')
   where id = p_contact_id
     and resident_id = p_resident_id
-    and updated_at = p_expected_contact_updated_at;
+    and (updated_at = p_expected_contact_updated_at
+      -- Compatibilidad del cliente anterior: sin versión solo puede conservar
+      -- exactamente el contacto actual, nunca modificarlo o sobrescribirlo.
+      or (p_expected_contact_updated_at is null and
+        row(first_name,last_name,relationship,phone,is_emergency_contact,is_payment_responsible,notes)
+        is not distinct from row(btrim(p_contact_first_name),btrim(p_contact_last_name),
+          btrim(p_contact_relationship),btrim(p_contact_phone),p_contact_is_emergency_contact,
+          p_contact_is_payment_responsible,nullif(btrim(p_contact_notes),''))));
 
   get diagnostics v_affected_rows = row_count;
   if v_affected_rows <> 1 then

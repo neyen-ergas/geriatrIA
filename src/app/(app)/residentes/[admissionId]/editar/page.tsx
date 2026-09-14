@@ -27,6 +27,7 @@ export default async function EditarResidentePage({
   const formAction = actualizarPrimerIngreso.bind(null, {
     admissionId: admission.id,
     contactId: contact.id,
+    contactVersion: contact.updated_at,
     residentId: resident.id,
   });
   const valoresIniciales: ValoresPrimerIngreso = {
