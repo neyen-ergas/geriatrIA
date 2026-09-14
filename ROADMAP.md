@@ -227,8 +227,8 @@ Acá aparece el primer usuario que no es el dueño, y con él la autorización r
 
 Cada tabla se diseña al empezar su módulo, no antes.
 
-- [ ] Ficha de consulta del residente con sus estadías y contactos, incluida
-      la gestión de familiares adicionales al contacto inicial.
+- [x] Ficha de consulta del residente con todas sus estadías y contactos.
+- [ ] Gestión de familiares adicionales al contacto inicial desde la ficha.
 - [ ] `resident_documents` con bucket privado de Storage.
 - [ ] Carga de documentos como imágenes; un documento faltante no bloquea el
       ingreso, queda pendiente.

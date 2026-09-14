@@ -293,9 +293,10 @@ function TablaActivos({ residentes }: { residentes: ResidenteActivo[] }) {
                         colorClass="bg-emerald-600"
                       />
                       <div>
-                        <div className="font-semibold text-slate-900">
+                        <Link href={`/residentes/ficha/${resident.id}`}
+                          className="font-semibold text-sky-800 underline underline-offset-2">
                           {nombreCompleto}
-                        </div>
+                        </Link>
                         <div className="mt-0.5 text-xs text-slate-500">
                           DNI {resident.dni}
                         </div>
@@ -389,9 +390,10 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
                       <div className="flex items-center gap-3">
                         <Avatar nombre={nombreCompleto} />
                         <div>
-                          <div className="font-semibold text-slate-900">
+                          <Link href={`/residentes/ficha/${resident.id}`}
+                            className="font-semibold text-sky-800 underline underline-offset-2">
                             {nombreCompleto}
-                          </div>
+                          </Link>
                           <div className="mt-0.5 text-xs text-slate-500">
                             DNI {resident.dni}
                           </div>
