@@ -400,8 +400,15 @@ teléfono, correo, puesto, fecha de alta, observaciones y baja con fecha/motivo.
 Usa RLS de lectura exclusiva de Administrador; las escrituras se realizan
 solo mediante `save_employee` y `terminate_employee`, con identidad y control
 de versión. Conserva autor de alta y último cambio. Las fichas dadas de baja
-no se editan ni eliminan. Vínculo con cuentas, períodos de recontratación y auditoría
-completa quedan pendientes. Ver `docs/empleados.md`.
+no se editan ni eliminan. Períodos de recontratación y auditoría completa quedan
+pendientes. Ver `docs/empleados.md`.
+
+`user_access.employee_id` permite un vínculo opcional uno a uno con la cuenta de
+Auth, gestionado por Administrador desde la ficha y visible en Accesos. Conserva
+perfil y habilitación; no crea cuentas ni infiere identidad por correo. La baja
+exige suspender previamente el acceso vinculado y no se permite rehabilitarlo
+mientras conserve una ficha inactiva. Las correcciones explícitas del vínculo
+conservan historial en `employee_account_events`. Ver `docs/cuentas-empleados.md`.
 
 ### 6.5 Sin diseñar
 

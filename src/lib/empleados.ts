@@ -47,9 +47,11 @@ export function validarBajaEmpleado(valores: ValoresEmpleado, alta: string, hoy:
 
 export function errorEmpleado(error: unknown): string {
   const codigo = error && typeof error === "object" && "code" in error ? error.code : null;
+  const mensaje = error && typeof error === "object" && "message" in error ? error.message : null;
   const DUPLICADO = "23505", DESACTUALIZADO = "40001", DATOS_INVALIDOS = "23514", SIN_ACCESO = "42501";
   if (codigo === DUPLICADO) return "Ya existe una ficha con ese DNI. Revisá activos y bajas.";
   if (codigo === DESACTUALIZADO) return "La ficha cambió. Volvé a cargarla antes de guardar.";
+  if (codigo === DATOS_INVALIDOS && mensaje === "employee_access_enabled") return "Suspendé primero la cuenta vinculada desde Accesos y después registrá la baja.";
   if (codigo === DATOS_INVALIDOS) return "Revisá los datos y fechas. Las fichas dadas de baja son solo de consulta.";
   if (codigo === SIN_ACCESO) return "Tu sesión no permite guardar esta ficha. Volvé a iniciar sesión.";
   return "No se pudo confirmar el cambio. Volvé al listado y revisá la ficha antes de reenviar.";

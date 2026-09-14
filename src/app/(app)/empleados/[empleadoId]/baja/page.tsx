@@ -14,6 +14,7 @@ export default async function BajaEmpleadoPage({ params }: { params: Promise<{ e
   if (empleado.terminated_at) return <p>La baja ya está registrada. <Link href={volver} className="underline">Ver ficha</Link></p>;
   const hoy = hoyEnArgentina();
   return <div className="mx-auto max-w-3xl"><h1 className="text-2xl font-bold">Dar de baja a {empleado.first_name} {empleado.last_name}</h1>
+    <p className="mt-3 text-sm text-slate-600">Si tiene una cuenta vinculada, primero debe estar suspendida. <Link href="/accesos" className="text-sky-800 underline">Revisar Accesos</Link></p>
     <FormularioEmpleado key={empleado.updated_at} action={darBajaEmpleado.bind(null, empleado.id, empleado.updated_at)} baja hoy={hoy}
       valores={{ hired_at: empleado.hired_at, terminated_at: hoy }} volver={volver} />
   </div>;

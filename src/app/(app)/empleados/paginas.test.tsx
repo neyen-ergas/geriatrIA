@@ -5,9 +5,11 @@ import EmpleadoPage from "./[empleadoId]/page";
 import EditarEmpleadoPage from "./[empleadoId]/editar/page";
 import BajaEmpleadoPage from "./[empleadoId]/baja/page";
 import NuevoEmpleadoPage from "./nuevo/page";
-const mocks = vi.hoisted(() => ({ sesion: vi.fn(), listar: vi.fn(), ficha: vi.fn() }));
+const mocks = vi.hoisted(() => ({ sesion: vi.fn(), listar: vi.fn(), ficha: vi.fn(), accesos: vi.fn() }));
 vi.mock("@/lib/auth", () => ({ requerirSesion: mocks.sesion }));
 vi.mock("@/lib/empleados-datos", () => ({ listarEmpleados: mocks.listar, obtenerEmpleado: mocks.ficha }));
+vi.mock("@/lib/accesos-datos", () => ({ listarAccesos: mocks.accesos }));
+vi.mock("./cuenta-actions", () => ({ vincularCuenta: vi.fn(), desvincularCuenta: vi.fn() }));
 vi.mock("./actions", () => ({ guardarEmpleado: vi.fn(), darBajaEmpleado: vi.fn() }));
 vi.mock("next/navigation", () => ({ notFound: () => { throw new Error("NOT_FOUND"); } }));
 const parametros = { params: Promise.resolve({ empleadoId: "empleado" }) };
@@ -15,6 +17,7 @@ const empleado = { id: "empleado", first_name: "Ficticio <script>", last_name: "
 beforeEach(() => {
   vi.resetAllMocks();
   mocks.ficha.mockResolvedValue(empleado);
+  mocks.accesos.mockResolvedValue([]);
   mocks.listar.mockResolvedValue({ empleados: [empleado], total: 1, pagina: 1 });
 });
 it.each([

@@ -7,6 +7,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Vínculo explícito entre cuentas y fichas de empleados, administrado desde la
+  ficha y visible en Accesos. Una cuenta por empleado, versión compartida con
+  los permisos y registro de vínculos/correcciones con autor. Vincular o
+  desvincular conserva el perfil y la habilitación.
+- La baja de un empleado requiere suspender antes su cuenta vinculada; no se
+  permite rehabilitar una cuenta mientras conserve una ficha inactiva. Las
+  comprobaciones cubren cambios simultáneos. Requiere aplicar
+  `20260914010000_link_employee_accounts.sql` antes de la interfaz.
+
+### Agregado
 - Perfiles Administrador, Gestión y Solo lectura, con pantalla de Accesos para
   asignar o suspender cuentas existentes. RLS y RPC verifican permisos vigentes;
   la revocación no depende de renovar el JWT. Protege al último administrador

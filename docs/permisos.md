@@ -9,8 +9,9 @@ Cada residencia conserva su propia base y sus cuentas de Supabase Auth.
 | Solo lectura (`readonly`) | Lectura, incluidos movimientos y comprobantes | Sin acceso |
 
 Turnos y Entrevistas siguen siendo placeholders visibles solo al Administrador.
-La ficha laboral no crea ni habilita una cuenta. Vincular ambas identidades e
-invitar usuarios desde el CRM quedan fuera de esta entrega. Las cuentas se crean
+La ficha laboral permite vincular una cuenta existente sin crearla ni habilitarla;
+ver [cuentas-empleados.md](cuentas-empleados.md). Invitar usuarios desde el CRM
+sigue pendiente. Las cuentas se crean
 por el procedimiento administrativo de Supabase y aparecen en Accesos, sin
 permisos hasta que un Administrador les asigne perfil y las habilite.
 

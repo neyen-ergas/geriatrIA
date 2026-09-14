@@ -29,7 +29,9 @@ export async function guardarAcceso(
       ? "Este acceso cambió. Volvé a cargar la página antes de guardar."
       : error.code === RESTRICCION && error.message === "last_admin_required"
         ? "Debe quedar al menos un Administrador habilitado. Asigná otro antes de cambiar este acceso."
-        : "No se pudo guardar el acceso. Revisá tus permisos y volvé a intentar." };
+        : error.code === RESTRICCION && error.message === "employee_inactive"
+          ? "La cuenta está vinculada a un empleado dado de baja y debe permanecer suspendida."
+          : "No se pudo guardar el acceso. Revisá tus permisos y volvé a intentar." };
   }
   revalidatePath("/", "layout");
   return { error: null, ok: true };
