@@ -33,7 +33,7 @@ def probar(ingreso_primero):
     try:
         primera = sesion(f"begin; {autenticacion} {sql_a} \\gset\n\\echo LISTO\n")
         assert primera.stdout.readline().strip() == "LISTO"
-        segunda = sesion(f"set application_name = '{nombre}'; begin; {autenticacion} {sql_b}; commit;")
+        segunda = sesion(f"set application_name = '{nombre}'; begin; {autenticacion} {sql_b}; commit;\n")
         esperar_bloqueo(nombre, segunda)
         _, error_a = primera.communicate("commit;\n", timeout=15)
         assert primera.returncode == 0, error_a
