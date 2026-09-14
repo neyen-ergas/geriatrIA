@@ -212,7 +212,7 @@ Acá aparece el primer usuario que no es el dueño, y con él la autorización r
 - [x] Sacar `consulta` del acceso con `service_role`: lecturas con sesión y RLS.
 - [x] Vincular cuentas de Supabase Auth con empleados, con unicidad e historial.
 - [x] Autoría de creación y anulación de movimientos financieros en el esquema.
-- [ ] Extender la auditoría de Admisión de la Fase 5A a los demás cambios
+- [x] Extender la auditoría de Admisión de la Fase 5A a los demás cambios
       operativos, incluidos los datos de residentes, y ofrecer su consulta.
 - [x] Documentar el modelo de roles en `docs/permisos.md`.
 
