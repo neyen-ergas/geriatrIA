@@ -12,7 +12,9 @@ Gestión y Solo lectura no acceden a esta sección ni a sus datos por API.
 `20260914020000_operational_audit.sql` crea `audit_events` y triggers sobre
 consultas/visitas, residentes, familiares, estadías, cuotas, pagos, empleados,
 accesos/vínculos y conversiones de consulta a ingreso. Se registran altas,
-ediciones, bajas y anulaciones con sus motivos. Una eliminación administrativa
+ediciones, bajas y anulaciones con sus motivos. La ampliación
+`20260914040000_resident_records.sql` agrega documentos, indicaciones, medicación,
+cuidados y pertenencias: catorce tablas auditadas en total. Una eliminación administrativa
 de una fila también conserva sus valores anteriores; no se habilita eliminación
 desde la aplicación. Una operación que modifica varias tablas produce un evento
 por fila modificada, todos dentro de la misma transacción.

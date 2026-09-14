@@ -229,13 +229,13 @@ Cada tabla se diseña al empezar su módulo, no antes.
 
 - [x] Ficha de consulta del residente con todas sus estadías y contactos.
 - [x] Gestión de familiares adicionales al contacto inicial desde la ficha.
-- [ ] `resident_documents` con bucket privado de Storage.
-- [ ] Carga de documentos como imágenes; un documento faltante no bloquea el
+- [x] `resident_documents` con bucket privado de Storage.
+- [x] Carga de documentos como imágenes; un documento faltante no bloquea el
       ingreso, queda pendiente.
-- [ ] `medical_indications`: indicaciones vigentes e históricas.
-- [ ] `medications`: medicamento, dosis, frecuencia, horarios y vigencia.
-- [ ] `special_needs`: alimentación, alergias, movilidad y cuidados especiales.
-- [ ] `inventory_items`: pertenencias entregadas en cada ingreso.
+- [x] `medical_indications`: indicaciones vigentes e históricas.
+- [x] `medications`: medicamento, dosis, frecuencia, horarios y vigencia.
+- [x] `special_needs`: alimentación, alergias, movilidad y cuidados especiales.
+- [x] `inventory_items`: pertenencias entregadas en cada ingreso.
 
 ## Fase 12 — Entrevistas
 

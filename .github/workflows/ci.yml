@@ -97,6 +97,9 @@ jobs:
       - name: Concurrent family contact edits
         run: python3 scripts/probar-concurrencia-familiares.py
 
+      - name: Concurrent resident records
+        run: python3 scripts/probar-concurrencia-registros.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop

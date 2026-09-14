@@ -34,4 +34,4 @@ No requiere migración ni cambios de permisos. Se verifica con TypeScript,
 pruebas dirigidas de consultas y SSR con los tres perfiles y más de 1.000 filas
 sintéticas. La suite completa y el build se ejecutan en GitHub CI, sin Docker
 local. La gestión de contactos se describe en [familiares.md](familiares.md).
-Los módulos de documentación y salud continúan en el roadmap.
+Documentación, salud y pertenencias se describen en [ficha-integral.md](ficha-integral.md).

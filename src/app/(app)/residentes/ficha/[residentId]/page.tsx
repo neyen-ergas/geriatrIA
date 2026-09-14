@@ -7,6 +7,7 @@ import { tienePermiso } from "@/lib/permisos";
 import { obtenerFichaResidente } from "@/lib/ficha-residente-datos";
 import { enlaceFichaResidente } from "@/lib/ficha-residente";
 import { formatearFechaPago, formatearImporte } from "@/lib/pagos";
+import { CONFIG_REGISTRO, SECCIONES_REGISTRO, rutaRegistros } from "@/lib/registros-residente";
 
 export const metadata = { title: "Ficha del residente · geriatrIA" };
 const enlace = "text-sm font-medium text-sky-800 underline underline-offset-2";
@@ -51,6 +52,13 @@ export default async function FichaResidentePage({ params, searchParams }: {
       </div>
     </header>
 
+    <nav aria-label="Apartados de la ficha" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {SECCIONES_REGISTRO.map(seccion => <Link key={seccion}
+        href={rutaRegistros(residente.id, seccion)}
+        className="rounded-lg border border-slate-200 bg-white p-4 text-sm font-semibold text-sky-800 hover:bg-slate-50">
+        {CONFIG_REGISTRO[seccion].titulo}
+      </Link>)}
+    </nav>
     <Card className="p-5">
       <h2 className="text-lg font-semibold">Datos personales</h2>
       <dl className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -130,6 +138,9 @@ export default async function FichaResidentePage({ params, searchParams }: {
             <p className="mt-4"><Link
               href={`/contabilidad/${estadia.id}`} className={enlace}
             >Ver cuotas y pagos de esta estadía</Link></p>
+            {puedeGestionar && <p className="mt-3"><Link
+              href={`${rutaRegistros(residente.id, "pertenencias")}/nuevo?ingreso=${estadia.id}`}
+              className={enlace}>Agregar pertenencia a esta estadía</Link></p>}
           </Card>
         </li>)}
       </ol>}
