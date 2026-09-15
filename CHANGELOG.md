@@ -7,6 +7,10 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Corregido
+- Latencia de las pantallas con sesión. Las funciones de Vercel se fijan a
+  `pdx1`, la región de Supabase, en lugar de cruzar el país desde `iad1` en
+  cada consulta. `requerirSesion` resuelve la identidad una vez por pedido, así
+  que el layout y su página ya no piden `current_app_role` por separado.
 - Middleware de sesión en Node.js 24 para evitar el error 500 al inicializar
   Supabase en Edge sin WebSocket. CI comprueba el acceso HTTP al build de
   producción, incluido el redireccionamiento de visitantes sin sesión.
