@@ -30,7 +30,7 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
 | Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
 | Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos, anulaciones, vencimientos y comprobantes privados |
 | Empleados | Personal de la residencia y sus datos laborales. | Ficha, alta, edición y baja, exclusiva de Administrador |
-| Turnos | Grilla de turnos del personal. | Placeholder |
+| Turnos | Grilla de turnos del personal. | Funcionando; grilla semanal, asignación, no-superposición y ausencias |
 | Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |
 
 Inicio usa la fecha argentina para hoy, mañana y los últimos siete días de
@@ -422,13 +422,21 @@ exige suspender previamente el acceso vinculado y no se permite rehabilitarlo
 mientras conserve una ficha inactiva. Las correcciones explícitas del vínculo
 conservan historial en `employee_account_events`. Ver `docs/cuentas-empleados.md`.
 
-### 6.5 Sin diseñar
+### 6.5 Turnos del personal (`shifts`)
+
+Organiza la planificación del personal en franjas horarias (`manana`, `tarde`, `noche`, `guardia`, `franco`).
+Invariante en Postgres: índice único parcial `(employee_id, shift_date, shift_type) where status <> 'cancelled'`
+que impide turnos superpuestos para el mismo empleado. Validaciones de contratación y vigencia en trigger.
+Escrituras mediante RPC controladas (`save_shift`, `cover_shift`, `cancel_shift`) exclusivas de Administrador.
+Ver [docs/turnos.md](docs/turnos.md).
+
+### 6.6 Sin diseñar
 
 La forma exacta se define al empezar cada módulo, no antes.
 
 | Tabla | Alcance |
 | --- | --- |
-| `shifts` | Grilla de turnos del personal. |
+| — | Entrevistas de admisión. |
 
 La documentación, salud y pertenencias ya se implementan en las tablas
 `resident_documents`, `medical_indications`, `medications`, `special_needs` e
