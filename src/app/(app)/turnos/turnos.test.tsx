@@ -103,3 +103,10 @@ it("muestra ausencia y cobertura cuando un turno está marcado como absent", asy
   expect(html).toContain("Ausente");
   expect(html).toContain("Cubre: Pérez");
 });
+
+it("muestra mensaje de error recuperable cuando falla la carga de datos", async () => {
+  mocks.turnos.mockRejectedValue(new Error("DB_DOWN"));
+  const html = renderToStaticMarkup(await TurnosPage(parametros));
+  expect(html).toContain("No se pudieron cargar los turnos de la semana");
+  expect(html).toContain("Reintentar");
+});

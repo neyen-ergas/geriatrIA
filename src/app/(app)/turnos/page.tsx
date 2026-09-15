@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Card } from "@/components/ui";
 import { requerirSesion } from "@/lib/auth";
 import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import {
@@ -7,6 +8,7 @@ import {
   etiquetaDiaSemana,
   semanaTurnos,
 } from "@/lib/turnos";
+import type { EmpleadoTurno, Turno } from "@/lib/turnos";
 import {
   listarEmpleadosParaTurnos,
   listarTurnosSemana,
@@ -27,10 +29,20 @@ export default async function TurnosPage({
   const hoy = hoyEnArgentina();
   const semana = semanaTurnos(params.semana, hoy);
 
-  const [turnos, empleados] = await Promise.all([
-    listarTurnosSemana(semana.inicio, semana.fin),
-    listarEmpleadosParaTurnos(),
-  ]);
+  let turnos: Turno[] = [];
+  let empleados: EmpleadoTurno[] = [];
+  let errorCarga: string | null = null;
+
+  try {
+    const [turnosData, empleadosData] = await Promise.all([
+      listarTurnosSemana(semana.inicio, semana.fin),
+      listarEmpleadosParaTurnos(),
+    ]);
+    turnos = turnosData;
+    empleados = empleadosData;
+  } catch {
+    errorCarga = "No se pudieron cargar los turnos de la semana. Intentá nuevamente.";
+  }
 
   const esAdmin = true;
 
@@ -44,6 +56,22 @@ export default async function TurnosPage({
           </p>
         </div>
       </div>
+
+      {errorCarga ? (
+        <Card className="mt-6 border-rose-200 bg-rose-50 p-6 text-sm text-rose-800">
+          <p className="font-semibold">{errorCarga}</p>
+          <p className="mt-1 text-rose-600">
+            Ocurrió un problema de comunicación al consultar la base de datos.
+          </p>
+          <Link
+            href={enlaceTurnos(semana.inicio)}
+            className="mt-4 inline-block rounded-lg bg-rose-700 px-4 py-2 text-xs font-medium text-white hover:bg-rose-800"
+          >
+            Reintentar
+          </Link>
+        </Card>
+      ) : (
+        <>
 
       {/* Navegación semanal */}
       <nav
@@ -104,6 +132,8 @@ export default async function TurnosPage({
         La base de datos impide turnos superpuestos para un mismo empleado en la misma fecha y franja.
         Cancelar un turno libera el horario conservando el registro histórico.
       </p>
+        </>
+      )}
     </div>
   );
 }
