@@ -189,7 +189,11 @@ Las pruebas unitarias usan Vitest en Node y datos sintéticos. No necesitan
 credenciales ni conexión a Supabase. La primera suite comprueba validaciones
 del reingreso y las pruebas de Admisión cubren sus validaciones y acciones;
 todavía no cubren todos los módulos ni prueban las pantallas.
-Para desarrollar se recomienda Node 24, igual que en CI.
+Desarrollo, CI y despliegue usan Node 24. El middleware de sesión se ejecuta
+en Node.js: el cliente actual de Supabase requiere WebSocket nativo incluso
+sin suscripciones Realtime y no puede inicializarse en Edge. CI también abre
+el build de producción con credenciales sintéticas para verificar el login
+y el redireccionamiento de visitantes sin sesión.
 
 Las variables salen de la configuración de API del proyecto en Supabase:
 
