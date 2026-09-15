@@ -216,12 +216,12 @@ Acá aparece el primer usuario que no es el dueño, y con él la autorización r
       operativos, incluidos los datos de residentes, y ofrecer su consulta.
 - [x] Documentar el modelo de roles en `docs/permisos.md`.
 
-## Fase 10 — Turnos
+## Fase 10 — Turnos ✅
 
-- [ ] Modelo de turnos del personal.
-- [ ] Grilla semanal por empleado.
-- [ ] Asignación, reasignación y cobertura de ausencias.
-- [ ] Invariante en la base: sin turnos superpuestos para el mismo empleado.
+- [x] Modelo de turnos del personal (`shifts`).
+- [x] Grilla semanal por empleado.
+- [x] Asignación, reasignación y cobertura de ausencias.
+- [x] Invariante en la base: sin turnos superpuestos para el mismo empleado.
 
 ## Fase 11 — Salud y documentación del residente
 

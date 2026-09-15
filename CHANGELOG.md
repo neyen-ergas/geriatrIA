@@ -6,6 +6,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Agregado
+- Módulo de Turnos del personal (`shifts`) con grilla semanal por empleado, selector de semanas,
+  asignación de turnos (mañana, tarde, noche, guardia, franco) y cobertura de ausencias con
+  reemplazo justificado. Invariante en Postgres que impide turnos superpuestos para el mismo
+  empleado en la misma franja y fecha. Requiere aplicar `20260915000000_employee_shifts.sql`.
+  Alcance en `docs/turnos.md`.
+
 ### Corregido
 - Middleware de sesión en Node.js 24 para evitar el error 500 al inicializar
   Supabase en Edge sin WebSocket. CI comprueba el acceso HTTP al build de

@@ -818,6 +818,66 @@ export type Database = {
           },
         ]
       }
+      shifts: {
+        Row: {
+          absence_reason: string | null
+          covered_by_employee_id: string | null
+          created_at: string
+          created_by: string
+          employee_id: string
+          id: string
+          notes: string | null
+          shift_date: string
+          shift_type: string
+          status: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          absence_reason?: string | null
+          covered_by_employee_id?: string | null
+          created_at?: string
+          created_by?: string
+          employee_id: string
+          id?: string
+          notes?: string | null
+          shift_date: string
+          shift_type: string
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Update: {
+          absence_reason?: string | null
+          covered_by_employee_id?: string | null
+          created_at?: string
+          created_by?: string
+          employee_id?: string
+          id?: string
+          notes?: string | null
+          shift_date?: string
+          shift_type?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shifts_covered_by_employee_id_fkey"
+            columns: ["covered_by_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shifts_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_access: {
         Row: {
           employee_id: string | null
@@ -939,6 +999,19 @@ export type Database = {
       cancel_monthly_charge: {
         Args: { p_monthly_charge_id: string; p_reason: string }
         Returns: string
+      }
+      cancel_shift: {
+        Args: { p_shift_id: string }
+        Returns: undefined
+      }
+      cover_shift: {
+        Args: {
+          p_absence_reason: string
+          p_covered_by_employee_id: string
+          p_notes?: string
+          p_shift_id: string
+        }
+        Returns: undefined
       }
       convert_consultation_admission: {
         Args: {
@@ -1070,6 +1143,16 @@ export type Database = {
           p_resident_id: string
           p_section: string
           p_values?: Json
+        }
+        Returns: string
+      }
+      save_shift: {
+        Args: {
+          p_employee_id: string
+          p_id?: string
+          p_notes?: string
+          p_shift_date: string
+          p_shift_type: string
         }
         Returns: string
       }
