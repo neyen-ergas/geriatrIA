@@ -6,6 +6,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Corregido
+- Middleware de sesión en Node.js 24 para evitar el error 500 al inicializar
+  Supabase en Edge sin WebSocket. CI comprueba el acceso HTTP al build de
+  producción, incluido el redireccionamiento de visitantes sin sesión.
+
 ### Agregado
 - Ficha integral con documentos privados JPG/PNG/PDF, indicaciones médicas,
   medicación con vigencia, cuidados especiales y pertenencias por estadía.

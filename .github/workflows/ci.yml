@@ -20,6 +20,9 @@ jobs:
     name: Typecheck and build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: prueba-sin-credenciales
 
     steps:
       - name: Checkout repository
@@ -42,6 +45,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Production HTTP smoke test
+        run: node scripts/probar-acceso-produccion.mjs
 
   database-tests:
     name: Database tests
