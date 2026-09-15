@@ -1,8 +1,8 @@
 import { LockKeyhole } from "lucide-react";
 import { redirect } from "next/navigation";
-import { Button, Card, Input, Label } from "@/components/ui";
+import { Card } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
-import { login } from "./actions";
+import { LoginForm } from "./login-form";
 
 const ERROR_MESSAGES: Record<string, string> = {
   missing_fields: "Completá el correo y la contraseña.",
@@ -40,43 +40,7 @@ export default async function LoginPage({
         </div>
 
         <Card className="p-6">
-          <form action={login} className="space-y-4">
-            <div>
-              <Label htmlFor="email">Correo electrónico</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                autoFocus
-                required
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="password">Contraseña</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-              />
-            </div>
-
-            {errorMessage && (
-              <p
-                role="alert"
-                className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
-              >
-                {errorMessage}
-              </p>
-            )}
-
-            <Button type="submit" className="w-full">
-              Ingresar
-            </Button>
-          </form>
+          <LoginForm errorMessage={errorMessage} />
         </Card>
 
         <p className="mt-4 text-center text-xs text-slate-400">
