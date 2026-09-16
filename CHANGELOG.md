@@ -64,6 +64,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ### Cambiado
 
+- Actualización de la documentación de configuración de Supabase (`docs/supabase-configuracion.md`), autenticación y roles (`docs/autenticacion.md`) y estado del sistema en `README.md`, reflejando la arquitectura actual: RBAC de tres niveles, eliminación de claves administrativas en el CRM, RLS integral, buckets privados de Storage y esquema secuencial versionado.
 - Priorización del trabajo pendiente: pruebas e integridad antes de nuevos módulos, seguida de Contabilidad y la conexión Admisión → Residentes.
 - Flujo de GitHub documentado con PRs por tarea, squash merge, controles de CI, versiones publicadas y recuperación mediante revert y migraciones nuevas.
 - Ajustes de layout y estilos en dashboard, residentes, login y globals.css.

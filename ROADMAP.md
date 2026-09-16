@@ -254,7 +254,7 @@ Puntos que no pertenecen a una fase y se atienden cuando corresponda.
       en todos los formularios.
 - [x] Revisar las tablas de residentes en pantalla chica. Ya existe navegación
       móvil; falta verificar la usabilidad de tablas y formularios completos.
-- [ ] Actualizar `docs/supabase-configuracion.md` y los textos de autenticación
+- [x] Actualizar `docs/supabase-configuracion.md` y los textos de autenticación
       que describen estados anteriores del proyecto.
 - [ ] Guía de instalación de una residencia nueva: crear el proyecto de
       Supabase, aplicar todas las migraciones, cargar variables y crear la
