@@ -1,0 +1,10 @@
+node_modules
+.next
+dist
+coverage
+src/types/database.ts
+*.log
+.git
+package-lock.json
+supabase/.temp
+.temp

@@ -107,16 +107,15 @@ El formato global va después de esas correcciones y en un commit propio.
 
 - [x] Configurar Vitest con scripts de ejecución local y CI, una prueba real
       de validación existente y ejecución automática en GitHub Actions.
-- [ ] Agregar Prettier como dependencia de desarrollo con su configuración, y
+- [x] Agregar Prettier como dependencia de desarrollo con su configuración, y
       scripts `npm run format` (escribe) y `npm run format:check` (verifica).
       Formatear el repositorio entero en un commit `chore:` aparte, sin ningún
       otro cambio, para que el diff sea revisable.
-- [ ] Reparar el linting: `npm run lint` ejecuta `next lint` y abre un asistente
-      porque no hay ESLint instalado ni configurado. Configurar ESLint para
-      Next 15 y dejar un comando que termine sin interacción en local y CI.
-- [ ] Sumar `format:check` y `lint` al workflow de CI.
-- [ ] Agregar `.editorconfig` con las mismas reglas que Prettier.
-- [ ] Cubrir con tests la lógica pura que ya existe y no toca la base: los type
+- [x] Reparar el linting: `npm run lint` ejecuta `eslint .` y termina sin interacción
+      en local y CI con reglas para Next 15 y TypeScript.
+- [x] Sumar `format:check` y `lint` al workflow de CI.
+- [x] Agregar `.editorconfig` con las mismas reglas que Prettier.
+- [x] Cubrir con tests la lógica pura que ya existe y no toca la base: los type
       guards de `admision.ts`, `formatearDia` (incluido el corrimiento de día por
       zona horaria), y las validaciones de `primer-ingreso.ts`,
       `baja-residente.ts` y `reingreso-residente.ts`. Son funciones puras: se
@@ -128,8 +127,8 @@ El formato global va después de esas correcciones y en un commit propio.
       controles de CI requeridos y bloqueo de force-push y eliminación. La
       cuenta conectada en esta revisión tiene push, pero no administración;
       estas protecciones no se consideran verificadas ni configuradas.
-- [ ] Ordenar `CHANGELOG.md`: hoy mezcla varias secciones "Agregado" y una de
-      "Quitado" del reinicio, y no se lee cronológicamente.
+- [x] Ordenar `CHANGELOG.md`: hoy agrupa limpiamente las secciones "Agregado",
+      "Corregido", "Cambiado", "Seguridad" y "Quitado" cronológicamente.
 
 ## Fase 5A — Correcciones de integridad y confiabilidad
 
