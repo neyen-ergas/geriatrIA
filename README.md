@@ -137,31 +137,20 @@ datos reales en pruebas.
 
 ## Estado
 
-**Funcionando**
+**Completado e integrado**
 
-- Acceso con correo y contraseña. Sin registro público: las cuentas las crea un
-  administrador desde el panel de Supabase.
-- **Admisión**: bandeja con contadores y filtro, seguimiento del llamado,
-  agendado y reprogramación de la visita, cierre como ingreso o descarte, y
-  notas internas.
-- **Residentes**: listado de activos, alta del primer ingreso, edición, baja con
-  historial y reingreso.
+- **Autenticación y roles:** Acceso con correo y contraseña, sin registro público. Modelo RBAC (`Administrador`, `Gestión` y `Solo lectura`) con vinculación de cuentas a empleados activos y administración desde `/accesos`.
+- **Inicio:** Dashboard operativo con KPIs en tiempo real, consultas pendientes, visitas semanales, cuotas vencidas y streaming con skeletons.
+- **Admisión:** Bandeja con contadores y filtros, seguimiento de consultas, agenda semanal de visitas presenciales, reprogramación, cancelación y conversión transaccional a residentes.
+- **Residentes:** Listado de activos e historial de bajas, ficha integral (documentación privada, medicación con vigencia, indicaciones médicas, cuidados e inventario), gestión de familiares, altas, ediciones y reingresos.
+- **Contabilidad:** Emisión de cuotas mensuales por estadía, cobranza parcial y total, cálculo reactivo de saldos y vencimientos, anulación trazable con motivos y comprobantes de pago privados en Supabase Storage.
+- **Empleados:** Gestión administrativa del personal, ficha laboral, control de versiones y trazabilidad de cambios.
+- **Turnos:** Grilla semanal por empleado, turnos rotativos, coberturas de ausencias e invariante en PostgreSQL contra turnos superpuestos.
+- **Entrevistas:** Valoración multidimensional de postulantes (autonomía, cognición, clínica y red social) y dictamen de aptitud con invariante para no aptos.
+- **Auditoría:** Registro transaccional de cambios operativos (`operational_audit_log`) con autor, motivo y trazabilidad histórica en `/auditoria`.
+- **Calidad técnica y accesibilidad:** CI completo con Vitest, ESLint, Prettier y TypeScript strict; soporte de navegación por teclado, foco visible y vistas adaptadas a dispositivos móviles.
 
-**Base lista, sin interfaz**
-
-- **Contabilidad**: tablas de cuotas y pagos, vista de saldos, funciones de
-  escritura controladas y tipos generados. Faltan las pantallas y el bucket de
-  comprobantes.
-
-**Pendiente**
-
-- **Turnos** y **Entrevistas**.
-- Ampliar la auditoría. Los perfiles, sus permisos y el vínculo de cuentas con
-  empleados están implementados; ver [docs/permisos.md](docs/permisos.md) y
-  [docs/cuentas-empleados.md](docs/cuentas-empleados.md).
-- Documentación e información médica del residente.
-
-El detalle, en orden de trabajo, está en [ROADMAP.md](ROADMAP.md).
+El detalle completo de las fases cerradas está en [ROADMAP.md](ROADMAP.md).
 
 ---
 
@@ -186,26 +175,22 @@ npm run db:types    # regenera los tipos TypeScript desde Supabase
 ```
 
 Las pruebas unitarias usan Vitest en Node y datos sintéticos. No necesitan
-credenciales ni conexión a Supabase. La primera suite comprueba validaciones
-del reingreso y las pruebas de Admisión cubren sus validaciones y acciones;
-todavía no cubren todos los módulos ni prueban las pantallas.
+credenciales ni conexión a Supabase.
 Desarrollo, CI y despliegue usan Node 24. El middleware de sesión se ejecuta
 en Node.js: el cliente actual de Supabase requiere WebSocket nativo incluso
 sin suscripciones Realtime y no puede inicializarse en Edge. CI también abre
 el build de producción con credenciales sintéticas para verificar el login
 y el redireccionamiento de visitantes sin sesión.
 
-Las variables salen de la configuración de API del proyecto en Supabase:
+Las variables requeridas por el CRM salen de la configuración de API del proyecto en Supabase:
 
 ```text
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-SUPABASE_SERVICE_ROLE_KEY
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` saltea las políticas de seguridad de la base: nunca
-lleva el prefijo `NEXT_PUBLIC_` ni se importa desde código que corra en el
-navegador. `.env.local` está ignorado por Git.
+El CRM opera exclusivamente con la clave publicable y la sesión del usuario autenticado bajo
+políticas RLS; no requiere `SUPABASE_SERVICE_ROLE_KEY`. `.env.local` está ignorado por Git.
 
 Detalles de vinculación de la CLI y migraciones en
 [docs/supabase-configuracion.md](docs/supabase-configuracion.md).
