@@ -6,6 +6,120 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## [Sin publicar]
 
+### Corregido
+- Latencia de las pantallas con sesión. Las funciones de Vercel se fijan a
+  `pdx1`, la región de Supabase, en lugar de cruzar el país desde `iad1` en
+  cada consulta. `requerirSesion` resuelve la identidad una vez por pedido, así
+  que el layout y su página ya no piden `current_app_role` por separado.
+- Middleware de sesión en Node.js 24 para evitar el error 500 al inicializar
+  Supabase en Edge sin WebSocket. CI comprueba el acceso HTTP al build de
+  producción, incluido el redireccionamiento de visitantes sin sesión.
+
+### Agregado
+- Ficha integral con documentos privados JPG/PNG/PDF, indicaciones médicas,
+  medicación con vigencia, cuidados especiales y pertenencias por estadía.
+  Consulta paginada, altas/ediciones con versión y archivo con motivo. Auditoría
+  ampliada a las cinco tablas; descargas privadas de corta duración. Requiere
+  `20260914040000_resident_records.sql`. Alcance en `docs/ficha-integral.md`.
+
+### Agregado
+- Alta y edición de familiares desde la ficha del residente para Administrador
+  y Gestión. Controles de pertenencia y versión, reenvío de alta sin duplicación
+  y auditoría automática. La edición del ingreso también protege la versión del
+  contacto inicial. Requiere `20260914030000_manage_family_contacts.sql`; tras el
+  despliegue hay que recargar los formularios antiguos de edición de ingreso.
+
+### Agregado
+- Ficha de consulta del residente desde Activos y Bajas, con datos personales,
+  contactos y estadías paginadas, motivos de baja y acceso a cada cuenta.
+  Disponible para los tres perfiles; las acciones existentes respetan permisos
+  y estado actual aunque se consulte una página histórica. No requiere migración.
+
+### Agregado
+- Auditoría exclusiva de Administrador: filtros, paginación y comparación de
+  valores anteriores/nuevos en nueve tablas operativas. Captura transaccional
+  con autor, motivos de bajas/anulaciones y referencias históricas; importación
+  explícitamente parcial de los hechos previos verificables. Requiere aplicar
+  `20260914020000_operational_audit.sql` antes de la interfaz. Ver `docs/auditoria.md`.
+
+### Agregado
+- Vínculo explícito entre cuentas y fichas de empleados, administrado desde la
+  ficha y visible en Accesos. Una cuenta por empleado, versión compartida con
+  los permisos y registro de vínculos/correcciones con autor. Vincular o
+  desvincular conserva el perfil y la habilitación.
+- La baja de un empleado requiere suspender antes su cuenta vinculada; no se
+  permite rehabilitar una cuenta mientras conserve una ficha inactiva. Las
+  comprobaciones cubren cambios simultáneos. Requiere aplicar
+  `20260914010000_link_employee_accounts.sql` antes de la interfaz.
+
+### Agregado
+- Perfiles Administrador, Gestión y Solo lectura, con pantalla de Accesos para
+  asignar o suspender cuentas existentes. RLS y RPC verifican permisos vigentes;
+  la revocación no depende de renovar el JWT. Protege al último administrador
+  y registra cambios de acceso con autor y versión. Requiere
+  `20260914000000_user_access.sql` antes del despliegue.
+- Lecturas de consultas con sesión: el CRM elimina el cliente y la variable
+  `service_role`. Empleados queda exclusivo de Administrador; Solo lectura
+  conserva consultas, residentes, movimientos y comprobantes sin modificarlos.
+
+### Agregado
+- Gestión administrativa de Empleados: listado paginado de activos y bajas,
+  ficha, alta, edición y baja con fecha/motivo. DNI único normalizado, fechas
+  coherentes y control de versión para evitar sobrescrituras. Las bajas se
+  conservan como consulta. No crea cuentas ni asigna roles. Requiere aplicar
+  `20260913000000_manage_employees.sql` antes de desplegar la interfaz.
+
+### Agregado
+- Reserva de visitas desde un turno libre, con selección y búsqueda de familias,
+  paginación y control existente de versión y turno único. No crea consultas.
+- Búsqueda de consultas por nombre o teléfono en Admisión, conservada al cambiar
+  de estado y página, con conteos exactos filtrados en la base.
+- Inicio muestra consultas sin llamar, visitas de hoy y mañana, cuotas vencidas
+  de todos los meses e ingresos de los últimos siete días, con enlaces a cada
+  pendiente. Cada grupo tiene conteo exacto y un resumen de hasta cinco filas;
+  los errores de carga no se presentan como ceros y no ocultan los demás grupos.
+- Acceso paginado a todas las cuotas vencidas, incluidos meses anteriores y
+  estadías finalizadas. Los cambios de Admisión, Residentes y Contabilidad
+  actualizan Inicio. Sin cambios de esquema ni migraciones.
+
+### Agregado
+- Agenda semanal de Admisión con turnos de mañana y tarde, navegación por semana
+  o fecha y apertura de cada consulta para reprogramar, cancelar o registrar el
+  ingreso. Muestra solo visitas agendadas y distingue los días pasados de turnos
+  libres. Los cambios actualizan agenda y detalle. No requiere migración.
+
+### Agregado
+- Conversión de consultas a ingresos desde Admisión: alta de persona nueva con
+  contacto sugerido o búsqueda por DNI para reingresar una ficha existente.
+  Guarda estadía, vínculo y cierre de visita en una transacción; repetir el
+  envío recupera la misma cuenta. Impide reabrir consultas vinculadas y conserva
+  sus notas. Requiere `20260912000000_convert_consultation_admission.sql`.
+
+### Agregado
+- Comprobantes opcionales JPG, PNG y PDF de hasta 3 MiB al registrar pagos,
+  almacenados en un bucket privado y descargables desde el detalle mediante
+  enlaces temporales. Se conservan tras anular el pago. Requiere la migración
+  `20260911230000_private_payment_receipts.sql` antes de desplegar la interfaz.
+
+### Agregado
+- Listado mensual de cuotas con saldo pendiente, con selección de mes y filtro
+  de vencidas, incluidos ingresos finalizados. Muestra vencimiento confirmado,
+  saldo y enlaces a cuenta, movimientos y registro de pago. Paginación y conteos
+  exactos; se actualiza al crear cuotas, registrar pagos o anular movimientos.
+
+### Agregado
+- Detalle de pagos por cuota con fecha, importe, medio, referencia, observaciones
+  y estado, incluidos los anulados. Permite anular pagos y cuotas con motivo,
+  conservando el historial y actualizando los saldos. Las cuotas con pagos
+  vigentes no se cancelan. Pruebas SQL y de concurrencia entre cobro y anulación.
+
+### Agregado
+- Creación de cuotas desde la cuenta de una estadía, con importe sugerido y
+  vencimiento ajustado al mes. Registro de pagos totales o parciales con fecha,
+  medio, referencia y observaciones; validación de saldo y errores por campo.
+  Los resultados inciertos bloquean el reenvío desde el formulario y piden
+  revisar la cuenta. Pruebas financieras SQL y de concurrencia en CI.
+
 ### Agregado
 
 - Accesibilidad web transversal y adaptación responsive para pantallas móviles: estilos de foco visible de alto contraste (`focus-visible:ring-2`) en componentes primitivos de UI (`Button`, `Input`, `Textarea`, `Select`), enlaces de navegación y botones de acción. Enlace para saltar directamente al contenido principal (`#contenido-principal`), atributos ARIA semánticos (`aria-invalid`, `aria-describedby`) en formularios y soporte de teclado (`Escape`) y diálogos accesibles (`aria-labelledby`, `aria-describedby`) en modales. Adaptación de tablas de listados a formato de tarjetas móviles para pantallas chicas (< 768px) en Residentes (activos y bajas) y Contabilidad (cuotas), garantizando objetivos táctiles de al menos 44px de altura.
