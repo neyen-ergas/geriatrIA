@@ -53,10 +53,7 @@ async function guardarCambio(
 
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase.rpc(
-      "update_consulta",
-      validacion.datos,
-    );
+    const { data, error } = await supabase.rpc("update_consulta", validacion.datos);
     if (error || !data) {
       return { ok: false, error: mensajeErrorGestionConsulta(error) };
     }

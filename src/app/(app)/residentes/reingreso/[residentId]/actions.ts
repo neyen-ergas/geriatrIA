@@ -71,11 +71,7 @@ export async function reingresarResidente(
     };
   }
 
-  const validacion = validarReingreso(
-    formData,
-    ultimaBaja,
-    hoyEnArgentina(),
-  );
+  const validacion = validarReingreso(formData, ultimaBaja, hoyEnArgentina());
 
   if (!validacion.ok) {
     return {

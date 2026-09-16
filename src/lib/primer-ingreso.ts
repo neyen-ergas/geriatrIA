@@ -17,9 +17,7 @@ export type CampoPrimerIngreso =
   | "monthly_fee"
   | "due_day";
 
-export type ErroresPrimerIngreso = Partial<
-  Record<CampoPrimerIngreso, string>
->;
+export type ErroresPrimerIngreso = Partial<Record<CampoPrimerIngreso, string>>;
 
 export type ValoresPrimerIngreso = {
   resident_first_name: string;
@@ -66,9 +64,7 @@ function texto(formData: FormData, nombre: string): string {
   return String(formData.get(nombre) ?? "").trim();
 }
 
-export function leerValoresPrimerIngreso(
-  formData: FormData,
-): ValoresPrimerIngreso {
+export function leerValoresPrimerIngreso(formData: FormData): ValoresPrimerIngreso {
   return {
     resident_first_name: texto(formData, "resident_first_name"),
     resident_last_name: texto(formData, "resident_last_name"),
@@ -81,8 +77,7 @@ export function leerValoresPrimerIngreso(
     contact_last_name: texto(formData, "contact_last_name"),
     contact_relationship: texto(formData, "contact_relationship"),
     contact_phone: texto(formData, "contact_phone"),
-    contact_is_emergency_contact:
-      formData.get("contact_is_emergency_contact") === "on",
+    contact_is_emergency_contact: formData.get("contact_is_emergency_contact") === "on",
     contact_is_payment_responsible:
       formData.get("contact_is_payment_responsible") === "on",
     contact_notes: texto(formData, "contact_notes"),
@@ -176,9 +171,7 @@ export function validarPrimerIngreso(
     errores.admitted_at = "Ingresá una fecha válida.";
   } else if (admittedAt > hoy) {
     errores.admitted_at = "El ingreso no puede estar en el futuro.";
-  } else if (
-    esFechaValida(residentBirthDate) && admittedAt < residentBirthDate
-  ) {
+  } else if (esFechaValida(residentBirthDate) && admittedAt < residentBirthDate) {
     errores.admitted_at = "El ingreso no puede ser anterior al nacimiento.";
   }
 

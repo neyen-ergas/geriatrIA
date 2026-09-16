@@ -1,17 +1,11 @@
-import {
-  TRANSICIONES,
-  esEstado,
-  esEstadoDirecto,
-  esFranja,
-} from "@/lib/admision";
+import { TRANSICIONES, esEstado, esEstadoDirecto, esFranja } from "@/lib/admision";
 import { esFechaValida } from "@/lib/primer-ingreso";
 import type { Database } from "@/types/database";
 
 export type AccionConsulta =
   "change_state" | "schedule_visit" | "cancel_visit" | "save_notes";
 
-type ArgumentosGestion =
-  Database["public"]["Functions"]["update_consulta"]["Args"];
+type ArgumentosGestion = Database["public"]["Functions"]["update_consulta"]["Args"];
 
 type ValidacionGestion =
   { ok: true; datos: ArgumentosGestion } | { ok: false; error: string };
@@ -66,11 +60,9 @@ export function validarGestionConsulta(
     }
     const fecha = texto(formData, "visita_fecha");
     const franja = formData.get("visita_franja");
-    if (!esFechaValida(fecha))
-      return { ok: false, error: "Elegí un día válido." };
+    if (!esFechaValida(fecha)) return { ok: false, error: "Elegí un día válido." };
     if (fecha < hoy) return { ok: false, error: "Ese día ya pasó." };
-    if (!esFranja(franja))
-      return { ok: false, error: "Elegí una franja horaria." };
+    if (!esFranja(franja)) return { ok: false, error: "Elegí una franja horaria." };
     datos.p_visit_date = fecha;
     datos.p_visit_slot = franja;
   }
@@ -79,16 +71,14 @@ export function validarGestionConsulta(
     return { ok: false, error: "La consulta no tiene una visita agendada." };
   }
 
-  if (accion === "save_notes")
-    datos.p_notes = texto(formData, "notas_internas");
+  if (accion === "save_notes") datos.p_notes = texto(formData, "notas_internas");
 
   return { ok: true, datos };
 }
 
 export function mensajeErrorGestionConsulta(error: unknown): string {
-  const codigo = typeof error === "object" && error !== null && "code" in error
-    ? error.code
-    : null;
+  const codigo =
+    typeof error === "object" && error !== null && "code" in error ? error.code : null;
   const CONSULTA_CAMBIADA = "40001";
   const CONSULTA_INEXISTENTE = "P0002";
   const TURNO_OCUPADO = "23505";
@@ -101,8 +91,7 @@ export function mensajeErrorGestionConsulta(error: unknown): string {
   if (codigo === CONSULTA_CAMBIADA) {
     return "La consulta cambió desde que abriste esta página. Recargala antes de volver a guardar.";
   }
-  if (codigo === CONSULTA_INEXISTENTE)
-    return "La consulta ya no está disponible.";
+  if (codigo === CONSULTA_INEXISTENTE) return "La consulta ya no está disponible.";
   if (codigo === TURNO_OCUPADO) {
     return "Ese turno ya está ocupado por otra consulta.";
   }

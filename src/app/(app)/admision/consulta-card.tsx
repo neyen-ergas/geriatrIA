@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useActionState, useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
-import { SoloGestion, usePuedeGestionar } from "@/components/permisos";
+import { SoloAdmin, SoloGestion, usePuedeGestionar } from "@/components/permisos";
 import { Badge, Button, Card, Input, Label } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import {
@@ -56,10 +56,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
     cancelarVisita,
     estadoInicial,
   );
-  const [resNotas, enviarNotas, guardando] = useActionState(
-    guardarNotas,
-    estadoInicial,
-  );
+  const [resNotas, enviarNotas, guardando] = useActionState(guardarNotas, estadoInicial);
 
   const [reprogramando, setReprogramando] = useState(false);
 
@@ -76,8 +73,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
   }, []);
 
   const agendada = consulta.estado === "visita_agendada";
-  const cerrada =
-    consulta.estado === "ingreso" || consulta.estado === "descartada";
+  const cerrada = consulta.estado === "ingreso" || consulta.estado === "descartada";
   const mostrarFormulario = puedeGestionar && !cerrada && (!agendada || reprogramando);
 
   // La key por versión renueva también los campos no controlados al refrescar
@@ -86,9 +82,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
     <Card className="p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h2 className="text-base font-semibold text-slate-900">
-            {consulta.nombre}
-          </h2>
+          <h2 className="text-base font-semibold text-slate-900">{consulta.nombre}</h2>
           <p className="mt-0.5 text-sm text-slate-500">
             Prefiere que la llamen: {MOMENTOS_LLAMADO[consulta.momento_llamado]}
           </p>
@@ -120,36 +114,33 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
             <CalendarCheck className="h-4 w-4 shrink-0" />
             <span>
               Visita el{" "}
-              <span className="font-semibold">
-                {formatearDia(consulta.visita_fecha)}
-              </span>{" "}
+              <span className="font-semibold">{formatearDia(consulta.visita_fecha)}</span>{" "}
               · {FRANJAS[consulta.visita_franja]}
             </span>
           </div>
-          <SoloGestion><div className="mt-2 flex flex-wrap gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="h-8 px-2.5 text-sm"
-              onClick={() => setReprogramando((v) => !v)}
-            >
-              {reprogramando ? "No reprogramar" : "Reprogramar"}
-            </Button>
-            <form
-              key={`cancelar-${consulta.actualizado_en}`}
-              action={enviarCancelar}
-            >
-              <VersionConsulta consulta={consulta} />
+          <SoloGestion>
+            <div className="mt-2 flex flex-wrap gap-2">
               <Button
-                type="submit"
-                variant="ghost"
+                type="button"
+                variant="outline"
                 className="h-8 px-2.5 text-sm"
-                disabled={cancelando}
+                onClick={() => setReprogramando(v => !v)}
               >
-                Cancelar visita
+                {reprogramando ? "No reprogramar" : "Reprogramar"}
               </Button>
-            </form>
-          </div></SoloGestion>
+              <form key={`cancelar-${consulta.actualizado_en}`} action={enviarCancelar}>
+                <VersionConsulta consulta={consulta} />
+                <Button
+                  type="submit"
+                  variant="ghost"
+                  className="h-8 px-2.5 text-sm"
+                  disabled={cancelando}
+                >
+                  Cancelar visita
+                </Button>
+              </form>
+            </div>
+          </SoloGestion>
           {resCancelar.error && (
             <p role="alert" className="mt-2 text-sm text-red-600">
               {resCancelar.error}
@@ -212,84 +203,115 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       {/* ── Estado ────────────────────────────────────────────────────── */}
 
       <div className="mt-5">
-        <SoloGestion><form
-          key={`estado-${consulta.actualizado_en}`}
-          action={enviarEstado}
-          className="flex flex-wrap gap-2"
-        >
-          <VersionConsulta consulta={consulta} />
-          {!consulta.ingreso_id && TRANSICIONES[consulta.estado].filter(destino => destino !== "ingreso").map((destino) => (
-            <Button
-              key={destino}
-              type="submit"
-              name="estado"
-              value={destino}
-              variant={destino === "descartada" ? "ghost" : "outline"}
-              className="h-9 px-3 text-sm"
-              disabled={cambiandoEstado}
-            >
-              {ACCION_ESTADO[destino]}
-            </Button>
-          ))}
-        </form></SoloGestion>
+        <SoloGestion>
+          <form
+            key={`estado-${consulta.actualizado_en}`}
+            action={enviarEstado}
+            className="flex flex-wrap gap-2"
+          >
+            <VersionConsulta consulta={consulta} />
+            {!consulta.ingreso_id &&
+              TRANSICIONES[consulta.estado]
+                .filter(destino => destino !== "ingreso")
+                .map(destino => (
+                  <Button
+                    key={destino}
+                    type="submit"
+                    name="estado"
+                    value={destino}
+                    variant={destino === "descartada" ? "ghost" : "outline"}
+                    className="h-9 px-3 text-sm"
+                    disabled={cambiandoEstado}
+                  >
+                    {ACCION_ESTADO[destino]}
+                  </Button>
+                ))}
+          </form>
+        </SoloGestion>
         {resEstado.error && (
           <p role="alert" className="mt-2 text-sm text-red-600">
             {resEstado.error}
           </p>
         )}
         {consulta.ingreso_id ? (
-          <Link className="mt-3 inline-block text-sm font-medium underline" href={`/contabilidad/${consulta.ingreso_id}`}>
+          <Link
+            className="mt-3 inline-block text-sm font-medium underline"
+            href={`/contabilidad/${consulta.ingreso_id}`}
+          >
             Ver cuenta del ingreso
           </Link>
-        ) : (consulta.estado === "visita_agendada" || consulta.estado === "ingreso") && (
-          <SoloGestion><Link className="mt-3 inline-block text-sm font-medium underline" href={`/admision/${consulta.id}/ingreso`}>
-            Registrar ingreso
-          </Link></SoloGestion>
+        ) : (
+          (consulta.estado === "visita_agendada" || consulta.estado === "ingreso") && (
+            <div className="mt-3 flex flex-wrap items-center gap-4">
+              <SoloGestion>
+                <Link
+                  className="text-sm font-medium underline"
+                  href={`/admision/${consulta.id}/ingreso`}
+                >
+                  Registrar ingreso
+                </Link>
+              </SoloGestion>
+              <SoloAdmin>
+                <Link
+                  className="text-sm font-medium text-sky-700 underline hover:text-sky-900"
+                  href={`/entrevistas/nueva?consulta_id=${consulta.id}`}
+                >
+                  Programar entrevista
+                </Link>
+              </SoloAdmin>
+            </div>
+          )
         )}
       </div>
 
       {/* ── Notas internas ────────────────────────────────────────────── */}
 
-      {puedeGestionar ? <form
-        key={`notas-${consulta.actualizado_en}`}
-        action={enviarNotas}
-        className="mt-5"
-      >
-        <VersionConsulta consulta={consulta} />
-        <Label htmlFor={`notas-${consulta.id}`}>Notas internas</Label>
-        <textarea
-          id={`notas-${consulta.id}`}
-          name="notas_internas"
-          rows={2}
-          defaultValue={consulta.notas_internas ?? ""}
-          placeholder="Qué se habló, con quién, qué falta definir…"
-          className={cn(
-            "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none",
-            "focus:border-slate-500 focus:ring-2 focus:ring-slate-200",
-          )}
-        />
-        <div className="mt-2 flex items-center gap-3">
-          <Button
-            type="submit"
-            variant="secondary"
-            className="h-9 px-3 text-sm"
-            disabled={guardando}
-          >
-            {guardando ? "Guardando…" : "Guardar notas"}
-          </Button>
-          {resNotas.ok && !guardando && (
-            <span className="text-sm text-emerald-700">Guardado.</span>
-          )}
-          {resNotas.error && (
-            <span role="alert" className="text-sm text-red-600">
-              {resNotas.error}
-            </span>
-          )}
+      {puedeGestionar ? (
+        <form
+          key={`notas-${consulta.actualizado_en}`}
+          action={enviarNotas}
+          className="mt-5"
+        >
+          <VersionConsulta consulta={consulta} />
+          <Label htmlFor={`notas-${consulta.id}`}>Notas internas</Label>
+          <textarea
+            id={`notas-${consulta.id}`}
+            name="notas_internas"
+            rows={2}
+            defaultValue={consulta.notas_internas ?? ""}
+            placeholder="Qué se habló, con quién, qué falta definir…"
+            className={cn(
+              "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none",
+              "focus:border-slate-500 focus:ring-2 focus:ring-slate-200",
+            )}
+          />
+          <div className="mt-2 flex items-center gap-3">
+            <Button
+              type="submit"
+              variant="secondary"
+              className="h-9 px-3 text-sm"
+              disabled={guardando}
+            >
+              {guardando ? "Guardando…" : "Guardar notas"}
+            </Button>
+            {resNotas.ok && !guardando && (
+              <span className="text-sm text-emerald-700">Guardado.</span>
+            )}
+            {resNotas.error && (
+              <span role="alert" className="text-sm text-red-600">
+                {resNotas.error}
+              </span>
+            )}
+          </div>
+        </form>
+      ) : (
+        <div className="mt-5">
+          <p className="text-sm font-medium">Notas internas</p>
+          <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">
+            {consulta.notas_internas || "Sin notas."}
+          </p>
         </div>
-      </form> : <div className="mt-5">
-        <p className="text-sm font-medium">Notas internas</p>
-        <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">{consulta.notas_internas || "Sin notas."}</p>
-      </div>}
+      )}
 
       <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-400">
         Recibida el {fechaHora.format(new Date(consulta.creado_en))} · origen{" "}
@@ -305,11 +327,7 @@ function VersionConsulta({ consulta }: { consulta: Consulta }) {
     <>
       <input type="hidden" name="id" value={consulta.id} />
       <input type="hidden" name="estado_esperado" value={consulta.estado} />
-      <input
-        type="hidden"
-        name="actualizado_en"
-        value={consulta.actualizado_en}
-      />
+      <input type="hidden" name="actualizado_en" value={consulta.actualizado_en} />
     </>
   );
 }

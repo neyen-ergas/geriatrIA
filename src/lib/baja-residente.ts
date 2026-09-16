@@ -3,9 +3,7 @@ export type ValoresBajaResidente = {
   discharge_reason: string;
 };
 
-export type ErroresBajaResidente = Partial<
-  Record<keyof ValoresBajaResidente, string>
->;
+export type ErroresBajaResidente = Partial<Record<keyof ValoresBajaResidente, string>>;
 
 export type EstadoBajaResidente = {
   errores: ErroresBajaResidente;
@@ -30,9 +28,7 @@ function esFechaValida(valor: string): boolean {
   );
 }
 
-export function leerValoresBaja(
-  formData: FormData,
-): ValoresBajaResidente {
+export function leerValoresBaja(formData: FormData): ValoresBajaResidente {
   return {
     discharged_at: String(formData.get("discharged_at") ?? "").trim(),
     discharge_reason: String(formData.get("discharge_reason") ?? "").trim(),

@@ -50,11 +50,9 @@ describe("gestión de consultas", () => {
 
   it.each(["ingreso", "descartada"])(
     "no permite agendar ni cancelar una consulta cerrada como %s",
-    (estado) => {
+    estado => {
       const datos = formulario({ estado_esperado: estado });
-      expect(validarGestionConsulta("schedule_visit", datos, HOY).ok).toBe(
-        false,
-      );
+      expect(validarGestionConsulta("schedule_visit", datos, HOY).ok).toBe(false);
       expect(validarGestionConsulta("cancel_visit", datos, HOY).ok).toBe(false);
     },
   );
@@ -90,7 +88,7 @@ describe("gestión de consultas", () => {
 
   it.each(["nuevo", "ingreso", "descartada"])(
     "permite notas en %s sin eludir el control de versión",
-    (estado) => {
+    estado => {
       const datos = formulario({
         estado_esperado: estado,
         notas_internas: " ",
@@ -107,7 +105,7 @@ describe("gestión de consultas", () => {
     "schedule_visit",
     "cancel_visit",
     "save_notes",
-  ])("exige la versión también para %s", (accion) => {
+  ])("exige la versión también para %s", accion => {
     const datos = formulario({ actualizado_en: "" });
     expect(validarGestionConsulta(accion, datos, HOY).ok).toBe(false);
   });
@@ -115,9 +113,7 @@ describe("gestión de consultas", () => {
 
 describe("errores de escritura", () => {
   it("pide recargar al detectar un conflicto", () => {
-    expect(mensajeErrorGestionConsulta({ code: "40001" })).toContain(
-      "Recargala",
-    );
+    expect(mensajeErrorGestionConsulta({ code: "40001" })).toContain("Recargala");
   });
 
   it("explica el choque de turno", () => {
@@ -130,17 +126,19 @@ describe("errores de escritura", () => {
     );
   });
 
-  it.each([null, undefined, new Error("dato privado"), { code: "XX000", message: "dato privado" }])(
-    "no filtra detalles y pide revisar el estado ante una respuesta incierta",
-    (error) => {
-      const mensaje = mensajeErrorGestionConsulta(error);
-      expect(mensaje).toContain("Recargá");
-      expect(mensaje).not.toContain("dato privado");
-      expect(mensaje).not.toContain("XX000");
-    },
-  );
+  it.each([
+    null,
+    undefined,
+    new Error("dato privado"),
+    { code: "XX000", message: "dato privado" },
+  ])("no filtra detalles y pide revisar el estado ante una respuesta incierta", error => {
+    const mensaje = mensajeErrorGestionConsulta(error);
+    expect(mensaje).toContain("Recargá");
+    expect(mensaje).not.toContain("dato privado");
+    expect(mensaje).not.toContain("XX000");
+  });
 
-  it.each(["42501", "PGRST301"])("explica el problema de acceso %s", (code) => {
+  it.each(["42501", "PGRST301"])("explica el problema de acceso %s", code => {
     expect(mensajeErrorGestionConsulta({ code })).toContain("iniciar sesión");
   });
 

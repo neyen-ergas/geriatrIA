@@ -60,9 +60,7 @@ export default async function ReingresoResidentePage({
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="font-semibold text-slate-900">{nombreCompleto}</div>
-            <div className="mt-1 text-sm text-slate-500">
-              DNI {datos.resident.dni}
-            </div>
+            <div className="mt-1 text-sm text-slate-500">DNI {datos.resident.dni}</div>
           </div>
           <Badge className="border-slate-200 bg-slate-50 text-slate-700">
             <History className="h-3.5 w-3.5" />

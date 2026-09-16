@@ -58,9 +58,7 @@ export function FormularioBaja({
               required
               aria-invalid={Boolean(estado.errores.discharged_at)}
               aria-describedby={
-                estado.errores.discharged_at
-                  ? "discharged_at-error"
-                  : undefined
+                estado.errores.discharged_at ? "discharged_at-error" : undefined
               }
               className={
                 estado.errores.discharged_at
@@ -68,10 +66,7 @@ export function FormularioBaja({
                   : undefined
               }
             />
-            <ErrorCampo
-              id="discharged_at-error"
-              mensaje={estado.errores.discharged_at}
-            />
+            <ErrorCampo id="discharged_at-error" mensaje={estado.errores.discharged_at} />
           </div>
 
           <div className="md:col-span-2">
@@ -85,9 +80,7 @@ export function FormularioBaja({
               required
               aria-invalid={Boolean(estado.errores.discharge_reason)}
               aria-describedby={
-                estado.errores.discharge_reason
-                  ? "discharge_reason-error"
-                  : undefined
+                estado.errores.discharge_reason ? "discharge_reason-error" : undefined
               }
               className={
                 estado.errores.discharge_reason

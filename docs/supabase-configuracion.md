@@ -1,83 +1,107 @@
 # Configuración de Supabase
 
 geriatrIA utiliza un proyecto independiente de Supabase para cada residencia.
-El código y las migraciones son los mismos en todas las instalaciones; las
-credenciales y los datos permanecen separados.
+El código de la aplicación y las migraciones son idénticos en todas las instalaciones;
+las credenciales, los datos y los usuarios permanecen aislados por construcción.
 
-## Estado actual
+## Arquitectura y estado del esquema
 
-El esquema completo está versionado en `supabase/migrations`. Aplicar las
-migraciones por instalación antes del código que las necesita. La inicialización
-de roles y su orden de despliegue están en [permisos.md](permisos.md).
+El esquema completo de base de datos se encuentra versionado secuencialmente en
+`supabase/migrations/`. Cubre todos los módulos funcionales del sistema:
+
+1. **Admisión y consultas:** Tabla `consulta`, seguimiento de estados, agenda de visitas y protección de concurrencia.
+2. **Residentes y estadías:** Tablas `residents`, `family_contacts` y `admissions` con índice único de ingreso activo y validaciones temporales.
+3. **Contabilidad:** Tablas `monthly_charges` y `payments`, vista `monthly_charge_balances`, funciones de cobro y anulación con trazabilidad.
+4. **Almacenamiento privado:** Buckets de Supabase Storage para comprobantes de pago (`payment-receipts`) y documentos de residentes (`resident-documents`).
+5. **Roles, permisos y auditoría:** Esquema de control de acceso (`roles`, `permissions`, `role_permissions`, `user_roles`) vinculado a fichas de personal (`employees`) y registro transaccional de auditoría operativa (`operational_audit_log`).
+6. **Turnos del personal:** Tabla `shifts` con grilla semanal e invariante contra superposiciones.
+7. **Entrevistas de admisión:** Tabla `interviews` con valoración multidimensional, vinculación a consultas y dictámenes de aptitud.
 
 ## Variables de entorno
 
-1. Copiar `.env.example` como `.env.local`.
-2. Abrir la configuración de API del proyecto en Supabase.
-3. Completar estas variables con los valores de esa instalación:
+Para inicializar una instalación o entorno de desarrollo:
+
+1. Copiar `.env.example` como `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+2. Abrir la configuración de API del proyecto en Supabase Dashboard (`Project Settings > API`).
+3. Completar las dos variables requeridas por el CRM:
 
 ```text
-NEXT_PUBLIC_SUPABASE_URL
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+NEXT_PUBLIC_SUPABASE_URL="https://ID_DEL_PROYECTO.supabase.co"
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="sbp_..."
 ```
 
-`.env.local` está ignorado por Git. La contraseña de la base y los tokens
-personales de la CLI no deben guardarse en el repositorio.
+> **Importante:** El CRM opera exclusivamente con la clave publicable y la sesión del
+> usuario autenticado. No utiliza ni requiere `SUPABASE_SERVICE_ROLE_KEY`. Todas las consultas
+> y mutaciones están protegidas por Row-Level Security (RLS) y funciones RPC controladas.
+> La clave `service_role` únicamente puede utilizarse de forma externa (por ejemplo, en
+> la landing page pública para insertar nuevas consultas iniciales o en tareas de mantenimiento
+> administrativo).
 
-El CRM solo utiliza la URL y la clave publicable junto a la sesión. No requiere
-una clave administrativa. Las credenciales de la landing externa se gestionan
-por separado.
+## Vinculación y CLI de Supabase
 
-## CLI y proyecto remoto
-
-La CLI está instalada como dependencia de desarrollo. Por eso se ejecuta con
-`npx`:
+La CLI de Supabase está instalada como dependencia de desarrollo en el proyecto:
 
 ```bash
+# Iniciar sesión en Supabase CLI
 npx supabase login
+
+# Vincular al proyecto remoto de la residencia
 npx supabase link --project-ref ID_DEL_PROYECTO
 ```
 
-El identificador aparece en la URL del panel de Supabase. La vinculación queda
-en archivos locales ignorados por Git y debe realizarse para cada instalación.
+El identificador de referencia (`project-ref`) se obtiene en la URL del Dashboard de Supabase.
+Los archivos de configuración local creados por la CLI (`.supabase/`) están ignorados en Git.
 
-Antes de crear o aplicar una migración se debe comprobar cuál es el proyecto
-vinculado. No se cambiará el esquema directamente desde Table Editor o SQL
-Editor una vez iniciado el flujo de migraciones.
+### Despliegue de migraciones
 
-## Clientes de la aplicación
-
-- `src/lib/supabase/client.ts`: cliente para componentes del navegador.
-- `src/lib/supabase/server.ts`: cliente nuevo para cada ejecución del servidor.
-
-Ambos utilizan la URL y la clave publicable. Poder incluir esta clave
-en el navegador no convierte los datos en públicos: las tablas expuestas deben
-tener RLS y políticas de acceso por perfil.
-
-## Tipos TypeScript
-
-`src/types/database.ts` se genera automáticamente a partir del esquema `public`
-del proyecto vinculado. Describe las filas y los datos permitidos para insertar
-o actualizar, pero no contiene registros ni credenciales.
-
-Después de aplicar una migración se debe regenerar con:
+Para aplicar migraciones pendientes sobre la base de datos de la residencia:
 
 ```bash
-npm run db:types
+# Simulación previa para verificar sintaxis y dependencias
+npx supabase db push --dry-run
+
+# Aplicar las migraciones versionadas
+npx supabase db push
 ```
 
-El archivo generado no se edita manualmente. Si cambia una tabla, primero se
-crea y aplica su migración y después se vuelve a ejecutar el comando.
+No se deben modificar tablas ni políticas de seguridad manualmente mediante el Table Editor
+o SQL Editor en producción; todos los cambios deben quedar respaldados en migraciones versionadas.
 
-## Desarrollo local
+## Almacenamiento (Supabase Storage)
 
-El desarrollo de interfaz y los tests unitarios no requieren Docker. En este
-flujo, las pruebas SQL, concurrencia y generación de tipos corren en GitHub CI.
+El sistema utiliza dos buckets privados creados y configurados mediante migraciones:
 
-Cuando comience el trabajo de base de datos, el flujo será:
+- `payment-receipts`: Comprobantes de pago (JPG, PNG, PDF; límite de 3 MiB).
+- `resident-documents`: Documentación médica y administrativa de residentes (JPG, PNG, PDF; límite de 5 MiB).
 
-1. Crear una migración versionada.
-2. Aplicarla y probarla en Supabase local.
-3. Revisar el SQL y las políticas RLS.
-4. Ejecutar un ensayo con `npx supabase db push --dry-run`.
-5. Aplicarla al proyecto remoto solamente después de aprobar el Pull Request.
+Ambos buckets son estrictamente privados (`public = false`). El acceso a los archivos se
+realiza mediante URLs firmadas de corta duración generadas en el servidor (`createSignedUrl`),
+restringidas a usuarios con perfil de `administration` o `management`.
+
+## Tipos TypeScript automáticos
+
+El archivo `src/types/database.ts` describe el esquema estricto de la base de datos para TypeScript
+(tablas, vistas, funciones y enumerados) sin exponer credenciales ni datos.
+
+Para regenerarlo tras aplicar migraciones:
+
+```bash
+# Desde el proyecto remoto vinculado
+npm run db:types
+
+# O desde un contenedor Supabase local (si se usa Docker)
+npm run db:types:local
+```
+
+El archivo generado no se edita a mano.
+
+## Documentación relacionada
+
+- [docs/permisos.md](permisos.md): Modelo de roles, perfiles y permisos por sección.
+- [docs/cuentas-empleados.md](cuentas-empleados.md): Vinculación de cuentas Supabase Auth con fichas de personal.
+- [docs/auditoria.md](auditoria.md): Registro transaccional de auditoría operativa.
+- [docs/autenticacion.md](autenticacion.md): Mecanismos de autenticación y renovación de sesión.
+- [docs/comprobantes-privados.md](comprobantes-privados.md): Especificación técnica del bucket de comprobantes de pago.

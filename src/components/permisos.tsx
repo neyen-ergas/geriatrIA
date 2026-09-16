@@ -13,7 +13,15 @@ export function usePuedeGestionar(): boolean {
   return tienePermiso(useContext(ContextoRol), "operational.write");
 }
 
+export function usePuedeAdministrar(): boolean {
+  return tienePermiso(useContext(ContextoRol), "administration");
+}
+
 /** Solo controla la presentación; las páginas, acciones y RLS autorizan el acceso. */
 export function SoloGestion({ children }: { children: ReactNode }) {
   return usePuedeGestionar() ? children : null;
+}
+
+export function SoloAdmin({ children }: { children: ReactNode }) {
+  return usePuedeAdministrar() ? children : null;
 }

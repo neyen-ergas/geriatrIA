@@ -3,7 +3,8 @@ import { enlaceAdmision, paginaAdmision } from "./paginacion-admision";
 
 describe("navegación de Admisión", () => {
   it.each([undefined, ["2"], "0", "-1", "2.5", "1e3", "abc", "999999999999999999"])(
-    "usa la primera página ante entrada inválida %s", (entrada) => {
+    "usa la primera página ante entrada inválida %s",
+    entrada => {
       expect(paginaAdmision(entrada, 1255)).toBe(1);
     },
   );

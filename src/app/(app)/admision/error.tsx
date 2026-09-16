@@ -17,8 +17,8 @@ export default function ErrorAdmision(_props: {
             No pudimos cargar Admisión
           </h1>
           <p className="mt-2 text-sm text-red-800">
-            Volvé a cargar la página. Si el problema continúa, intentá más tarde
-            o contactá al responsable.
+            Volvé a cargar la página. Si el problema continúa, intentá más tarde o
+            contactá al responsable.
           </p>
           <Button
             className="mt-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"

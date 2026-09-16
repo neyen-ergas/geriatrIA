@@ -7,6 +7,11 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.5"
+  }
   public: {
     Tables: {
       access_events: {
@@ -369,6 +374,93 @@ export type Database = {
             columns: ["resident_id"]
             isOneToOne: false
             referencedRelation: "residents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interviews: {
+        Row: {
+          candidate_birth_date: string | null
+          candidate_dni: string | null
+          candidate_name: string
+          cognitive_assessment: string | null
+          companion_name: string | null
+          companion_phone: string | null
+          companion_relationship: string | null
+          conclusion: string
+          consultation_id: string | null
+          created_at: string
+          created_by: string
+          id: string
+          interview_date: string
+          interviewer_employee_id: string | null
+          medical_notes: string | null
+          mobility_assessment: string | null
+          rejection_reason: string | null
+          social_notes: string | null
+          status: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          candidate_birth_date?: string | null
+          candidate_dni?: string | null
+          candidate_name: string
+          cognitive_assessment?: string | null
+          companion_name?: string | null
+          companion_phone?: string | null
+          companion_relationship?: string | null
+          conclusion?: string
+          consultation_id?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          interview_date: string
+          interviewer_employee_id?: string | null
+          medical_notes?: string | null
+          mobility_assessment?: string | null
+          rejection_reason?: string | null
+          social_notes?: string | null
+          status?: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          candidate_birth_date?: string | null
+          candidate_dni?: string | null
+          candidate_name?: string
+          cognitive_assessment?: string | null
+          companion_name?: string | null
+          companion_phone?: string | null
+          companion_relationship?: string | null
+          conclusion?: string
+          consultation_id?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          interview_date?: string
+          interviewer_employee_id?: string | null
+          medical_notes?: string | null
+          mobility_assessment?: string | null
+          rejection_reason?: string | null
+          social_notes?: string | null
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interviews_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "consulta"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interviews_interviewer_employee_id_fkey"
+            columns: ["interviewer_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
             referencedColumns: ["id"]
           },
         ]
@@ -771,6 +863,66 @@ export type Database = {
         }
         Relationships: []
       }
+      shifts: {
+        Row: {
+          absence_reason: string | null
+          covered_by_employee_id: string | null
+          created_at: string
+          created_by: string
+          employee_id: string
+          id: string
+          notes: string | null
+          shift_date: string
+          shift_type: string
+          status: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          absence_reason?: string | null
+          covered_by_employee_id?: string | null
+          created_at?: string
+          created_by: string
+          employee_id: string
+          id?: string
+          notes?: string | null
+          shift_date: string
+          shift_type: string
+          status?: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          absence_reason?: string | null
+          covered_by_employee_id?: string | null
+          created_at?: string
+          created_by?: string
+          employee_id?: string
+          id?: string
+          notes?: string | null
+          shift_date?: string
+          shift_type?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shifts_covered_by_employee_id_fkey"
+            columns: ["covered_by_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shifts_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       special_needs: {
         Row: {
           archived_at: string | null
@@ -940,6 +1092,7 @@ export type Database = {
         Args: { p_monthly_charge_id: string; p_reason: string }
         Returns: string
       }
+      cancel_shift: { Args: { p_shift_id: string }; Returns: undefined }
       convert_consultation_admission: {
         Args: {
           p_administrative_notes?: string
@@ -966,6 +1119,15 @@ export type Database = {
           p_room?: string
         }
         Returns: string
+      }
+      cover_shift: {
+        Args: {
+          p_absence_reason: string
+          p_covered_by_employee_id: string
+          p_notes?: string
+          p_shift_id: string
+        }
+        Returns: undefined
       }
       create_initial_admission: {
         Args: {
@@ -1062,6 +1224,28 @@ export type Database = {
         }
         Returns: string
       }
+      save_interview: {
+        Args: {
+          p_candidate_birth_date?: string | null
+          p_candidate_dni?: string | null
+          p_candidate_name: string
+          p_cognitive_assessment?: string | null
+          p_companion_name?: string | null
+          p_companion_phone?: string | null
+          p_companion_relationship?: string | null
+          p_conclusion?: string | null
+          p_consultation_id?: string | null
+          p_id?: string | null
+          p_interview_date: string
+          p_interviewer_employee_id?: string | null
+          p_medical_notes?: string | null
+          p_mobility_assessment?: string | null
+          p_rejection_reason?: string | null
+          p_social_notes?: string | null
+          p_status?: string | null
+        }
+        Returns: string
+      }
       save_resident_record: {
         Args: {
           p_archive_reason?: string
@@ -1070,6 +1254,16 @@ export type Database = {
           p_resident_id: string
           p_section: string
           p_values?: Json
+        }
+        Returns: string
+      }
+      save_shift: {
+        Args: {
+          p_employee_id: string
+          p_id?: string
+          p_notes?: string
+          p_shift_date: string
+          p_shift_type: string
         }
         Returns: string
       }
@@ -1162,12 +1356,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1191,11 +1385,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1216,11 +1410,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1241,11 +1435,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1258,11 +1452,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1276,4 +1470,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-

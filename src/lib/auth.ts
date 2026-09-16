@@ -19,7 +19,9 @@ type Identidad =
  * sigue perdiendo el acceso en su próxima navegación. Fuera del render —en los
  * tests— React ejecuta la función sin memorizar.
  */
-const identidadActual = cache(async (): Promise<Identidad> => {
+export async function requerirSesion(
+  permiso: Permiso = "operational.read",
+): Promise<Rol> {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
 

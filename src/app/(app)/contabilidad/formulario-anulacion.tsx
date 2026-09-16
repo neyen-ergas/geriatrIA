@@ -5,14 +5,18 @@ import { usePuedeGestionar } from "@/components/permisos";
 import { Button, Label, Textarea } from "@/components/ui";
 import type { EstadoAnulacion } from "@/lib/anular-pagos";
 
-export function FormularioAnulacion({ tipo, formAction }: {
+export function FormularioAnulacion({
+  tipo,
+  formAction,
+}: {
   tipo: "pago" | "cuota";
   formAction: (anterior: EstadoAnulacion, datos: FormData) => Promise<EstadoAnulacion>;
 }): React.ReactElement | null {
   const puedeGestionar = usePuedeGestionar();
   const id = useId();
   const [estado, action, pendiente] = useActionState(formAction, {
-    motivo: "", error: null,
+    motivo: "",
+    error: null,
   } as EstadoAnulacion);
   if (!puedeGestionar) return null;
   return (
@@ -26,17 +30,32 @@ export function FormularioAnulacion({ tipo, formAction }: {
             ? "El pago dejará de descontarse del saldo. Esta acción corrige el registro; no realiza una devolución de dinero."
             : "La cuota dejará de generar deuda. Su historial permanecerá disponible."}
         </p>
-        {estado.error && <p role="alert" id={`${id}-error`} className="text-sm text-red-700">{estado.error}</p>}
+        {estado.error && (
+          <p role="alert" id={`${id}-error`} className="text-sm text-red-700">
+            {estado.error}
+          </p>
+        )}
         <fieldset disabled={pendiente || estado.bloqueado} className="space-y-3">
           <Label htmlFor={id}>Motivo de la anulación *</Label>
-          <Textarea id={id} name="motivo" required defaultValue={estado.motivo}
-            aria-describedby={estado.error ? `${id}-error` : undefined} />
+          <Textarea
+            id={id}
+            name="motivo"
+            required
+            defaultValue={estado.motivo}
+            aria-describedby={estado.error ? `${id}-error` : undefined}
+          />
           <Button type="submit" variant="danger">
-            {pendiente ? "Anulando…" : `Confirmar anulación ${tipo === "pago" ? "del pago" : "de la cuota"}`}
+            {pendiente
+              ? "Anulando…"
+              : `Confirmar anulación ${tipo === "pago" ? "del pago" : "de la cuota"}`}
           </Button>
         </fieldset>
         {estado.bloqueado && (
-          <Button type="button" variant="outline" onClick={() => window.location.reload()}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => window.location.reload()}
+          >
             Volver a cargar el detalle
           </Button>
         )}

@@ -6,9 +6,7 @@ const DEADLOCK_DETECTED = "40P01";
 type ErrorBase = { code: string; message: string };
 
 export function mensajeErrorEstadia(error: ErrorBase): string | null {
-  if (
-    error.code === SERIALIZATION_FAILURE || error.code === DEADLOCK_DETECTED
-  ) {
+  if (error.code === SERIALIZATION_FAILURE || error.code === DEADLOCK_DETECTED) {
     return "La ficha cambió mientras guardabas. Recargá y revisá las fechas.";
   }
   if (error.code === EXCLUSION_VIOLATION) {
