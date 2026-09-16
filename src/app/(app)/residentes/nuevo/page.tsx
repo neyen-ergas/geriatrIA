@@ -22,12 +22,10 @@ export default async function NuevoIngresoPage() {
         Volver a residentes
       </Link>
 
-      <h1 className="mt-5 text-2xl font-bold text-slate-900">
-        Registrar primer ingreso
-      </h1>
+      <h1 className="mt-5 text-2xl font-bold text-slate-900">Registrar primer ingreso</h1>
       <p className="mt-1 text-sm text-slate-500">
-        Los campos marcados con * son obligatorios. Podrás completar la
-        documentación y la información médica más adelante.
+        Los campos marcados con * son obligatorios. Podrás completar la documentación y la
+        información médica más adelante.
       </p>
 
       <FormularioPrimerIngreso

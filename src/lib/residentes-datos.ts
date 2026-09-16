@@ -11,14 +11,7 @@ type DatosResidente = Pick<
 
 type ResidenteEditable = Pick<
   Tables<"residents">,
-  | "id"
-  | "first_name"
-  | "last_name"
-  | "dni"
-  | "birth_date"
-  | "phone"
-  | "address"
-  | "notes"
+  "id" | "first_name" | "last_name" | "dni" | "birth_date" | "phone" | "address" | "notes"
 >;
 
 type ContactoEditable = Pick<
@@ -129,9 +122,7 @@ export async function contarEstadias(bajas: boolean): Promise<number> {
 }
 
 /** Residentes que actualmente tienen un ingreso sin fecha de baja. */
-export async function listarResidentesActivos(
-  pagina = 1,
-): Promise<ResidenteActivo[]> {
+export async function listarResidentesActivos(pagina = 1): Promise<ResidenteActivo[]> {
   const supabase = await createClient();
   const inicio = inicioPagina(pagina);
 
@@ -148,19 +139,18 @@ export async function listarResidentesActivos(
     throw new Error(`No se pudieron leer los residentes: ${error.message}`);
   }
 
-  return (data ?? [])
-    .map((admission) => ({
-      admissionId: admission.id,
-      admittedAt: admission.admitted_at,
-      room: admission.room,
-      resident: admission.residents,
-    }));
+  return (data ?? []).map(admission => ({
+    admissionId: admission.id,
+    admittedAt: admission.admitted_at,
+    room: admission.room,
+    resident: admission.residents,
+  }));
 }
 
 /** Ingresos finalizados, del más reciente al más antiguo. */
-export async function listarResidentesDadosDeBaja(pagina = 1): Promise<
-  ResidenteDadoDeBaja[]
-> {
+export async function listarResidentesDadosDeBaja(
+  pagina = 1,
+): Promise<ResidenteDadoDeBaja[]> {
   const supabase = await createClient();
   const inicio = inicioPagina(pagina);
   // Cada relación se filtra y limita en Postgres para esa persona. No depende
@@ -176,23 +166,24 @@ export async function listarResidentesDadosDeBaja(pagina = 1): Promise<
     .limit(1, { referencedTable: "residents.activo" })
     .not("residents.ultima_baja.discharged_at", "is", null)
     .order("discharged_at", {
-      referencedTable: "residents.ultima_baja", ascending: false,
+      referencedTable: "residents.ultima_baja",
+      ascending: false,
     })
     .order("admitted_at", {
-      referencedTable: "residents.ultima_baja", ascending: false,
+      referencedTable: "residents.ultima_baja",
+      ascending: false,
     })
     .order("id", {
-      referencedTable: "residents.ultima_baja", ascending: false,
+      referencedTable: "residents.ultima_baja",
+      ascending: false,
     })
     .limit(1, { referencedTable: "residents.ultima_baja" })
     .range(inicio, inicio + REGISTROS_POR_PAGINA - 1);
 
   if (bajasResult.error) {
-    throw new Error(
-      `No se pudieron leer las bajas: ${bajasResult.error.message}`,
-    );
+    throw new Error(`No se pudieron leer las bajas: ${bajasResult.error.message}`);
   }
-  return (bajasResult.data ?? []).flatMap((admission) => {
+  return (bajasResult.data ?? []).flatMap(admission => {
     if (!admission.discharged_at) return [];
 
     const { activo, ultima_baja, ...resident } = admission.residents;
@@ -201,8 +192,7 @@ export async function listarResidentesDadosDeBaja(pagina = 1): Promise<
       {
         admissionId: admission.id,
         admittedAt: admission.admitted_at,
-        canBeReadmitted:
-          activo.length === 0 && ultima_baja[0]?.id === admission.id,
+        canBeReadmitted: activo.length === 0 && ultima_baja[0]?.id === admission.id,
         dischargedAt: admission.discharged_at,
         dischargeReason: admission.discharge_reason,
         room: admission.room,
@@ -256,9 +246,7 @@ export async function obtenerResidenteParaReingreso(
     throw new Error(`No se pudo comprobar el estado: ${activoResult.error.message}`);
   }
   if (ultimaBajaResult.error) {
-    throw new Error(
-      `No se pudo leer la última baja: ${ultimaBajaResult.error.message}`,
-    );
+    throw new Error(`No se pudo leer la última baja: ${ultimaBajaResult.error.message}`);
   }
 
   const ultimaBaja = ultimaBajaResult.data;
@@ -278,8 +266,11 @@ export async function obtenerResidenteParaReingreso(
 
 function inicioPagina(pagina: number): number {
   const inicio = (pagina - 1) * REGISTROS_POR_PAGINA;
-  if (pagina < 1 || !Number.isSafeInteger(pagina)
-    || !Number.isSafeInteger(inicio + REGISTROS_POR_PAGINA - 1)) {
+  if (
+    pagina < 1 ||
+    !Number.isSafeInteger(pagina) ||
+    !Number.isSafeInteger(inicio + REGISTROS_POR_PAGINA - 1)
+  ) {
     throw new Error("La página de residentes no es válida.");
   }
   return inicio;
@@ -352,14 +343,10 @@ export async function obtenerIngresoActivoParaEditar(
   ]);
 
   if (residentResult.error) {
-    throw new Error(
-      `No se pudo leer el residente: ${residentResult.error.message}`,
-    );
+    throw new Error(`No se pudo leer el residente: ${residentResult.error.message}`);
   }
   if (contactResult.error) {
-    throw new Error(
-      `No se pudo leer el contacto: ${contactResult.error.message}`,
-    );
+    throw new Error(`No se pudo leer el contacto: ${contactResult.error.message}`);
   }
   if (!residentResult.data || !contactResult.data) return null;
 

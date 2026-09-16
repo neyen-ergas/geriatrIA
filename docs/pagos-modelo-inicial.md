@@ -69,20 +69,20 @@ Guarda la cuota mensual acordada para una estadía. El importe queda registrado
 como una fotografía de ese período: cambiar la cuota del ingreso después no
 modificará meses anteriores.
 
-| Campo | Tipo previsto | Obligatorio | Descripción |
-| --- | --- | --- | --- |
-| `id` | `uuid` | Sí | Identificador generado por Supabase. |
-| `admission_id` | `uuid` | Sí | Estadía a la que pertenece la cuota. |
-| `period` | `date` | Sí | Primer día del mes representado, por ejemplo `2026-08-01`. |
-| `due_date` | `date` | Sí | Fecha de vencimiento de esa cuota. |
-| `amount_due` | `numeric(12, 2)` | Sí | Importe total a pagar en el período. |
-| `currency` | `text` | Sí | Moneda; inicialmente `ARS`. |
-| `notes` | `text` | No | Aclaraciones administrativas. |
-| `created_by` | `uuid` | Sí | Usuario autenticado que creó la cuota. |
-| `created_at` | `timestamptz` | Sí | Momento de creación. |
-| `cancelled_at` | `timestamptz` | No | Momento de anulación de la cuota. |
-| `cancelled_reason` | `text` | No | Motivo obligatorio cuando se anula. |
-| `cancelled_by` | `uuid` | No | Usuario que realizó la anulación. |
+| Campo              | Tipo previsto    | Obligatorio | Descripción                                                |
+| ------------------ | ---------------- | ----------- | ---------------------------------------------------------- |
+| `id`               | `uuid`           | Sí          | Identificador generado por Supabase.                       |
+| `admission_id`     | `uuid`           | Sí          | Estadía a la que pertenece la cuota.                       |
+| `period`           | `date`           | Sí          | Primer día del mes representado, por ejemplo `2026-08-01`. |
+| `due_date`         | `date`           | Sí          | Fecha de vencimiento de esa cuota.                         |
+| `amount_due`       | `numeric(12, 2)` | Sí          | Importe total a pagar en el período.                       |
+| `currency`         | `text`           | Sí          | Moneda; inicialmente `ARS`.                                |
+| `notes`            | `text`           | No          | Aclaraciones administrativas.                              |
+| `created_by`       | `uuid`           | Sí          | Usuario autenticado que creó la cuota.                     |
+| `created_at`       | `timestamptz`    | Sí          | Momento de creación.                                       |
+| `cancelled_at`     | `timestamptz`    | No          | Momento de anulación de la cuota.                          |
+| `cancelled_reason` | `text`           | No          | Motivo obligatorio cuando se anula.                        |
+| `cancelled_by`     | `uuid`           | No          | Usuario que realizó la anulación.                          |
 
 Restricciones previstas:
 
@@ -102,21 +102,21 @@ Restricciones previstas:
 Guarda cada movimiento aplicado a una cuota. Dos pagos parciales serán dos
 filas diferentes y no una modificación del primer pago.
 
-| Campo | Tipo previsto | Obligatorio | Descripción |
-| --- | --- | --- | --- |
-| `id` | `uuid` | Sí | Identificador generado por Supabase. |
-| `monthly_charge_id` | `uuid` | Sí | Cuota sobre la que se imputa el pago. |
-| `paid_on` | `date` | Sí | Día en que se recibió o acreditó el dinero. |
-| `amount` | `numeric(12, 2)` | Sí | Importe pagado. |
-| `payment_method` | `text` | Sí | Medio de pago normalizado. |
-| `reference` | `text` | No | Número de operación o referencia externa. |
-| `receipt_path` | `text` | No | Ruta privada de la imagen del comprobante. |
-| `notes` | `text` | No | Observaciones administrativas. |
-| `created_by` | `uuid` | Sí | Usuario autenticado que registró el pago. |
-| `created_at` | `timestamptz` | Sí | Momento real de creación del registro. |
-| `voided_at` | `timestamptz` | No | Momento en que se anuló el pago. |
-| `voided_reason` | `text` | No | Motivo obligatorio de la anulación. |
-| `voided_by` | `uuid` | No | Usuario que anuló el movimiento. |
+| Campo               | Tipo previsto    | Obligatorio | Descripción                                 |
+| ------------------- | ---------------- | ----------- | ------------------------------------------- |
+| `id`                | `uuid`           | Sí          | Identificador generado por Supabase.        |
+| `monthly_charge_id` | `uuid`           | Sí          | Cuota sobre la que se imputa el pago.       |
+| `paid_on`           | `date`           | Sí          | Día en que se recibió o acreditó el dinero. |
+| `amount`            | `numeric(12, 2)` | Sí          | Importe pagado.                             |
+| `payment_method`    | `text`           | Sí          | Medio de pago normalizado.                  |
+| `reference`         | `text`           | No          | Número de operación o referencia externa.   |
+| `receipt_path`      | `text`           | No          | Ruta privada de la imagen del comprobante.  |
+| `notes`             | `text`           | No          | Observaciones administrativas.              |
+| `created_by`        | `uuid`           | Sí          | Usuario autenticado que registró el pago.   |
+| `created_at`        | `timestamptz`    | Sí          | Momento real de creación del registro.      |
+| `voided_at`         | `timestamptz`    | No          | Momento en que se anuló el pago.            |
+| `voided_reason`     | `text`           | No          | Motivo obligatorio de la anulación.         |
+| `voided_by`         | `uuid`           | No          | Usuario que anuló el movimiento.            |
 
 Medios de pago iniciales:
 

@@ -29,8 +29,7 @@ export type EstadoReingreso = {
 };
 
 type ValidacionReingreso =
-  | { ok: true; datos: DatosNuevoIngreso }
-  | { ok: false; errores: ErroresReingreso };
+  { ok: true; datos: DatosNuevoIngreso } | { ok: false; errores: ErroresReingreso };
 
 function texto(formData: FormData, nombre: string): string {
   return String(formData.get(nombre) ?? "").trim();

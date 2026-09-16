@@ -22,23 +22,31 @@ const COLUMNAS_VENCIMIENTO = `
 `;
 
 export async function listarVencimientos(
-  mes: string, vencidas: boolean, paginaParam: unknown, todosLosMeses = false,
+  mes: string,
+  vencidas: boolean,
+  paginaParam: unknown,
+  todosLosMeses = false,
 ): Promise<{ vencimientos: Vencimiento[]; total: number; pagina: number }> {
   const { inicio, fin } = limitesMesVencimientos(mes);
   const supabase = await createClient();
   const consulta = (conteo: boolean) => {
-    let seleccion = supabase.from("monthly_charge_balances")
+    let seleccion = supabase
+      .from("monthly_charge_balances")
       .select(COLUMNAS_VENCIMIENTO, conteo ? { count: "exact", head: true } : {})
-      .gt("balance", 0).is("cancelled_at", null);
-    if (!todosLosMeses) seleccion = seleccion.gte("due_date", inicio).lte("due_date", fin);
+      .gt("balance", 0)
+      .is("cancelled_at", null);
+    if (!todosLosMeses)
+      seleccion = seleccion.gte("due_date", inicio).lte("due_date", fin);
     return vencidas || todosLosMeses ? seleccion.eq("is_overdue", true) : seleccion;
   };
   const { count, error: errorConteo } = await consulta(true);
-  if (errorConteo || count === null) throw new Error("No se pudieron contar los vencimientos.");
+  if (errorConteo || count === null)
+    throw new Error("No se pudieron contar los vencimientos.");
   const pagina = paginaListado(paginaParam, count);
   const inicioPagina = (pagina - 1) * REGISTROS_POR_PAGINA;
   const { data, error } = await consulta(false)
-    .order("due_date", { ascending: true }).order("id", { ascending: true })
+    .order("due_date", { ascending: true })
+    .order("id", { ascending: true })
     .range(inicioPagina, inicioPagina + REGISTROS_POR_PAGINA - 1);
   if (error) throw new Error("No se pudieron leer los vencimientos.");
   const vencimientos = (data ?? []).map(({ admissions, ...cuota }) => {

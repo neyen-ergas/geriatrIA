@@ -4,7 +4,12 @@ import { requerirSesion } from "@/lib/auth";
 import { semanaAgenda } from "@/lib/agenda";
 import { agendarVisita, type Resultado } from "../../actions";
 
-export async function reservarVisita(fecha: string, franja: string, anterior: Resultado, datos: FormData): Promise<Resultado> {
+export async function reservarVisita(
+  fecha: string,
+  franja: string,
+  anterior: Resultado,
+  datos: FormData,
+): Promise<Resultado> {
   await requerirSesion("operational.write");
   datos.set("visita_fecha", fecha);
   datos.set("visita_franja", franja);

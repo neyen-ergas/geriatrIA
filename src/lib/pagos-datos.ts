@@ -5,7 +5,8 @@ import { esCuota, type Cuota } from "@/lib/pagos";
 import { REGISTROS_POR_PAGINA, paginaListado } from "@/lib/paginacion";
 import type { Tables } from "@/types/database";
 
-export type Cuenta = Pick<Tables<"admissions">,
+export type Cuenta = Pick<
+  Tables<"admissions">,
   "id" | "admitted_at" | "discharged_at" | "monthly_fee" | "due_day" | "currency"
 > & { residents: Pick<Tables<"residents">, "first_name" | "last_name" | "dni"> };
 
@@ -19,11 +20,13 @@ const COLUMNAS_CUOTA = `
 `;
 
 export async function listarCuentas(
-  bajas: boolean, paginaParam: unknown,
+  bajas: boolean,
+  paginaParam: unknown,
 ): Promise<{ cuentas: Cuenta[]; total: number; pagina: number }> {
   const supabase = await createClient();
   const conteo = supabase.from("admissions").select("id", {
-    count: "exact", head: true,
+    count: "exact",
+    head: true,
   });
   const { count, error: errorConteo } = await (bajas
     ? conteo.not("discharged_at", "is", null)
@@ -34,9 +37,9 @@ export async function listarCuentas(
   const pagina = paginaListado(paginaParam, count);
   const inicio = (pagina - 1) * REGISTROS_POR_PAGINA;
   const consulta = supabase.from("admissions").select(COLUMNAS_CUENTA);
-  const { data, error } = await (bajas
-    ? consulta.not("discharged_at", "is", null)
-    : consulta.is("discharged_at", null))
+  const { data, error } = await (
+    bajas ? consulta.not("discharged_at", "is", null) : consulta.is("discharged_at", null)
+  )
     .order("residents(last_name)", { ascending: true })
     .order("residents(first_name)", { ascending: true })
     .order("admitted_at", { ascending: false })
@@ -47,17 +50,23 @@ export async function listarCuentas(
 }
 
 export async function obtenerCuenta(admissionId: string): Promise<Cuenta | null> {
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-    .test(admissionId)) return null;
+  if (
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(admissionId)
+  )
+    return null;
   const supabase = await createClient();
-  const { data, error } = await supabase.from("admissions")
-    .select(COLUMNAS_CUENTA).eq("id", admissionId).maybeSingle();
+  const { data, error } = await supabase
+    .from("admissions")
+    .select(COLUMNAS_CUENTA)
+    .eq("id", admissionId)
+    .maybeSingle();
   if (error) throw new Error("No se pudo leer la cuenta.");
   return data;
 }
 
 export async function listarCuotas(
-  admissionId: string, paginaParam: unknown,
+  admissionId: string,
+  paginaParam: unknown,
 ): Promise<{ cuotas: Cuota[]; total: number; pagina: number }> {
   const supabase = await createClient();
   const { count, error: errorConteo } = await supabase
@@ -69,9 +78,12 @@ export async function listarCuotas(
   }
   const pagina = paginaListado(paginaParam, count);
   const inicio = (pagina - 1) * REGISTROS_POR_PAGINA;
-  const { data, error } = await supabase.from("monthly_charge_balances")
-    .select(COLUMNAS_CUOTA).eq("admission_id", admissionId)
-    .order("period", { ascending: false }).order("id", { ascending: false })
+  const { data, error } = await supabase
+    .from("monthly_charge_balances")
+    .select(COLUMNAS_CUOTA)
+    .eq("admission_id", admissionId)
+    .order("period", { ascending: false })
+    .order("id", { ascending: false })
     .range(inicio, inicio + REGISTROS_POR_PAGINA - 1);
   if (error) throw new Error("No se pudieron leer las cuotas.");
   const cuotas: Cuota[] = [];
@@ -83,14 +95,18 @@ export async function listarCuotas(
 }
 
 export async function obtenerCuota(
-  admissionId: string, cuotaId: string,
+  admissionId: string,
+  cuotaId: string,
 ): Promise<Cuota | null> {
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-    .test(cuotaId)) return null;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cuotaId))
+    return null;
   const supabase = await createClient();
-  const { data, error } = await supabase.from("monthly_charge_balances")
-    .select(COLUMNAS_CUOTA).eq("admission_id", admissionId)
-    .eq("id", cuotaId).maybeSingle();
+  const { data, error } = await supabase
+    .from("monthly_charge_balances")
+    .select(COLUMNAS_CUOTA)
+    .eq("admission_id", admissionId)
+    .eq("id", cuotaId)
+    .maybeSingle();
   if (error) throw new Error("No se pudo leer la cuota.");
   if (!data) return null;
   if (!esCuota(data)) throw new Error("No se pudo interpretar la cuota.");

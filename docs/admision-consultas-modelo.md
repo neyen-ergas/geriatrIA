@@ -50,13 +50,13 @@ Las entregas posteriores incorporaron la agenda semanal y la
 
 ## Estados
 
-| Estado | Significado |
-| --- | --- |
-| `nuevo` | Entró la consulta y todavía nadie llamó. Es el estado inicial. |
-| `contactado` | El equipo ya habló con la familia. |
-| `visita_agendada` | Hay día y franja confirmados para la visita presencial. |
-| `ingreso` | La consulta terminó en un ingreso a la residencia. |
-| `descartada` | No va a avanzar. |
+| Estado            | Significado                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `nuevo`           | Entró la consulta y todavía nadie llamó. Es el estado inicial. |
+| `contactado`      | El equipo ya habló con la familia.                             |
+| `visita_agendada` | Hay día y franja confirmados para la visita presencial.        |
+| `ingreso`         | La consulta terminó en un ingreso a la residencia.             |
+| `descartada`      | No va a avanzar.                                               |
 
 ```text
 nuevo ──> contactado ──> visita_agendada ──> ingreso
@@ -156,25 +156,25 @@ una excepción documentada, no como el criterio general del proyecto.
 
 ### Campos que llegan del formulario
 
-| Campo | Tipo | Obligatorio | Descripción |
-| --- | --- | --- | --- |
-| `nombre` | `text` | Sí | Nombre y apellido de quien consulta. Entre 2 y 80 caracteres. |
-| `telefono` | `text` | Sí | Teléfono de contacto. Entre 6 y 30 caracteres. |
-| `momento_llamado` | `text` | Sí | Cuándo le queda cómodo atender: `manana`, `tarde` o `indistinto`. |
-| `mensaje` | `text` | No | Texto libre de la familia. Hasta 1000 caracteres. |
-| `origen` | `text` | Sí | Canal de entrada. Por defecto `landing`. |
+| Campo             | Tipo   | Obligatorio | Descripción                                                       |
+| ----------------- | ------ | ----------- | ----------------------------------------------------------------- |
+| `nombre`          | `text` | Sí          | Nombre y apellido de quien consulta. Entre 2 y 80 caracteres.     |
+| `telefono`        | `text` | Sí          | Teléfono de contacto. Entre 6 y 30 caracteres.                    |
+| `momento_llamado` | `text` | Sí          | Cuándo le queda cómodo atender: `manana`, `tarde` o `indistinto`. |
+| `mensaje`         | `text` | No          | Texto libre de la familia. Hasta 1000 caracteres.                 |
+| `origen`          | `text` | Sí          | Canal de entrada. Por defecto `landing`.                          |
 
 ### Campos de gestión
 
-| Campo | Tipo | Obligatorio | Descripción |
-| --- | --- | --- | --- |
-| `id` | `uuid` | Sí | Identificador generado por la base. |
-| `estado` | `text` | Sí | Uno de los cinco estados. Por defecto `nuevo`. |
-| `notas_internas` | `text` | No | Observaciones del equipo. |
-| `visita_fecha` | `date` | No | Día de la visita presencial. La carga el CRM. |
-| `visita_franja` | `text` | No | Franja de la visita: `manana` o `tarde`. |
-| `creado_en` | `timestamptz` | Sí | Momento en que entró la consulta. |
-| `actualizado_en` | `timestamptz` | Sí | Última modificación, mantenida por un trigger. |
+| Campo            | Tipo          | Obligatorio | Descripción                                    |
+| ---------------- | ------------- | ----------- | ---------------------------------------------- |
+| `id`             | `uuid`        | Sí          | Identificador generado por la base.            |
+| `estado`         | `text`        | Sí          | Uno de los cinco estados. Por defecto `nuevo`. |
+| `notas_internas` | `text`        | No          | Observaciones del equipo.                      |
+| `visita_fecha`   | `date`        | No          | Día de la visita presencial. La carga el CRM.  |
+| `visita_franja`  | `text`        | No          | Franja de la visita: `manana` o `tarde`.       |
+| `creado_en`      | `timestamptz` | Sí          | Momento en que entró la consulta.              |
+| `actualizado_en` | `timestamptz` | Sí          | Última modificación, mantenida por un trigger. |
 
 `origen` existe para distinguir campañas o canales más adelante. Hoy la landing no
 lo envía, así que todas las filas caen en el valor por defecto.

@@ -7,7 +7,7 @@ export default function InicioLoading() {
       <div>
         <div className="h-8 w-64 rounded-lg bg-slate-200" />
         <div className="mt-2 h-4 w-80 rounded bg-slate-100" />
-        
+
         {/* Quick action buttons skeleton */}
         <div className="mt-5 flex flex-wrap gap-3">
           <div className="h-9 w-36 rounded-lg bg-slate-200" />

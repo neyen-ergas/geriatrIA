@@ -7,6 +7,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+
 - Herramientas de higiene técnica y análisis estático: configuración de Prettier (`.prettierrc`, `.prettierignore`), ESLint para Next.js 15 (`eslint.config.mjs`) y `.editorconfig`. Scripts `npm run format`, `npm run format:check` y `npm run lint` incorporados a la integración continua (CI) en GitHub Actions.
 - Pruebas unitarias de funciones puras y type guards en `src/lib/admision.test.ts` (estados de consulta, franjas, transiciones directas y formateo de días con zona horaria).
 - Módulo de Turnos del personal (`shifts`) con grilla semanal por empleado, selector de semanas, asignación de turnos (mañana, tarde, noche, guardia, franco) y cobertura de ausencias con reemplazo justificado. Invariante en Postgres que impide turnos superpuestos para el mismo empleado en la misma franja y fecha. Requiere aplicar `20260915000000_employee_shifts.sql`. Alcance en `docs/turnos.md`.
@@ -45,6 +46,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - Navegación con `sidebar` y `topbar`, e icono de la app (`src/app/icon.tsx`).
 
 ### Corregido
+
 - Manejo defensivo en la página de Turnos para evitar errores de servidor 500 ante fallas de red o demoras en la base de datos, mostrando una tarjeta de reintento amigable.
 - Middleware de sesión en Node.js 24 para evitar el error 500 al inicializar Supabase en Edge sin WebSocket. CI comprueba el acceso HTTP al build de producción, incluido el redireccionamiento de visitantes sin sesión.
 - Admisión ofrece volver a cargar ante fallos de lectura, sin exponer errores internos. Las escrituras interrumpidas piden revisar la consulta antes de volver a guardar; no se reintentan automáticamente ni se confirma un éxito sin respuesta. Se explican permisos, sesión y conflictos de operaciones.
@@ -58,16 +60,19 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - La baja de un empleado requiere suspender antes su cuenta vinculada; no se permite rehabilitar una cuenta mientras conserve una ficha inactiva. Las comprobaciones cubren cambios simultáneos.
 
 ### Cambiado
+
 - Priorización del trabajo pendiente: pruebas e integridad antes de nuevos módulos, seguida de Contabilidad y la conexión Admisión → Residentes.
 - Flujo de GitHub documentado con PRs por tarea, squash merge, controles de CI, versiones publicadas y recuperación mediante revert y migraciones nuevas.
 - Ajustes de layout y estilos en dashboard, residentes, login y globals.css.
 
 ### Seguridad
+
 - La tabla `consulta` se lee con la clave `service_role`, que saltea RLS, así que la autenticación es la única barrera real sobre esos datos. El layout de `(app)` ya protege las pantallas, pero no cubre a las Server Actions: cada una verifica la sesión con `requerirSesion()` antes de tocar la base.
 - La clave `service_role` queda aislada en `src/lib/supabase/admin.ts`, marcado `server-only` para que el build falle si llega a importarse desde el cliente.
 - Se dejó de trackear `.env.local` en git (claves públicas de Supabase protegidas por RLS, no debían vivir en el repo) y se agregó `.env*.local` al `.gitignore`.
 
 ### Quitado (reinicio del proyecto)
+
 - Se eliminó todo lo relacionado con Supabase del prototipo previo: base de datos remota, migraciones antiguas, cliente y middleware obsoletos.
 - Se removió el login y control de acceso previo para arrancar con el esquema definitivo.
 - Se limpiaron las pantallas mockup generadas durante la exploración inicial.
@@ -75,5 +80,6 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [0.1.0] - 2026-07-27
 
 ### Agregado
+
 - Demo funcional inicial: eMAR (registro electrónico de administración de medicación) con RLS por rol, pantalla de "tomas del turno" y dashboard del dueño.
 - `.gitignore` para ignorar `dev.log`.

@@ -53,7 +53,8 @@ export function GrillaTurnos({
 
       {empleados.length === 0 ? (
         <Card className="flex h-48 items-center justify-center p-6 text-sm text-slate-400">
-          No hay empleados activos para planificar turnos. Registrá personal en la sección Empleados.
+          No hay empleados activos para planificar turnos. Registrá personal en la sección
+          Empleados.
         </Card>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-xs">
@@ -63,7 +64,7 @@ export function GrillaTurnos({
                 <th className="sticky left-0 z-10 min-w-56 bg-slate-50/95 p-3.5 text-xs font-semibold uppercase tracking-wider text-slate-500 backdrop-blur-xs">
                   Empleado
                 </th>
-                {semana.dias.map((dia) => {
+                {semana.dias.map(dia => {
                   const esHoy = dia === hoy;
                   return (
                     <th
@@ -84,7 +85,7 @@ export function GrillaTurnos({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {empleados.map((empleado) => {
+              {empleados.map(empleado => {
                 return (
                   <tr key={empleado.id} className="hover:bg-slate-50/50">
                     <td className="sticky left-0 z-10 bg-white p-3.5 shadow-xs">
@@ -94,9 +95,9 @@ export function GrillaTurnos({
                       <div className="text-xs text-slate-500">{empleado.job_title}</div>
                     </td>
 
-                    {semana.dias.map((dia) => {
+                    {semana.dias.map(dia => {
                       const turnoDelDia = turnos.find(
-                        (t) => t.employee_id === empleado.id && t.shift_date === dia,
+                        t => t.employee_id === empleado.id && t.shift_date === dia,
                       );
                       const esHoy = dia === hoy;
 
@@ -112,8 +113,8 @@ export function GrillaTurnos({
                               className={`group relative rounded-lg border p-2 shadow-2xs transition ${
                                 turnoDelDia.status === "absent"
                                   ? "border-red-200 bg-red-50/60"
-                                  : COLORES_FRANJA[turnoDelDia.shift_type as FranjaTurno]?.badge ||
-                                    "border-slate-200 bg-slate-50"
+                                  : COLORES_FRANJA[turnoDelDia.shift_type as FranjaTurno]
+                                      ?.badge || "border-slate-200 bg-slate-50"
                               }`}
                             >
                               <div className="flex items-center justify-between gap-1">

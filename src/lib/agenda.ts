@@ -23,8 +23,11 @@ export function semanaAgenda(valor: unknown, hoy: string): SemanaAgenda {
   const anterior = diasSemana(sumarDias(dias[0], -DIAS_POR_SEMANA));
   const siguiente = diasSemana(sumarDias(dias[0], DIAS_POR_SEMANA));
   return {
-    inicio: dias[0], fin: dias[6], dias,
-    anterior: anterior?.[0] ?? null, siguiente: siguiente?.[0] ?? null,
+    inicio: dias[0],
+    fin: dias[6],
+    dias,
+    anterior: anterior?.[0] ?? null,
+    siguiente: siguiente?.[0] ?? null,
   };
 }
 
@@ -34,7 +37,10 @@ export function enlaceAgenda(inicio: string): string {
 
 export function etiquetaDiaAgenda(fecha: string): string {
   return new Intl.DateTimeFormat("es-AR", {
-    weekday: "long", day: "numeric", month: "short", timeZone: "UTC",
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+    timeZone: "UTC",
   }).format(new Date(`${fecha}T12:00:00Z`));
 }
 

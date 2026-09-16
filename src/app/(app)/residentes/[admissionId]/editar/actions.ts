@@ -52,8 +52,12 @@ export async function actualizarPrimerIngreso(
 
   if (error) {
     if (error.code === SERIALIZATION_FAILURE && error.message === "contact_changed") {
-      return { errores: {}, valores,
-        mensaje: "El contacto cambió. Recargá el ingreso y revisá sus datos antes de guardar." };
+      return {
+        errores: {},
+        valores,
+        mensaje:
+          "El contacto cambió. Recargá el ingreso y revisá sus datos antes de guardar.",
+      };
     }
     const mensaje = mensajeErrorEstadia(error);
     if (mensaje) return { errores: {}, mensaje, valores };
@@ -73,16 +77,14 @@ export async function actualizarPrimerIngreso(
     if (error.code === NO_DATA_FOUND) {
       return {
         errores: {},
-        mensaje:
-          "Este ingreso ya no está activo o sus datos asociados cambiaron.",
+        mensaje: "Este ingreso ya no está activo o sus datos asociados cambiaron.",
         valores,
       };
     }
 
     return {
       errores: {},
-      mensaje:
-        "No pudimos guardar los cambios. Intentá nuevamente en unos minutos.",
+      mensaje: "No pudimos guardar los cambios. Intentá nuevamente en unos minutos.",
       valores,
     };
   }

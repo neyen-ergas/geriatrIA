@@ -1,13 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import {
-  hoyEnArgentina,
-  validarPrimerIngreso,
-} from "@/lib/primer-ingreso";
+import { hoyEnArgentina, validarPrimerIngreso } from "@/lib/primer-ingreso";
 
 const HOY = "2026-03-05";
 
 describe("fechas de primer ingreso y edición", () => {
-  it.each(["1940-02-29", HOY])("acepta el límite %s", (fecha) => {
+  it.each(["1940-02-29", HOY])("acepta el límite %s", fecha => {
     expect(validarPrimerIngreso(crearFormulario(fecha), HOY).ok).toBe(true);
   });
 
@@ -23,23 +20,23 @@ describe("fechas de primer ingreso y edición", () => {
     });
   });
 
-  it.each(["2026-03-06", "1941-02-29", ""])(
-    "rechaza el nacimiento %s", (fecha) => {
-      const formulario = crearFormulario(HOY);
-      formulario.set("resident_birth_date", fecha);
-      expect(validarPrimerIngreso(formulario, HOY)).toMatchObject({
-        ok: false,
-        errores: { resident_birth_date: expect.any(String) },
-      });
-    },
-  );
+  it.each(["2026-03-06", "1941-02-29", ""])("rechaza el nacimiento %s", fecha => {
+    const formulario = crearFormulario(HOY);
+    formulario.set("resident_birth_date", fecha);
+    expect(validarPrimerIngreso(formulario, HOY)).toMatchObject({
+      ok: false,
+      errores: { resident_birth_date: expect.any(String) },
+    });
+  });
 
   it.each(["12345678", "12.345.678", " 12 345 678 ", "12\u00a0345\u202f678"])(
-    "envía el mismo DNI para %s", (dni) => {
+    "envía el mismo DNI para %s",
+    dni => {
       const formulario = crearFormulario(HOY);
       formulario.set("resident_dni", dni);
       expect(validarPrimerIngreso(formulario, HOY)).toMatchObject({
-        ok: true, datos: { p_resident_dni: "12345678" },
+        ok: true,
+        datos: { p_resident_dni: "12345678" },
       });
     },
   );
@@ -48,7 +45,8 @@ describe("fechas de primer ingreso y edición", () => {
     const formulario = crearFormulario(HOY);
     formulario.set("resident_dni", " . . ");
     expect(validarPrimerIngreso(formulario, HOY)).toMatchObject({
-      ok: false, errores: { resident_dni: "Ingresá el DNI." },
+      ok: false,
+      errores: { resident_dni: "Ingresá el DNI." },
     });
   });
 

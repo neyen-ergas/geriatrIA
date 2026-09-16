@@ -23,7 +23,7 @@ export function Topbar({ rol }: { rol: Rol }) {
       </div>
 
       <nav className="flex gap-1 overflow-x-auto px-2 pb-2 lg:hidden">
-        {NAV.filter(item => puedeVerSeccion(rol, item.href)).map((item) => (
+        {NAV.filter(item => puedeVerSeccion(rol, item.href)).map(item => (
           <NavLink key={item.href} href={item.href}>
             {item.label}
           </NavLink>

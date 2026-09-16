@@ -20,17 +20,34 @@ vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidar }));
 vi.mock("next/navigation", () => ({ redirect: mocks.redirigir }));
 
 const INICIAL = { errores: {}, mensaje: null, valores: {} };
-const IDS = { admissionId: "ingreso", residentId: "persona", contactId: "contacto", contactVersion: "2026-03-05T12:00:00Z" };
+const IDS = {
+  admissionId: "ingreso",
+  residentId: "persona",
+  contactId: "contacto",
+  contactVersion: "2026-03-05T12:00:00Z",
+};
 const ACCIONES = [
-  { nombre: "alta", ejecutar: (datos: FormData) =>
-    registrarPrimerIngreso(INICIAL, datos) },
-  { nombre: "edición", ejecutar: (datos: FormData) =>
-    actualizarPrimerIngreso(IDS, INICIAL, datos) },
-  { nombre: "baja", ejecutar: (datos: FormData) =>
-    darDeBajaResidente({ admissionId: "ingreso", admittedAt: "2026-01-01" },
-      INICIAL, datos) },
-  { nombre: "reingreso", ejecutar: (datos: FormData) =>
-    reingresarResidente("persona", INICIAL, datos) },
+  {
+    nombre: "alta",
+    ejecutar: (datos: FormData) => registrarPrimerIngreso(INICIAL, datos),
+  },
+  {
+    nombre: "edición",
+    ejecutar: (datos: FormData) => actualizarPrimerIngreso(IDS, INICIAL, datos),
+  },
+  {
+    nombre: "baja",
+    ejecutar: (datos: FormData) =>
+      darDeBajaResidente(
+        { admissionId: "ingreso", admittedAt: "2026-01-01" },
+        INICIAL,
+        datos,
+      ),
+  },
+  {
+    nombre: "reingreso",
+    ejecutar: (datos: FormData) => reingresarResidente("persona", INICIAL, datos),
+  },
 ];
 
 beforeEach(() => {
@@ -54,7 +71,7 @@ beforeEach(() => {
 });
 afterEach(() => vi.useRealTimers());
 
-describe.each(ACCIONES)("fechas en la acción de $nombre", (accion) => {
+describe.each(ACCIONES)("fechas en la acción de $nombre", accion => {
   it("exige sesión antes de acceder a la base", async () => {
     mocks.sesion.mockRejectedValue(new Error("sin sesión"));
     await expect(accion.ejecutar(formulario())).rejects.toThrow("sin sesión");
@@ -72,7 +89,8 @@ describe.each(ACCIONES)("fechas en la acción de $nombre", (accion) => {
     if (accion.nombre === "reingreso") {
       mocks.unico.mockResolvedValueOnce({ data: null, error: null });
       mocks.unico.mockResolvedValueOnce({
-        data: { discharged_at: "2026-01-01" }, error: null,
+        data: { discharged_at: "2026-01-01" },
+        error: null,
       });
     } else {
       mocks.unico.mockResolvedValue(respuesta);
@@ -93,7 +111,8 @@ describe.each(ACCIONES)("fechas en la acción de $nombre", (accion) => {
 });
 
 it.each(ACCIONES.slice(0, 2))(
-  "$nombre rechaza el ingreso futuro antes de escribir", async (accion) => {
+  "$nombre rechaza el ingreso futuro antes de escribir",
+  async accion => {
     const datos = formulario();
     datos.set("admitted_at", "2026-03-06");
     expect((await accion.ejecutar(datos)).errores).toMatchObject({
@@ -106,12 +125,19 @@ it.each(ACCIONES.slice(0, 2))(
 function formulario(): FormData {
   const datos = new FormData();
   for (const [campo, valor] of Object.entries({
-    resident_first_name: "Persona ficticia", resident_last_name: "Prueba",
-    resident_dni: "TEST-ACCIONES", resident_birth_date: "1940-01-01",
-    contact_first_name: "Contacto ficticio", contact_last_name: "Prueba",
-    contact_relationship: "Familiar", contact_phone: "000000",
-    admitted_at: "2026-02-01", monthly_fee: "100", due_day: "10",
-    discharged_at: "2026-03-01", discharge_reason: "Baja ficticia",
+    resident_first_name: "Persona ficticia",
+    resident_last_name: "Prueba",
+    resident_dni: "TEST-ACCIONES",
+    resident_birth_date: "1940-01-01",
+    contact_first_name: "Contacto ficticio",
+    contact_last_name: "Prueba",
+    contact_relationship: "Familiar",
+    contact_phone: "000000",
+    admitted_at: "2026-02-01",
+    monthly_fee: "100",
+    due_day: "10",
+    discharged_at: "2026-03-01",
+    discharge_reason: "Baja ficticia",
   })) {
     datos.set(campo, valor);
   }

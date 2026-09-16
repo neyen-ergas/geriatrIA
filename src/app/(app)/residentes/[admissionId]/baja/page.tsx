@@ -55,8 +55,7 @@ export default async function BajaResidentePage({
         Dar de baja a {nombreCompleto}
       </h1>
       <p className="mt-1 text-sm text-slate-500">
-        Este proceso finaliza el ingreso actual sin eliminar la ficha ni su
-        historial.
+        Este proceso finaliza el ingreso actual sin eliminar la ficha ni su historial.
       </p>
 
       <Card className="mt-6 p-5">
@@ -76,8 +75,8 @@ export default async function BajaResidentePage({
       <div className="mt-6 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
         <TriangleAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
         <p className="text-sm text-amber-800">
-          Después de confirmar, el residente dejará de aparecer entre los
-          activos y pasará al historial de bajas.
+          Después de confirmar, el residente dejará de aparecer entre los activos y pasará
+          al historial de bajas.
         </p>
       </div>
 

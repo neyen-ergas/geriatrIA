@@ -5,11 +5,7 @@ import { requerirSesion } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
-export default async function AppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const rol = await requerirSesion();
 
   return (

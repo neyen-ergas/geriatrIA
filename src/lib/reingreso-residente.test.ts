@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  validarReingreso,
-  type ValoresReingreso,
-} from "@/lib/reingreso-residente";
+import { validarReingreso, type ValoresReingreso } from "@/lib/reingreso-residente";
 
 const ULTIMA_BAJA = "2026-02-01";
 const HOY = "2026-03-05";
@@ -10,7 +7,7 @@ const HOY = "2026-03-05";
 describe("validarReingreso", () => {
   it.each([ULTIMA_BAJA, HOY])(
     "acepta el límite de fecha %s y convierte la cuota argentina",
-    (fecha) => {
+    fecha => {
       const formulario = crearFormulario({ admitted_at: fecha });
 
       expect(validarReingreso(formulario, ULTIMA_BAJA, HOY)).toEqual({
@@ -49,9 +46,7 @@ describe("validarReingreso", () => {
   });
 });
 
-function crearFormulario(
-  valores: Partial<ValoresReingreso> = {},
-): FormData {
+function crearFormulario(valores: Partial<ValoresReingreso> = {}): FormData {
   const formulario = new FormData();
   const campos: ValoresReingreso = {
     admitted_at: "2026-03-03",

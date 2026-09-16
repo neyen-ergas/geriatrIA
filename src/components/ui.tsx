@@ -36,16 +36,10 @@ export function Button({
   );
 }
 
-export function Card({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn(
-        "rounded-xl border border-slate-200 bg-white shadow-sm",
-        className,
-      )}
+      className={cn("rounded-xl border border-slate-200 bg-white shadow-sm", className)}
       {...props}
     />
   );
@@ -93,10 +87,7 @@ export function Label({
   );
 }
 
-export function Badge({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) {
+export function Badge({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
       className={cn(
@@ -157,10 +148,7 @@ export function StatCard({
   return (
     <Card className="p-5">
       <div
-        className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-xl",
-          iconClass,
-        )}
+        className={cn("flex h-10 w-10 items-center justify-center rounded-xl", iconClass)}
       >
         <Icon className="h-5 w-5" />
       </div>

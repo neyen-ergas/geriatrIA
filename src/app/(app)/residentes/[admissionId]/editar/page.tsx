@@ -62,12 +62,10 @@ export default async function EditarResidentePage({
         Volver a residentes
       </Link>
 
-      <h1 className="mt-5 text-2xl font-bold text-slate-900">
-        Editar residente
-      </h1>
+      <h1 className="mt-5 text-2xl font-bold text-slate-900">Editar residente</h1>
       <p className="mt-1 text-sm text-slate-500">
-        Actualizá la ficha de {resident.first_name} {resident.last_name}. Los
-        cambios se guardarán juntos para mantener la información consistente.
+        Actualizá la ficha de {resident.first_name} {resident.last_name}. Los cambios se
+        guardarán juntos para mantener la información consistente.
       </p>
 
       <FormularioPrimerIngreso

@@ -57,13 +57,15 @@ export async function asignarTurnoAction(
       if (error.code === "23514") {
         return {
           ok: false,
-          error: "La fecha del turno está fuera del período de contratación del empleado.",
+          error:
+            "La fecha del turno está fuera del período de contratación del empleado.",
         };
       }
       return { ok: false, error: "No se pudo guardar el turno: " + error.message };
     }
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Error inesperado al guardar el turno.";
+    const msg =
+      err instanceof Error ? err.message : "Error inesperado al guardar el turno.";
     return { ok: false, error: msg };
   }
 
@@ -107,13 +109,15 @@ export async function cubrirTurnoAction(
       if (error.code === "23514") {
         return {
           ok: false,
-          error: "El empleado que cubre no puede ser el mismo titular o no se encuentra activo.",
+          error:
+            "El empleado que cubre no puede ser el mismo titular o no se encuentra activo.",
         };
       }
       return { ok: false, error: "No se pudo registrar la cobertura: " + error.message };
     }
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Error inesperado al registrar cobertura.";
+    const msg =
+      err instanceof Error ? err.message : "Error inesperado al registrar cobertura.";
     return { ok: false, error: msg };
   }
 
@@ -142,7 +146,8 @@ export async function cancelarTurnoAction(
       return { ok: false, error: "No se pudo cancelar el turno: " + error.message };
     }
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Error inesperado al cancelar el turno.";
+    const msg =
+      err instanceof Error ? err.message : "Error inesperado al cancelar el turno.";
     return { ok: false, error: msg };
   }
 

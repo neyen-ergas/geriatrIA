@@ -216,13 +216,13 @@ ver [aplicación y recuperación](docs/admision-transiciones-despliegue.md).
 
 ## Documentación
 
-| Documento | Qué contiene |
-| --- | --- |
-| [SPECS.md](SPECS.md) | Especificación técnica completa: arquitectura, modelo de datos, seguridad. |
-| [ROADMAP.md](ROADMAP.md) | Qué falta construir y en qué orden. |
-| [CODESTYLE.md](CODESTYLE.md) | Cómo se escribe el código. |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Cómo se integra un cambio. |
-| [CHANGELOG.md](CHANGELOG.md) | Qué cambió en cada versión. |
+| Documento                          | Qué contiene                                                               |
+| ---------------------------------- | -------------------------------------------------------------------------- |
+| [SPECS.md](SPECS.md)               | Especificación técnica completa: arquitectura, modelo de datos, seguridad. |
+| [ROADMAP.md](ROADMAP.md)           | Qué falta construir y en qué orden.                                        |
+| [CODESTYLE.md](CODESTYLE.md)       | Cómo se escribe el código.                                                 |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Cómo se integra un cambio.                                                 |
+| [CHANGELOG.md](CHANGELOG.md)       | Qué cambió en cada versión.                                                |
 
 Documentación funcional por módulo:
 

@@ -2,11 +2,11 @@
 
 Cada residencia conserva su propia base y sus cuentas de Supabase Auth.
 
-| Perfil | Admisión, Residentes, Contabilidad e Inicio | Empleados y Accesos |
-| --- | --- | --- |
-| Administrador (`admin`) | Lectura y gestión | Lectura y gestión |
-| Gestión (`management`) | Lectura y gestión | Sin acceso |
-| Solo lectura (`readonly`) | Lectura, incluidos movimientos y comprobantes | Sin acceso |
+| Perfil                    | Admisión, Residentes, Contabilidad e Inicio   | Empleados y Accesos |
+| ------------------------- | --------------------------------------------- | ------------------- |
+| Administrador (`admin`)   | Lectura y gestión                             | Lectura y gestión   |
+| Gestión (`management`)    | Lectura y gestión                             | Sin acceso          |
+| Solo lectura (`readonly`) | Lectura, incluidos movimientos y comprobantes | Sin acceso          |
 
 Turnos y Entrevistas siguen siendo placeholders visibles solo al Administrador.
 La ficha laboral permite vincular una cuenta existente sin crearla ni habilitarla;

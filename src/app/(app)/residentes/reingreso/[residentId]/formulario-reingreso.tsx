@@ -4,10 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { CircleDollarSign, LoaderCircle, LogIn } from "lucide-react";
 import { Button, Card, Input, Label, Textarea } from "@/components/ui";
-import type {
-  EstadoReingreso,
-  ValoresReingreso,
-} from "@/lib/reingreso-residente";
+import type { EstadoReingreso, ValoresReingreso } from "@/lib/reingreso-residente";
 
 type AccionReingreso = (
   estadoAnterior: EstadoReingreso,
@@ -25,9 +22,7 @@ function ErrorCampo({ id, mensaje }: { id: string; mensaje?: string }) {
 }
 
 function claseCampo(error?: string): string | undefined {
-  return error
-    ? "border-red-300 focus:border-red-500 focus:ring-red-100"
-    : undefined;
+  return error ? "border-red-300 focus:border-red-500 focus:ring-red-100" : undefined;
 }
 
 export function FormularioReingreso({
@@ -41,14 +36,11 @@ export function FormularioReingreso({
   ultimaBaja: string;
   valoresIniciales: Partial<ValoresReingreso>;
 }) {
-  const [estado, action, pendiente] = useActionState(
-    formAction,
-    {
-      errores: {},
-      mensaje: null,
-      valores: { admitted_at: hoy, ...valoresIniciales },
-    } satisfies EstadoReingreso,
-  );
+  const [estado, action, pendiente] = useActionState(formAction, {
+    errores: {},
+    mensaje: null,
+    valores: { admitted_at: hoy, ...valoresIniciales },
+  } satisfies EstadoReingreso);
 
   return (
     <form action={action} className="mt-6 space-y-6" noValidate>
@@ -64,8 +56,8 @@ export function FormularioReingreso({
       <Card className="p-6">
         <h2 className="font-semibold text-slate-900">Nuevo ingreso</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Estos datos pertenecen a la nueva estadía. La ficha personal y los
-          contactos existentes se conservan.
+          Estos datos pertenecen a la nueva estadía. La ficha personal y los contactos
+          existentes se conservan.
         </p>
 
         <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -85,10 +77,7 @@ export function FormularioReingreso({
               }
               className={claseCampo(estado.errores.admitted_at)}
             />
-            <ErrorCampo
-              id="admitted_at-error"
-              mensaje={estado.errores.admitted_at}
-            />
+            <ErrorCampo id="admitted_at-error" mensaje={estado.errores.admitted_at} />
           </div>
 
           <div>
@@ -122,10 +111,7 @@ export function FormularioReingreso({
                 }
               />
             </div>
-            <ErrorCampo
-              id="monthly_fee-error"
-              mensaje={estado.errores.monthly_fee}
-            />
+            <ErrorCampo id="monthly_fee-error" mensaje={estado.errores.monthly_fee} />
             <p id="monthly_fee-help" className="mt-1.5 text-xs text-slate-500">
               Se propone la cuota anterior; confirmala o actualizala.
             </p>
@@ -143,21 +129,14 @@ export function FormularioReingreso({
               defaultValue={estado.valores.due_day}
               required
               aria-invalid={Boolean(estado.errores.due_day)}
-              aria-describedby={
-                estado.errores.due_day ? "due_day-error" : undefined
-              }
+              aria-describedby={estado.errores.due_day ? "due_day-error" : undefined}
               className={claseCampo(estado.errores.due_day)}
             />
-            <ErrorCampo
-              id="due_day-error"
-              mensaje={estado.errores.due_day}
-            />
+            <ErrorCampo id="due_day-error" mensaje={estado.errores.due_day} />
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="administrative_notes">
-              Observaciones administrativas
-            </Label>
+            <Label htmlFor="administrative_notes">Observaciones administrativas</Label>
             <Textarea
               id="administrative_notes"
               name="administrative_notes"

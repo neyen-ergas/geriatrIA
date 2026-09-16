@@ -32,10 +32,7 @@ export async function registrarPrimerIngreso(
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.rpc(
-    "create_initial_admission",
-    validacion.datos,
-  );
+  const { error } = await supabase.rpc("create_initial_admission", validacion.datos);
 
   if (error) {
     const mensaje = mensajeErrorEstadia(error);
@@ -55,8 +52,7 @@ export async function registrarPrimerIngreso(
 
     return {
       errores: {},
-      mensaje:
-        "No pudimos registrar el ingreso. Intentá nuevamente en unos minutos.",
+      mensaje: "No pudimos registrar el ingreso. Intentá nuevamente en unos minutos.",
       valores,
     };
   }

@@ -23,15 +23,15 @@ consulta de una familia ──> visita presencial ──> ingreso ──> estad�
                                                                 Turnos)
 ```
 
-| Sección | Qué resuelve | Estado |
-| --- | --- | --- |
-| Inicio | Panel del día: qué hay pendiente ahora. | Funcionando; consultas, visitas, cuotas vencidas e ingresos recientes |
-| Admisión | Consultas entrantes, llamados y agenda de visitas. | Funcionando |
-| Residentes | Personas, familiares, ingresos, bajas y reingresos. | Funcionando |
-| Contabilidad | Cuotas mensuales, pagos y saldos. | Cuentas, movimientos, cuotas, pagos, anulaciones, vencimientos y comprobantes privados |
-| Empleados | Personal de la residencia y sus datos laborales. | Ficha, alta, edición y baja, exclusiva de Administrador |
-| Turnos | Grilla de turnos del personal. | Funcionando; grilla semanal, asignación, no-superposición y ausencias |
-| Entrevistas | Entrevistas de admisión. | Placeholder, sin diseñar |
+| Sección      | Qué resuelve                                        | Estado                                                                                 |
+| ------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Inicio       | Panel del día: qué hay pendiente ahora.             | Funcionando; consultas, visitas, cuotas vencidas e ingresos recientes                  |
+| Admisión     | Consultas entrantes, llamados y agenda de visitas.  | Funcionando                                                                            |
+| Residentes   | Personas, familiares, ingresos, bajas y reingresos. | Funcionando                                                                            |
+| Contabilidad | Cuotas mensuales, pagos y saldos.                   | Cuentas, movimientos, cuotas, pagos, anulaciones, vencimientos y comprobantes privados |
+| Empleados    | Personal de la residencia y sus datos laborales.    | Ficha, alta, edición y baja, exclusiva de Administrador                                |
+| Turnos       | Grilla de turnos del personal.                      | Funcionando; grilla semanal, asignación, no-superposición y ausencias                  |
+| Entrevistas  | Entrevistas de admisión.                            | Placeholder, sin diseñar                                                               |
 
 Inicio usa la fecha argentina para hoy, mañana y los últimos siete días de
 ingresos. Sus cinco grupos se cargan en paralelo, cada uno con conteo exacto y
@@ -54,16 +54,16 @@ instalaciones para que el esquema no diverja.
 
 ## 2. Stack
 
-| Capa | Elección | Versión |
-| --- | --- | --- |
-| Framework | Next.js, App Router | 15.5 |
-| Lenguaje | TypeScript, `strict` | 5.7 |
-| UI | React | 19.0 |
-| Estilos | Tailwind CSS | 4.0 |
-| Componentes | Primitivas propias estilo shadcn/ui | `src/components/ui.tsx` |
-| Iconos | lucide-react | 0.468 |
-| Base de datos y auth | Supabase (Postgres + Auth) | `@supabase/ssr` 0.12 |
-| Deploy | Vercel | — |
+| Capa                 | Elección                            | Versión                 |
+| -------------------- | ----------------------------------- | ----------------------- |
+| Framework            | Next.js, App Router                 | 15.5                    |
+| Lenguaje             | TypeScript, `strict`                | 5.7                     |
+| UI                   | React                               | 19.0                    |
+| Estilos              | Tailwind CSS                        | 4.0                     |
+| Componentes          | Primitivas propias estilo shadcn/ui | `src/components/ui.tsx` |
+| Iconos               | lucide-react                        | 0.468                   |
+| Base de datos y auth | Supabase (Postgres + Auth)          | `@supabase/ssr` 0.12    |
+| Deploy               | Vercel                              | —                       |
 
 Sin librería de estado global, sin cliente de datos (React Query o similar) y
 sin ORM. Los datos se leen en Server Components y se escriben con Server
@@ -84,7 +84,7 @@ Actions. Ese es el patrón por defecto y no se abandona sin un motivo escrito.
    confirma las tres o revierte todas. La aplicación no orquesta transacciones
    de varios pasos desde TypeScript.
 4. **Los tipos se generan desde la base**, no se escriben a mano. `npm run
-   db:types` produce `src/types/database.ts`, y el código deriva de ahí con
+db:types` produce `src/types/database.ts`, y el código deriva de ahí con
    `Tables<"residents">` y `Database["public"]["Functions"][...]["Args"]`. Si
    cambia una columna, el build rompe.
 5. **Nada se elimina.** No hay `DELETE` en ningún flujo: se descarta, se da de
@@ -176,11 +176,11 @@ El sistema guarda datos de salud y datos personales de terceros.
 
 ### Tres patrones de acceso, uno por generación de tabla
 
-| Tablas | RLS | Cómo escribe la aplicación |
-| --- | --- | --- |
-| `consulta` | Lectura por perfil operativo; anon sin acceso | CRM con sesión y `update_consulta`; landing conserva INSERT existente |
-| `residents`, `family_contacts`, `admissions` | Activada con políticas para `authenticated` | Cliente autenticado; altas y ediciones vía funciones transaccionales |
-| `monthly_charges`, `payments` | Activada, **solo lectura** para `authenticated` | Exclusivamente vía funciones `security definer`; sin `insert`, `update` ni `delete` directos |
+| Tablas                                       | RLS                                             | Cómo escribe la aplicación                                                                   |
+| -------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `consulta`                                   | Lectura por perfil operativo; anon sin acceso   | CRM con sesión y `update_consulta`; landing conserva INSERT existente                        |
+| `residents`, `family_contacts`, `admissions` | Activada con políticas para `authenticated`     | Cliente autenticado; altas y ediciones vía funciones transaccionales                         |
+| `monthly_charges`, `payments`                | Activada, **solo lectura** para `authenticated` | Exclusivamente vía funciones `security definer`; sin `insert`, `update` ni `delete` directos |
 
 **Cada tabla nueva usa RLS con políticas y escrituras por función controlada**.
 Las políticas restrictivas aplican el perfil vigente; las RPC definer verifican
@@ -259,9 +259,9 @@ incluidas las reaperturas, está en `docs/admision-consultas-modelo.md`.
 **Invariantes en la base:**
 
 - `consulta_visita_completa` — `(visita_fecha is null) = (visita_franja is
-  null)`. Una fecha sin franja no sirve.
+null)`. Una fecha sin franja no sirve.
 - `consulta_visita_unica` — índice único parcial sobre `(visita_fecha,
-  visita_franja) where estado = 'visita_agendada'`. Un turno por día y franja.
+visita_franja) where estado = 'visita_agendada'`. Un turno por día y franja.
   Vive en la base a propósito: si dos operadores agendan en simultáneo, una
   validación previa desde el código deja pasar a las dos. Salir de
   `visita_agendada` libera el turno.
@@ -434,9 +434,9 @@ Ver [docs/turnos.md](docs/turnos.md).
 
 La forma exacta se define al empezar cada módulo, no antes.
 
-| Tabla | Alcance |
-| --- | --- |
-| — | Entrevistas de admisión. |
+| Tabla | Alcance                  |
+| ----- | ------------------------ |
+| —     | Entrevistas de admisión. |
 
 La documentación, salud y pertenencias ya se implementan en las tablas
 `resident_documents`, `medical_indications`, `medications`, `special_needs` e

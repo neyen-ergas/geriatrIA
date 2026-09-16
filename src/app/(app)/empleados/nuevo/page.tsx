@@ -8,7 +8,15 @@ export const metadata: Metadata = { title: "Registrar empleado · geriatrIA" };
 export default async function NuevoEmpleadoPage(): Promise<React.ReactElement> {
   await requerirSesion("administration");
   const hoy = hoyEnArgentina();
-  return <div className="mx-auto max-w-3xl"><h1 className="text-2xl font-bold">Registrar empleado</h1>
-    <FormularioEmpleado action={guardarEmpleado.bind(null, null, null)} valores={{ hired_at: hoy }} hoy={hoy} volver="/empleados" />
-  </div>;
+  return (
+    <div className="mx-auto max-w-3xl">
+      <h1 className="text-2xl font-bold">Registrar empleado</h1>
+      <FormularioEmpleado
+        action={guardarEmpleado.bind(null, null, null)}
+        valores={{ hired_at: hoy }}
+        hoy={hoy}
+        volver="/empleados"
+      />
+    </div>
+  );
 }

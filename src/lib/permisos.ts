@@ -20,6 +20,7 @@ export function tienePermiso(rol: Rol | null, permiso: Permiso): boolean {
 }
 
 export function puedeVerSeccion(rol: Rol, ruta: string): boolean {
-  return ["/", "/admision", "/residentes", "/contabilidad"].includes(ruta)
-    || rol === "admin";
+  return (
+    ["/", "/admision", "/residentes", "/contabilidad"].includes(ruta) || rol === "admin"
+  );
 }

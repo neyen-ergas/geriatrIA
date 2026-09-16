@@ -12,10 +12,28 @@ it("exige sesión antes de leer pendientes", async () => {
 });
 it("distingue grupos vacíos de fallidos y permite abrir cada pendiente", async () => {
   mocks.datos.mockResolvedValue([
-    { titulo: "Consultas", descripcion: "Sin llamar", href: "/admision", resumen: { total: 1255, elementos: [
-      { id: "consulta", titulo: "Familia <script>", detalle: "000000", href: "/admision/consulta" },
-    ] } },
-    { titulo: "Visitas", descripcion: "Hoy", href: "/admision/agenda", resumen: { total: 0, elementos: [] } },
+    {
+      titulo: "Consultas",
+      descripcion: "Sin llamar",
+      href: "/admision",
+      resumen: {
+        total: 1255,
+        elementos: [
+          {
+            id: "consulta",
+            titulo: "Familia <script>",
+            detalle: "000000",
+            href: "/admision/consulta",
+          },
+        ],
+      },
+    },
+    {
+      titulo: "Visitas",
+      descripcion: "Hoy",
+      href: "/admision/agenda",
+      resumen: { total: 0, elementos: [] },
+    },
     { titulo: "Cuotas", descripcion: "Vencidas", href: "/contabilidad", resumen: null },
   ]);
   const html = renderToStaticMarkup(await InicioPage());

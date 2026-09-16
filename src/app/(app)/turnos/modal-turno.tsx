@@ -97,7 +97,9 @@ export function ModalTurno({
 
         {modo === "asignar" ? (
           <form action={accionAsignar} className="mt-5 space-y-4">
-            {turnoExistente?.id && <input type="hidden" name="id" value={turnoExistente.id} />}
+            {turnoExistente?.id && (
+              <input type="hidden" name="id" value={turnoExistente.id} />
+            )}
 
             <div>
               <Label htmlFor="employee_id">Empleado</Label>
@@ -111,7 +113,7 @@ export function ModalTurno({
                 <option value="" disabled>
                   Seleccioná un empleado
                 </option>
-                {empleados.map((emp) => (
+                {empleados.map(emp => (
                   <option key={emp.id} value={emp.id}>
                     {emp.last_name}, {emp.first_name} ({emp.job_title})
                   </option>
@@ -140,7 +142,7 @@ export function ModalTurno({
                   defaultValue={turnoExistente?.shift_type || franjaInicial}
                   className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
                 >
-                  {FRANJAS_TURNO.map((franja) => (
+                  {FRANJAS_TURNO.map(franja => (
                     <option key={franja} value={franja}>
                       {ETIQUETAS_FRANJA_TURNO[franja]}
                     </option>
@@ -162,7 +164,10 @@ export function ModalTurno({
             </div>
 
             {estadoAsignar.error && (
-              <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700">
+              <p
+                role="alert"
+                className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+              >
                 {estadoAsignar.error}
               </p>
             )}
@@ -200,10 +205,13 @@ export function ModalTurno({
 
             <div className="rounded-xl bg-slate-50 p-3.5 text-xs text-slate-700">
               <div className="font-semibold text-slate-900">
-                Turno: {turnoExistente?.shift_date} · {turnoExistente && ETIQUETAS_FRANJA_TURNO[turnoExistente.shift_type as FranjaTurno]}
+                Turno: {turnoExistente?.shift_date} ·{" "}
+                {turnoExistente &&
+                  ETIQUETAS_FRANJA_TURNO[turnoExistente.shift_type as FranjaTurno]}
               </div>
               <div className="mt-1 text-slate-600">
-                Titular: {turnoExistente?.employee?.last_name}, {turnoExistente?.employee?.first_name}
+                Titular: {turnoExistente?.employee?.last_name},{" "}
+                {turnoExistente?.employee?.first_name}
               </div>
             </div>
 
@@ -231,8 +239,8 @@ export function ModalTurno({
                   Seleccioná quién realizará la cobertura
                 </option>
                 {empleados
-                  .filter((emp) => emp.id !== turnoExistente?.employee_id)
-                  .map((emp) => (
+                  .filter(emp => emp.id !== turnoExistente?.employee_id)
+                  .map(emp => (
                     <option key={emp.id} value={emp.id}>
                       {emp.last_name}, {emp.first_name} ({emp.job_title})
                     </option>
@@ -252,7 +260,10 @@ export function ModalTurno({
             </div>
 
             {estadoCubrir.error && (
-              <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700">
+              <p
+                role="alert"
+                className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+              >
                 {estadoCubrir.error}
               </p>
             )}

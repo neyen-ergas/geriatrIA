@@ -17,12 +17,12 @@ Un cambio que rompe una regla de acá no se integra hasta arreglarlo.
 
 ```ts
 // Bien
-export async function listarResidentesActivos(): Promise<ResidenteActivo[]>
-export function requerirSesion(): Promise<void>
-const ETIQUETAS_ESTADO: Record<Estado, string>
+export async function listarResidentesActivos(): Promise<ResidenteActivo[]>;
+export function requerirSesion(): Promise<void>;
+const ETIQUETAS_ESTADO: Record<Estado, string>;
 
 // Mal
-export async function fetchActiveResidents(): Promise<ActiveResident[]>
+export async function fetchActiveResidents(): Promise<ActiveResident[]>;
 ```
 
 **Inglés** en el esquema de base: tablas, columnas y funciones de Postgres
@@ -88,12 +88,12 @@ Cada comentario que se agrega hay que poder defenderlo. Ante la duda, no va.
 
 ### Archivos por módulo
 
-| Archivo | Responsabilidad | Marca obligatoria |
-| --- | --- | --- |
-| `src/lib/<modulo>.ts` | Tipos, constantes, type guards, etiquetas, formateadores | ninguna; es isomórfico |
-| `src/lib/<modulo>-datos.ts` | Lecturas contra la base | `import "server-only"` |
-| `src/lib/<caso-de-uso>.ts` | Validación y armado de una escritura concreta | ninguna; puro |
-| `src/app/(app)/<modulo>/actions.ts` | Server Actions | `"use server"` |
+| Archivo                             | Responsabilidad                                          | Marca obligatoria      |
+| ----------------------------------- | -------------------------------------------------------- | ---------------------- |
+| `src/lib/<modulo>.ts`               | Tipos, constantes, type guards, etiquetas, formateadores | ninguna; es isomórfico |
+| `src/lib/<modulo>-datos.ts`         | Lecturas contra la base                                  | `import "server-only"` |
+| `src/lib/<caso-de-uso>.ts`          | Validación y armado de una escritura concreta            | ninguna; puro          |
+| `src/app/(app)/<modulo>/actions.ts` | Server Actions                                           | `"use server"`         |
 
 Ejemplos vigentes: `admision.ts` + `admision-datos.ts`; `residentes-datos.ts` +
 `primer-ingreso.ts`, `baja-residente.ts`, `reingreso-residente.ts`.
@@ -150,7 +150,13 @@ type ArgumentosPrimerIngreso =
 - Tipos derivados, no duplicados:
 
 ```ts
-export const ESTADOS = ["nuevo", "contactado", "visita_agendada", "ingreso", "descartada"] as const;
+export const ESTADOS = [
+  "nuevo",
+  "contactado",
+  "visita_agendada",
+  "ingreso",
+  "descartada",
+] as const;
 export type Estado = (typeof ESTADOS)[number];
 ```
 
@@ -194,7 +200,7 @@ export async function agendarVisita(
   // 2. leer y validar la entrada
   // 3. escribir
   // 4. traducir el error de la base
-  revalidatePath("/admision");   // 5. revalidar
+  revalidatePath("/admision"); // 5. revalidar
   return OK;
 }
 ```
@@ -265,7 +271,7 @@ tablas no otorgan `delete` a `authenticated`.
 El objetivo es que un error en producción se entienda leyendo el mensaje.
 
 - **Los mensajes de error dicen qué falló y con qué dato.** `"No se pudieron
-  leer las consultas: <motivo>"`, no `"Error"` ni `"Algo salió mal"`.
+leer las consultas: <motivo>"`, no `"Error"` ni `"Algo salió mal"`.
 - **Ningún error se traga.** Sin `catch {}` vacíos y sin `?.` usado para tapar
   un valor que no debería faltar.
 - Los códigos de error de Postgres se declaran como constante con nombre:

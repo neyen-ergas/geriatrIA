@@ -3,11 +3,11 @@
 Gestión de la grilla semanal de turnos de los empleados de la residencia:
 asignación, reasignación y cobertura de ausencias.
 
-| Perfil | Alcance |
-| --- | --- |
-| Administrador (`admin`) | Consulta, asignación, reasignación, cancelación y cobertura de turnos |
-| Gestión (`management`) | Consulta de la grilla de turnos y disponibilidades operativas |
-| Solo lectura (`readonly`) | Consulta de la grilla semanal |
+| Perfil                    | Alcance                                                               |
+| ------------------------- | --------------------------------------------------------------------- |
+| Administrador (`admin`)   | Consulta, asignación, reasignación, cancelación y cobertura de turnos |
+| Gestión (`management`)    | Consulta de la grilla de turnos y disponibilidades operativas         |
+| Solo lectura (`readonly`) | Consulta de la grilla semanal                                         |
 
 ## Franjas horarias y estados
 
@@ -20,6 +20,7 @@ Los turnos se organizan por día (`shift_date`) y franja (`shift_type`):
 - `franco`: Descanso programado
 
 Estados posibles (`status`):
+
 - `scheduled`: Asignado y programado.
 - `completed`: Turno cumplido.
 - `absent`: Ausencia registrada (enfermedad, fuerza mayor o imprevisto).
