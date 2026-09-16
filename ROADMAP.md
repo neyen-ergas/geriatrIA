@@ -250,9 +250,9 @@ Cada tabla se diseña al empezar su módulo, no antes.
 
 Puntos que no pertenecen a una fase y se atienden cuando corresponda.
 
-- [ ] Accesibilidad: foco visible, etiquetas asociadas y navegación por teclado
+- [x] Accesibilidad: foco visible, etiquetas asociadas y navegación por teclado
       en todos los formularios.
-- [ ] Revisar las tablas de residentes en pantalla chica. Ya existe navegación
+- [x] Revisar las tablas de residentes en pantalla chica. Ya existe navegación
       móvil; falta verificar la usabilidad de tablas y formularios completos.
 - [ ] Actualizar `docs/supabase-configuracion.md` y los textos de autenticación
       que describen estados anteriores del proyecto.

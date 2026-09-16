@@ -64,4 +64,17 @@ describe("presentación de la cuenta", () => {
     expect(enlaceContabilidad(2, true)).toBe("/contabilidad?estado=bajas&pagina=2");
     expect(enlaceContabilidad(1, true)).toBe("/contabilidad?estado=bajas");
   });
+
+  it("renderiza vistas adaptadas tanto para móviles como para escritorio con objetivos táctiles accesibles", () => {
+    const html = renderToStaticMarkup(
+      <TablaCuotas cuotas={[base]} admissionId="adm-123" />,
+    );
+    expect(html).toContain(
+      'aria-label="Cuotas de esta estadía y pagos vigentes acumulados"',
+    );
+    expect(html).toContain("md:hidden");
+    expect(html).toContain("hidden overflow-x-auto md:block");
+    expect(html).toContain("min-h-[44px]");
+    expect(html).toContain("focus-visible:ring-2");
+  });
 });

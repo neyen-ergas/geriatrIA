@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { X, Calendar, UserCheck, AlertTriangle } from "lucide-react";
 import { Button, Input, Label, Textarea } from "@/components/ui";
 import {
@@ -51,6 +51,17 @@ export function ModalTurno({
     ESTADO_INICIAL,
   );
 
+  // Escuchar tecla Escape para cerrar modal accesiblemente
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onCerrar();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onCerrar]);
+
   // Si la acción fue exitosa, cerramos el modal
   if (estadoAsignar.ok || estadoCubrir.ok || estadoCancelar.ok) {
     onCerrar();
@@ -60,6 +71,8 @@ export function ModalTurno({
     <div
       role="dialog"
       aria-modal="true"
+      aria-labelledby="modal-turno-titulo"
+      aria-describedby="modal-turno-desc"
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-xs"
     >
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
@@ -75,10 +88,10 @@ export function ModalTurno({
               </div>
             )}
             <div>
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 id="modal-turno-titulo" className="text-lg font-bold text-slate-900">
                 {modo === "asignar" ? "Asignar turno" : "Registrar ausencia y cobertura"}
               </h3>
-              <p className="text-xs text-slate-500">
+              <p id="modal-turno-desc" className="text-xs text-slate-500">
                 {modo === "asignar"
                   ? "Programá el horario de un empleado para la jornada."
                   : "Marcá el motivo de ausencia y asigná quién cubre el turno."}
