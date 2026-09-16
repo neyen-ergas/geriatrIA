@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
-import { Button, Card, Input, Label, Textarea } from "@/components/ui";
+import { Button, Card, Input, Label, Select, Textarea } from "@/components/ui";
 import {
   type ConsultaParaEntrevista,
   type Entrevista,
@@ -126,12 +126,11 @@ export function FormularioEntrevista({
             <Label htmlFor="consultation_id">
               Vincular con Consulta de Admisión (opcional)
             </Label>
-            <select
+            <Select
               id="consultation_id"
               name="consultation_id"
               value={consultaIdSeleccionada}
               onChange={handleConsultaChange}
-              className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             >
               <option value="">-- Sin consulta previa vinculada --</option>
               {consultas.map(c => (
@@ -139,7 +138,7 @@ export function FormularioEntrevista({
                   {c.nombre} ({c.telefono}) - Estado: {c.estado}
                 </option>
               ))}
-            </select>
+            </Select>
             <p className="mt-1 text-xs text-slate-400">
               Al seleccionar una consulta, se precargan los datos de contacto inicial.
             </p>
@@ -157,10 +156,20 @@ export function FormularioEntrevista({
               value={nombreCandidato}
               onChange={e => setNombreCandidato(e.target.value)}
               placeholder="Ej: Rosa Martínez"
+              aria-invalid={Boolean(state.errores?.candidate_name)}
+              aria-describedby={
+                state.errores?.candidate_name ? "candidate_name-error" : undefined
+              }
               className={state.errores?.candidate_name ? "border-rose-300" : ""}
             />
             {state.errores?.candidate_name && (
-              <p className="mt-1 text-xs text-rose-600">{state.errores.candidate_name}</p>
+              <p
+                id="candidate_name-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
+                {state.errores.candidate_name}
+              </p>
             )}
           </div>
 
@@ -172,10 +181,20 @@ export function FormularioEntrevista({
               name="candidate_dni"
               defaultValue={entrevista?.candidate_dni || ""}
               placeholder="Ej: 4.892.110"
+              aria-invalid={Boolean(state.errores?.candidate_dni)}
+              aria-describedby={
+                state.errores?.candidate_dni ? "candidate_dni-error" : undefined
+              }
               className={state.errores?.candidate_dni ? "border-rose-300" : ""}
             />
             {state.errores?.candidate_dni && (
-              <p className="mt-1 text-xs text-rose-600">{state.errores.candidate_dni}</p>
+              <p
+                id="candidate_dni-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
+                {state.errores.candidate_dni}
+              </p>
             )}
           </div>
 
@@ -188,10 +207,20 @@ export function FormularioEntrevista({
               type="date"
               max={hoyStr}
               defaultValue={entrevista?.candidate_birth_date || ""}
+              aria-invalid={Boolean(state.errores?.candidate_birth_date)}
+              aria-describedby={
+                state.errores?.candidate_birth_date
+                  ? "candidate_birth_date-error"
+                  : undefined
+              }
               className={state.errores?.candidate_birth_date ? "border-rose-300" : ""}
             />
             {state.errores?.candidate_birth_date && (
-              <p className="mt-1 text-xs text-rose-600">
+              <p
+                id="candidate_birth_date-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
                 {state.errores.candidate_birth_date}
               </p>
             )}
@@ -205,10 +234,20 @@ export function FormularioEntrevista({
               name="companion_name"
               defaultValue={entrevista?.companion_name || ""}
               placeholder="Ej: Laura Gómez"
+              aria-invalid={Boolean(state.errores?.companion_name)}
+              aria-describedby={
+                state.errores?.companion_name ? "companion_name-error" : undefined
+              }
               className={state.errores?.companion_name ? "border-rose-300" : ""}
             />
             {state.errores?.companion_name && (
-              <p className="mt-1 text-xs text-rose-600">{state.errores.companion_name}</p>
+              <p
+                id="companion_name-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
+                {state.errores.companion_name}
+              </p>
             )}
           </div>
 
@@ -221,10 +260,18 @@ export function FormularioEntrevista({
               value={telefonoAcompanante}
               onChange={e => setTelefonoAcompanante(e.target.value)}
               placeholder="Ej: +54 11 5555-1234"
+              aria-invalid={Boolean(state.errores?.companion_phone)}
+              aria-describedby={
+                state.errores?.companion_phone ? "companion_phone-error" : undefined
+              }
               className={state.errores?.companion_phone ? "border-rose-300" : ""}
             />
             {state.errores?.companion_phone && (
-              <p className="mt-1 text-xs text-rose-600">
+              <p
+                id="companion_phone-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
                 {state.errores.companion_phone}
               </p>
             )}
@@ -238,10 +285,20 @@ export function FormularioEntrevista({
               name="companion_relationship"
               defaultValue={entrevista?.companion_relationship || ""}
               placeholder="Ej: Hija, Cónyuge, Sobrino, Apoderado"
+              aria-invalid={Boolean(state.errores?.companion_relationship)}
+              aria-describedby={
+                state.errores?.companion_relationship
+                  ? "companion_relationship-error"
+                  : undefined
+              }
               className={state.errores?.companion_relationship ? "border-rose-300" : ""}
             />
             {state.errores?.companion_relationship && (
-              <p className="mt-1 text-xs text-rose-600">
+              <p
+                id="companion_relationship-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
                 {state.errores.companion_relationship}
               </p>
             )}
@@ -270,21 +327,30 @@ export function FormularioEntrevista({
               type="date"
               required
               defaultValue={entrevista?.interview_date || hoyStr}
+              aria-invalid={Boolean(state.errores?.interview_date)}
+              aria-describedby={
+                state.errores?.interview_date ? "interview_date-error" : undefined
+              }
               className={state.errores?.interview_date ? "border-rose-300" : ""}
             />
             {state.errores?.interview_date && (
-              <p className="mt-1 text-xs text-rose-600">{state.errores.interview_date}</p>
+              <p
+                id="interview_date-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
+                {state.errores.interview_date}
+              </p>
             )}
           </div>
 
           {/* Profesional Entrevistador */}
           <div>
             <Label htmlFor="interviewer_employee_id">Profesional Asignado</Label>
-            <select
+            <Select
               id="interviewer_employee_id"
               name="interviewer_employee_id"
               defaultValue={entrevista?.interviewer_employee_id || ""}
-              className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             >
               <option value="">-- Sin profesional asignado --</option>
               {entrevistadores.map(e => (
@@ -292,24 +358,23 @@ export function FormularioEntrevista({
                   {e.last_name}, {e.first_name} ({e.job_title})
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           {/* Estado de la Entrevista */}
           <div>
             <Label htmlFor="status">Estado del Encuentro</Label>
-            <select
+            <Select
               id="status"
               name="status"
               defaultValue={entrevista?.status || "scheduled"}
-              className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             >
               {ESTADOS_ENTREVISTA.map(est => (
                 <option key={est} value={est}>
                   {ETIQUETAS_ESTADO_ENTREVISTA[est]}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         </div>
       </Card>
@@ -328,11 +393,10 @@ export function FormularioEntrevista({
           {/* Movilidad */}
           <div>
             <Label htmlFor="mobility_assessment">Autonomía y Movilidad</Label>
-            <select
+            <Select
               id="mobility_assessment"
               name="mobility_assessment"
               defaultValue={entrevista?.mobility_assessment || ""}
-              className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             >
               <option value="">-- No evaluado aún --</option>
               {EVALUACIONES_MOVILIDAD.map(m => (
@@ -340,17 +404,16 @@ export function FormularioEntrevista({
                   {ETIQUETAS_MOVILIDAD[m]}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           {/* Cognitivo */}
           <div>
             <Label htmlFor="cognitive_assessment">Estado Cognitivo y Orientación</Label>
-            <select
+            <Select
               id="cognitive_assessment"
               name="cognitive_assessment"
               defaultValue={entrevista?.cognitive_assessment || ""}
-              className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             >
               <option value="">-- No evaluado aún --</option>
               {EVALUACIONES_COGNITIVAS.map(c => (
@@ -358,7 +421,7 @@ export function FormularioEntrevista({
                   {ETIQUETAS_COGNITIVA[c]}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           {/* Notas Médicas */}
@@ -372,10 +435,20 @@ export function FormularioEntrevista({
               rows={3}
               defaultValue={entrevista?.medical_notes || ""}
               placeholder="Diagnósticos previos, medicación habitual, alergias, requerimiento de oxígeno, sondas, cuidados de enfermería..."
+              aria-invalid={Boolean(state.errores?.medical_notes)}
+              aria-describedby={
+                state.errores?.medical_notes ? "medical_notes-error" : undefined
+              }
               className={state.errores?.medical_notes ? "border-rose-300" : ""}
             />
             {state.errores?.medical_notes && (
-              <p className="mt-1 text-xs text-rose-600">{state.errores.medical_notes}</p>
+              <p
+                id="medical_notes-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
+                {state.errores.medical_notes}
+              </p>
             )}
           </div>
 
@@ -389,10 +462,20 @@ export function FormularioEntrevista({
               value={notasSociales}
               onChange={e => setNotasSociales(e.target.value)}
               placeholder="Motivo de consulta, entorno de contención familiar, hábitos personales, expectativas y preferencias..."
+              aria-invalid={Boolean(state.errores?.social_notes)}
+              aria-describedby={
+                state.errores?.social_notes ? "social_notes-error" : undefined
+              }
               className={state.errores?.social_notes ? "border-rose-300" : ""}
             />
             {state.errores?.social_notes && (
-              <p className="mt-1 text-xs text-rose-600">{state.errores.social_notes}</p>
+              <p
+                id="social_notes-error"
+                role="alert"
+                className="mt-1 text-xs text-rose-600"
+              >
+                {state.errores.social_notes}
+              </p>
             )}
           </div>
         </div>
@@ -413,27 +496,26 @@ export function FormularioEntrevista({
             <Label htmlFor="conclusion">
               Dictamen de Aptitud <span className="text-rose-600">*</span>
             </Label>
-            <select
+            <Select
               id="conclusion"
               name="conclusion"
               value={conclusionSeleccionada}
               onChange={e =>
                 setConclusionSeleccionada(e.target.value as ConclusionEntrevista)
               }
-              className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             >
               {CONCLUSIONES_ENTREVISTA.map(c => (
                 <option key={c} value={c}>
                   {ETIQUETAS_CONCLUSION[c]}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           {/* Motivo de No Apto (condicional obligatorio) */}
           {conclusionSeleccionada === "no_apto" && (
             <div className="rounded-lg border border-rose-200 bg-rose-50/50 p-4">
-              <Label htmlFor="rejection_reason" className="text-rose-900 font-semibold">
+              <Label htmlFor="rejection_reason" className="font-semibold text-rose-900">
                 Motivo del Dictamen No Apto <span className="text-rose-600">*</span>
               </Label>
               <p className="mb-2 text-xs text-rose-700">
@@ -448,10 +530,18 @@ export function FormularioEntrevista({
                 rows={3}
                 defaultValue={entrevista?.rejection_reason || ""}
                 placeholder="Indique con claridad los motivos clínicos o de seguridad..."
+                aria-invalid={Boolean(state.errores?.rejection_reason)}
+                aria-describedby={
+                  state.errores?.rejection_reason ? "rejection_reason-error" : undefined
+                }
                 className={state.errores?.rejection_reason ? "border-rose-300" : ""}
               />
               {state.errores?.rejection_reason && (
-                <p className="mt-1 text-xs text-rose-600">
+                <p
+                  id="rejection_reason-error"
+                  role="alert"
+                  className="mt-1 text-xs text-rose-600"
+                >
                   {state.errores.rejection_reason}
                 </p>
               )}
