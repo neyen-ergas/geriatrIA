@@ -2,23 +2,36 @@ import Link from "next/link";
 import { SoloGestion } from "@/components/permisos";
 import { Badge, Card } from "@/components/ui";
 import {
-  COLORES_CUOTA, ETIQUETAS_CUOTA, formatearFechaPago,
-  formatearImporte, type Cuota,
+  COLORES_CUOTA,
+  ETIQUETAS_CUOTA,
+  formatearFechaPago,
+  formatearImporte,
+  type Cuota,
 } from "@/lib/pagos";
 
-export function TablaCuotas({ cuotas, admissionId }: {
-  cuotas: Cuota[]; admissionId?: string;
+export function TablaCuotas({
+  cuotas,
+  admissionId,
+}: {
+  cuotas: Cuota[];
+  admissionId?: string;
 }): React.ReactElement {
   return (
     <Card className="mt-6 overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[800px] text-left text-sm">
-          <caption className="sr-only">Cuotas de esta estadía y pagos vigentes acumulados</caption>
+          <caption className="sr-only">
+            Cuotas de esta estadía y pagos vigentes acumulados
+          </caption>
           <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
             <tr>
-              {["Período", "Vencimiento", "Importe", "Pagado", "Saldo", "Estado"].map(titulo => (
-                <th key={titulo} scope="col" className="px-5 py-3 font-semibold">{titulo}</th>
-              ))}
+              {["Período", "Vencimiento", "Importe", "Pagado", "Saldo", "Estado"].map(
+                titulo => (
+                  <th key={titulo} scope="col" className="px-5 py-3 font-semibold">
+                    {titulo}
+                  </th>
+                ),
+              )}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -43,7 +56,9 @@ export function TablaCuotas({ cuotas, admissionId }: {
                       {ETIQUETAS_CUOTA[cuota.payment_status]}
                     </Badge>
                     {cuota.is_overdue && (
-                      <Badge className="border-red-200 bg-red-50 text-red-700">Vencida</Badge>
+                      <Badge className="border-red-200 bg-red-50 text-red-700">
+                        Vencida
+                      </Badge>
                     )}
                   </div>
                   {cuota.cancelled_reason && (
@@ -52,17 +67,25 @@ export function TablaCuotas({ cuotas, admissionId }: {
                     </p>
                   )}
                   {admissionId && (
-                    <Link href={`/contabilidad/${admissionId}/cuotas/${cuota.id}`}
-                      className="mt-3 block text-sm font-medium text-sky-700 hover:underline">
+                    <Link
+                      href={`/contabilidad/${admissionId}/cuotas/${cuota.id}`}
+                      className="mt-3 block text-sm font-medium text-sky-700 hover:underline"
+                    >
                       Ver movimientos
                     </Link>
                   )}
-                  {admissionId && cuota.balance > 0 && cuota.payment_status !== "cancelled" && (
-                    <SoloGestion><Link href={`/contabilidad/${admissionId}/pago/${cuota.id}`}
-                      className="mt-3 inline-block text-sm font-medium text-sky-700 hover:underline">
-                      Registrar pago
-                    </Link></SoloGestion>
-                  )}
+                  {admissionId &&
+                    cuota.balance > 0 &&
+                    cuota.payment_status !== "cancelled" && (
+                      <SoloGestion>
+                        <Link
+                          href={`/contabilidad/${admissionId}/pago/${cuota.id}`}
+                          className="mt-3 inline-block text-sm font-medium text-sky-700 hover:underline"
+                        >
+                          Registrar pago
+                        </Link>
+                      </SoloGestion>
+                    )}
                 </td>
               </tr>
             ))}
@@ -70,8 +93,8 @@ export function TablaCuotas({ cuotas, admissionId }: {
         </table>
       </div>
       <p className="border-t border-slate-100 px-5 py-3 text-xs text-slate-500">
-        Pagado incluye únicamente pagos vigentes. Las cuotas anuladas conservan
-        su importe original y no generan saldo pendiente.
+        Pagado incluye únicamente pagos vigentes. Las cuotas anuladas conservan su importe
+        original y no generan saldo pendiente.
       </p>
     </Card>
   );

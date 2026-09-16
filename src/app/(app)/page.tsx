@@ -61,7 +61,8 @@ function estiloParaBloque(titulo: string) {
     return {
       bgIcono: "bg-emerald-100 text-emerald-700",
       badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
-      borde: "border-emerald-200 bg-gradient-to-b from-emerald-50/20 to-white hover:border-emerald-300",
+      borde:
+        "border-emerald-200 bg-gradient-to-b from-emerald-50/20 to-white hover:border-emerald-300",
     };
   }
   if (t.includes("mañana")) {
@@ -105,12 +106,16 @@ export default async function InicioPage(): Promise<React.ReactElement> {
               Panel de Inicio
             </h1>
             <p className="mt-1 text-sm text-slate-600">
-              {fechaCompleta} · Pendientes al {formatearFechaPago(hoy)} (Hora de Argentina)
+              {fechaCompleta} · Pendientes al {formatearFechaPago(hoy)} (Hora de
+              Argentina)
             </p>
           </div>
 
           {/* Accesos rápidos */}
-          <nav aria-label="Accesos rápidos" className="flex flex-wrap items-center gap-2 text-sm font-medium">
+          <nav
+            aria-label="Accesos rápidos"
+            className="flex flex-wrap items-center gap-2 text-sm font-medium"
+          >
             <Link
               href="/admision/agenda"
               className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-3.5 py-2 text-white shadow-sm transition hover:bg-slate-800"
@@ -146,7 +151,7 @@ export default async function InicioPage(): Promise<React.ReactElement> {
 
         {/* KPIs resumidos en cinta horizontal */}
         <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-100 pt-5 sm:grid-cols-3 lg:grid-cols-5">
-          {bloques.map((bloque) => {
+          {bloques.map(bloque => {
             const Icono = iconoParaBloque(bloque.titulo);
             const estilo = estiloParaBloque(bloque.titulo);
             const total = bloque.resumen ? bloque.resumen.total : 0;
@@ -156,11 +161,15 @@ export default async function InicioPage(): Promise<React.ReactElement> {
                 href={bloque.href}
                 className="group flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/60 p-3 transition hover:border-slate-300 hover:bg-white"
               >
-                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${estilo.bgIcono}`}>
+                <div
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${estilo.bgIcono}`}
+                >
                   <Icono className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="truncate text-xs font-medium text-slate-500">{bloque.titulo}</div>
+                  <div className="truncate text-xs font-medium text-slate-500">
+                    {bloque.titulo}
+                  </div>
                   <div className="text-lg font-bold tabular-nums text-slate-900 group-hover:text-sky-800">
                     {bloque.resumen ? total : "—"}
                   </div>
@@ -173,7 +182,7 @@ export default async function InicioPage(): Promise<React.ReactElement> {
 
       {/* Grilla operativa con tarjetas detalladas */}
       <div className="grid items-start gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {bloques.map((bloque) => {
+        {bloques.map(bloque => {
           const Icono = iconoParaBloque(bloque.titulo);
           const estilo = estiloParaBloque(bloque.titulo);
 
@@ -185,10 +194,14 @@ export default async function InicioPage(): Promise<React.ReactElement> {
               <div>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2.5">
-                    <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${estilo.bgIcono}`}>
+                    <div
+                      className={`flex h-8 w-8 items-center justify-center rounded-lg ${estilo.bgIcono}`}
+                    >
                       <Icono className="h-4 w-4" />
                     </div>
-                    <h2 className="text-base font-semibold text-slate-900">{bloque.titulo}</h2>
+                    <h2 className="text-base font-semibold text-slate-900">
+                      {bloque.titulo}
+                    </h2>
                   </div>
                   {bloque.resumen && (
                     <Link
@@ -211,7 +224,7 @@ export default async function InicioPage(): Promise<React.ReactElement> {
                       </div>
                     )}
                     <ul className="mt-4 divide-y divide-slate-100">
-                      {bloque.resumen.elementos.map((item) => (
+                      {bloque.resumen.elementos.map(item => (
                         <li key={item.id} className="py-2.5">
                           <Link
                             href={item.href}
@@ -220,21 +233,30 @@ export default async function InicioPage(): Promise<React.ReactElement> {
                             <span className="font-medium text-sky-800 underline group-hover:text-sky-950">
                               {item.titulo}
                             </span>
-                            <span className="mt-0.5 text-xs text-slate-600">{item.detalle}</span>
+                            <span className="mt-0.5 text-xs text-slate-600">
+                              {item.detalle}
+                            </span>
                           </Link>
                         </li>
                       ))}
                     </ul>
                     {bloque.resumen.total > bloque.resumen.elementos.length && (
                       <p className="mt-3 text-xs text-slate-500">
-                        Mostrando {bloque.resumen.elementos.length} de {bloque.resumen.total}.
+                        Mostrando {bloque.resumen.elementos.length} de{" "}
+                        {bloque.resumen.total}.
                       </p>
                     )}
                   </>
                 ) : (
-                  <div role="alert" className="mt-5 flex items-start gap-2 rounded-lg bg-red-50 p-3 text-xs text-red-700">
+                  <div
+                    role="alert"
+                    className="mt-5 flex items-start gap-2 rounded-lg bg-red-50 p-3 text-xs text-red-700"
+                  >
                     <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-                    <span>No pudimos cargar este grupo. Abrí la sección para volver a consultar.</span>
+                    <span>
+                      No pudimos cargar este grupo. Abrí la sección para volver a
+                      consultar.
+                    </span>
                   </div>
                 )}
               </div>
@@ -254,7 +276,8 @@ export default async function InicioPage(): Promise<React.ReactElement> {
       </div>
 
       <div className="rounded-xl border border-slate-100 bg-slate-50/70 px-4 py-3 text-xs text-slate-500">
-        Los saldos corresponden a cuotas creadas. El panel se actualiza al abrirlo; no se refresca automáticamente mientras permanece abierto.
+        Los saldos corresponden a cuotas creadas. El panel se actualiza al abrirlo; no se
+        refresca automáticamente mientras permanece abierto.
       </div>
     </div>
   );

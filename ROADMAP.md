@@ -28,18 +28,18 @@ Leyenda: `[x]` terminado · `[ ]` pendiente
 Revisión: 2026-09-05. P0 corrige o protege lo existente; P1 completa el circuito
 administrativo; P2 amplía el producto. Cada fila agrupa PRs, no es un único PR.
 
-| Orden | Prioridad | Trabajo | Condición de salida |
-| --- | --- | --- | --- |
-| 1 | P0 | Fase 5: runner de tests y CI. | Una validación existente tiene una prueba real y corre en CI. |
-| 2 | P0 | Fase 5A: estados, fechas, DNI e historial de visitas, en PRs separados. | Cada fallo tiene una prueba de regresión y las reglas de integridad se garantizan en la base. |
-| 3 | P0 | Fase 5A: paginación, conteos y errores. | Listados y totales se comprueban con más de 1.000 registros sintéticos. |
-| 4 | P0 | Fase 5: lint, formato y protección de `master`. | Los controles están en CI y un administrador verifica la protección. |
-| 5 | P1 | Fase 6: Contabilidad. | Cuotas, pagos parciales, anulaciones, vencimientos y comprobantes son operables. |
-| 6 | P1 | Fase 8: conversión Admisión → Residentes. | La consulta queda vinculada a la estadía sin duplicaciones ni escrituras parciales. |
-| 7 | P1 | Fases 8 y 7: agenda, búsqueda e Inicio. | El equipo encuentra disponibilidad y resuelve pendientes desde el panel. |
-| 8 | P1 | Fase 9: roles, empleados y acceso a datos. | Permisos verificados antes de habilitar cuentas con responsabilidades distintas. |
-| 9 | P2 | Fase 11: ficha, contactos, documentos y salud. | Cada módulo tiene alcance, permisos y pruebas acordes a sus datos. |
-| 10 | P2 | Fases 10 y 12: Turnos y Entrevistas. | Turnos sin superposiciones y entrevistas con alcance definido. |
+| Orden | Prioridad | Trabajo                                                                 | Condición de salida                                                                           |
+| ----- | --------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 1     | P0        | Fase 5: runner de tests y CI.                                           | Una validación existente tiene una prueba real y corre en CI.                                 |
+| 2     | P0        | Fase 5A: estados, fechas, DNI e historial de visitas, en PRs separados. | Cada fallo tiene una prueba de regresión y las reglas de integridad se garantizan en la base. |
+| 3     | P0        | Fase 5A: paginación, conteos y errores.                                 | Listados y totales se comprueban con más de 1.000 registros sintéticos.                       |
+| 4     | P0        | Fase 5: lint, formato y protección de `master`.                         | Los controles están en CI y un administrador verifica la protección.                          |
+| 5     | P1        | Fase 6: Contabilidad.                                                   | Cuotas, pagos parciales, anulaciones, vencimientos y comprobantes son operables.              |
+| 6     | P1        | Fase 8: conversión Admisión → Residentes.                               | La consulta queda vinculada a la estadía sin duplicaciones ni escrituras parciales.           |
+| 7     | P1        | Fases 8 y 7: agenda, búsqueda e Inicio.                                 | El equipo encuentra disponibilidad y resuelve pendientes desde el panel.                      |
+| 8     | P1        | Fase 9: roles, empleados y acceso a datos.                              | Permisos verificados antes de habilitar cuentas con responsabilidades distintas.              |
+| 9     | P2        | Fase 11: ficha, contactos, documentos y salud.                          | Cada módulo tiene alcance, permisos y pruebas acordes a sus datos.                            |
+| 10    | P2        | Fases 10 y 12: Turnos y Entrevistas.                                    | Turnos sin superposiciones y entrevistas con alcance definido.                                |
 
 Accesibilidad y móvil se verifican en cada pantalla modificada. La guía de
 instalación debe estar lista antes de abrir una nueva residencia; el backup y
@@ -107,16 +107,15 @@ El formato global va después de esas correcciones y en un commit propio.
 
 - [x] Configurar Vitest con scripts de ejecución local y CI, una prueba real
       de validación existente y ejecución automática en GitHub Actions.
-- [ ] Agregar Prettier como dependencia de desarrollo con su configuración, y
+- [x] Agregar Prettier como dependencia de desarrollo con su configuración, y
       scripts `npm run format` (escribe) y `npm run format:check` (verifica).
       Formatear el repositorio entero en un commit `chore:` aparte, sin ningún
       otro cambio, para que el diff sea revisable.
-- [ ] Reparar el linting: `npm run lint` ejecuta `next lint` y abre un asistente
-      porque no hay ESLint instalado ni configurado. Configurar ESLint para
-      Next 15 y dejar un comando que termine sin interacción en local y CI.
-- [ ] Sumar `format:check` y `lint` al workflow de CI.
-- [ ] Agregar `.editorconfig` con las mismas reglas que Prettier.
-- [ ] Cubrir con tests la lógica pura que ya existe y no toca la base: los type
+- [x] Reparar el linting: `npm run lint` ejecuta `eslint .` y termina sin interacción
+      en local y CI con reglas para Next 15 y TypeScript.
+- [x] Sumar `format:check` y `lint` al workflow de CI.
+- [x] Agregar `.editorconfig` con las mismas reglas que Prettier.
+- [x] Cubrir con tests la lógica pura que ya existe y no toca la base: los type
       guards de `admision.ts`, `formatearDia` (incluido el corrimiento de día por
       zona horaria), y las validaciones de `primer-ingreso.ts`,
       `baja-residente.ts` y `reingreso-residente.ts`. Son funciones puras: se
@@ -128,8 +127,8 @@ El formato global va después de esas correcciones y en un commit propio.
       controles de CI requeridos y bloqueo de force-push y eliminación. La
       cuenta conectada en esta revisión tiene push, pero no administración;
       estas protecciones no se consideran verificadas ni configuradas.
-- [ ] Ordenar `CHANGELOG.md`: hoy mezcla varias secciones "Agregado" y una de
-      "Quitado" del reinicio, y no se lee cronológicamente.
+- [x] Ordenar `CHANGELOG.md`: hoy agrupa limpiamente las secciones "Agregado",
+      "Corregido", "Cambiado", "Seguridad" y "Quitado" cronológicamente.
 
 ## Fase 5A — Correcciones de integridad y confiabilidad
 

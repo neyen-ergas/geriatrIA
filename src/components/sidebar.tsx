@@ -24,7 +24,7 @@ export function Sidebar({ rol }: { rol: Rol }) {
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <div className="space-y-0.5">
-          {NAV.filter(item => puedeVerSeccion(rol, item.href)).map((item) => {
+          {NAV.filter(item => puedeVerSeccion(rol, item.href)).map(item => {
             const active =
               item.href === "/"
                 ? pathname === "/"

@@ -11,7 +11,10 @@ import { TablaCuotas } from "./tabla-cuotas";
 
 export const metadata: Metadata = { title: "Cuenta corriente · geriatrIA" };
 
-export default async function CuentaPage({ params, searchParams }: {
+export default async function CuentaPage({
+  params,
+  searchParams,
+}: {
   params: Promise<{ admissionId: string }>;
   searchParams: Promise<{ pagina?: string | string[]; cuota?: string; pago?: string }>;
 }): Promise<React.ReactElement> {
@@ -24,8 +27,10 @@ export default async function CuentaPage({ params, searchParams }: {
   const ruta = `/contabilidad/${cuenta.id}`;
   return (
     <div>
-      <Link href={enlaceContabilidad(1, cuenta.discharged_at !== null)}
-        className="text-sm font-medium text-sky-700 hover:underline">
+      <Link
+        href={enlaceContabilidad(1, cuenta.discharged_at !== null)}
+        className="text-sm font-medium text-sky-700 hover:underline"
+      >
         ← Volver a Contabilidad
       </Link>
       <h1 className="mt-4 text-2xl font-bold text-slate-900">Cuenta corriente</h1>
@@ -35,28 +40,46 @@ export default async function CuentaPage({ params, searchParams }: {
       <p className="mt-1 text-sm text-slate-500">
         DNI {cuenta.residents.dni} · Ingreso {formatearFechaPago(cuenta.admitted_at)}
         {cuenta.discharged_at
-          ? ` · Baja ${formatearFechaPago(cuenta.discharged_at)}` : " · Estadía activa"}
+          ? ` · Baja ${formatearFechaPago(cuenta.discharged_at)}`
+          : " · Estadía activa"}
       </p>
       {(parametros.cuota === "1" || parametros.pago === "1") && (
-        <p role="status" className="mt-4 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-800">
-          {parametros.pago === "1" ? "Pago registrado. El saldo está actualizado." : "Cuota creada."}
+        <p
+          role="status"
+          className="mt-4 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-800"
+        >
+          {parametros.pago === "1"
+            ? "Pago registrado. El saldo está actualizado."
+            : "Cuota creada."}
         </p>
       )}
-      <SoloGestion><Link href={`${ruta}/nueva-cuota`}
-        className="mt-6 inline-block rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
-        Crear cuota
-      </Link></SoloGestion>
+      <SoloGestion>
+        <Link
+          href={`${ruta}/nueva-cuota`}
+          className="mt-6 inline-block rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+        >
+          Crear cuota
+        </Link>
+      </SoloGestion>
       {cuotas.length === 0 ? (
         <Card className="mt-6 p-8 text-center">
-          <h2 className="font-semibold text-slate-800">Todavía no hay cuotas registradas</h2>
+          <h2 className="font-semibold text-slate-800">
+            Todavía no hay cuotas registradas
+          </h2>
           <p className="mt-2 text-sm text-slate-500">
             Esta cuenta mostrará las cuotas y los pagos correspondientes a esta estadía.
           </p>
         </Card>
-      ) : <TablaCuotas cuotas={cuotas} admissionId={admissionId} />}
-      <PaginacionListado pagina={pagina} total={total} etiqueta="cuotas"
+      ) : (
+        <TablaCuotas cuotas={cuotas} admissionId={admissionId} />
+      )}
+      <PaginacionListado
+        pagina={pagina}
+        total={total}
+        etiqueta="cuotas"
         anterior={pagina > 2 ? `${ruta}?pagina=${pagina - 1}` : ruta}
-        siguiente={`${ruta}?pagina=${pagina + 1}`} />
+        siguiente={`${ruta}?pagina=${pagina + 1}`}
+      />
     </div>
   );
 }

@@ -6,7 +6,8 @@ export async function listarTurnosSemana(inicio: string, fin: string): Promise<T
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("shifts")
-    .select(`
+    .select(
+      `
       id,
       employee_id,
       shift_date,
@@ -19,7 +20,8 @@ export async function listarTurnosSemana(inicio: string, fin: string): Promise<T
       updated_at,
       employee:employees!shifts_employee_id_fkey(first_name, last_name, job_title),
       covered_by:employees!shifts_covered_by_employee_id_fkey(first_name, last_name)
-    `)
+    `,
+    )
     .gte("shift_date", inicio)
     .lte("shift_date", fin)
     .neq("status", "cancelled")

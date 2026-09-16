@@ -6,13 +6,13 @@ consulta y descarga documentos. Los contactos continúan en la misma ficha.
 
 ## Alcance funcional
 
-| Apartado | Datos y comportamiento |
-| --- | --- |
-| Documentos | Título, tipo, fecha opcional, observaciones y archivo privado JPG/PNG/PDF de hasta 3 MiB. No es obligatorio tener documentos para registrar un ingreso. |
-| Indicaciones médicas | Título, texto de la indicación, profesional e inicio/fin de vigencia. |
-| Medicación | Nombre, dosis/vía, frecuencia, horarios o pauta, profesional, vigencia y observaciones. Transcripción de la indicación profesional, sin cálculos de dosis ni registro de administraciones. |
-| Cuidados especiales | Alimentación, alergias, movilidad o cuidados especiales, con texto descriptivo. |
-| Pertenencias | Descripción, cantidad entera, recepción y devolución, observaciones y estadía de origen. Se agregan desde la estadía elegida en la ficha. |
+| Apartado             | Datos y comportamiento                                                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Documentos           | Título, tipo, fecha opcional, observaciones y archivo privado JPG/PNG/PDF de hasta 3 MiB. No es obligatorio tener documentos para registrar un ingreso.                                    |
+| Indicaciones médicas | Título, texto de la indicación, profesional e inicio/fin de vigencia.                                                                                                                      |
+| Medicación           | Nombre, dosis/vía, frecuencia, horarios o pauta, profesional, vigencia y observaciones. Transcripción de la indicación profesional, sin cálculos de dosis ni registro de administraciones. |
+| Cuidados especiales  | Alimentación, alergias, movilidad o cuidados especiales, con texto descriptivo.                                                                                                            |
+| Pertenencias         | Descripción, cantidad entera, recepción y devolución, observaciones y estadía de origen. Se agregan desde la estadía elegida en la ficha.                                                  |
 
 La vigencia médica incluye ambos extremos: antes del inicio se muestra Programado;
 entre inicio y fin, Vigente; después del fin, Vigencia finalizada. Un fin vacío

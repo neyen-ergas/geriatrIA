@@ -1,10 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  agendarVisita,
-  cambiarEstado,
-  cancelarVisita,
-  guardarNotas,
-} from "./actions";
+import { agendarVisita, cambiarEstado, cancelarVisita, guardarNotas } from "./actions";
 
 const mocks = vi.hoisted(() => ({
   sesion: vi.fn(),
@@ -38,10 +33,9 @@ afterEach(() => vi.useRealTimers());
 describe("Server Actions de Admisión", () => {
   it.each(ACCIONES)(
     "%s maneja una conexión interrumpida sin filtrar ni repetir la escritura",
-    async (accion) => {
+    async accion => {
       const datos = formulario();
-      if (accion === cancelarVisita)
-        datos.set("estado_esperado", "visita_agendada");
+      if (accion === cancelarVisita) datos.set("estado_esperado", "visita_agendada");
       mocks.rpc.mockRejectedValue(new Error("Detalle interno con dato privado"));
       const resultado = await accion(INICIAL, datos);
       expect(resultado.ok).toBe(false);
@@ -55,19 +49,17 @@ describe("Server Actions de Admisión", () => {
   it("devuelve un error seguro si no puede crear el cliente", async () => {
     mocks.cliente.mockRejectedValue(new Error("Configuración interna"));
     expect(await guardarNotas(INICIAL, formulario())).toMatchObject({
-      ok: false, error: expect.stringContaining("Recargá"),
+      ok: false,
+      error: expect.stringContaining("Recargá"),
     });
     expect(mocks.rpc).not.toHaveBeenCalled();
     expect(mocks.revalidar).not.toHaveBeenCalled();
   });
-  it.each(ACCIONES)(
-    "%s exige sesión antes de acceder a la base",
-    async (accion) => {
-      mocks.sesion.mockRejectedValue(new Error("sin sesión"));
-      await expect(accion(INICIAL, formulario())).rejects.toThrow("sin sesión");
-      expect(mocks.cliente).not.toHaveBeenCalled();
-    },
-  );
+  it.each(ACCIONES)("%s exige sesión antes de acceder a la base", async accion => {
+    mocks.sesion.mockRejectedValue(new Error("sin sesión"));
+    await expect(accion(INICIAL, formulario())).rejects.toThrow("sin sesión");
+    expect(mocks.cliente).not.toHaveBeenCalled();
+  });
 
   it("rechaza una transición prohibida antes de abrir el cliente", async () => {
     const datos = formulario();
@@ -96,10 +88,9 @@ describe("Server Actions de Admisión", () => {
 
   it.each(ACCIONES)(
     "%s no reintenta ni confirma una escritura desactualizada",
-    async (accion) => {
+    async accion => {
       const datos = formulario();
-      if (accion === cancelarVisita)
-        datos.set("estado_esperado", "visita_agendada");
+      if (accion === cancelarVisita) datos.set("estado_esperado", "visita_agendada");
       mocks.rpc.mockResolvedValue({ data: null, error: { code: "40001" } });
 
       expect(await accion(INICIAL, datos)).toMatchObject({
@@ -114,14 +105,11 @@ describe("Server Actions de Admisión", () => {
   it.each([
     { data: null, error: null },
     { data: null, error: { code: "P0002" } },
-  ])(
-    "no informa éxito cuando no se modificó una consulta",
-    async (respuesta) => {
-      mocks.rpc.mockResolvedValue(respuesta);
-      expect((await guardarNotas(INICIAL, formulario())).ok).toBe(false);
-      expect(mocks.revalidar).not.toHaveBeenCalled();
-    },
-  );
+  ])("no informa éxito cuando no se modificó una consulta", async respuesta => {
+    mocks.rpc.mockResolvedValue(respuesta);
+    expect((await guardarNotas(INICIAL, formulario())).ok).toBe(false);
+    expect(mocks.revalidar).not.toHaveBeenCalled();
+  });
 });
 
 function formulario(): FormData {

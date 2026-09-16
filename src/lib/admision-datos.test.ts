@@ -6,7 +6,9 @@ import { contarPorEstado, listarConsultas } from "./admision-datos";
 import { listarVinculosConsultas } from "@/lib/conversion-consulta-datos";
 
 vi.mock("server-only", () => ({}));
-vi.mock("@/lib/conversion-consulta-datos", () => ({ listarVinculosConsultas: vi.fn(async () => ({})) }));
+vi.mock("@/lib/conversion-consulta-datos", () => ({
+  listarVinculosConsultas: vi.fn(async () => ({})),
+}));
 vi.mock("@/lib/supabase/server", () => ({ createClient: vi.fn() }));
 
 // El cliente real de Supabase habla con una API sintética con límite de filas.
@@ -24,11 +26,12 @@ beforeEach(() => {
   solicitudes.length = 0;
   fallar = false;
   omitirConteo = false;
-  vi.mocked(crearClienteSesion).mockResolvedValue(createClient<Database>(
-    "https://supabase.invalid",
-    "clave-ficticia",
-    { global: { fetch: responder }, auth: { persistSession: false } },
-  ));
+  vi.mocked(crearClienteSesion).mockResolvedValue(
+    createClient<Database>("https://supabase.invalid", "clave-ficticia", {
+      global: { fetch: responder },
+      auth: { persistSession: false },
+    }),
+  );
 });
 
 describe("lecturas de Admisión con más de 1.000 consultas", () => {
@@ -42,11 +45,18 @@ describe("lecturas de Admisión con más de 1.000 consultas", () => {
 
   it("cuenta en la base sin descargar las filas ni truncar los totales", async () => {
     expect(await contarPorEstado()).toEqual({
-      nuevo: 1205, contactado: 50, visita_agendada: 0, ingreso: 0, descartada: 0,
+      nuevo: 1205,
+      contactado: 50,
+      visita_agendada: 0,
+      ingreso: 0,
+      descartada: 0,
     });
     expect(solicitudes).toHaveLength(5);
-    expect(solicitudes.every(s => s.metodo === "HEAD"
-      && s.preferencia?.includes("count=exact"))).toBe(true);
+    expect(
+      solicitudes.every(
+        s => s.metodo === "HEAD" && s.preferencia?.includes("count=exact"),
+      ),
+    ).toBe(true);
   });
 
   it("recorre todas las páginas sin repetir ni perder consultas empatadas", async () => {
@@ -58,8 +68,11 @@ describe("lecturas de Admisión con más de 1.000 consultas", () => {
     }
     expect(ids).toEqual(filas.map(f => f.id).reverse());
     expect(new Set(ids).size).toBe(1255);
-    expect(solicitudes.every(s =>
-      s.url.searchParams.get("order") === "creado_en.desc,id.desc")).toBe(true);
+    expect(
+      solicitudes.every(
+        s => s.url.searchParams.get("order") === "creado_en.desc,id.desc",
+      ),
+    ).toBe(true);
   });
 
   it("mantiene el filtro y alcanza la última página más allá de 1.000 filas", async () => {
@@ -67,7 +80,10 @@ describe("lecturas de Admisión con más de 1.000 consultas", () => {
     expect(consultas).toHaveLength(5);
     expect(consultas.every(c => c.estado === "nuevo")).toBe(true);
     expect(consultas.map(c => c.id)).toEqual(
-      filas.slice(0, 5).map(f => f.id).reverse(),
+      filas
+        .slice(0, 5)
+        .map(f => f.id)
+        .reverse(),
     );
   });
 
@@ -105,9 +121,13 @@ async function responder(
   const cabeceras = new Headers(opciones?.headers);
   solicitudes.push({ metodo, url, preferencia: cabeceras.get("Prefer") });
   if (fallar) {
-    return new Response(JSON.stringify({
-      code: "42501", message: "Detalle interno con dato privado",
-    }), { status: 403, headers: { "Content-Type": "application/json" } });
+    return new Response(
+      JSON.stringify({
+        code: "42501",
+        message: "Detalle interno con dato privado",
+      }),
+      { status: 403, headers: { "Content-Type": "application/json" } },
+    );
   }
   const estado = url.searchParams.get("estado")?.replace(/^eq\./, "");
   let resultado = filas.filter(f => !estado || f.estado === estado);

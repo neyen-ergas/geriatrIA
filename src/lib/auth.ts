@@ -12,7 +12,9 @@ import { esRol, tienePermiso, type Permiso, type Rol } from "@/lib/permisos";
  * Usa `getClaims()`, que valida la firma del JWT, y no `getSession()`, que
  * confía en el contenido de la cookie. Ver docs/autenticacion.md.
  */
-export async function requerirSesion(permiso: Permiso = "operational.read"): Promise<Rol> {
+export async function requerirSesion(
+  permiso: Permiso = "operational.read",
+): Promise<Rol> {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
 

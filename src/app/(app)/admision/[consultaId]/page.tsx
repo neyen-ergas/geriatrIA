@@ -9,7 +9,10 @@ import { ConsultaCard } from "../consulta-card";
 
 export const metadata: Metadata = { title: "Consulta de Admisión · geriatrIA" };
 
-export default async function ConsultaPage({ params, searchParams }: {
+export default async function ConsultaPage({
+  params,
+  searchParams,
+}: {
   params: Promise<{ consultaId: string }>;
   searchParams: Promise<{ semana?: string | string[] }>;
 }): Promise<React.ReactElement> {
@@ -19,7 +22,12 @@ export default async function ConsultaPage({ params, searchParams }: {
   const semana = semanaAgenda((await searchParams).semana, hoyEnArgentina());
   return (
     <div className="mx-auto max-w-4xl">
-      <Link href={enlaceAgenda(semana.inicio)} className="text-sm font-medium text-sky-700">← Volver a la agenda</Link>
+      <Link
+        href={enlaceAgenda(semana.inicio)}
+        className="text-sm font-medium text-sky-700"
+      >
+        ← Volver a la agenda
+      </Link>
       <h1 className="my-5 text-2xl font-bold text-slate-900">Consulta de Admisión</h1>
       <ConsultaCard consulta={consulta} />
     </div>

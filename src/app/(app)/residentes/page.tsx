@@ -54,8 +54,14 @@ export default async function ResidentesPage({
   }>;
 }) {
   await requerirSesion("operational.read");
-  const { actualizado, baja, creado, estado, reingreso, pagina: paginaParam } =
-    await searchParams;
+  const {
+    actualizado,
+    baja,
+    creado,
+    estado,
+    reingreso,
+    pagina: paginaParam,
+  } = await searchParams;
   const mostrarBajas = estado === "bajas";
   let residentesActivos: ResidenteActivo[] = [];
   let residentesDadosDeBaja: ResidenteDadoDeBaja[] = [];
@@ -85,13 +91,15 @@ export default async function ResidentesPage({
             Ingresos vigentes e historial de estadías finalizadas.
           </p>
         </div>
-        <SoloGestion><Link
-          href="/residentes/nuevo"
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-medium text-white transition-colors hover:bg-slate-800"
-        >
-          <Plus className="h-4 w-4" />
-          Nuevo ingreso
-        </Link></SoloGestion>
+        <SoloGestion>
+          <Link
+            href="/residentes/nuevo"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+          >
+            <Plus className="h-4 w-4" />
+            Nuevo ingreso
+          </Link>
+        </SoloGestion>
       </div>
 
       {creado === "1" && (
@@ -188,13 +196,7 @@ export default async function ResidentesPage({
   );
 }
 
-function MensajeExito({
-  titulo,
-  descripcion,
-}: {
-  titulo: string;
-  descripcion: string;
-}) {
+function MensajeExito({ titulo, descripcion }: { titulo: string; descripcion: string }) {
   return (
     <Card className="mt-6 flex items-start gap-3 border-emerald-200 bg-emerald-50 p-4">
       <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
@@ -215,8 +217,8 @@ function ErrorCarga() {
           No pudimos cargar los residentes
         </h2>
         <p className="mt-1 text-sm text-red-700">
-          Intentá nuevamente. Si el problema continúa, contactá al equipo para
-          que lo revise.
+          Intentá nuevamente. Si el problema continúa, contactá al equipo para que lo
+          revise.
         </p>
       </div>
     </Card>
@@ -288,13 +290,12 @@ function TablaActivos({ residentes }: { residentes: ResidenteActivo[] }) {
                 <tr key={admissionId} className="hover:bg-slate-50/70">
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
-                      <Avatar
-                        nombre={nombreCompleto}
-                        colorClass="bg-emerald-600"
-                      />
+                      <Avatar nombre={nombreCompleto} colorClass="bg-emerald-600" />
                       <div>
-                        <Link href={`/residentes/ficha/${resident.id}`}
-                          className="font-semibold text-sky-800 underline underline-offset-2">
+                        <Link
+                          href={`/residentes/ficha/${resident.id}`}
+                          className="font-semibold text-sky-800 underline underline-offset-2"
+                        >
                           {nombreCompleto}
                         </Link>
                         <div className="mt-0.5 text-xs text-slate-500">
@@ -317,20 +318,24 @@ function TablaActivos({ residentes }: { residentes: ResidenteActivo[] }) {
                   </td>
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-1">
-                      <SoloGestion><Link
-                        href={`/residentes/${admissionId}/editar`}
-                        className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
-                      >
-                        <Pencil className="h-4 w-4" />
-                        Editar
-                      </Link></SoloGestion>
-                      <SoloGestion><Link
-                        href={`/residentes/${admissionId}/baja`}
-                        className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 hover:text-red-700"
-                      >
-                        <LogOut className="h-4 w-4" />
-                        Dar de baja
-                      </Link></SoloGestion>
+                      <SoloGestion>
+                        <Link
+                          href={`/residentes/${admissionId}/editar`}
+                          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                        >
+                          <Pencil className="h-4 w-4" />
+                          Editar
+                        </Link>
+                      </SoloGestion>
+                      <SoloGestion>
+                        <Link
+                          href={`/residentes/${admissionId}/baja`}
+                          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 hover:text-red-700"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          Dar de baja
+                        </Link>
+                      </SoloGestion>
                     </div>
                   </td>
                 </tr>
@@ -390,8 +395,10 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
                       <div className="flex items-center gap-3">
                         <Avatar nombre={nombreCompleto} />
                         <div>
-                          <Link href={`/residentes/ficha/${resident.id}`}
-                            className="font-semibold text-sky-800 underline underline-offset-2">
+                          <Link
+                            href={`/residentes/ficha/${resident.id}`}
+                            className="font-semibold text-sky-800 underline underline-offset-2"
+                          >
                             {nombreCompleto}
                           </Link>
                           <div className="mt-0.5 text-xs text-slate-500">
@@ -414,13 +421,15 @@ function TablaBajas({ residentes }: { residentes: ResidenteDadoDeBaja[] }) {
                     </td>
                     <td className="px-5 py-4">
                       {canBeReadmitted ? (
-                        <SoloGestion><Link
-                          href={`/residentes/reingreso/${resident.id}`}
-                          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800"
-                        >
-                          <RotateCcw className="h-4 w-4" />
-                          Reingresar
-                        </Link></SoloGestion>
+                        <SoloGestion>
+                          <Link
+                            href={`/residentes/reingreso/${resident.id}`}
+                            className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800"
+                          >
+                            <RotateCcw className="h-4 w-4" />
+                            Reingresar
+                          </Link>
+                        </SoloGestion>
                       ) : (
                         <span className="text-xs text-slate-400">—</span>
                       )}

@@ -3,13 +3,17 @@ import { requerirSesion } from "./auth";
 import { puedeVerSeccion, tienePermiso } from "./permisos";
 
 const mocks = vi.hoisted(() => ({ claims: vi.fn(), rpc: vi.fn(), redirect: vi.fn() }));
-vi.mock("@/lib/supabase/server", () => ({ createClient: async () => ({ auth: { getClaims: mocks.claims }, rpc: mocks.rpc }) }));
+vi.mock("@/lib/supabase/server", () => ({
+  createClient: async () => ({ auth: { getClaims: mocks.claims }, rpc: mocks.rpc }),
+}));
 vi.mock("next/navigation", () => ({ redirect: mocks.redirect }));
 beforeEach(() => {
   vi.resetAllMocks();
   mocks.claims.mockResolvedValue({ data: { claims: { sub: "cuenta-ficticia" } } });
   mocks.rpc.mockResolvedValue({ data: "admin", error: null });
-  mocks.redirect.mockImplementation((ruta: string) => { throw new Error(ruta); });
+  mocks.redirect.mockImplementation((ruta: string) => {
+    throw new Error(ruta);
+  });
 });
 it("sin identidad verificada corta antes de leer permisos", async () => {
   mocks.claims.mockResolvedValue({ data: null });
@@ -38,8 +42,10 @@ it("un error de permisos falla cerrado y no expone detalles", async () => {
 });
 it("la navegación refleja el reparto acordado y no habilita permisos sin rol", () => {
   for (const rol of ["management", "readonly"] as const) {
-    for (const ruta of ["/", "/admision", "/residentes", "/contabilidad"]) expect(puedeVerSeccion(rol, ruta)).toBe(true);
-    for (const ruta of ["/empleados", "/accesos", "/turnos", "/entrevistas"]) expect(puedeVerSeccion(rol, ruta)).toBe(false);
+    for (const ruta of ["/", "/admision", "/residentes", "/contabilidad"])
+      expect(puedeVerSeccion(rol, ruta)).toBe(true);
+    for (const ruta of ["/empleados", "/accesos", "/turnos", "/entrevistas"])
+      expect(puedeVerSeccion(rol, ruta)).toBe(false);
   }
   expect(tienePermiso(null, "operational.read")).toBe(false);
 });

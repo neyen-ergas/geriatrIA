@@ -32,9 +32,7 @@ function ErrorCampo({ id, mensaje }: { id: string; mensaje?: string }) {
 }
 
 function claseCampo(error?: string): string | undefined {
-  return error
-    ? "border-red-300 focus:border-red-500 focus:ring-red-100"
-    : undefined;
+  return error ? "border-red-300 focus:border-red-500 focus:ring-red-100" : undefined;
 }
 
 export function FormularioPrimerIngreso({
@@ -48,14 +46,11 @@ export function FormularioPrimerIngreso({
   modo?: "crear" | "editar";
   valoresIniciales?: Partial<ValoresPrimerIngreso>;
 }) {
-  const [estado, action, pendiente] = useActionState(
-    formAction,
-    {
-      errores: {},
-      mensaje: null,
-      valores: { admitted_at: hoy, ...valoresIniciales },
-    } satisfies EstadoFormularioIngreso,
-  );
+  const [estado, action, pendiente] = useActionState(formAction, {
+    errores: {},
+    mensaje: null,
+    valores: { admitted_at: hoy, ...valoresIniciales },
+  } satisfies EstadoFormularioIngreso);
 
   return (
     <form action={action} className="mt-6 space-y-6" noValidate>
@@ -112,9 +107,7 @@ export function FormularioPrimerIngreso({
               required
               aria-invalid={Boolean(estado.errores.resident_last_name)}
               aria-describedby={
-                estado.errores.resident_last_name
-                  ? "resident_last_name-error"
-                  : undefined
+                estado.errores.resident_last_name ? "resident_last_name-error" : undefined
               }
               className={claseCampo(estado.errores.resident_last_name)}
             />
@@ -138,10 +131,7 @@ export function FormularioPrimerIngreso({
               }
               className={claseCampo(estado.errores.resident_dni)}
             />
-            <ErrorCampo
-              id="resident_dni-error"
-              mensaje={estado.errores.resident_dni}
-            />
+            <ErrorCampo id="resident_dni-error" mensaje={estado.errores.resident_dni} />
           </div>
 
           <div>
@@ -224,9 +214,7 @@ export function FormularioPrimerIngreso({
               required
               aria-invalid={Boolean(estado.errores.contact_first_name)}
               aria-describedby={
-                estado.errores.contact_first_name
-                  ? "contact_first_name-error"
-                  : undefined
+                estado.errores.contact_first_name ? "contact_first_name-error" : undefined
               }
               className={claseCampo(estado.errores.contact_first_name)}
             />
@@ -245,9 +233,7 @@ export function FormularioPrimerIngreso({
               required
               aria-invalid={Boolean(estado.errores.contact_last_name)}
               aria-describedby={
-                estado.errores.contact_last_name
-                  ? "contact_last_name-error"
-                  : undefined
+                estado.errores.contact_last_name ? "contact_last_name-error" : undefined
               }
               className={claseCampo(estado.errores.contact_last_name)}
             />
@@ -289,16 +275,11 @@ export function FormularioPrimerIngreso({
               required
               aria-invalid={Boolean(estado.errores.contact_phone)}
               aria-describedby={
-                estado.errores.contact_phone
-                  ? "contact_phone-error"
-                  : undefined
+                estado.errores.contact_phone ? "contact_phone-error" : undefined
               }
               className={claseCampo(estado.errores.contact_phone)}
             />
-            <ErrorCampo
-              id="contact_phone-error"
-              mensaje={estado.errores.contact_phone}
-            />
+            <ErrorCampo id="contact_phone-error" mensaje={estado.errores.contact_phone} />
           </div>
 
           <div className="space-y-3 md:col-span-2">
@@ -315,9 +296,7 @@ export function FormularioPrimerIngreso({
               <input
                 type="checkbox"
                 name="contact_is_payment_responsible"
-                defaultChecked={
-                  estado.valores.contact_is_payment_responsible
-                }
+                defaultChecked={estado.valores.contact_is_payment_responsible}
                 className="h-4 w-4 rounded border-slate-300 text-slate-900"
               />
               Es responsable del pago
@@ -364,10 +343,7 @@ export function FormularioPrimerIngreso({
               }
               className={claseCampo(estado.errores.admitted_at)}
             />
-            <ErrorCampo
-              id="admitted_at-error"
-              mensaje={estado.errores.admitted_at}
-            />
+            <ErrorCampo id="admitted_at-error" mensaje={estado.errores.admitted_at} />
           </div>
 
           <div>
@@ -401,10 +377,7 @@ export function FormularioPrimerIngreso({
                 }
               />
             </div>
-            <ErrorCampo
-              id="monthly_fee-error"
-              mensaje={estado.errores.monthly_fee}
-            />
+            <ErrorCampo id="monthly_fee-error" mensaje={estado.errores.monthly_fee} />
             <p id="monthly_fee-help" className="mt-1.5 text-xs text-slate-500">
               Podés usar formato argentino, con puntos de miles y coma decimal.
             </p>
@@ -422,21 +395,14 @@ export function FormularioPrimerIngreso({
               defaultValue={estado.valores.due_day}
               required
               aria-invalid={Boolean(estado.errores.due_day)}
-              aria-describedby={
-                estado.errores.due_day ? "due_day-error" : undefined
-              }
+              aria-describedby={estado.errores.due_day ? "due_day-error" : undefined}
               className={claseCampo(estado.errores.due_day)}
             />
-            <ErrorCampo
-              id="due_day-error"
-              mensaje={estado.errores.due_day}
-            />
+            <ErrorCampo id="due_day-error" mensaje={estado.errores.due_day} />
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="administrative_notes">
-              Observaciones administrativas
-            </Label>
+            <Label htmlFor="administrative_notes">Observaciones administrativas</Label>
             <Textarea
               id="administrative_notes"
               name="administrative_notes"

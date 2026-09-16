@@ -12,8 +12,8 @@ describe("fechas de baja", () => {
     const formulario = new FormData();
     formulario.set("discharged_at", fecha);
     formulario.set("discharge_reason", "Baja ficticia");
-    expect(validarBajaResidente(
-      formulario, "2026-03-01", "2026-03-05",
-    ).ok).toBe(esperado);
+    expect(validarBajaResidente(formulario, "2026-03-01", "2026-03-05").ok).toBe(
+      esperado,
+    );
   });
 });

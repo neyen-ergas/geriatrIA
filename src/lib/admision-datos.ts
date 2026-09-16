@@ -46,8 +46,13 @@ export async function listarConsultas(
 
 export async function obtenerConsulta(id: string): Promise<Consulta | null> {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null;
-  const { data, error } = await (await createClient()).from("consulta")
-    .select(COLUMNAS).eq("id", id).maybeSingle();
+  const { data, error } = await (
+    await createClient()
+  )
+    .from("consulta")
+    .select(COLUMNAS)
+    .eq("id", id)
+    .maybeSingle();
   if (error) throw new Error("No se pudo leer la consulta.");
   if (!data) return null;
   const vinculos = await listarVinculosConsultas([id]);
@@ -68,19 +73,21 @@ export async function contarPorEstado(busqueda = ""): Promise<Record<Estado, num
 
   // HEAD devuelve el total calculado en Postgres, sin descargar filas ni
   // depender del límite de 1.000 registros de la API.
-  await Promise.all(ESTADOS.map(async (estado) => {
-    let consulta = supabase
-      .from("consulta")
-      .select("id", { count: "exact", head: true })
-      .eq("estado", estado);
-    const filtro = filtroBusquedaConsultas(busqueda);
-    if (filtro) consulta = consulta.or(filtro);
-    const { count, error } = await consulta;
-    if (error || count === null) {
-      throw new Error("No se pudieron contar las consultas.");
-    }
-    conteo[estado] = count;
-  }));
+  await Promise.all(
+    ESTADOS.map(async estado => {
+      let consulta = supabase
+        .from("consulta")
+        .select("id", { count: "exact", head: true })
+        .eq("estado", estado);
+      const filtro = filtroBusquedaConsultas(busqueda);
+      if (filtro) consulta = consulta.or(filtro);
+      const { count, error } = await consulta;
+      if (error || count === null) {
+        throw new Error("No se pudieron contar las consultas.");
+      }
+      conteo[estado] = count;
+    }),
+  );
 
   return conteo;
 }

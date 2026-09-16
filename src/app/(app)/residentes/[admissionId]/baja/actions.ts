@@ -25,11 +25,7 @@ export async function darDeBajaResidente(
   await requerirSesion("operational.write");
 
   const valores = leerValoresBaja(formData);
-  const validacion = validarBajaResidente(
-    formData,
-    ingreso.admittedAt,
-    hoyEnArgentina(),
-  );
+  const validacion = validarBajaResidente(formData, ingreso.admittedAt, hoyEnArgentina());
 
   if (!validacion.ok) {
     return {

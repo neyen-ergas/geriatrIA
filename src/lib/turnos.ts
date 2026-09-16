@@ -30,7 +30,10 @@ export const ETIQUETAS_ESTADO_TURNO: Record<EstadoTurno, string> = {
   cancelled: "Cancelado",
 };
 
-export const COLORES_FRANJA: Record<FranjaTurno, { bg: string; text: string; badge: string }> = {
+export const COLORES_FRANJA: Record<
+  FranjaTurno,
+  { bg: string; text: string; badge: string }
+> = {
   manana: {
     bg: "bg-amber-50",
     text: "text-amber-800",

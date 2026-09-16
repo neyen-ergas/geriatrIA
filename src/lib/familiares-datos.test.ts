@@ -10,17 +10,27 @@ const contacto = "87000000-0000-4000-8000-000000000020";
 let urls: URL[];
 beforeEach(() => {
   urls = [];
-  vi.mocked(createClient).mockResolvedValue(crearSupabase<Database>("https://supabase.invalid", "ficticia", {
-    auth: { persistSession: false }, global: { fetch: async entrada => {
-      const url = new URL(String(entrada)); urls.push(url);
-      return new Response(JSON.stringify(url.pathname.endsWith("/residents") ? [{ id: persona }] : []), {
-        headers: { "Content-Type": "application/json" },
-      });
-    } },
-  }));
+  vi.mocked(createClient).mockResolvedValue(
+    crearSupabase<Database>("https://supabase.invalid", "ficticia", {
+      auth: { persistSession: false },
+      global: {
+        fetch: async entrada => {
+          const url = new URL(String(entrada));
+          urls.push(url);
+          return new Response(
+            JSON.stringify(url.pathname.endsWith("/residents") ? [{ id: persona }] : []),
+            {
+              headers: { "Content-Type": "application/json" },
+            },
+          );
+        },
+      },
+    }),
+  );
 });
 it("rechaza ids inválidos antes de leer", async () => {
-  expect(await obtenerFormularioFamiliar("invalido")).toBeNull(); expect(urls).toHaveLength(0);
+  expect(await obtenerFormularioFamiliar("invalido")).toBeNull();
+  expect(urls).toHaveLength(0);
 });
 it("edición requiere que el contacto pertenezca al residente", async () => {
   expect(await obtenerFormularioFamiliar(persona, contacto)).toBeNull();
@@ -29,6 +39,9 @@ it("edición requiere que el contacto pertenezca al residente", async () => {
   expect(urls[1].searchParams.get("select")).toContain("updated_at");
 });
 it("alta solo consulta la persona, sin crear nada al abrir", async () => {
-  expect(await obtenerFormularioFamiliar(persona)).toEqual({ residente: { id: persona }, contacto: null });
+  expect(await obtenerFormularioFamiliar(persona)).toEqual({
+    residente: { id: persona },
+    contacto: null,
+  });
   expect(urls).toHaveLength(1);
 });

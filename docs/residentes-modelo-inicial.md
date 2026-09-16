@@ -80,18 +80,18 @@ La interfaz que verá el usuario estará en español.
 
 Guarda los datos personales permanentes del residente.
 
-| Campo | Tipo previsto | Obligatorio | Descripción |
-| --- | --- | --- | --- |
-| `id` | `uuid` | Sí | Identificador generado por Supabase. |
-| `first_name` | `text` | Sí | Nombre. |
-| `last_name` | `text` | Sí | Apellido. |
-| `dni` | `text` | Sí | Documento de identidad; no se podrá repetir. |
-| `birth_date` | `date` | Sí | Fecha de nacimiento, sin horario. |
-| `phone` | `text` | No | Teléfono personal, si corresponde. |
-| `address` | `text` | No | Domicilio anterior al ingreso. |
-| `notes` | `text` | No | Observaciones generales no médicas. |
-| `created_at` | `timestamptz` | Sí | Momento de creación del registro. |
-| `updated_at` | `timestamptz` | Sí | Momento de la última modificación. |
+| Campo        | Tipo previsto | Obligatorio | Descripción                                  |
+| ------------ | ------------- | ----------- | -------------------------------------------- |
+| `id`         | `uuid`        | Sí          | Identificador generado por Supabase.         |
+| `first_name` | `text`        | Sí          | Nombre.                                      |
+| `last_name`  | `text`        | Sí          | Apellido.                                    |
+| `dni`        | `text`        | Sí          | Documento de identidad; no se podrá repetir. |
+| `birth_date` | `date`        | Sí          | Fecha de nacimiento, sin horario.            |
+| `phone`      | `text`        | No          | Teléfono personal, si corresponde.           |
+| `address`    | `text`        | No          | Domicilio anterior al ingreso.               |
+| `notes`      | `text`        | No          | Observaciones generales no médicas.          |
+| `created_at` | `timestamptz` | Sí          | Momento de creación del registro.            |
+| `updated_at` | `timestamptz` | Sí          | Momento de la última modificación.           |
 
 El DNI se guarda sin puntos ni espacios y conserva sus ceros iniciales. La
 base normaliza las escrituras antes de comprobar unicidad. La migración no
@@ -107,19 +107,19 @@ contradecirse.
 Guarda familiares, contactos de emergencia y responsables administrativos.
 Un residente puede tener varios.
 
-| Campo | Tipo previsto | Obligatorio | Descripción |
-| --- | --- | --- | --- |
-| `id` | `uuid` | Sí | Identificador del contacto. |
-| `resident_id` | `uuid` | Sí | Residente al que pertenece. |
-| `first_name` | `text` | Sí | Nombre del contacto. |
-| `last_name` | `text` | Sí | Apellido del contacto. |
-| `relationship` | `text` | Sí | Vínculo con el residente. |
-| `phone` | `text` | Sí | Teléfono principal. |
-| `is_emergency_contact` | `boolean` | Sí | Indica si es contacto de emergencia. |
-| `is_payment_responsible` | `boolean` | Sí | Indica si es responsable del pago. |
-| `notes` | `text` | No | Información administrativa adicional. |
-| `created_at` | `timestamptz` | Sí | Momento de creación. |
-| `updated_at` | `timestamptz` | Sí | Momento de la última modificación. |
+| Campo                    | Tipo previsto | Obligatorio | Descripción                           |
+| ------------------------ | ------------- | ----------- | ------------------------------------- |
+| `id`                     | `uuid`        | Sí          | Identificador del contacto.           |
+| `resident_id`            | `uuid`        | Sí          | Residente al que pertenece.           |
+| `first_name`             | `text`        | Sí          | Nombre del contacto.                  |
+| `last_name`              | `text`        | Sí          | Apellido del contacto.                |
+| `relationship`           | `text`        | Sí          | Vínculo con el residente.             |
+| `phone`                  | `text`        | Sí          | Teléfono principal.                   |
+| `is_emergency_contact`   | `boolean`     | Sí          | Indica si es contacto de emergencia.  |
+| `is_payment_responsible` | `boolean`     | Sí          | Indica si es responsable del pago.    |
+| `notes`                  | `text`        | No          | Información administrativa adicional. |
+| `created_at`             | `timestamptz` | Sí          | Momento de creación.                  |
+| `updated_at`             | `timestamptz` | Sí          | Momento de la última modificación.    |
 
 El formulario exigirá al menos un contacto al crear el primer ingreso. Esta es
 una regla del proceso de ingreso, no una característica aislada del contacto.
@@ -130,20 +130,20 @@ incorpore la carga de contactos adicionales, tendrán una gestión independiente
 
 Guarda cada estadía del residente en la institución.
 
-| Campo | Tipo previsto | Obligatorio | Descripción |
-| --- | --- | --- | --- |
-| `id` | `uuid` | Sí | Identificador del ingreso. |
-| `resident_id` | `uuid` | Sí | Persona que ingresa. |
-| `admitted_at` | `date` | Sí | Fecha de ingreso. |
-| `room` | `text` | No | Habitación asignada. |
-| `monthly_fee` | `numeric` | Sí | Cuota mensual acordada inicialmente. |
-| `currency` | `text` | Sí | Moneda de la cuota; inicialmente `ARS`. |
-| `due_day` | `integer` | Sí | Día habitual de vencimiento mensual. |
-| `administrative_notes` | `text` | No | Observaciones administrativas. |
-| `discharged_at` | `date` | No | Fecha de baja; vacío mientras siga activo. |
-| `discharge_reason` | `text` | No | Motivo de la baja. |
-| `created_at` | `timestamptz` | Sí | Momento de creación. |
-| `updated_at` | `timestamptz` | Sí | Momento de la última modificación. |
+| Campo                  | Tipo previsto | Obligatorio | Descripción                                |
+| ---------------------- | ------------- | ----------- | ------------------------------------------ |
+| `id`                   | `uuid`        | Sí          | Identificador del ingreso.                 |
+| `resident_id`          | `uuid`        | Sí          | Persona que ingresa.                       |
+| `admitted_at`          | `date`        | Sí          | Fecha de ingreso.                          |
+| `room`                 | `text`        | No          | Habitación asignada.                       |
+| `monthly_fee`          | `numeric`     | Sí          | Cuota mensual acordada inicialmente.       |
+| `currency`             | `text`        | Sí          | Moneda de la cuota; inicialmente `ARS`.    |
+| `due_day`              | `integer`     | Sí          | Día habitual de vencimiento mensual.       |
+| `administrative_notes` | `text`        | No          | Observaciones administrativas.             |
+| `discharged_at`        | `date`        | No          | Fecha de baja; vacío mientras siga activo. |
+| `discharge_reason`     | `text`        | No          | Motivo de la baja.                         |
+| `created_at`           | `timestamptz` | Sí          | Momento de creación.                       |
+| `updated_at`           | `timestamptz` | Sí          | Momento de la última modificación.         |
 
 La base de datos deberá impedir que un residente tenga dos ingresos activos. La
 fecha de baja no podrá ser anterior a la fecha de ingreso. Nacimiento, ingreso
