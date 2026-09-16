@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useActionState, useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
-import { SoloGestion, usePuedeGestionar } from "@/components/permisos";
+import { SoloAdmin, SoloGestion, usePuedeGestionar } from "@/components/permisos";
 import { Badge, Button, Card, Input, Label } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import {
@@ -242,14 +242,24 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
           </Link>
         ) : (
           (consulta.estado === "visita_agendada" || consulta.estado === "ingreso") && (
-            <SoloGestion>
-              <Link
-                className="mt-3 inline-block text-sm font-medium underline"
-                href={`/admision/${consulta.id}/ingreso`}
-              >
-                Registrar ingreso
-              </Link>
-            </SoloGestion>
+            <div className="mt-3 flex flex-wrap items-center gap-4">
+              <SoloGestion>
+                <Link
+                  className="text-sm font-medium underline"
+                  href={`/admision/${consulta.id}/ingreso`}
+                >
+                  Registrar ingreso
+                </Link>
+              </SoloGestion>
+              <SoloAdmin>
+                <Link
+                  className="text-sm font-medium text-sky-700 underline hover:text-sky-900"
+                  href={`/entrevistas/nueva?consulta_id=${consulta.id}`}
+                >
+                  Programar entrevista
+                </Link>
+              </SoloAdmin>
+            </div>
           )
         )}
       </div>

@@ -8,6 +8,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ### Agregado
 
+- Módulo de Entrevistas de Admisión (`interviews`) que completa el circuito de ingreso de postulantes (Fase 12 del ROADMAP). Valora autonomía motriz, estado cognitivo, necesidades clínicas y perfil psicosocial con dictamen de aptitud (`apto`, `apto_con_observaciones`, `no_apto`). Invariante en base que exige motivo de exclusión obligatorio para dictámenes no aptos. Interfaz con KPIs, filtros, vinculación a consultas de Admisión y edición integral. Requiere aplicar `20260916000000_admission_interviews.sql`. Alcance en `docs/entrevistas.md`.
+
 - Herramientas de higiene técnica y análisis estático: configuración de Prettier (`.prettierrc`, `.prettierignore`), ESLint para Next.js 15 (`eslint.config.mjs`) y `.editorconfig`. Scripts `npm run format`, `npm run format:check` y `npm run lint` incorporados a la integración continua (CI) en GitHub Actions.
 - Pruebas unitarias de funciones puras y type guards en `src/lib/admision.test.ts` (estados de consulta, franjas, transiciones directas y formateo de días con zona horaria).
 - Módulo de Turnos del personal (`shifts`) con grilla semanal por empleado, selector de semanas, asignación de turnos (mañana, tarde, noche, guardia, franco) y cobertura de ausencias con reemplazo justificado. Invariante en Postgres que impide turnos superpuestos para el mismo empleado en la misma franja y fecha. Requiere aplicar `20260915000000_employee_shifts.sql`. Alcance en `docs/turnos.md`.
