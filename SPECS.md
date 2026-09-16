@@ -110,7 +110,8 @@ src/
       contabilidad/           Cuentas de estadías activas y finalizadas.
         [admissionId]/        Cuotas, pagos acumulados y saldos de una estadía.
       empleados/              Fichas, alta, edición y baja del personal.
-      turnos/ entrevistas/    Placeholders.
+      turnos/                 Planificación semanal de turnos y coberturas.
+      entrevistas/            Entrevistas interdisciplinarias de admisión y dictamen.
       layout.tsx              Sidebar + topbar + verificación de sesión.
       page.tsx                Inicio.
     login/                    Acceso; sin registro público.
@@ -430,21 +431,19 @@ que impide turnos superpuestos para el mismo empleado. Validaciones de contratac
 Escrituras mediante RPC controladas (`save_shift`, `cover_shift`, `cancel_shift`) exclusivas de Administrador.
 Ver [docs/turnos.md](docs/turnos.md).
 
-### 6.6 Sin diseñar
+### 6.6 Entrevistas de admisión (`interviews`)
 
-La forma exacta se define al empezar cada módulo, no antes.
+Evaluación interdisciplinaria de postulantes a ingresar a la residencia. Valora cuatro dimensiones:
+autonomía y movilidad (`autovalido`, `semidependiente`, `dependiente_total`), estado cognitivo
+(`lucido`, `deterioro_leve`, `deterioro_moderado`, `demencia_avanzada`), antecedentes clínicos
+y dinámica sociofamiliar.
 
-| Tabla | Alcance                  |
-| ----- | ------------------------ |
-| —     | Entrevistas de admisión. |
-
-La documentación, salud y pertenencias ya se implementan en las tablas
-`resident_documents`, `medical_indications`, `medications`, `special_needs` e
-`inventory_items`. Los tres perfiles consultan; Administrador y Gestión guardan
-mediante `save_resident_record`, con versión y archivo con motivo. Los documentos
-van a un bucket privado y las pertenencias quedan vinculadas a una estadía.
-Ver [docs/ficha-integral.md](docs/ficha-integral.md) para campos, vigencias,
-permisos, archivos y límites del módulo.
+Dictamen de aptitud (`conclusion`): `pendiente`, `apto`, `apto_con_observaciones` o `no_apto`.
+Invariante en Postgres: restricción `check` que exige motivo de exclusión obligatorio (`rejection_reason`)
+si el dictamen es `no_apto`.
+Lectura y escritura exclusivas para rol Administrador (`administration`), con RPC transaccional
+`save_interview` y trigger de integridad. Vinculación opcional con consultas de Admisión.
+Ver [docs/entrevistas.md](docs/entrevistas.md).
 
 ---
 

@@ -238,9 +238,11 @@ Cada tabla se diseña al empezar su módulo, no antes.
 
 ## Fase 12 — Entrevistas
 
-- [ ] Definir el alcance funcional en `docs/`. Es la sección menos especificada
-      del sistema y hoy no tiene modelo acordado.
-- [ ] Modelo de datos y pantallas, una vez acordado el alcance.
+- [x] Definir el alcance funcional en `docs/`. Alcance acordado en `docs/entrevistas.md`:
+      circuito consulta ──> entrevista ──> dictamen ──> ingreso, valoración interdisciplinaria
+      (movilidad, cognición, clínica y familia).
+- [x] Modelo de datos (`interviews`), RPC `save_interview`, RLS y pantallas completas
+      (listado con KPIs y filtros, detalle y programación con vinculación opcional a consultas).
 
 ---
 

@@ -439,6 +439,93 @@ export type Database = {
           },
         ]
       }
+      interviews: {
+        Row: {
+          candidate_birth_date: string | null
+          candidate_dni: string | null
+          candidate_name: string
+          cognitive_assessment: string | null
+          companion_name: string | null
+          companion_phone: string | null
+          companion_relationship: string | null
+          conclusion: string
+          consultation_id: string | null
+          created_at: string
+          created_by: string
+          id: string
+          interview_date: string
+          interviewer_employee_id: string | null
+          medical_notes: string | null
+          mobility_assessment: string | null
+          rejection_reason: string | null
+          social_notes: string | null
+          status: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          candidate_birth_date?: string | null
+          candidate_dni?: string | null
+          candidate_name: string
+          cognitive_assessment?: string | null
+          companion_name?: string | null
+          companion_phone?: string | null
+          companion_relationship?: string | null
+          conclusion?: string
+          consultation_id?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          interview_date: string
+          interviewer_employee_id?: string | null
+          medical_notes?: string | null
+          mobility_assessment?: string | null
+          rejection_reason?: string | null
+          social_notes?: string | null
+          status?: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          candidate_birth_date?: string | null
+          candidate_dni?: string | null
+          candidate_name?: string
+          cognitive_assessment?: string | null
+          companion_name?: string | null
+          companion_phone?: string | null
+          companion_relationship?: string | null
+          conclusion?: string
+          consultation_id?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          interview_date?: string
+          interviewer_employee_id?: string | null
+          medical_notes?: string | null
+          mobility_assessment?: string | null
+          rejection_reason?: string | null
+          social_notes?: string | null
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interviews_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "consulta"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interviews_interviewer_employee_id_fkey"
+            columns: ["interviewer_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       medical_indications: {
         Row: {
           archived_at: string | null
@@ -1132,6 +1219,28 @@ export type Database = {
           p_phone?: string
           p_relationship?: string
           p_resident_id: string
+        }
+        Returns: string
+      }
+      save_interview: {
+        Args: {
+          p_candidate_birth_date?: string | null
+          p_candidate_dni?: string | null
+          p_candidate_name: string
+          p_cognitive_assessment?: string | null
+          p_companion_name?: string | null
+          p_companion_phone?: string | null
+          p_companion_relationship?: string | null
+          p_conclusion?: string | null
+          p_consultation_id?: string | null
+          p_id?: string | null
+          p_interview_date: string
+          p_interviewer_employee_id?: string | null
+          p_medical_notes?: string | null
+          p_mobility_assessment?: string | null
+          p_rejection_reason?: string | null
+          p_social_notes?: string | null
+          p_status?: string | null
         }
         Returns: string
       }
