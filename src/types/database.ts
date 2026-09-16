@@ -7,6 +7,11 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.5"
+  }
   public: {
     Tables: {
       access_events: {
@@ -373,72 +378,6 @@ export type Database = {
           },
         ]
       }
-      inventory_items: {
-        Row: {
-          admission_id: string
-          archived_at: string | null
-          archived_reason: string | null
-          created_at: string
-          created_by: string
-          description: string
-          id: string
-          notes: string | null
-          quantity: number
-          received_on: string
-          resident_id: string
-          returned_on: string | null
-          updated_at: string
-          updated_by: string
-        }
-        Insert: {
-          admission_id: string
-          archived_at?: string | null
-          archived_reason?: string | null
-          created_at?: string
-          created_by: string
-          description: string
-          id: string
-          notes?: string | null
-          quantity: number
-          received_on: string
-          resident_id: string
-          returned_on?: string | null
-          updated_at?: string
-          updated_by: string
-        }
-        Update: {
-          admission_id?: string
-          archived_at?: string | null
-          archived_reason?: string | null
-          created_at?: string
-          created_by?: string
-          description?: string
-          id?: string
-          notes?: string | null
-          quantity?: number
-          received_on?: string
-          resident_id?: string
-          returned_on?: string | null
-          updated_at?: string
-          updated_by?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "inventory_items_admission_id_fkey"
-            columns: ["admission_id"]
-            isOneToOne: false
-            referencedRelation: "admissions"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "inventory_items_resident_id_fkey"
-            columns: ["resident_id"]
-            isOneToOne: false
-            referencedRelation: "residents"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       interviews: {
         Row: {
           candidate_birth_date: string | null
@@ -522,6 +461,72 @@ export type Database = {
             columns: ["interviewer_employee_id"]
             isOneToOne: false
             referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_items: {
+        Row: {
+          admission_id: string
+          archived_at: string | null
+          archived_reason: string | null
+          created_at: string
+          created_by: string
+          description: string
+          id: string
+          notes: string | null
+          quantity: number
+          received_on: string
+          resident_id: string
+          returned_on: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          admission_id: string
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by: string
+          description: string
+          id: string
+          notes?: string | null
+          quantity: number
+          received_on: string
+          resident_id: string
+          returned_on?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          admission_id?: string
+          archived_at?: string | null
+          archived_reason?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string
+          id?: string
+          notes?: string | null
+          quantity?: number
+          received_on?: string
+          resident_id?: string
+          returned_on?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_items_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_items_resident_id_fkey"
+            columns: ["resident_id"]
+            isOneToOne: false
+            referencedRelation: "residents"
             referencedColumns: ["id"]
           },
         ]
@@ -858,6 +863,66 @@ export type Database = {
         }
         Relationships: []
       }
+      shifts: {
+        Row: {
+          absence_reason: string | null
+          covered_by_employee_id: string | null
+          created_at: string
+          created_by: string
+          employee_id: string
+          id: string
+          notes: string | null
+          shift_date: string
+          shift_type: string
+          status: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          absence_reason?: string | null
+          covered_by_employee_id?: string | null
+          created_at?: string
+          created_by: string
+          employee_id: string
+          id?: string
+          notes?: string | null
+          shift_date: string
+          shift_type: string
+          status?: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          absence_reason?: string | null
+          covered_by_employee_id?: string | null
+          created_at?: string
+          created_by?: string
+          employee_id?: string
+          id?: string
+          notes?: string | null
+          shift_date?: string
+          shift_type?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shifts_covered_by_employee_id_fkey"
+            columns: ["covered_by_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shifts_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       special_needs: {
         Row: {
           archived_at: string | null
@@ -901,66 +966,6 @@ export type Database = {
             columns: ["resident_id"]
             isOneToOne: false
             referencedRelation: "residents"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      shifts: {
-        Row: {
-          absence_reason: string | null
-          covered_by_employee_id: string | null
-          created_at: string
-          created_by: string
-          employee_id: string
-          id: string
-          notes: string | null
-          shift_date: string
-          shift_type: string
-          status: string
-          updated_at: string
-          updated_by: string
-        }
-        Insert: {
-          absence_reason?: string | null
-          covered_by_employee_id?: string | null
-          created_at?: string
-          created_by?: string
-          employee_id: string
-          id?: string
-          notes?: string | null
-          shift_date: string
-          shift_type: string
-          status?: string
-          updated_at?: string
-          updated_by?: string
-        }
-        Update: {
-          absence_reason?: string | null
-          covered_by_employee_id?: string | null
-          created_at?: string
-          created_by?: string
-          employee_id?: string
-          id?: string
-          notes?: string | null
-          shift_date?: string
-          shift_type?: string
-          status?: string
-          updated_at?: string
-          updated_by?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "shifts_covered_by_employee_id_fkey"
-            columns: ["covered_by_employee_id"]
-            isOneToOne: false
-            referencedRelation: "employees"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "shifts_employee_id_fkey"
-            columns: ["employee_id"]
-            isOneToOne: false
-            referencedRelation: "employees"
             referencedColumns: ["id"]
           },
         ]
@@ -1087,19 +1092,7 @@ export type Database = {
         Args: { p_monthly_charge_id: string; p_reason: string }
         Returns: string
       }
-      cancel_shift: {
-        Args: { p_shift_id: string }
-        Returns: undefined
-      }
-      cover_shift: {
-        Args: {
-          p_absence_reason: string
-          p_covered_by_employee_id: string
-          p_notes?: string
-          p_shift_id: string
-        }
-        Returns: undefined
-      }
+      cancel_shift: { Args: { p_shift_id: string }; Returns: undefined }
       convert_consultation_admission: {
         Args: {
           p_administrative_notes?: string
@@ -1126,6 +1119,15 @@ export type Database = {
           p_room?: string
         }
         Returns: string
+      }
+      cover_shift: {
+        Args: {
+          p_absence_reason: string
+          p_covered_by_employee_id: string
+          p_notes?: string
+          p_shift_id: string
+        }
+        Returns: undefined
       }
       create_initial_admission: {
         Args: {
@@ -1354,12 +1356,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1383,11 +1385,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1408,11 +1410,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1433,11 +1435,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1450,11 +1452,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1468,4 +1470,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-
