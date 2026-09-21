@@ -16,19 +16,24 @@ export function DetalleRegistro({
 }): React.ReactElement {
   const valores = valoresRegistro(registro);
   return (
-    <dl className="grid gap-4 sm:grid-cols-2">
+    <dl className="grid gap-x-6 gap-y-3.5 sm:grid-cols-2">
       {camposRegistro(seccion).map(campo => {
         const valor = valores[campo.nombre];
         return (
           <div key={campo.nombre} className="min-w-0">
-            <dt className="text-sm text-slate-500">{campo.etiqueta}</dt>
-            <dd className="mt-1 whitespace-pre-wrap break-words text-sm">
+            <dt className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              {campo.etiqueta}
+            </dt>
+            <dd className="mt-1 whitespace-pre-wrap break-words text-sm font-semibold text-slate-800">
               {campo.tipo === "estadia" ? (
-                <Link className="text-sky-800 underline" href={`/contabilidad/${valor}`}>
-                  Ver cuenta de la estadía asociada
+                <Link
+                  className="inline-flex items-center text-xs font-semibold text-emerald-700 hover:text-emerald-900 hover:underline"
+                  href={`/contabilidad/${valor}`}
+                >
+                  Ver cuenta de la estadía asociada →
                 </Link>
               ) : !valor ? (
-                "Sin registrar"
+                <span className="text-slate-400 font-normal">Sin registrar</span>
               ) : (
                 campo.opciones?.[valor] ||
                 (campo.tipo === "date" ? formatearFechaPago(valor) : valor)

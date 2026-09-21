@@ -9,7 +9,7 @@ export function Button({
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "ghost" | "outline";
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "lg";
 }) {
   const variants: Record<string, string> = {
     primary:
@@ -23,6 +23,7 @@ export function Button({
     ghost: "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 active:scale-[0.98]",
   };
   const sizes: Record<string, string> = {
+    sm: "h-9 px-3 text-xs",
     md: "h-10 px-4 text-sm",
     lg: "h-11 px-5 text-base",
   };
