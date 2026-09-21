@@ -83,10 +83,15 @@ export default async function ResidentesPage({
   }
 
   return (
-    <div>
+    <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Residentes</h1>
+          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+            Padrón Asistencial
+          </p>
+          <h1 className="mt-1 text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
+            Residentes
+          </h1>
           <p className="mt-1 text-sm text-slate-500">
             Ingresos vigentes e historial de estadías finalizadas.
           </p>
@@ -94,66 +99,71 @@ export default async function ResidentesPage({
         <SoloGestion>
           <Link
             href="/residentes/nuevo"
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-medium text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 text-xs font-bold text-white shadow-sm transition-all hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 active:scale-[0.98]"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4 text-emerald-400" />
             Nuevo ingreso
           </Link>
         </SoloGestion>
       </div>
 
-      {creado === "1" && (
+      {creado && (
         <MensajeExito
-          titulo="Ingreso registrado"
-          descripcion="El residente ya aparece en el listado de activos."
+          titulo="Ingreso registrado correctamente"
+          descripcion="La persona ya cuenta con su estadía activa y ficha clínica disponible."
         />
       )}
-      {actualizado === "1" && (
+      {actualizado && (
         <MensajeExito
-          titulo="Cambios guardados"
-          descripcion="La ficha del residente y su ingreso activo fueron actualizados."
+          titulo="Estadía actualizada"
+          descripcion="Los cambios en las condiciones del ingreso quedaron guardados."
         />
       )}
-      {baja === "1" && (
+      {baja && (
         <MensajeExito
           titulo="Baja registrada"
-          descripcion="El ingreso finalizado quedó guardado en el historial."
+          descripcion="La estadía finalizó. El historial permanece disponible para consulta."
         />
       )}
-      {reingreso === "1" && (
+      {reingreso && (
         <MensajeExito
-          titulo="Reingreso registrado"
-          descripcion="La nueva estadía ya aparece en el listado de residentes activos."
+          titulo="Reingreso confirmado"
+          descripcion="La persona vuelve a figurar con estadía activa."
         />
       )}
 
-      <nav
-        aria-label="Estado de los residentes"
-        className="mt-6 flex gap-2 border-b border-slate-200"
-      >
-        <Link
-          href="/residentes"
-          className={`border-b-2 px-4 py-2.5 text-sm font-medium transition-colors focus-visible:rounded-t focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 ${
-            !mostrarBajas
-              ? "border-slate-900 text-slate-900"
-              : "border-transparent text-slate-500 hover:text-slate-800"
-          }`}
+      {/* Navegación segmentada tipo control de píldora */}
+      <div>
+        <nav
+          aria-label="Estado de los residentes"
+          className="inline-flex rounded-xl bg-slate-200/70 p-1 text-xs font-semibold shadow-inner"
         >
-          Activos
-        </Link>
-        <Link
-          href="/residentes?estado=bajas"
-          className={`border-b-2 px-4 py-2.5 text-sm font-medium transition-colors focus-visible:rounded-t focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 ${
-            mostrarBajas
-              ? "border-slate-900 text-slate-900"
-              : "border-transparent text-slate-500 hover:text-slate-800"
-          }`}
-        >
-          Bajas
-        </Link>
-      </nav>
+          <Link
+            href={enlaceResidentes(1, false)}
+            aria-current={!mostrarBajas ? "page" : undefined}
+            className={`rounded-lg px-4 py-2 transition-all ${
+              !mostrarBajas
+                ? "bg-white text-slate-900 shadow-sm font-bold"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Activos
+          </Link>
+          <Link
+            href={enlaceResidentes(1, true)}
+            aria-current={mostrarBajas ? "page" : undefined}
+            className={`rounded-lg px-4 py-2 transition-all ${
+              mostrarBajas
+                ? "bg-white text-slate-900 shadow-sm font-bold"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Bajas
+          </Link>
+        </nav>
+      </div>
 
-      <div className="mt-6 flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <h2 className="text-base font-semibold text-slate-800">
           {mostrarBajas ? "Historial de bajas" : "Residentes activos"}
         </h2>
