@@ -1,5 +1,6 @@
 import { LockKeyhole } from "lucide-react";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Card } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { LoginForm } from "./login-form";
@@ -41,6 +42,9 @@ export default async function LoginPage({
 
         <Card className="p-6">
           <LoginForm errorMessage={errorMessage} />
+          <Link href="/recuperar" className="mt-4 block text-center text-sm underline">
+            Olvidé mi contraseña
+          </Link>
         </Card>
 
         <p className="mt-4 text-center text-xs text-slate-400">
