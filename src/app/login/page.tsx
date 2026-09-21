@@ -26,31 +26,40 @@ export default async function LoginPage({
   const errorMessage = error ? ERROR_MESSAGES[error] : undefined;
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4 py-10">
+    <main className="relative flex min-h-screen items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
-        <div className="mb-6 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-white shadow-sm">
-            <LockKeyhole className="h-5 w-5" />
+        {/* Cabecera de marca */}
+        <div className="mb-7 text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-sm ring-1 ring-black/5">
+            <LockKeyhole className="h-6 w-6 text-emerald-400" />
           </div>
-          <h1 className="mt-4 text-2xl font-bold text-slate-900">
+          <h1 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-900">
             Ingresar a geriatr<span className="text-emerald-600">IA</span>
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
-            Acceso exclusivo para personal autorizado.
+          <p className="mt-1.5 text-xs font-medium text-slate-500">
+            Acceso exclusivo para personal autorizado de la residencia
           </p>
         </div>
 
-        <Card className="p-6">
+        {/* Tarjeta de autenticación */}
+        <Card className="rounded-3xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm">
           <LoginForm errorMessage={errorMessage} />
-          <Link href="/recuperar" className="mt-4 block text-center text-sm underline">
-            Olvidé mi contraseña
-          </Link>
+          <div className="mt-5 border-t border-slate-100 pt-4 text-center">
+            <Link
+              href="/recuperar"
+              className="text-xs font-semibold text-slate-500 hover:text-emerald-700 transition-colors underline underline-offset-4"
+            >
+              Olvidé mi contraseña
+            </Link>
+          </div>
         </Card>
 
-        <p className="mt-4 text-center text-xs text-slate-400">
+        {/* Nota de seguridad inferior */}
+        <p className="mt-6 text-center text-xs text-slate-400">
           Las cuentas son creadas por el administrador de la residencia.
         </p>
       </div>
     </main>
   );
 }
+

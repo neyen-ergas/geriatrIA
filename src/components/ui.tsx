@@ -1,5 +1,4 @@
-// Primitivas de UI estilo shadcn/ui (hand-authored para evitar el CLI
-// interactivo en el demo). Mismos patrones: Tailwind + cn().
+// Primitivas de UI estilo shadcn/ui. Mismos patrones: Tailwind + cn().
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -13,20 +12,24 @@ export function Button({
   size?: "md" | "lg";
 }) {
   const variants: Record<string, string> = {
-    primary: "bg-slate-900 text-white hover:bg-slate-800",
-    secondary: "bg-slate-100 text-slate-900 hover:bg-slate-200",
-    danger: "bg-red-600 text-white hover:bg-red-700",
-    outline: "border border-slate-300 bg-white text-slate-900 hover:bg-slate-50",
-    ghost: "text-slate-600 hover:bg-slate-100",
+    primary:
+      "bg-slate-900 text-white shadow-xs hover:bg-slate-800 hover:shadow-sm active:scale-[0.98] border border-slate-900/10",
+    secondary:
+      "bg-slate-100 text-slate-800 hover:bg-slate-200/80 active:scale-[0.98] border border-slate-200/50",
+    danger:
+      "bg-rose-600 text-white shadow-xs hover:bg-rose-700 active:scale-[0.98]",
+    outline:
+      "border border-slate-200/90 bg-white text-slate-800 shadow-2xs hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98]",
+    ghost: "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 active:scale-[0.98]",
   };
   const sizes: Record<string, string> = {
     md: "h-10 px-4 text-sm",
-    lg: "h-12 px-6 text-base",
+    lg: "h-11 px-5 text-base",
   };
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all disabled:pointer-events-none disabled:opacity-50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2",
         variants[variant],
         sizes[size],
@@ -40,7 +43,10 @@ export function Button({
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("rounded-xl border border-slate-200 bg-white shadow-sm", className)}
+      className={cn(
+        "rounded-2xl border border-slate-200/80 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.03),0_1px_2px_rgba(0,0,0,0.02)] transition-all",
+        className,
+      )}
       {...props}
     />
   );
@@ -53,7 +59,7 @@ export function Input({
   return (
     <input
       className={cn(
-        "h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition-colors focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        "h-10 w-full rounded-xl border border-slate-200/90 bg-white/90 px-3.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all shadow-2xs hover:border-slate-300 focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 disabled:bg-slate-50",
         className,
       )}
       {...props}
@@ -68,7 +74,7 @@ export function Textarea({
   return (
     <textarea
       className={cn(
-        "min-h-24 w-full resize-y rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none transition-colors focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        "min-h-24 w-full resize-y rounded-xl border border-slate-200/90 bg-white/90 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all shadow-2xs hover:border-slate-300 focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 disabled:bg-slate-50",
         className,
       )}
       {...props}
@@ -83,7 +89,7 @@ export function Select({
   return (
     <select
       className={cn(
-        "h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition-colors focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        "h-10 w-full rounded-xl border border-slate-200/90 bg-white/90 px-3.5 text-sm text-slate-900 outline-none transition-all shadow-2xs hover:border-slate-300 focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 disabled:bg-slate-50",
         className,
       )}
       {...props}
@@ -97,7 +103,7 @@ export function Label({
 }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={cn("mb-1.5 block text-sm font-medium text-slate-700", className)}
+      className={cn("mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-600", className)}
       {...props}
     />
   );
@@ -107,7 +113,7 @@ export function Badge({ className, ...props }: React.HTMLAttributes<HTMLSpanElem
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium",
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold tracking-wide shadow-2xs",
         className,
       )}
       {...props}
@@ -124,7 +130,7 @@ function iniciales(nombre: string): string {
 
 export function Avatar({
   nombre,
-  colorClass = "bg-slate-600",
+  colorClass = "bg-slate-700",
   className,
 }: {
   nombre: string;
@@ -134,7 +140,7 @@ export function Avatar({
   return (
     <div
       className={cn(
-        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white",
+        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow-2xs ring-2 ring-white/90",
         colorClass,
         className,
       )}
@@ -162,15 +168,16 @@ export function StatCard({
   hintClass?: string;
 }) {
   return (
-    <Card className="p-5">
+    <Card className="p-5 hover:border-slate-300/80 transition-all">
       <div
-        className={cn("flex h-10 w-10 items-center justify-center rounded-xl", iconClass)}
+        className={cn("flex h-10 w-10 items-center justify-center rounded-xl shadow-2xs", iconClass)}
       >
         <Icon className="h-5 w-5" />
       </div>
-      <div className="mt-4 text-sm font-medium text-slate-500">{label}</div>
-      <div className={cn("mt-1 text-3xl font-bold", valueClass)}>{value}</div>
-      {hint && <div className={cn("mt-1 text-sm", hintClass)}>{hint}</div>}
+      <div className="mt-3.5 text-xs font-semibold uppercase tracking-wider text-slate-500">{label}</div>
+      <div className={cn("mt-1 text-2xl font-extrabold tracking-tight tabular-nums sm:text-3xl", valueClass)}>{value}</div>
+      {hint && <div className={cn("mt-1 text-xs font-medium", hintClass)}>{hint}</div>}
     </Card>
   );
 }
+

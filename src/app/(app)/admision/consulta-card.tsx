@@ -79,11 +79,11 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
   // La key por versión renueva también los campos no controlados al refrescar
   // los datos: nunca combina valores viejos con un token de escritura nuevo.
   return (
-    <Card className="p-5">
+    <Card className="p-6 transition-all hover:border-slate-300/80 shadow-2xs">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h2 className="text-base font-semibold text-slate-900">{consulta.nombre}</h2>
-          <p className="mt-0.5 text-sm text-slate-500">
+          <h2 className="text-base font-bold text-slate-900">{consulta.nombre}</h2>
+          <p className="mt-0.5 text-xs text-slate-500">
             Prefiere que la llamen: {MOMENTOS_LLAMADO[consulta.momento_llamado]}
           </p>
         </div>
@@ -92,19 +92,22 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
         </Badge>
       </div>
 
-      <a
-        href={`tel:${consulta.telefono.replace(/\s/g, "")}`}
-        className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-emerald-700"
-      >
-        <Phone className="h-4 w-4 text-slate-400" />
-        {consulta.telefono}
-      </a>
+      <div className="mt-3.5">
+        <a
+          href={`tel:${consulta.telefono.replace(/\s/g, "")}`}
+          className="inline-flex items-center gap-2 rounded-xl bg-slate-50/90 border border-slate-200/70 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-emerald-700 hover:border-emerald-300 transition-all shadow-2xs"
+        >
+          <Phone className="h-3.5 w-3.5 text-slate-400" />
+          {consulta.telefono}
+        </a>
+      </div>
 
       {consulta.mensaje && (
-        <p className="mt-4 whitespace-pre-wrap border-l-2 border-slate-200 pl-3 text-sm text-slate-600">
-          {consulta.mensaje}
-        </p>
+        <div className="mt-4 rounded-xl border-l-4 border-emerald-500 bg-slate-50/70 px-4 py-3 text-xs text-slate-700 shadow-2xs">
+          <p className="whitespace-pre-wrap leading-relaxed">{consulta.mensaje}</p>
+        </div>
       )}
+
 
       {/* ── Visita presencial ─────────────────────────────────────────── */}
 
@@ -281,7 +284,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
             defaultValue={consulta.notas_internas ?? ""}
             placeholder="Qué se habló, con quién, qué falta definir…"
             className={cn(
-              "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none",
+              "w-full rounded-xl border border-slate-200/90 bg-white/90 px-3.5 py-2.5 text-xs text-slate-800 outline-none shadow-2xs placeholder:text-slate-400 transition-all",
               "focus:border-slate-500 focus:ring-2 focus:ring-slate-200",
             )}
           />

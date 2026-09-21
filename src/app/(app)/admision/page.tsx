@@ -74,20 +74,24 @@ export default async function AdmisionPage({
   const consultas = await listarConsultas(filtro, pagina, busqueda);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-slate-900">Admisión</h1>
-      <Link
-        href="/admision/agenda"
-        className="mt-3 inline-block rounded-lg border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-medium text-sky-800"
-      >
-        Ver agenda semanal
-      </Link>
-      <p className="mt-1 text-sm text-slate-500">
-        Consultas recibidas desde la web de la residencia. La visita presencial se agenda
-        acá, después de llamar a la familia.
-      </p>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Admisión</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Consultas recibidas desde la web de la residencia. La visita presencial se agenda
+            acá, después de llamar a la familia.
+          </p>
+        </div>
+        <Link
+          href="/admision/agenda"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition-all hover:bg-slate-800 hover:shadow-xs active:scale-[0.98]"
+        >
+          Ver agenda semanal
+        </Link>
+      </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {TARJETAS.map(({ estado, icon, iconClass, valueClass, hint }) => (
           <StatCard
             key={estado}
@@ -101,7 +105,7 @@ export default async function AdmisionPage({
         ))}
       </div>
 
-      <nav className="mt-6 flex flex-wrap gap-2">
+      <nav aria-label="Filtros por estado" className="flex flex-wrap gap-2">
         <FiltroLink activo={!filtro} busqueda={busqueda}>
           Todas
         </FiltroLink>
@@ -117,27 +121,29 @@ export default async function AdmisionPage({
         ))}
       </nav>
 
-      <form action="/admision" className="mt-5 flex flex-wrap items-end gap-3">
+      <form action="/admision" className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200/70 bg-white/70 p-4 shadow-2xs">
         {filtro && <input type="hidden" name="estado" value={filtro} />}
-        <label className="text-sm text-slate-700">
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
           Nombre o teléfono
           <input
             key={busqueda}
             name="buscar"
             maxLength={80}
             defaultValue={busqueda}
-            className="ml-2 rounded-lg border border-slate-300 px-3 py-2"
+            placeholder="Buscar por nombre o teléfono..."
+            className="mt-1.5 block w-64 rounded-xl border border-slate-200/90 bg-white px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 outline-none shadow-2xs hover:border-slate-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 transition-all"
           />
         </label>
-        <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm text-white">
+        <button className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-slate-800 active:scale-[0.98] transition-all">
           Buscar
         </button>
         {busqueda && (
-          <Link href={enlaceAdmision(1, filtro)} className="text-sm underline">
+          <Link href={enlaceAdmision(1, filtro)} className="text-xs font-medium text-slate-500 hover:text-slate-800 underline pb-2">
             Limpiar búsqueda
           </Link>
         )}
       </form>
+
       {busqueda && (
         <p className="mt-3 text-sm text-slate-500">
           Resultados para «{busqueda}». Los contadores corresponden a esta búsqueda.
@@ -182,13 +188,14 @@ function FiltroLink({
     <Link
       href={enlaceAdmision(1, estado, busqueda)}
       className={cn(
-        "rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors",
+        "rounded-xl border px-3.5 py-1.5 text-xs font-semibold transition-all shadow-2xs",
         activo
-          ? "border-slate-900 bg-slate-900 text-white"
-          : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50",
+          ? "border-slate-900 bg-slate-900 text-white shadow-xs"
+          : "border-slate-200/80 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300",
       )}
     >
       {children}
     </Link>
   );
 }
+

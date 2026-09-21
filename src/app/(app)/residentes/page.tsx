@@ -198,11 +198,13 @@ export default async function ResidentesPage({
 
 function MensajeExito({ titulo, descripcion }: { titulo: string; descripcion: string }) {
   return (
-    <Card className="mt-6 flex items-start gap-3 border-emerald-200 bg-emerald-50 p-4">
-      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+    <Card className="mt-6 flex items-start gap-3.5 border-emerald-200/80 bg-emerald-50/80 p-4.5 shadow-2xs">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+        <CheckCircle2 className="h-5 w-5" />
+      </div>
       <div>
-        <h2 className="text-sm font-semibold text-emerald-900">{titulo}</h2>
-        <p className="mt-1 text-sm text-emerald-700">{descripcion}</p>
+        <h2 className="text-sm font-bold text-emerald-900">{titulo}</h2>
+        <p className="mt-0.5 text-xs text-emerald-700 leading-relaxed">{descripcion}</p>
       </div>
     </Card>
   );
@@ -210,13 +212,15 @@ function MensajeExito({ titulo, descripcion }: { titulo: string; descripcion: st
 
 function ErrorCarga() {
   return (
-    <Card className="mt-4 flex items-start gap-3 border-red-200 bg-red-50 p-5">
-      <TriangleAlert className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
+    <Card className="mt-4 flex items-start gap-3.5 border-red-200/80 bg-red-50/80 p-5 shadow-2xs">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600">
+        <TriangleAlert className="h-5 w-5" />
+      </div>
       <div>
-        <h2 className="text-sm font-semibold text-red-900">
+        <h2 className="text-sm font-bold text-red-900">
           No pudimos cargar los residentes
         </h2>
-        <p className="mt-1 text-sm text-red-700">
+        <p className="mt-0.5 text-xs text-red-700 leading-relaxed">
           Intentá nuevamente. Si el problema continúa, contactá al equipo para que lo
           revise.
         </p>
@@ -227,14 +231,14 @@ function ErrorCarga() {
 
 function EstadoVacioActivos() {
   return (
-    <Card className="mt-4 flex min-h-52 flex-col items-center justify-center p-6 text-center">
-      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-100">
-        <UsersRound className="h-5 w-5 text-slate-500" />
+    <Card className="mt-4 flex min-h-56 flex-col items-center justify-center p-8 text-center shadow-2xs">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100/80 text-slate-500 shadow-2xs">
+        <UsersRound className="h-6 w-6" />
       </div>
-      <h2 className="mt-4 text-sm font-semibold text-slate-800">
+      <h2 className="mt-4 text-base font-bold text-slate-800">
         Todavía no hay residentes activos
       </h2>
-      <p className="mt-1 max-w-sm text-sm text-slate-500">
+      <p className="mt-1 max-w-sm text-xs text-slate-500 leading-relaxed">
         Cuando registremos un ingreso, la persona aparecerá en este listado.
       </p>
     </Card>
@@ -243,19 +247,20 @@ function EstadoVacioActivos() {
 
 function EstadoVacioBajas() {
   return (
-    <Card className="mt-4 flex min-h-52 flex-col items-center justify-center p-6 text-center">
-      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-100">
-        <History className="h-5 w-5 text-slate-500" />
+    <Card className="mt-4 flex min-h-56 flex-col items-center justify-center p-8 text-center shadow-2xs">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100/80 text-slate-500 shadow-2xs">
+        <History className="h-6 w-6" />
       </div>
-      <h2 className="mt-4 text-sm font-semibold text-slate-800">
+      <h2 className="mt-4 text-base font-bold text-slate-800">
         Todavía no hay bajas registradas
       </h2>
-      <p className="mt-1 max-w-sm text-sm text-slate-500">
+      <p className="mt-1 max-w-sm text-xs text-slate-500 leading-relaxed">
         Los ingresos finalizados aparecerán acá sin perder su historial.
       </p>
     </Card>
   );
 }
+
 
 function TablaActivos({ residentes }: { residentes: ResidenteActivo[] }) {
   return (

@@ -75,11 +75,16 @@ export default async function EntrevistasPage({
   const kpis = calcularKpisEntrevistas(entrevistas);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Cabecera Principal */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Entrevistas de Admisión</h1>
+          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+            Admisión y Valoración
+          </p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Entrevistas de Admisión
+          </h1>
           <p className="mt-1 text-sm text-slate-500">
             Evaluaciones interdisciplinarias para valorar autonomía, cognición y perfil
             asistencial de postulantes.
@@ -87,7 +92,7 @@ export default async function EntrevistasPage({
         </div>
         <div>
           <Link href="/entrevistas/nueva">
-            <Button className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto shadow-sm">
               <Plus className="h-4 w-4" />
               Nueva Entrevista
             </Button>
@@ -97,7 +102,7 @@ export default async function EntrevistasPage({
 
       {/* Manejo defensivo de error */}
       {errorCarga ? (
-        <Card className="border-rose-200 bg-rose-50 p-6 text-sm text-rose-800">
+        <Card className="border-rose-200 bg-rose-50/80 p-6 text-sm text-rose-800 shadow-sm">
           <p className="font-semibold">{errorCarga}</p>
           <p className="mt-1 text-rose-600">
             Ocurrió un error al comunicarse con el servidor.
@@ -113,81 +118,93 @@ export default async function EntrevistasPage({
       ) : (
         <>
           {/* Banner de KPIs */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            <Card className="p-4">
-              <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-                <Users className="h-4 w-4 text-slate-400" />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            <Card className="p-4 transition-all hover:shadow-md">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+                  <Users className="h-4 w-4" />
+                </div>
                 Total
               </div>
-              <div className="mt-2 text-2xl font-bold text-slate-900">{kpis.total}</div>
-              <div className="mt-1 text-xs text-slate-400">Entrevistas</div>
+              <div className="mt-3 text-2xl font-bold tabular-nums text-slate-900">{kpis.total}</div>
+              <div className="mt-0.5 text-xs text-slate-400">Entrevistas</div>
             </Card>
 
-            <Card className="p-4">
-              <div className="flex items-center gap-2 text-xs font-medium text-sky-700">
-                <Clock className="h-4 w-4 text-sky-500" />
+            <Card className="p-4 transition-all hover:shadow-md">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-700">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-100/80 text-sky-600">
+                  <Clock className="h-4 w-4" />
+                </div>
                 Programadas
               </div>
-              <div className="mt-2 text-2xl font-bold text-sky-900">
+              <div className="mt-3 text-2xl font-bold tabular-nums text-sky-900">
                 {kpis.programadas}
               </div>
-              <div className="mt-1 text-xs text-sky-600">Por realizar</div>
+              <div className="mt-0.5 text-xs text-sky-600">Por realizar</div>
             </Card>
 
-            <Card className="p-4">
-              <div className="flex items-center gap-2 text-xs font-medium text-emerald-700">
-                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+            <Card className="p-4 transition-all hover:shadow-md">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-700">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100/80 text-emerald-600">
+                  <CheckCircle2 className="h-4 w-4" />
+                </div>
                 Realizadas
               </div>
-              <div className="mt-2 text-2xl font-bold text-emerald-900">
+              <div className="mt-3 text-2xl font-bold tabular-nums text-emerald-900">
                 {kpis.completadas}
               </div>
-              <div className="mt-1 text-xs text-emerald-600">Completadas</div>
+              <div className="mt-0.5 text-xs text-emerald-600">Completadas</div>
             </Card>
 
-            <Card className="p-4">
-              <div className="flex items-center gap-2 text-xs font-medium text-teal-700">
-                <UserCheck className="h-4 w-4 text-teal-500" />
+            <Card className="p-4 transition-all hover:shadow-md">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-teal-700">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-100/80 text-teal-600">
+                  <UserCheck className="h-4 w-4" />
+                </div>
                 Aptas
               </div>
-              <div className="mt-2 text-2xl font-bold text-teal-900">{kpis.aptas}</div>
-              <div className="mt-1 text-xs text-teal-600">Para ingreso</div>
+              <div className="mt-3 text-2xl font-bold tabular-nums text-teal-900">{kpis.aptas}</div>
+              <div className="mt-0.5 text-xs text-teal-600">Para ingreso</div>
             </Card>
 
-            <Card className="p-4">
-              <div className="flex items-center gap-2 text-xs font-medium text-rose-700">
-                <UserX className="h-4 w-4 text-rose-500" />
+            <Card className="p-4 transition-all hover:shadow-md">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-rose-700">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-100/80 text-rose-600">
+                  <UserX className="h-4 w-4" />
+                </div>
                 No Aptas
               </div>
-              <div className="mt-2 text-2xl font-bold text-rose-900">{kpis.noAptas}</div>
-              <div className="mt-1 text-xs text-rose-600">Excede perfil</div>
+              <div className="mt-3 text-2xl font-bold tabular-nums text-rose-900">{kpis.noAptas}</div>
+              <div className="mt-0.5 text-xs text-rose-600">Excede perfil</div>
             </Card>
 
-            <Card className="p-4">
-              <div className="flex items-center gap-2 text-xs font-medium text-amber-700">
-                <Calendar className="h-4 w-4 text-amber-500" />
+            <Card className="p-4 transition-all hover:shadow-md">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-700">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100/80 text-amber-600">
+                  <Calendar className="h-4 w-4" />
+                </div>
                 Pendientes
               </div>
-              <div className="mt-2 text-2xl font-bold text-amber-900">
+              <div className="mt-3 text-2xl font-bold tabular-nums text-amber-900">
                 {kpis.pendientes}
               </div>
-              <div className="mt-1 text-xs text-amber-600">En evaluación</div>
+              <div className="mt-0.5 text-xs text-amber-600">En evaluación</div>
             </Card>
           </div>
 
           {/* Barra de Búsqueda y Filtros */}
-          <Card className="p-4">
+          <Card className="p-4 shadow-sm">
             <form
               method="get"
               className="flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                 <Input
                   name="busqueda"
                   defaultValue={busquedaFiltro || ""}
                   placeholder="Buscar por nombre del postulante o familiar..."
-                  className="pl-9"
+                  className="pl-10"
                 />
               </div>
 
@@ -196,7 +213,7 @@ export default async function EntrevistasPage({
                   name="estado"
                   defaultValue={estadoFiltro || "todas"}
                   aria-label="Filtrar por estado del encuentro"
-                  className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+                  className="h-10 rounded-xl border border-slate-200/90 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                 >
                   <option value="todas">Todos los estados</option>
                   <option value="scheduled">Programadas</option>
@@ -208,7 +225,7 @@ export default async function EntrevistasPage({
                   name="conclusion"
                   defaultValue={conclusionFiltro || "todas"}
                   aria-label="Filtrar por dictamen de aptitud"
-                  className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+                  className="h-10 rounded-xl border border-slate-200/90 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                 >
                   <option value="todas">Todos los dictámenes</option>
                   <option value="pendiente">Pendiente</option>
@@ -236,8 +253,10 @@ export default async function EntrevistasPage({
           {/* Listado de Entrevistas */}
           {entrevistas.length === 0 ? (
             <Card className="p-12 text-center">
-              <Users className="mx-auto h-12 w-12 text-slate-300" />
-              <h3 className="mt-3 text-base font-semibold text-slate-800">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                <Users className="h-7 w-7" />
+              </div>
+              <h3 className="mt-4 text-base font-bold text-slate-800">
                 No se encontraron entrevistas
               </h3>
               <p className="mt-1 text-sm text-slate-500">
@@ -263,18 +282,18 @@ export default async function EntrevistasPage({
                 const cognitiva = ent.cognitive_assessment as EvaluacionCognitiva | null;
 
                 return (
-                  <Card key={ent.id} className="p-5 transition-shadow hover:shadow-md">
+                  <Card key={ent.id} className="p-5 transition-all hover:shadow-md">
                     <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center gap-2">
                           <Link
                             href={`/entrevistas/${ent.id}`}
-                            className="text-lg font-bold text-slate-900 hover:text-blue-600 hover:underline"
+                            className="text-lg font-bold text-slate-900 transition-colors hover:text-emerald-700 hover:underline"
                           >
                             {ent.candidate_name}
                           </Link>
                           {ent.candidate_dni && (
-                            <span className="text-xs text-slate-400">
+                            <span className="text-xs font-medium text-slate-400">
                               DNI {ent.candidate_dni}
                             </span>
                           )}
@@ -292,7 +311,7 @@ export default async function EntrevistasPage({
                         <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
                           {movilidad ? (
                             <span
-                              className={`inline-flex items-center rounded-md border px-2 py-0.5 ${COLORES_MOVILIDAD[movilidad]}`}
+                              className={`inline-flex items-center rounded-lg border px-2.5 py-0.5 font-medium ${COLORES_MOVILIDAD[movilidad]}`}
                             >
                               Movilidad: {ETIQUETAS_MOVILIDAD[movilidad]}
                             </span>
@@ -302,7 +321,7 @@ export default async function EntrevistasPage({
 
                           {cognitiva ? (
                             <span
-                              className={`inline-flex items-center rounded-md border px-2 py-0.5 ${COLORES_COGNITIVA[cognitiva]}`}
+                              className={`inline-flex items-center rounded-lg border px-2.5 py-0.5 font-medium ${COLORES_COGNITIVA[cognitiva]}`}
                             >
                               Cognición: {ETIQUETAS_COGNITIVA[cognitiva]}
                             </span>

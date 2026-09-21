@@ -10,14 +10,14 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending} className="w-full">
+    <Button type="submit" size="lg" disabled={pending} className="w-full font-semibold shadow-xs">
       {pending ? (
         <>
           <Loader2 className="h-4 w-4 animate-spin" />
           Ingresando...
         </>
       ) : (
-        "Ingresar"
+        "Ingresar a la plataforma"
       )}
     </Button>
   );
@@ -35,6 +35,7 @@ export function LoginForm({ errorMessage }: { errorMessage?: string }) {
           name="email"
           type="email"
           autoComplete="email"
+          placeholder="usuario@residencia.com"
           autoFocus
           required
         />
@@ -48,13 +49,14 @@ export function LoginForm({ errorMessage }: { errorMessage?: string }) {
             name="password"
             type={mostrarPassword ? "text" : "password"}
             autoComplete="current-password"
+            placeholder="••••••••••••"
             required
             className="pr-10"
           />
           <button
             type="button"
             onClick={() => setMostrarPassword(!mostrarPassword)}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
             aria-label={mostrarPassword ? "Ocultar contraseña" : "Ver contraseña"}
           >
             {mostrarPassword ? (
@@ -67,15 +69,16 @@ export function LoginForm({ errorMessage }: { errorMessage?: string }) {
       </div>
 
       {errorMessage && (
-        <p
+        <div
           role="alert"
-          className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+          className="rounded-xl border border-red-200/80 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700"
         >
           {errorMessage}
-        </p>
+        </div>
       )}
 
       <SubmitButton />
     </form>
   );
 }
+

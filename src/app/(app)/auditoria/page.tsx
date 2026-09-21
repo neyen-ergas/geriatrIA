@@ -28,19 +28,28 @@ export default async function AuditoriaPage({
     listarAccesos(),
     error ? Promise.resolve(null) : listarAuditoria(filtros, parametros.pagina),
   ]);
-  const select = "h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm";
+  const select =
+    "h-10 w-full rounded-xl border border-slate-200/90 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20";
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Auditoría</h1>
-      <p className="mt-2 text-sm text-slate-600">
-        Quién cambió cada registro, cuándo y qué valores quedaron guardados. Fechas y
-        horarios de Argentina.
-      </p>
-      <p className="mt-2 text-sm text-slate-500">
-        El historial previo incluye únicamente la información que ya se conservaba. Los
-        cambios completos se registran desde la activación de Auditoría.
-      </p>
-      <Card className="mt-5 p-5">
+    <div className="space-y-6">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+          Seguridad y Trazabilidad
+        </p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          Auditoría
+        </h1>
+        <p className="mt-1 text-sm text-slate-500">
+          Quién cambió cada registro, cuándo y qué valores quedaron guardados. Fechas y
+          horarios de Argentina.
+        </p>
+        <p className="mt-1 text-xs text-slate-400">
+          El historial previo incluye únicamente la información que ya se conservaba. Los
+          cambios completos se registran desde la activación de Auditoría.
+        </p>
+      </div>
+
+      <Card className="p-6 shadow-sm">
         <form
           action="/auditoria"
           method="get"
@@ -111,9 +120,12 @@ export default async function AuditoriaPage({
           {filtros.registro && (
             <input type="hidden" name="registro" value={filtros.registro} />
           )}
-          <div className="flex items-end gap-4">
+          <div className="flex items-end gap-3">
             <Button type="submit">Filtrar</Button>
-            <Link href="/auditoria" className="py-2 text-sm underline">
+            <Link
+              href="/auditoria"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50"
+            >
               Limpiar filtros
             </Link>
           </div>
