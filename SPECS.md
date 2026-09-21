@@ -153,6 +153,13 @@ docs/                         Documentación funcional por módulo
 
 Supabase Auth con correo y contraseña.
 
+La recuperación se inicia en `/recuperar`, intercambia el código PKCE en
+`/auth/recuperar` y establece la contraseña en `/restablecer`. La página y su
+Server Action verifican identidad con `auth.getUser()`; esta acción no exige un
+rol operativo, para permitir recuperar la propia contraseña sin conceder acceso
+al CRM. No acepta un ID de cuenta desde el cliente. Configuración y límites en
+[docs/recuperacion-acceso.md](docs/recuperacion-acceso.md).
+
 - **No hay registro público.** `enable_signup = false` en
   `supabase/config.toml` y desactivado en el panel del proyecto remoto.
 - Las cuentas las crea a mano un administrador desde el panel de Supabase.

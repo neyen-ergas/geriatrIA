@@ -45,6 +45,24 @@ try {
   const contenido = await login.text();
   assert.match(contenido, /name="email"/);
   assert.match(contenido, /name="password"/);
+  assert.match(contenido, /href="\/recuperar"/);
+
+  const recuperacion = await fetch(`${origen}/recuperar`, {
+    signal: AbortSignal.timeout(5000),
+  });
+  assert.equal(recuperacion.status, 200);
+  assert.match(await recuperacion.text(), /name="email"/);
+
+  for (const ruta of ["/restablecer", "/auth/recuperar"]) {
+    const respuesta = await fetch(`${origen}${ruta}`, {
+      redirect: "manual",
+      signal: AbortSignal.timeout(5000),
+    });
+    assert.equal(respuesta.status, 307);
+    const destino = new URL(respuesta.headers.get("location"), origen);
+    assert.equal(destino.pathname, "/recuperar");
+    await respuesta.body?.cancel();
+  }
 
   for (const ruta of ["/", "/residentes", "/auditoria"]) {
     const respuesta = await fetch(`${origen}${ruta}`, {

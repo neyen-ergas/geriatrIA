@@ -71,6 +71,7 @@ La gestión de cuentas se realiza desde la interfaz de la aplicación en `/acces
 
 ## Documentación relacionada
 
+- [docs/recuperacion-acceso.md](recuperacion-acceso.md): Solicitud por correo, callback PKCE y cambio de la propia contraseña; configuración y aceptación por instalación.
 - [docs/permisos.md](permisos.md): Especificación detallada de RLS, tablas y RPC del modelo de roles.
 - [docs/cuentas-empleados.md](cuentas-empleados.md): Flujo de vinculación de cuentas Supabase Auth con empleados.
 - [docs/supabase-configuracion.md](supabase-configuracion.md): Variables de entorno y configuración de Supabase.

@@ -65,6 +65,10 @@ empleados antes de lo previsto, roles y permisos pasan a P0.
 - [x] Protección de todas las pantallas en el layout de `(app)`.
 - [x] `requerirSesion()` con `getClaims()`, no con `getSession()`.
 - [x] Cierre de sesión.
+- [x] Recuperación por correo desde el login, callback PKCE y cambio de la propia
+      contraseña con sesión verificada. Ver `docs/recuperacion-acceso.md`.
+- [ ] Validar URLs de recuperación y entrega de correo en la instalación; el
+      titular completa el cambio y comprueba un ingreso con la contraseña nueva.
 
 ## Fase 2 — Admisión, primera entrega ✅
 
