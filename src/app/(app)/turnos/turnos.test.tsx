@@ -16,6 +16,43 @@ vi.mock("@/lib/turnos-datos", () => ({
 
 const parametros = { searchParams: Promise.resolve({ semana: "2026-09-16" }) };
 
+it("muestra todas las franjas y también las coberturas del reemplazante", async () => {
+  mocks.empleados.mockResolvedValue([
+    {
+      id: "reemplazo",
+      first_name: "Persona",
+      last_name: "Ficticia",
+      job_title: "Cuidador",
+    },
+  ]);
+  mocks.turnos.mockResolvedValue([
+    {
+      id: "propio",
+      employee_id: "reemplazo",
+      shift_date: "2026-09-16",
+      shift_type: "tarde",
+      status: "scheduled",
+      notes: "Turno propio",
+    },
+    {
+      id: "cubierto",
+      employee_id: "titular",
+      covered_by_employee_id: "reemplazo",
+      employee: { last_name: "Titular ficticio" },
+      shift_date: "2026-09-16",
+      shift_type: "manana",
+      status: "absent",
+      notes: "Cobertura visible",
+    },
+  ]);
+  const html = renderToStaticMarkup(await TurnosPage(parametros));
+  expect(html).toContain("Turno propio");
+  expect(html).toContain("Cobertura visible");
+  expect(html).toContain("Titular ficticio");
+  expect(html).toContain("07:00–15:00");
+  expect(html).toContain("15:00–23:00");
+});
+
 beforeEach(() => {
   vi.resetAllMocks();
   mocks.sesion.mockResolvedValue("admin");

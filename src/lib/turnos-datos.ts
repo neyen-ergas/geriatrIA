@@ -12,6 +12,7 @@ export async function listarTurnosSemana(inicio: string, fin: string): Promise<T
       employee_id,
       shift_date,
       shift_type,
+      guard_start,
       status,
       absence_reason,
       covered_by_employee_id,

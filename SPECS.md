@@ -433,9 +433,10 @@ conservan historial en `employee_account_events`. Ver `docs/cuentas-empleados.md
 ### 6.5 Turnos del personal (`shifts`)
 
 Organiza la planificación del personal en franjas horarias (`manana`, `tarde`, `noche`, `guardia`, `franco`).
-Invariante en Postgres: índice único parcial `(employee_id, shift_date, shift_type) where status <> 'cancelled'`
-que impide turnos superpuestos para el mismo empleado. Validaciones de contratación y vigencia en trigger.
-Escrituras mediante RPC controladas (`save_shift`, `cover_shift`, `cancel_shift`) exclusivas de Administrador.
+Invariante en Postgres: exclusión por empleado e intervalo en reservas internas del titular y reemplazante,
+incluidas noches, guardias de 12 horas con inicio explícito y francos de día completo.
+Validaciones de contratación y vigencia en trigger. Lectura y escrituras mediante RPC controladas
+(`save_shift`, `cover_shift`, `cancel_shift`) exclusivas de Administrador; modificaciones con versión.
 Ver [docs/turnos.md](docs/turnos.md).
 
 ### 6.6 Entrevistas de admisión (`interviews`)

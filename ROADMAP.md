@@ -221,6 +221,8 @@ Acá aparece el primer usuario que no es el dueño, y con él la autorización r
 
 ## Fase 10 — Turnos ✅
 
+- [x] Reservas por intervalo para titulares y coberturas, guardias con hora explícita,
+      control de versiones y permisos de lectura alineados con Administración.
 - [x] Modelo de turnos del personal (`shifts`).
 - [x] Grilla semanal por empleado.
 - [x] Asignación, reasignación y cobertura de ausencias.

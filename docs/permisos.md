@@ -8,7 +8,8 @@ Cada residencia conserva su propia base y sus cuentas de Supabase Auth.
 | Gestión (`management`)    | Lectura y gestión                             | Sin acceso          |
 | Solo lectura (`readonly`) | Lectura, incluidos movimientos y comprobantes | Sin acceso          |
 
-Turnos y Entrevistas siguen siendo placeholders visibles solo al Administrador.
+Turnos y Entrevistas están implementados y son exclusivos del Administrador,
+tanto en las pantallas como en las políticas de lectura y RPC de escritura.
 La ficha laboral permite vincular una cuenta existente sin crearla ni habilitarla;
 ver [cuentas-empleados.md](cuentas-empleados.md). Invitar usuarios desde el CRM
 sigue pendiente. Las cuentas se crean
