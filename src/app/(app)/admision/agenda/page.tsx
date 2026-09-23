@@ -108,7 +108,8 @@ export default async function AgendaPage({
         </p>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-800 border border-emerald-200/60">
           <Calendar className="h-3.5 w-3.5" />
-          {visitas.length} {visitas.length === 1 ? "visita agendada" : "visitas agendadas"}
+          {visitas.length}{" "}
+          {visitas.length === 1 ? "visita agendada" : "visitas agendadas"}
         </span>
       </div>
 

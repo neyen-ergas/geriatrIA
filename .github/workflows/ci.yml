@@ -112,6 +112,9 @@ jobs:
       - name: Concurrent resident records
         run: python3 scripts/probar-concurrencia-registros.py
 
+      - name: Concurrent interview changes
+        run: python3 scripts/probar-concurrencia-entrevistas.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop

@@ -18,7 +18,9 @@ export function FormularioAcceso({ acceso }: { acceso: Acceso }) {
     <Card className="p-6 transition-all hover:border-slate-300/80 shadow-2xs">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="break-all text-base font-bold text-slate-900">{acceso.email || "Cuenta sin correo"}</h2>
+          <h2 className="break-all text-base font-bold text-slate-900">
+            {acceso.email || "Cuenta sin correo"}
+          </h2>
           <p className="mt-0.5 text-xs text-slate-500">
             {esRol(acceso.role) ? ETIQUETAS_ROL[acceso.role] : "Sin perfil asignado"}
           </p>

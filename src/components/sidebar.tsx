@@ -53,9 +53,7 @@ export function Sidebar({ rol }: { rol: Rol }) {
       <nav className="flex-1 overflow-y-auto px-3.5 py-5 space-y-6">
         {secciones.map(seccion => {
           const itemsVisibles = NAV.filter(
-            item =>
-              seccion.rutas.includes(item.href) &&
-              puedeVerSeccion(rol, item.href),
+            item => seccion.rutas.includes(item.href) && puedeVerSeccion(rol, item.href),
           );
           if (itemsVisibles.length === 0) return null;
 
@@ -121,4 +119,3 @@ export function Sidebar({ rol }: { rol: Rol }) {
     </aside>
   );
 }
-

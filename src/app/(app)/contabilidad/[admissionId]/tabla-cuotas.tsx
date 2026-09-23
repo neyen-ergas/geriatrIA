@@ -120,11 +120,16 @@ export function TablaCuotas({
           </thead>
           <tbody className="divide-y divide-slate-100">
             {cuotas.map(cuota => (
-              <tr key={cuota.id} className="align-top transition-colors hover:bg-slate-50/60">
+              <tr
+                key={cuota.id}
+                className="align-top transition-colors hover:bg-slate-50/60"
+              >
                 <td className="px-5 py-4 font-bold text-slate-900">
                   {formatearFechaPago(cuota.period, true)}
                 </td>
-                <td className="px-5 py-4 text-slate-600">{formatearFechaPago(cuota.due_date)}</td>
+                <td className="px-5 py-4 text-slate-600">
+                  {formatearFechaPago(cuota.due_date)}
+                </td>
                 <td className="whitespace-nowrap px-5 py-4 font-medium tabular-nums text-slate-700">
                   {formatearImporte(cuota.amount_due, cuota.currency)}
                 </td>

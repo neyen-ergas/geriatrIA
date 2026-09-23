@@ -43,7 +43,9 @@ export default async function TurnosPage({
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Turnos del personal</h1>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+            Turnos del personal
+          </h1>
           <p className="mt-1 text-sm text-slate-500">
             Planificación semanal de turnos, guardias, descansos y cobertura de ausencias.
           </p>
@@ -123,15 +125,19 @@ export default async function TurnosPage({
           <div className="flex items-center justify-between text-xs text-slate-500">
             <p>
               Semana del{" "}
-              <span className="font-bold text-slate-800">{etiquetaDiaSemana(semana.inicio)}</span> al{" "}
-              <span className="font-bold text-slate-800">{etiquetaDiaSemana(semana.fin)}</span>
+              <span className="font-bold text-slate-800">
+                {etiquetaDiaSemana(semana.inicio)}
+              </span>{" "}
+              al{" "}
+              <span className="font-bold text-slate-800">
+                {etiquetaDiaSemana(semana.fin)}
+              </span>
             </p>
             <span className="font-semibold text-slate-700 tabular-nums">
               {turnos.length}{" "}
               {turnos.length === 1 ? "turno programado" : "turnos programados"}
             </span>
           </div>
-
 
           {/* Grilla interactiva de turnos */}
           <GrillaTurnos

@@ -126,7 +126,9 @@ export default async function EntrevistasPage({
                 </div>
                 Total
               </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-slate-900">{kpis.total}</div>
+              <div className="mt-3 text-2xl font-bold tabular-nums text-slate-900">
+                {kpis.total}
+              </div>
               <div className="mt-0.5 text-xs text-slate-400">Entrevistas</div>
             </Card>
 
@@ -163,7 +165,9 @@ export default async function EntrevistasPage({
                 </div>
                 Aptas
               </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-teal-900">{kpis.aptas}</div>
+              <div className="mt-3 text-2xl font-bold tabular-nums text-teal-900">
+                {kpis.aptas}
+              </div>
               <div className="mt-0.5 text-xs text-teal-600">Para ingreso</div>
             </Card>
 
@@ -174,7 +178,9 @@ export default async function EntrevistasPage({
                 </div>
                 No Aptas
               </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-rose-900">{kpis.noAptas}</div>
+              <div className="mt-3 text-2xl font-bold tabular-nums text-rose-900">
+                {kpis.noAptas}
+              </div>
               <div className="mt-0.5 text-xs text-rose-600">Excede perfil</div>
             </Card>
 

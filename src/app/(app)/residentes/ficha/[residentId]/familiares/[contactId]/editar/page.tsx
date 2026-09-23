@@ -35,8 +35,8 @@ export default async function EditarFamiliarPage({
           Editar contacto
         </h1>
         <p className="mt-1 text-sm text-slate-500">
-          Contacto de {datos.residente.first_name} {datos.residente.last_name}. Los cambios
-          actualizan sus datos actuales y quedan en Auditoría.
+          Contacto de {datos.residente.first_name} {datos.residente.last_name}. Los
+          cambios actualizan sus datos actuales y quedan en Auditoría.
         </p>
       </div>
       <FormularioFamiliar

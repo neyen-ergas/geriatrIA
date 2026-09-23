@@ -77,10 +77,12 @@ export default async function AdmisionPage({
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Admisión</h1>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+            Admisión
+          </h1>
           <p className="mt-1 text-sm text-slate-500">
-            Consultas recibidas desde la web de la residencia. La visita presencial se agenda
-            acá, después de llamar a la familia.
+            Consultas recibidas desde la web de la residencia. La visita presencial se
+            agenda acá, después de llamar a la familia.
           </p>
         </div>
         <Link
@@ -121,7 +123,10 @@ export default async function AdmisionPage({
         ))}
       </nav>
 
-      <form action="/admision" className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200/70 bg-white/70 p-4 shadow-2xs">
+      <form
+        action="/admision"
+        className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200/70 bg-white/70 p-4 shadow-2xs"
+      >
         {filtro && <input type="hidden" name="estado" value={filtro} />}
         <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
           Nombre o teléfono
@@ -138,7 +143,10 @@ export default async function AdmisionPage({
           Buscar
         </button>
         {busqueda && (
-          <Link href={enlaceAdmision(1, filtro)} className="text-xs font-medium text-slate-500 hover:text-slate-800 underline pb-2">
+          <Link
+            href={enlaceAdmision(1, filtro)}
+            className="text-xs font-medium text-slate-500 hover:text-slate-800 underline pb-2"
+          >
             Limpiar búsqueda
           </Link>
         )}
@@ -198,4 +206,3 @@ function FiltroLink({
     </Link>
   );
 }
-

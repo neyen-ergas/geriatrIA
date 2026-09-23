@@ -67,4 +67,3 @@ export function Topbar({ rol }: { rol: Rol }) {
     </header>
   );
 }
-

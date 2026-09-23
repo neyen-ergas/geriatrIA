@@ -58,9 +58,7 @@ export default async function ReservarPage({
       <div className="mx-auto max-w-4xl space-y-4">
         {volver}
         <Card className="border-rose-200/80 bg-rose-50/50 p-6">
-          <p className="text-sm font-semibold text-rose-900">
-            El turno ya está ocupado.
-          </p>
+          <p className="text-sm font-semibold text-rose-900">El turno ya está ocupado.</p>
           <Link
             href={`/admision/${ocupada.id}?semana=${semana.inicio}`}
             className="mt-3 inline-flex items-center text-xs font-semibold text-rose-700 hover:text-rose-900 hover:underline"
@@ -97,8 +95,8 @@ export default async function ReservarPage({
             Reservar visita
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            Elegí la familia con la que acordaste la visita. Se muestran consultas nuevas o
-            contactadas que todavía no tienen turno.
+            Elegí la familia con la que acordaste la visita. Se muestran consultas nuevas
+            o contactadas que todavía no tienen turno.
           </p>
         </div>
       </div>

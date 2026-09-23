@@ -22,7 +22,9 @@ export default async function EmpleadosPage({
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Empleados</h1>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+            Empleados
+          </h1>
           <p className="mt-1 text-sm text-slate-500">
             Fichas del personal, roles profesionales y sus datos laborales.
           </p>
@@ -35,10 +37,7 @@ export default async function EmpleadosPage({
         </Link>
       </div>
 
-      <nav
-        aria-label="Estado del personal"
-        className="flex gap-2"
-      >
+      <nav aria-label="Estado del personal" className="flex gap-2">
         <Link
           href="/empleados"
           aria-current={!bajas ? "page" : undefined}

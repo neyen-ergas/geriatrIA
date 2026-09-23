@@ -16,11 +16,11 @@ export function Button({
       "bg-slate-900 text-white shadow-xs hover:bg-slate-800 hover:shadow-sm active:scale-[0.98] border border-slate-900/10",
     secondary:
       "bg-slate-100 text-slate-800 hover:bg-slate-200/80 active:scale-[0.98] border border-slate-200/50",
-    danger:
-      "bg-rose-600 text-white shadow-xs hover:bg-rose-700 active:scale-[0.98]",
+    danger: "bg-rose-600 text-white shadow-xs hover:bg-rose-700 active:scale-[0.98]",
     outline:
       "border border-slate-200/90 bg-white text-slate-800 shadow-2xs hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98]",
-    ghost: "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 active:scale-[0.98]",
+    ghost:
+      "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 active:scale-[0.98]",
   };
   const sizes: Record<string, string> = {
     sm: "h-9 px-3 text-xs",
@@ -104,7 +104,10 @@ export function Label({
 }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={cn("mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-600", className)}
+      className={cn(
+        "mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-600",
+        className,
+      )}
       {...props}
     />
   );
@@ -171,14 +174,25 @@ export function StatCard({
   return (
     <Card className="p-5 hover:border-slate-300/80 transition-all">
       <div
-        className={cn("flex h-10 w-10 items-center justify-center rounded-xl shadow-2xs", iconClass)}
+        className={cn(
+          "flex h-10 w-10 items-center justify-center rounded-xl shadow-2xs",
+          iconClass,
+        )}
       >
         <Icon className="h-5 w-5" />
       </div>
-      <div className="mt-3.5 text-xs font-semibold uppercase tracking-wider text-slate-500">{label}</div>
-      <div className={cn("mt-1 text-2xl font-extrabold tracking-tight tabular-nums sm:text-3xl", valueClass)}>{value}</div>
+      <div className="mt-3.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+        {label}
+      </div>
+      <div
+        className={cn(
+          "mt-1 text-2xl font-extrabold tracking-tight tabular-nums sm:text-3xl",
+          valueClass,
+        )}
+      >
+        {value}
+      </div>
       {hint && <div className={cn("mt-1 text-xs font-medium", hintClass)}>{hint}</div>}
     </Card>
   );
 }
-
