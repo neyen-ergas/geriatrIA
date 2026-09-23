@@ -69,7 +69,8 @@ export default async function DetalleCuotaPage({
           </p>
           <p className="mt-0.5 text-xs text-slate-500">
             Ingreso {formatearFechaPago(cuenta.admitted_at)}
-            {cuenta.discharged_at && ` · Baja ${formatearFechaPago(cuenta.discharged_at)}`}
+            {cuenta.discharged_at &&
+              ` · Baja ${formatearFechaPago(cuenta.discharged_at)}`}
             {` · Vencimiento ${formatearFechaPago(cuota.due_date)}`}
           </p>
         </div>

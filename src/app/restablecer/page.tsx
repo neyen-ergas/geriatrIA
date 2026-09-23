@@ -40,4 +40,3 @@ export default async function RestablecerPage(): Promise<React.ReactElement> {
     </main>
   );
 }
-

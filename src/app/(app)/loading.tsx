@@ -19,7 +19,10 @@ export default function InicioLoading() {
         {/* KPI Ribbon skeleton */}
         <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-100 pt-5 sm:grid-cols-3 lg:grid-cols-5">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-3.5">
+            <div
+              key={i}
+              className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-3.5"
+            >
               <div className="h-9 w-9 rounded-xl bg-slate-200/70" />
               <div className="space-y-1.5 flex-1">
                 <div className="h-3 w-16 rounded bg-slate-100" />
@@ -52,4 +55,3 @@ export default function InicioLoading() {
     </div>
   );
 }
-

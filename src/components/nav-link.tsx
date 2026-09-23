@@ -21,4 +21,3 @@ export function NavLink({ href, children }: { href: string; children: React.Reac
     </Link>
   );
 }
-

@@ -70,7 +70,9 @@ export default async function CuentaPage({
                 {cuenta.residents.last_name}, {cuenta.residents.first_name}
               </h1>
               <p className="mt-1.5 text-xs text-slate-500">
-                <span className="font-medium text-slate-700">DNI: {cuenta.residents.dni}</span>
+                <span className="font-medium text-slate-700">
+                  DNI: {cuenta.residents.dni}
+                </span>
                 <span className="mx-1.5">·</span>
                 <span>Ingreso: {formatearFechaPago(cuenta.admitted_at)}</span>
               </p>

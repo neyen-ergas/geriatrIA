@@ -108,7 +108,6 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
         </div>
       )}
 
-
       {/* ── Visita presencial ─────────────────────────────────────────── */}
 
       {agendada && consulta.visita_fecha && consulta.visita_franja && (

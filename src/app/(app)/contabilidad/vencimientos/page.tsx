@@ -51,11 +51,13 @@ export default async function VencimientosPage({
             Gestión de Cobranzas
           </div>
           <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-            {todosLosMeses ? "Cuotas vencidas de todos los meses" : "Vencimientos del mes"}
+            {todosLosMeses
+              ? "Cuotas vencidas de todos los meses"
+              : "Vencimientos del mes"}
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            Cuotas creadas con saldo pendiente, incluidas las de estadías finalizadas. Se usa
-            el vencimiento confirmado al crear cada cuota.
+            Cuotas creadas con saldo pendiente, incluidas las de estadías finalizadas. Se
+            usa el vencimiento confirmado al crear cada cuota.
           </p>
         </div>
       </div>

@@ -271,7 +271,6 @@ function EstadoVacioBajas() {
   );
 }
 
-
 function TablaActivos({ residentes }: { residentes: ResidenteActivo[] }) {
   return (
     <Card className="mt-4 overflow-hidden">

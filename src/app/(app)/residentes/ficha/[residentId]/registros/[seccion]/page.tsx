@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  Archive,
-  ArrowLeft,
-  CheckCircle2,
-  Download,
-  Edit,
-  Plus,
-} from "lucide-react";
+import { Archive, ArrowLeft, CheckCircle2, Download, Edit, Plus } from "lucide-react";
 import { Badge, Card } from "@/components/ui";
 import { PaginacionListado } from "@/components/paginacion-listado";
 import { requerirSesion } from "@/lib/auth";
@@ -153,7 +146,8 @@ export default async function RegistrosPage({
                   </Badge>
                   {registro.updated_at && (
                     <span className="text-[11px] font-medium text-slate-400">
-                      Actualizado: {new Date(registro.updated_at).toLocaleDateString("es-AR")}
+                      Actualizado:{" "}
+                      {new Date(registro.updated_at).toLocaleDateString("es-AR")}
                     </span>
                   )}
                 </div>

@@ -10,7 +10,12 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" size="lg" disabled={pending} className="w-full font-semibold shadow-xs">
+    <Button
+      type="submit"
+      size="lg"
+      disabled={pending}
+      className="w-full font-semibold shadow-xs"
+    >
       {pending ? (
         <>
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -81,4 +86,3 @@ export function LoginForm({ errorMessage }: { errorMessage?: string }) {
     </form>
   );
 }
-

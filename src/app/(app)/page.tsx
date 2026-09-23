@@ -110,7 +110,8 @@ export default async function InicioPage(): Promise<React.ReactElement> {
               Panel de Control Residencial
             </h1>
             <p className="mt-1.5 text-xs font-medium text-slate-300 sm:text-sm">
-              {fechaCompleta} · Pendientes al {formatearFechaPago(hoy)} (Hora de Argentina)
+              {fechaCompleta} · Pendientes al {formatearFechaPago(hoy)} (Hora de
+              Argentina)
             </p>
           </div>
 
