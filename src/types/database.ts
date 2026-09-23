@@ -1226,23 +1226,24 @@ export type Database = {
       }
       save_interview: {
         Args: {
-          p_candidate_birth_date?: string | null
-          p_candidate_dni?: string | null
-          p_candidate_name: string
-          p_cognitive_assessment?: string | null
-          p_companion_name?: string | null
-          p_companion_phone?: string | null
-          p_companion_relationship?: string | null
-          p_conclusion?: string | null
-          p_consultation_id?: string | null
-          p_id?: string | null
-          p_interview_date: string
-          p_interviewer_employee_id?: string | null
-          p_medical_notes?: string | null
-          p_mobility_assessment?: string | null
-          p_rejection_reason?: string | null
-          p_social_notes?: string | null
-          p_status?: string | null
+          p_candidate_birth_date?: string
+          p_candidate_dni?: string
+          p_candidate_name?: string
+          p_cognitive_assessment?: string
+          p_companion_name?: string
+          p_companion_phone?: string
+          p_companion_relationship?: string
+          p_conclusion?: string
+          p_consultation_id?: string
+          p_expected_updated_at?: string
+          p_id?: string
+          p_interview_date?: string
+          p_interviewer_employee_id?: string
+          p_medical_notes?: string
+          p_mobility_assessment?: string
+          p_rejection_reason?: string
+          p_social_notes?: string
+          p_status?: string
         }
         Returns: string
       }
@@ -1292,6 +1293,10 @@ export type Database = {
           p_terminated_at: string
         }
         Returns: string
+      }
+      transition_interview: {
+        Args: { p_expected_updated_at: string; p_id: string; p_status: string }
+        Returns: undefined
       }
       update_active_admission: {
         Args: {

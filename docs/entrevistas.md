@@ -99,3 +99,24 @@ create table public.interviews (
 
 - **Lectura y escritura:** Exclusivas para usuarios autenticados con permiso `administration` (rol `admin`), en concordancia con `src/lib/permisos.ts` y `src/lib/auth.test.ts`.
 - Las mutaciones se realizan mediante Server Actions protegidas con `requerirSesion("administration")` y RPC transaccional `save_interview`.
+
+## 6. Cambios de estado y edición concurrente
+
+`transition_interview` permite completar o cancelar una entrevista programada.
+Exige Administrador habilitado y la versión `updated_at` de la pantalla; bloquea
+la fila y rechaza estados o versiones desactualizados. Conserva la evaluación,
+actualiza autor/fecha y mantiene cerrada la escritura directa sobre la tabla.
+`save_interview` también exige versión al editar, para que un formulario viejo
+no revierta una acción rápida. El formulario conserva sus estados permitidos;
+no se agregan restricciones clínicas ni se cambia el circuito de ingreso.
+
+Los botones muestran éxito, falta de permiso, conflicto o error de conexión.
+Ante resultado incierto, recargar antes de reintentar. No se reenvía automáticamente.
+Los campos se reinician con los datos del servidor cuando cambia la versión,
+evitando mezclar campos viejos con una versión nueva.
+
+Aplicar `20260922000000_interview_transitions.sql` antes del despliegue. Las altas
+anteriores siguen siendo compatibles; los clientes anteriores no pueden editar
+sin versión, por lo que hay que recargar las pantallas después de desplegar.
+La migración no modifica entrevistas existentes. Los tipos se generan en CI;
+las pruebas SQL y de carreras usan exclusivamente datos ficticios.

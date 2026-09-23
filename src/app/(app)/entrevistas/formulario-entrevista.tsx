@@ -30,17 +30,35 @@ const estadoInicial: ResultadoEntrevista = {
   ok: false,
 };
 
-export function FormularioEntrevista({
-  entrevista,
-  consultas,
-  entrevistadores,
-  preselectedConsultaId,
-}: FormularioEntrevistaProps) {
+export function FormularioEntrevista(props: FormularioEntrevistaProps) {
   const [state, formAction, isPending] = useActionState(
     guardarEntrevistaAction,
     estadoInicial,
   );
+  return (
+    <CamposEntrevista
+      key={props.entrevista?.updated_at ?? "nueva"}
+      {...props}
+      state={state}
+      formAction={formAction}
+      isPending={isPending}
+    />
+  );
+}
 
+function CamposEntrevista({
+  entrevista,
+  consultas,
+  entrevistadores,
+  preselectedConsultaId,
+  state,
+  formAction,
+  isPending,
+}: FormularioEntrevistaProps & {
+  state: ResultadoEntrevista;
+  formAction: (formData: FormData) => void;
+  isPending: boolean;
+}) {
   const [conclusionSeleccionada, setConclusionSeleccionada] =
     useState<ConclusionEntrevista>(
       (entrevista?.conclusion as ConclusionEntrevista) || "pendiente",
@@ -82,6 +100,9 @@ export function FormularioEntrevista({
   return (
     <form action={formAction} className="space-y-8">
       {entrevista?.id && <input type="hidden" name="id" value={entrevista.id} />}
+      {entrevista && (
+        <input type="hidden" name="expected_updated_at" value={entrevista.updated_at} />
+      )}
 
       {/* Alerta de error global */}
       {!state.ok && state.error && (

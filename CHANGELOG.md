@@ -8,6 +8,10 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ### Agregado
 
+- Acciones de completar/cancelar entrevistas mediante RPC exclusiva de Administrador,
+  con errores visibles y protección de versión compartida con la edición integral.
+  Requiere `20260922000000_interview_transitions.sql` y recargar formularios abiertos.
+  Pruebas de permisos, estados y concurrencia en CI; ver `docs/entrevistas.md`.
 - Recuperación de acceso desde el login mediante correo y PKCE, formulario de
   contraseña nueva con identidad verificada, mensajes para enlaces inválidos y
   límites de envío. Configuración y aceptación en `docs/recuperacion-acceso.md`.

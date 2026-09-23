@@ -450,6 +450,9 @@ Invariante en Postgres: restricción `check` que exige motivo de exclusión obli
 si el dictamen es `no_apto`.
 Lectura y escritura exclusivas para rol Administrador (`administration`), con RPC transaccional
 `save_interview` y trigger de integridad. Vinculación opcional con consultas de Admisión.
+Completar/cancelar desde una entrevista programada usa `transition_interview`.
+Ambas RPC bloquean la fila y comparan la versión al modificar una entrevista;
+una pantalla desactualizada debe recargarse. Las acciones muestran errores y resultado.
 Ver [docs/entrevistas.md](docs/entrevistas.md).
 
 ---

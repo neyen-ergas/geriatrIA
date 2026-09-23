@@ -86,7 +86,11 @@ export default async function EntrevistaDetallePage({
           </p>
         </div>
 
-        <AccionesRapidasEntrevista id={entrevista.id} estado={estado} />
+        <AccionesRapidasEntrevista
+          id={entrevista.id}
+          estado={estado}
+          version={entrevista.updated_at}
+        />
       </div>
 
       <FormularioEntrevista
