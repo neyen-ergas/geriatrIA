@@ -1,6 +1,12 @@
 import { ETIQUETAS_ESTADO, FRANJAS, MOMENTOS_LLAMADO } from "@/lib/admision";
 import { MEDIOS_PAGO } from "@/lib/cargar-pagos";
 import { ETIQUETAS_ROL } from "@/lib/permisos";
+import {
+  ETIQUETAS_COGNITIVA,
+  ETIQUETAS_CONCLUSION,
+  ETIQUETAS_MOVILIDAD,
+} from "@/lib/entrevistas";
+import { ETIQUETAS_FRANJA_TURNO } from "@/lib/turnos";
 import { formatearMomentoAuditoria, type TablaAuditoria } from "@/lib/auditoria";
 
 const CAMPOS: Record<string, string> = {
@@ -73,13 +79,37 @@ const CAMPOS: Record<string, string> = {
   termination_reason: "Motivo de baja laboral",
   role: "Perfil",
   enabled: "Acceso habilitado",
-  employee_id: "Empleado vinculado",
+  employee_id: "Empleado",
+  shift_date: "Fecha del turno",
+  shift_type: "Franja",
+  guard_start: "Inicio de guardia",
+  status: "Estado",
+  absence_reason: "Motivo de ausencia",
+  covered_by_employee_id: "Reemplazante",
+  consultation_id: "Consulta",
+  candidate_name: "Nombre del candidato",
+  candidate_dni: "DNI del candidato",
+  candidate_birth_date: "Nacimiento del candidato",
+  companion_name: "Acompañante",
+  companion_phone: "Teléfono del acompañante",
+  companion_relationship: "Vínculo del acompañante",
+  interview_date: "Fecha de entrevista",
+  interviewer_employee_id: "Entrevistador",
+  mobility_assessment: "Evaluación de movilidad",
+  cognitive_assessment: "Evaluación cognitiva",
+  medical_notes: "Observaciones médicas",
+  social_notes: "Observaciones sociales",
+  conclusion: "Dictamen",
+  rejection_reason: "Motivo de no apto",
 };
 export const RELACIONES_AUDITORIA: Record<string, TablaAuditoria> = {
   resident_id: "residents",
   admission_id: "admissions",
   monthly_charge_id: "monthly_charges",
   employee_id: "employees",
+  covered_by_employee_id: "employees",
+  interviewer_employee_id: "employees",
+  consultation_id: "consulta",
 };
 const ENUMERACIONES: Record<string, Record<string, string>> = {
   estado: ETIQUETAS_ESTADO,
@@ -87,6 +117,16 @@ const ENUMERACIONES: Record<string, Record<string, string>> = {
   momento_llamado: MOMENTOS_LLAMADO,
   payment_method: MEDIOS_PAGO,
   role: ETIQUETAS_ROL,
+  shift_type: ETIQUETAS_FRANJA_TURNO,
+  mobility_assessment: ETIQUETAS_MOVILIDAD,
+  cognitive_assessment: ETIQUETAS_COGNITIVA,
+  conclusion: ETIQUETAS_CONCLUSION,
+  status: {
+    scheduled: "Programado",
+    absent: "Ausente",
+    completed: "Completado",
+    cancelled: "Cancelado",
+  },
   category: {
     diet: "Alimentación",
     allergy: "Alergia",
@@ -123,6 +163,9 @@ export function formatearValorAuditoria(campo: string, valor: unknown): string {
       "ends_on",
       "received_on",
       "returned_on",
+      "shift_date",
+      "candidate_birth_date",
+      "interview_date",
     ].includes(campo) &&
     /^\d{4}-\d{2}-\d{2}$/.test(valor)
   )

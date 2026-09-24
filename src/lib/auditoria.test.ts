@@ -5,7 +5,11 @@ import {
   limiteFechaAuditoria,
   regresoAuditoria,
 } from "./auditoria";
-import { formatearValorAuditoria } from "./auditoria-campos";
+import {
+  etiquetaCampoAuditoria,
+  formatearValorAuditoria,
+  RELACIONES_AUDITORIA,
+} from "./auditoria-campos";
 import { puedeVerSeccion } from "./permisos";
 
 it.each([
@@ -59,4 +63,12 @@ it("solo Administrador encuentra Auditoría en navegación", () => {
   expect(puedeVerSeccion("admin", "/auditoria")).toBe(true);
   expect(puedeVerSeccion("management", "/auditoria")).toBe(false);
   expect(puedeVerSeccion("readonly", "/auditoria")).toBe(false);
+});
+it("filtra Turnos y Entrevistas y presenta sus campos y referencias", () => {
+  expect(leerFiltrosAuditoria({ tabla: "shifts" }).error).toBeNull();
+  expect(leerFiltrosAuditoria({ tabla: "interviews" }).error).toBeNull();
+  expect(etiquetaCampoAuditoria("covered_by_employee_id")).toBe("Reemplazante");
+  expect(RELACIONES_AUDITORIA.interviewer_employee_id).toBe("employees");
+  expect(formatearValorAuditoria("shift_type", "guardia")).toBe("Guardia (12 horas)");
+  expect(formatearValorAuditoria("interview_date", "2026-09-25")).toBe("25/09/2026");
 });

@@ -57,8 +57,10 @@ idéntico devuelve el mismo turno; si se reutiliza ese ID con datos distintos,
 se rechaza. `creation_requests` guarda solo el resumen criptográfico de los
 datos y no permite lectura directa desde cuentas de la aplicación. Las bajas
 laborales esperan asignaciones simultáneas y rechazan turnos futuros del titular
-o reemplazante hasta que se cancelen o reasignen. Quedan pendientes auditoría
-de antes/después e historial de empleados dados de baja en la grilla.
+o reemplazante hasta que se cancelen o reasignen. Desde la migración de
+auditoría `20260925000000_shifts_interviews_audit.sql`, altas, ediciones,
+coberturas y cancelaciones conservan antes/después y autor en el mismo commit.
+Sigue pendiente el historial de empleados dados de baja en la grilla.
 
 ## Migración y verificación
 
