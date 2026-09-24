@@ -112,3 +112,30 @@ it("la edición envía la versión exacta y muestra conflictos", async () => {
   expect(resultado.error).toContain("La entrevista cambió");
   expect(mocks.revalidar).not.toHaveBeenCalled();
 });
+
+it("un alta exige identificador de reintento y lo envía a la base", async () => {
+  const sinId = formulario();
+  sinId.delete("id");
+  expect((await guardarEntrevistaAction({ ok: false }, sinId)).error).toContain(
+    "Recargá",
+  );
+  expect(mocks.rpc).not.toHaveBeenCalled();
+
+  const idSolicitud = "92000000-0000-4000-8000-000000000011";
+  sinId.set("request_id", idSolicitud);
+  expect((await guardarEntrevistaAction({ ok: false }, sinId)).ok).toBe(true);
+  expect(mocks.rpc).toHaveBeenCalledWith(
+    "save_interview",
+    expect.objectContaining({ p_request_id: idSolicitud }),
+  );
+});
+
+it("rechaza reutilizar un identificador con datos distintos", async () => {
+  const datos = formulario();
+  datos.delete("id");
+  datos.set("request_id", "92000000-0000-4000-8000-000000000011");
+  mocks.rpc.mockResolvedValue({
+    error: { code: "23505", message: "creation_request_reused" },
+  });
+  expect((await guardarEntrevistaAction({ ok: false }, datos)).error).toContain("cambió");
+});

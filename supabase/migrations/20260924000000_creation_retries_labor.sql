@@ -4,7 +4,7 @@ begin;
 create table public.creation_requests (
   scope text not null check (scope in ('shift', 'interview')),
   request_id uuid not null,
-  actor_id uuid not null references auth.users(id) on delete restrict,
+  actor_id uuid not null references auth.users(id) on delete cascade,
   resource_id uuid not null,
   fingerprint text not null,
   created_at timestamptz not null default clock_timestamp(),

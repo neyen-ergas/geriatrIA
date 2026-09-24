@@ -224,6 +224,33 @@ export type Database = {
           },
         ]
       }
+      creation_requests: {
+        Row: {
+          actor_id: string
+          created_at: string
+          fingerprint: string
+          request_id: string
+          resource_id: string
+          scope: string
+        }
+        Insert: {
+          actor_id: string
+          created_at?: string
+          fingerprint: string
+          request_id: string
+          resource_id: string
+          scope: string
+        }
+        Update: {
+          actor_id?: string
+          created_at?: string
+          fingerprint?: string
+          request_id?: string
+          resource_id?: string
+          scope?: string
+        }
+        Relationships: []
+      }
       employee_account_events: {
         Row: {
           changed_at: string
@@ -1119,6 +1146,13 @@ export type Database = {
       }
     }
     Functions: {
+      begin_creation_request: {
+        Args: { p_fingerprint: string; p_request_id: string; p_scope: string }
+        Returns: {
+          already_exists: boolean
+          resource_id: string
+        }[]
+      }
       cancel_monthly_charge: {
         Args: { p_monthly_charge_id: string; p_reason: string }
         Returns: string
@@ -1277,6 +1311,7 @@ export type Database = {
           p_medical_notes?: string
           p_mobility_assessment?: string
           p_rejection_reason?: string
+          p_request_id?: string
           p_social_notes?: string
           p_status?: string
         }
@@ -1300,6 +1335,7 @@ export type Database = {
           p_guard_start?: string
           p_id?: string
           p_notes?: string
+          p_request_id?: string
           p_shift_date?: string
           p_shift_type?: string
         }

@@ -51,9 +51,14 @@ libera al anterior; cancelar un turno programado libera su horario.
 debe recargarse. Los errores se muestran sin exponer mensajes internos de SQL;
 un resultado de conexión incierto requiere comprobar la grilla antes de reintentar.
 
-La vigencia laboral se valida contra la fecha de inicio del turno. Quedan
-pendientes coordinar bajas laborales simultáneas, idempotencia de altas,
-auditoría de antes/después e historial de empleados dados de baja en la grilla.
+La vigencia laboral se valida contra la fecha de inicio del turno. Las altas
+envían un `request_id` estable mientras el formulario está abierto. Un reintento
+idéntico devuelve el mismo turno; si se reutiliza ese ID con datos distintos,
+se rechaza. `creation_requests` guarda solo el resumen criptográfico de los
+datos y no permite lectura directa desde cuentas de la aplicación. Las bajas
+laborales esperan asignaciones simultáneas y rechazan turnos futuros del titular
+o reemplazante hasta que se cancelen o reasignen. Quedan pendientes auditoría
+de antes/después e historial de empleados dados de baja en la grilla.
 
 ## Migración y verificación
 
@@ -69,3 +74,5 @@ reprograma registros para hacerla pasar. Revisar esos casos antes de reintentar.
 Pruebas SQL de horarios, permisos y versiones, más pruebas de concurrencia real
 para cobertura/cobertura, asignación/cobertura en ambos órdenes y franco/cobertura.
 Se ejecutan en GitHub CI, sin Docker local. Los tipos se regeneran desde el esquema.
+`20260924000000_creation_retries_labor.sql` debe desplegarse junto con la nueva
+interfaz: las versiones anteriores no envían `request_id` al crear turnos.

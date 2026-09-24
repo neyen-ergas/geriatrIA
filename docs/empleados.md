@@ -19,8 +19,12 @@ ella. No hay eliminación, reapertura ni recontratación en esta entrega: estas
 La ficha no crea una cuenta, invita usuarios ni habilita acceso al sistema.
 La sección Cuenta de acceso permite vincular una cuenta existente con perfil
 asignado. La baja exige suspenderla previamente y conserva esa asociación.
+Desde `20260924000000_creation_retries_labor.sql` también exige cancelar o
+reasignar primero los turnos y coberturas posteriores a la fecha de baja. Una
+asignación simultánea espera la decisión de baja, y una baja simultánea espera
+la asignación: nunca se confirma un turno fuera de la vigencia laboral.
 Ver [cuentas-empleados.md](cuentas-empleados.md) para identidad y correcciones.
-Salarios, turnos y documentos laborales siguen pendientes. Los perfiles se
+Salarios y documentos laborales siguen pendientes. Los perfiles se
 administran por separado en Accesos; ver [permisos.md](permisos.md).
 
 Migración aditiva `20260913000000_manage_employees.sql`, antes de la interfaz.

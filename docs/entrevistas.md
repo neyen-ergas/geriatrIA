@@ -120,3 +120,10 @@ anteriores siguen siendo compatibles; los clientes anteriores no pueden editar
 sin versión, por lo que hay que recargar las pantallas después de desplegar.
 La migración no modifica entrevistas existentes. Los tipos se generan en CI;
 las pruebas SQL y de carreras usan exclusivamente datos ficticios.
+
+Desde `20260924000000_creation_retries_labor.sql`, cada alta envía un
+`request_id` estable mientras el formulario está abierto. Repetir el mismo
+envío devuelve la misma entrevista sin duplicarla; reutilizar ese ID con datos
+distintos se rechaza. Tras un alta confirmada, el formulario impide volver a
+enviarla. La migración debe coordinarse con la nueva interfaz, pues los clientes
+anteriores no envían ese identificador.

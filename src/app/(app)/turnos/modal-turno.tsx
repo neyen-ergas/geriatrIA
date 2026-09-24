@@ -23,6 +23,7 @@ type ModalProps = {
   franjaInicial?: FranjaTurno;
   empleadoIdInicial?: string;
   turnoExistente?: Turno;
+  idSolicitud?: string;
   empleados: EmpleadoTurno[];
   onCerrar: () => void;
 };
@@ -35,6 +36,7 @@ export function ModalTurno({
   franjaInicial = "manana",
   empleadoIdInicial,
   turnoExistente,
+  idSolicitud,
   empleados,
   onCerrar,
 }: ModalProps) {
@@ -126,6 +128,9 @@ export function ModalTurno({
         )}
         {modo === "asignar" ? (
           <form action={accionAsignar} className="mt-5 space-y-4">
+            {!turnoExistente && (
+              <input type="hidden" name="request_id" value={idSolicitud} />
+            )}
             {turnoExistente?.id && (
               <input type="hidden" name="id" value={turnoExistente.id} />
             )}
@@ -250,7 +255,10 @@ export function ModalTurno({
                 <Button type="button" variant="outline" onClick={onCerrar}>
                   Volver
                 </Button>
-                <Button type="submit" disabled={pendiente}>
+                <Button
+                  type="submit"
+                  disabled={pendiente || (!turnoExistente && !idSolicitud)}
+                >
                   {pendienteAsignar ? "Guardando..." : "Guardar turno"}
                 </Button>
               </div>

@@ -13,6 +13,11 @@ it("explica cómo resolver la baja cuando la cuenta sigue habilitada", () => {
     "Suspendé primero la cuenta vinculada",
   );
 });
+it("indica qué hacer con turnos futuros antes de registrar la baja", () => {
+  expect(
+    errorEmpleado({ code: "23514", message: "employee_has_future_shifts" }),
+  ).toContain("Cancelá o reasigná los turnos");
+});
 it("normaliza DNI y admite contactos y nacimiento vacíos", () => {
   const resultado = validarEmpleado(base(), "2026-09-13");
   expect(resultado).toMatchObject({

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requerirSesion } from "@/lib/auth";
+import { esIdSolicitud } from "@/lib/id-solicitud";
 import {
   type ConclusionEntrevista,
   type EstadoEntrevista,
@@ -27,6 +28,7 @@ export async function guardarEntrevistaAction(
 
   const id = formData.get("id");
   const version = formData.get("expected_updated_at");
+  const idSolicitud = formData.get("request_id");
   const consultationId = formData.get("consultation_id");
   const candidateName = formData.get("candidate_name");
   const candidateDni = formData.get("candidate_dni");
@@ -114,11 +116,18 @@ export async function guardarEntrevistaAction(
   if (values.id && !esVersionValida(version)) {
     return { ok: false, error: "Recargá la entrevista antes de guardar los cambios." };
   }
+  if (!values.id && !esIdSolicitud(idSolicitud)) {
+    return {
+      ok: false,
+      error: "Recargá el formulario antes de programar la entrevista.",
+    };
+  }
 
   try {
     const supabase = await createClient();
     const { data: interviewId, error } = await supabase.rpc("save_interview", {
       p_id: values.id || undefined,
+      p_request_id: esIdSolicitud(idSolicitud) ? idSolicitud : undefined,
       p_expected_updated_at: typeof version === "string" ? version : undefined,
       p_consultation_id: values.consultation_id ?? undefined,
       p_candidate_name: values.candidate_name ?? undefined,
@@ -142,6 +151,13 @@ export async function guardarEntrevistaAction(
     });
 
     if (error) {
+      if (error.code === "23505" && error.message === "creation_request_reused") {
+        return {
+          ok: false,
+          error:
+            "El formulario cambió después del primer envío. Recargalo antes de crear otra entrevista.",
+        };
+      }
       const mensaje = traducirErrorEntrevista(error.code);
       if (mensaje) return { ok: false, error: mensaje };
 
@@ -166,7 +182,8 @@ export async function guardarEntrevistaAction(
   } catch {
     return {
       ok: false,
-      error: "Ocurrió un error inesperado al procesar la entrevista.",
+      error:
+        "No pudimos confirmar el registro. Podés reintentar desde este formulario sin duplicar la entrevista.",
     };
   }
 }

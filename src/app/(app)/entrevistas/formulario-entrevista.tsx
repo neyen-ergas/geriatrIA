@@ -20,6 +20,7 @@ import {
 import { guardarEntrevistaAction, type ResultadoEntrevista } from "./actions";
 
 interface FormularioEntrevistaProps {
+  idSolicitud?: string;
   entrevista?: Entrevista | null;
   consultas: ConsultaParaEntrevista[];
   entrevistadores: Entrevistador[];
@@ -47,6 +48,7 @@ export function FormularioEntrevista(props: FormularioEntrevistaProps) {
 }
 
 function CamposEntrevista({
+  idSolicitud,
   entrevista,
   consultas,
   entrevistadores,
@@ -100,6 +102,7 @@ function CamposEntrevista({
   return (
     <form action={formAction} className="space-y-8">
       {entrevista?.id && <input type="hidden" name="id" value={entrevista.id} />}
+      {!entrevista && <input type="hidden" name="request_id" value={idSolicitud ?? ""} />}
       {entrevista && (
         <input type="hidden" name="expected_updated_at" value={entrevista.updated_at} />
       )}
@@ -578,7 +581,7 @@ function CamposEntrevista({
             Cancelar
           </Button>
         </Link>
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending || (state.ok && !entrevista)}>
           {isPending
             ? "Guardando..."
             : entrevista?.id
