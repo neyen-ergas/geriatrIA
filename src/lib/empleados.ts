@@ -117,6 +117,8 @@ export function errorEmpleado(error: unknown): string {
     return "La ficha cambió. Volvé a cargarla antes de guardar.";
   if (codigo === DATOS_INVALIDOS && mensaje === "employee_access_enabled")
     return "Suspendé primero la cuenta vinculada desde Accesos y después registrá la baja.";
+  if (codigo === DATOS_INVALIDOS && mensaje === "employee_has_future_shifts")
+    return "Cancelá o reasigná los turnos y coberturas posteriores a la fecha de baja antes de continuar.";
   if (codigo === DATOS_INVALIDOS)
     return "Revisá los datos y fechas. Las fichas dadas de baja son solo de consulta.";
   if (codigo === SIN_ACCESO)

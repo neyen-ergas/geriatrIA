@@ -36,6 +36,7 @@ export function GrillaTurnos({
     empleadoId?: string;
     franja?: FranjaTurno;
     turno?: Turno;
+    idSolicitud?: string;
   } | null>(null);
 
   return (
@@ -47,6 +48,7 @@ export function GrillaTurnos({
           franjaInicial={modalAbierto.franja}
           empleadoIdInicial={modalAbierto.empleadoId}
           turnoExistente={modalAbierto.turno}
+          idSolicitud={modalAbierto.idSolicitud}
           empleados={empleados}
           onCerrar={() => setModalAbierto(null)}
         />
@@ -217,6 +219,7 @@ export function GrillaTurnos({
                                     modo: "asignar",
                                     fecha: dia,
                                     empleadoId: empleado.id,
+                                    idSolicitud: crypto.randomUUID(),
                                   })
                                 }
                                 className="inline-flex items-center gap-1 rounded bg-slate-900 px-2 py-1 text-[10px] font-medium text-white shadow-2xs hover:bg-slate-800"

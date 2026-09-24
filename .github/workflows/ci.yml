@@ -118,6 +118,9 @@ jobs:
       - name: Concurrent shift reservations
         run: python3 scripts/probar-concurrencia-turnos.py
 
+      - name: Concurrent retries and employee termination
+        run: python3 scripts/probar-concurrencia-reintentos-bajas.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requerirSesion } from "@/lib/auth";
+import { esIdSolicitud } from "@/lib/id-solicitud";
 import { esFranjaTurno, esHoraGuardia, esVersionTurno } from "@/lib/turnos";
 import { esFechaValida } from "@/lib/primer-ingreso";
 import { createClient } from "@/lib/supabase/server";
@@ -20,6 +21,7 @@ export async function asignarTurnoAction(
   const notas = texto(formData, "notes");
   const inicioGuardia = texto(formData, "guard_start");
   const version = texto(formData, "expected_updated_at");
+  const idSolicitud = texto(formData, "request_id");
   if (!empleado) return { ok: false, error: "Seleccioná un empleado." };
   if (!esFechaValida(fecha))
     return { ok: false, error: "La fecha del turno no es válida." };
@@ -29,12 +31,16 @@ export async function asignarTurnoAction(
     return { ok: false, error: "Indicá la hora de inicio de la guardia de 12 horas." };
   }
   if (id && !esVersionTurno(version)) return versionInvalida();
+  if (!id && !esIdSolicitud(idSolicitud)) {
+    return { ok: false, error: "Recargá la grilla antes de asignar el turno." };
+  }
   if (notas.length > 1000)
     return { ok: false, error: "Las observaciones admiten hasta 1000 caracteres." };
   try {
     const supabase = await createClient();
     const { error } = await supabase.rpc("save_shift", {
       p_id: id || undefined,
+      p_request_id: esIdSolicitud(idSolicitud) ? idSolicitud : undefined,
       p_employee_id: empleado,
       p_shift_date: fecha,
       p_shift_type: franja,
@@ -138,6 +144,9 @@ function mensajeError(codigo: string, mensaje: string): string {
   switch (codigo) {
     case SOLAPAMIENTO:
     case DUPLICADO:
+      if (mensaje === "creation_request_reused") {
+        return "El formulario cambió después del primer envío. Recargá la grilla antes de asignar otro turno.";
+      }
       return "El titular o el reemplazante ya tiene un turno, cobertura o franco que se superpone con ese horario.";
     case VERSION_VIEJA:
       return "El turno cambió desde que abriste esta pantalla. Recargá la grilla antes de continuar.";

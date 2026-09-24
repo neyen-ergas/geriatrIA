@@ -20,13 +20,13 @@ def probar(operacion_a, operacion_b):
       select public.save_employee(null,null,'Persona','Ficticia','{uuid.uuid4().int % 100000000:08d}','Cuidador','2025-01-01'); commit;""") for _ in range(3)]
     a, b, c = empleados
     turnos = [ejecutar(f"""begin; {autenticacion}
-      select public.save_shift(null,'{empleado}','2026-09-23','manana'); commit;""") for empleado in (a, c)]
+      select public.save_shift(null,'{empleado}','2026-09-23','manana', p_request_id := '{uuid.uuid4()}'); commit;""") for empleado in (a, c)]
     versiones = [ejecutar(f"select updated_at from public.shifts where id = '{turno}';") for turno in turnos]
     operaciones = {
         "cubrir_a": f"select public.cover_shift('{turnos[0]}','{b}','Motivo ficticio',null,'{versiones[0]}')",
         "cubrir_c": f"select public.cover_shift('{turnos[1]}','{b}','Motivo ficticio',null,'{versiones[1]}')",
-        "asignar": f"select public.save_shift(null,'{b}','2026-09-23','guardia',null,'10:00')",
-        "franco": f"select public.save_shift(null,'{b}','2026-09-23','franco')",
+        "asignar": f"select public.save_shift(null,'{b}','2026-09-23','guardia',null,'10:00', p_request_id := '{uuid.uuid4()}')",
+        "franco": f"select public.save_shift(null,'{b}','2026-09-23','franco', p_request_id := '{uuid.uuid4()}')",
     }
     try:
         primera = sesion(f"begin; {autenticacion} {operaciones[operacion_a]} \\gset\n\\echo LISTO\n")

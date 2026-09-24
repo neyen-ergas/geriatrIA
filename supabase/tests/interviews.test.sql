@@ -22,7 +22,7 @@ select throws_ok($$select transition_interview(null,null,'cancelled')$$,
  '42501','permission_denied','Solo lectura no cambia entrevistas');
 select set_config('request.jwt.claim.sub','92000000-0000-4000-8000-000000000001',true);
 select save_interview(null,null,'Persona ficticia',null,null,null,null,null,
- '2026-09-22',null,'scheduled',null,null,'Nota ficticia',null,'pendiente',null) as id \gset
+ '2026-09-22',null,'scheduled',null,null,'Nota ficticia',null,'pendiente',null, p_request_id := gen_random_uuid()) as id \gset
 select updated_at as original, created_at as creacion from interviews where id = :'id' \gset
 select ok(not has_table_privilege('authenticated','public.interviews','UPDATE'),
  'la escritura directa sigue cerrada');

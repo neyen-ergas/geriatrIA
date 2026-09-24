@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { randomUUID } from "node:crypto";
 import Link from "next/link";
 import { requerirSesion } from "@/lib/auth";
 import {
@@ -50,6 +51,7 @@ export default async function NuevaEntrevistaPage({
       </div>
 
       <FormularioEntrevista
+        idSolicitud={randomUUID()}
         consultas={consultas}
         entrevistadores={entrevistadores}
         preselectedConsultaId={preselectedConsultaId}

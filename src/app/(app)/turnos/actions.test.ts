@@ -18,6 +18,7 @@ const datos = (valores: Record<string, string>) => {
   return formulario;
 };
 const asignacion = {
+  request_id: "92000000-0000-4000-8000-000000000011",
   employee_id: "empleado",
   shift_date: "2026-09-23",
   shift_type: "guardia",
@@ -57,9 +58,27 @@ it("envía el inicio explícito de una guardia", async () => {
   expect((await asignarTurnoAction(inicial, datos(asignacion))).ok).toBe(true);
   expect(mocks.rpc).toHaveBeenCalledWith(
     "save_shift",
-    expect.objectContaining({ p_guard_start: "19:00" }),
+    expect.objectContaining({
+      p_guard_start: "19:00",
+      p_request_id: asignacion.request_id,
+    }),
   );
   expect(mocks.revalidar).toHaveBeenCalledWith("/turnos");
+});
+it("rechaza un alta sin identificador de reintento", async () => {
+  const { request_id: _id, ...sinSolicitud } = asignacion;
+  expect((await asignarTurnoAction(inicial, datos(sinSolicitud))).error).toContain(
+    "Recargá",
+  );
+  expect(mocks.rpc).not.toHaveBeenCalled();
+});
+it("avisa si se reutiliza el identificador con otros datos", async () => {
+  mocks.rpc.mockResolvedValue({
+    error: { code: "23505", message: "creation_request_reused" },
+  });
+  expect((await asignarTurnoAction(inicial, datos(asignacion))).error).toContain(
+    "cambió",
+  );
 });
 it("descarta hora de guardia al cambiar de franja", async () => {
   await asignarTurnoAction(inicial, datos({ ...asignacion, shift_type: "manana" }));
