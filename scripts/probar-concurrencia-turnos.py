@@ -17,7 +17,7 @@ def probar(operacion_a, operacion_b):
     autenticacion = f"set local role authenticated; select set_config('request.jwt.claim.sub','{usuario}',true) \\gset\n"
     ejecutar(f"insert into auth.users(id) values ('{usuario}'); insert into public.user_access(user_id,role) values ('{usuario}','admin');")
     empleados = [ejecutar(f"""begin; {autenticacion}
-      select public.save_employee(null,null,'Persona','Ficticia','TEST-{uuid.uuid4().hex}','Cuidador','2025-01-01'); commit;""") for _ in range(3)]
+      select public.save_employee(null,null,'Persona','Ficticia','{uuid.uuid4().int % 100000000:08d}','Cuidador','2025-01-01'); commit;""") for _ in range(3)]
     a, b, c = empleados
     turnos = [ejecutar(f"""begin; {autenticacion}
       select public.save_shift(null,'{empleado}','2026-09-23','manana'); commit;""") for empleado in (a, c)]
