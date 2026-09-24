@@ -14,7 +14,8 @@ consultas/visitas, residentes, familiares, estadías, cuotas, pagos, empleados,
 accesos/vínculos y conversiones de consulta a ingreso. Se registran altas,
 ediciones, bajas y anulaciones con sus motivos. La ampliación
 `20260914040000_resident_records.sql` agrega documentos, indicaciones, medicación,
-cuidados y pertenencias: catorce tablas auditadas en total. Una eliminación administrativa
+cuidados y pertenencias. `20260925000000_shifts_interviews_audit.sql` suma
+Turnos y Entrevistas: dieciséis tablas auditadas en total. Una eliminación administrativa
 de una fila también conserva sus valores anteriores; no se habilita eliminación
 desde la aplicación. Una operación que modifica varias tablas produce un evento
 por fila modificada, todos dentro de la misma transacción.
@@ -32,6 +33,11 @@ cambiados y valores anteriores/nuevos. No se serializan Auth, contraseñas, toke
 ni contenido de Storage; del comprobante solo se conserva la ruta. Los datos de
 negocio pueden contener información sensible y solo Administrador puede leerlos.
 El listado descarga metadatos; los valores completos se leen al abrir el detalle.
+Turnos registra titular, fecha, franja, inicio de guardia, estado, ausencia,
+reemplazante y observaciones. Entrevistas registra datos del candidato y
+acompañante, evaluación, dictamen y motivo. El detalle permite navegar a las
+fichas de empleados y consultas vinculadas. No se guardan claves de reintento,
+autoría interna ni marcas de tiempo repetidas dentro de los valores.
 
 RLS y privilegios permiten únicamente lectura administrativa. Ni clientes
 autenticados ni `service_role` pueden insertar, modificar o borrar eventos.
@@ -39,7 +45,9 @@ La captura se ejecuta como función de trigger con permisos internos. Esta es
 inmutabilidad desde la aplicación, no evidencia criptográfica ni protección
 contra el propietario de la base. No registra lecturas, descargas, intentos de
 login, operaciones rechazadas, cambios de Auth ni cambios hechos directamente
-en Storage. No hay purga automática del historial.
+en Storage. No hay purga automática del historial. Los eventos de Turnos y
+Entrevistas comienzan al instalar sus triggers: no se inventan snapshots ni
+autorías de operaciones previas.
 
 ## Historial anterior
 
@@ -70,6 +78,10 @@ Ante un problema, revertir la interfaz o aplicar una migración correctiva
 conservando eventos y captura; no borrar historial como mecanismo de rollback.
 Incluir esta tabla en los backups de la base. Nuevas tablas de negocio deben
 incorporarse explícitamente a la lista de campos y a los filtros de esta sección.
+La ampliación de Turnos y Entrevistas requiere primero la migración de
+reintentos `20260924000000_creation_retries_labor.sql` de la PR #54; después se
+aplica `20260925000000_shifts_interviews_audit.sql`. La instalación bloquea
+brevemente escrituras de ambas tablas para no dejar una ventana sin captura.
 
 ## Verificación
 
@@ -80,3 +92,6 @@ anulaciones, borrado administrativo y rollback de negocio/auditoría.
 GitHub ejecuta además las pruebas de concurrencia existentes y una regresión de
 la migración sobre diez hechos previos ficticios, revirtiendo datos y DDL juntos.
 Las pruebas SQL usan exclusivamente la base aislada de CI. Sin Docker local.
+La ampliación cubre altas, ediciones, coberturas, cancelaciones, dictámenes,
+acciones rápidas, reenvíos sin evento duplicado, lectura por rol y rollback
+conjunto de negocio y auditoría.

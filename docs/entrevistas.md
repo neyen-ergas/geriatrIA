@@ -127,3 +127,7 @@ envío devuelve la misma entrevista sin duplicarla; reutilizar ese ID con datos
 distintos se rechaza. Tras un alta confirmada, el formulario impide volver a
 enviarla. La migración debe coordinarse con la nueva interfaz, pues los clientes
 anteriores no envían ese identificador.
+
+Desde `20260925000000_shifts_interviews_audit.sql`, las altas, evaluaciones,
+dictámenes y transiciones conservan antes/después y autor en Auditoría. La
+captura empieza con la migración; no reconstruye cambios anteriores.

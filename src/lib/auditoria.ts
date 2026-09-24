@@ -15,6 +15,8 @@ export const TABLAS_AUDITORIA = [
   "medications",
   "special_needs",
   "inventory_items",
+  "shifts",
+  "interviews",
 ] as const;
 export type TablaAuditoria = (typeof TABLAS_AUDITORIA)[number];
 export const ETIQUETAS_TABLA: Record<TablaAuditoria, string> = {
@@ -32,6 +34,8 @@ export const ETIQUETAS_TABLA: Record<TablaAuditoria, string> = {
   medications: "Medicación",
   special_needs: "Cuidados especiales",
   inventory_items: "Pertenencias",
+  shifts: "Turnos",
+  interviews: "Entrevistas",
 };
 export const ACCIONES_AUDITORIA = ["insert", "update", "delete"] as const;
 export type AccionAuditoria = (typeof ACCIONES_AUDITORIA)[number];
