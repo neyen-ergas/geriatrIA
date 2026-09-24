@@ -7,6 +7,7 @@ import {
   COLORES_FRANJA,
   ETIQUETAS_CORTAS_FRANJA,
   etiquetaDiaSemana,
+  horarioTurno,
   type EmpleadoTurno,
   type FranjaTurno,
   type SemanaTurnos,
@@ -96,8 +97,12 @@ export function GrillaTurnos({
                     </td>
 
                     {semana.dias.map(dia => {
-                      const turnoDelDia = turnos.find(
-                        t => t.employee_id === empleado.id && t.shift_date === dia,
+                      const turnosDelDia = turnos.filter(
+                        t =>
+                          (t.employee_id === empleado.id ||
+                            t.covered_by_employee_id === empleado.id) &&
+                          t.shift_date === dia &&
+                          t.status !== "cancelled",
                       );
                       const esHoy = dia === hoy;
 
@@ -108,10 +113,12 @@ export function GrillaTurnos({
                             esHoy ? "bg-sky-50/30" : ""
                           }`}
                         >
-                          {turnoDelDia ? (
+                          {turnosDelDia.map(turnoDelDia => (
                             <div
-                              className={`group relative rounded-lg border p-2 shadow-2xs transition ${
-                                turnoDelDia.status === "absent"
+                              key={turnoDelDia.id}
+                              className={`group relative mb-2 rounded-lg border p-2 shadow-2xs transition ${
+                                turnoDelDia.status === "absent" &&
+                                turnoDelDia.employee_id === empleado.id
                                   ? "border-red-200 bg-red-50/60"
                                   : COLORES_FRANJA[turnoDelDia.shift_type as FranjaTurno]
                                       ?.badge || "border-slate-200 bg-slate-50"
@@ -123,24 +130,35 @@ export function GrillaTurnos({
                                     turnoDelDia.shift_type as FranjaTurno
                                   ] || turnoDelDia.shift_type}
                                 </span>
-                                {turnoDelDia.status === "absent" ? (
+                                {turnoDelDia.status === "absent" &&
+                                turnoDelDia.employee_id === empleado.id ? (
                                   <AlertCircle className="h-3.5 w-3.5 text-red-600" />
                                 ) : (
                                   <Clock className="h-3 w-3 opacity-60" />
                                 )}
                               </div>
 
-                              {turnoDelDia.status === "absent" && (
-                                <div className="mt-1 text-[11px] text-red-700">
-                                  <div className="font-medium">Ausente</div>
-                                  {turnoDelDia.covered_by && (
-                                    <div className="flex items-center gap-1 text-[10px] text-emerald-800">
-                                      <UserCheck className="h-3 w-3" />
-                                      Cubre: {turnoDelDia.covered_by.last_name}
-                                    </div>
-                                  )}
+                              <div className="mt-1 text-[10px]">
+                                {horarioTurno(turnoDelDia)}
+                              </div>
+                              {turnoDelDia.covered_by_employee_id === empleado.id && (
+                                <div className="mt-1 font-semibold text-emerald-800">
+                                  Cubre a:{" "}
+                                  {turnoDelDia.employee?.last_name || "otro empleado"}
                                 </div>
                               )}
+                              {turnoDelDia.status === "absent" &&
+                                turnoDelDia.employee_id === empleado.id && (
+                                  <div className="mt-1 text-[11px] text-red-700">
+                                    <div className="font-medium">Ausente</div>
+                                    {turnoDelDia.covered_by && (
+                                      <div className="flex items-center gap-1 text-[10px] text-emerald-800">
+                                        <UserCheck className="h-3 w-3" />
+                                        Cubre: {turnoDelDia.covered_by.last_name}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
 
                               {turnoDelDia.notes && (
                                 <div className="mt-1 truncate text-[10px] text-slate-500">
@@ -148,61 +166,64 @@ export function GrillaTurnos({
                                 </div>
                               )}
 
-                              {esAdmin && (
-                                <div className="mt-2 flex items-center gap-1 border-t border-slate-200/60 pt-1.5 opacity-0 transition group-hover:opacity-100">
-                                  {turnoDelDia.status !== "absent" && (
+                              {esAdmin &&
+                                turnoDelDia.employee_id === empleado.id &&
+                                ["scheduled", "absent"].includes(turnoDelDia.status) && (
+                                  <div className="mt-2 flex items-center gap-1 border-t border-slate-200/60 pt-1.5">
+                                    {turnoDelDia.shift_type !== "franco" && (
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          setModalAbierto({
+                                            modo: "cubrir",
+                                            turno: turnoDelDia,
+                                          })
+                                        }
+                                        className="rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-amber-700 shadow-2xs hover:bg-amber-50"
+                                        title="Registrar ausencia o reemplazo"
+                                      >
+                                        {turnoDelDia.status === "absent"
+                                          ? "Cambiar cobertura"
+                                          : "Cubrir"}
+                                      </button>
+                                    )}
                                     <button
                                       type="button"
                                       onClick={() =>
                                         setModalAbierto({
-                                          modo: "cubrir",
+                                          modo: "asignar",
                                           turno: turnoDelDia,
+                                          empleadoId: empleado.id,
+                                          fecha: dia,
                                         })
                                       }
-                                      className="rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-amber-700 shadow-2xs hover:bg-amber-50"
-                                      title="Registrar ausencia o reemplazo"
+                                      className="rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-700 shadow-2xs hover:bg-slate-100"
                                     >
-                                      Cubrir
+                                      Editar
                                     </button>
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      setModalAbierto({
-                                        modo: "asignar",
-                                        turno: turnoDelDia,
-                                        empleadoId: empleado.id,
-                                        fecha: dia,
-                                      })
-                                    }
-                                    className="rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-700 shadow-2xs hover:bg-slate-100"
-                                  >
-                                    Editar
-                                  </button>
-                                </div>
-                              )}
+                                  </div>
+                                )}
                             </div>
-                          ) : (
+                          ))}
+                          {turnosDelDia.length === 0 && !esAdmin && (
+                            <span className="text-slate-400">Sin turnos</span>
+                          )}
+                          {esAdmin && (
                             <div className="group flex min-h-14 flex-col items-center justify-center rounded-lg border border-dashed border-slate-200 p-1 hover:border-slate-300">
-                              <span className="text-[11px] text-slate-400 group-hover:hidden">
-                                Libre
-                              </span>
-                              {esAdmin && (
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    setModalAbierto({
-                                      modo: "asignar",
-                                      fecha: dia,
-                                      empleadoId: empleado.id,
-                                    })
-                                  }
-                                  className="hidden items-center gap-1 rounded bg-slate-900 px-2 py-1 text-[10px] font-medium text-white shadow-2xs hover:bg-slate-800 group-hover:inline-flex"
-                                >
-                                  <Plus className="h-3 w-3" />
-                                  Asignar
-                                </button>
-                              )}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setModalAbierto({
+                                    modo: "asignar",
+                                    fecha: dia,
+                                    empleadoId: empleado.id,
+                                  })
+                                }
+                                className="inline-flex items-center gap-1 rounded bg-slate-900 px-2 py-1 text-[10px] font-medium text-white shadow-2xs hover:bg-slate-800"
+                              >
+                                <Plus className="h-3 w-3" />
+                                Asignar
+                              </button>
                             </div>
                           )}
                         </td>

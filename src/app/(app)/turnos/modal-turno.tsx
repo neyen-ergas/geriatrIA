@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { X, Calendar, UserCheck, AlertTriangle } from "lucide-react";
 import { Button, Input, Label, Textarea } from "@/components/ui";
 import {
@@ -50,6 +50,8 @@ export function ModalTurno({
     cancelarTurnoAction,
     ESTADO_INICIAL,
   );
+  const [franja, setFranja] = useState(turnoExistente?.shift_type || franjaInicial);
+  const pendiente = pendienteAsignar || pendienteCubrir || pendienteCancelar;
 
   // Escuchar tecla Escape para cerrar modal accesiblemente
   useEffect(() => {
@@ -62,10 +64,9 @@ export function ModalTurno({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onCerrar]);
 
-  // Si la acción fue exitosa, cerramos el modal
-  if (estadoAsignar.ok || estadoCubrir.ok || estadoCancelar.ok) {
-    onCerrar();
-  }
+  useEffect(() => {
+    if (estadoAsignar.ok || estadoCubrir.ok || estadoCancelar.ok) onCerrar();
+  }, [estadoAsignar.ok, estadoCubrir.ok, estadoCancelar.ok, onCerrar]);
 
   return (
     <div
@@ -108,11 +109,31 @@ export function ModalTurno({
           </button>
         </div>
 
+        {turnoExistente?.status === "scheduled" && (
+          <form id="cancelar-turno" action={accionCancelar}>
+            <input type="hidden" name="shift_id" value={turnoExistente.id} />
+            <input
+              type="hidden"
+              name="expected_updated_at"
+              value={turnoExistente.updated_at}
+            />
+          </form>
+        )}
+        {estadoCancelar.error && (
+          <p role="alert" className="mt-3 text-sm text-red-700">
+            {estadoCancelar.error}
+          </p>
+        )}
         {modo === "asignar" ? (
           <form action={accionAsignar} className="mt-5 space-y-4">
             {turnoExistente?.id && (
               <input type="hidden" name="id" value={turnoExistente.id} />
             )}
+            <input
+              type="hidden"
+              name="expected_updated_at"
+              value={turnoExistente?.updated_at || ""}
+            />
 
             <div>
               <Label htmlFor="employee_id">Empleado</Label>
@@ -152,7 +173,8 @@ export function ModalTurno({
                   id="shift_type"
                   name="shift_type"
                   required
-                  defaultValue={turnoExistente?.shift_type || franjaInicial}
+                  value={franja}
+                  onChange={evento => setFranja(evento.target.value)}
                   className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
                 >
                   {FRANJAS_TURNO.map(franja => (
@@ -163,6 +185,29 @@ export function ModalTurno({
                 </select>
               </div>
             </div>
+
+            {franja === "guardia" && (
+              <div>
+                <Label htmlFor="guard_start">Inicio de la guardia de 12 horas</Label>
+                <Input
+                  id="guard_start"
+                  name="guard_start"
+                  type="time"
+                  required
+                  defaultValue={turnoExistente?.guard_start?.slice(0, 5) || ""}
+                />
+                <p className="mt-1 text-xs text-slate-500">
+                  La hora de inicio corresponde a la fecha indicada. Puede terminar al día
+                  siguiente.
+                </p>
+              </div>
+            )}
+            {franja === "franco" && (
+              <p className="text-xs text-slate-500">
+                El franco reserva todo el día, de 00:00 a 24:00, y no permite turnos ni
+                coberturas superpuestos.
+              </p>
+            )}
 
             <div>
               <Label htmlFor="notes">Observaciones (opcional)</Label>
@@ -186,18 +231,17 @@ export function ModalTurno({
             )}
 
             <div className="flex items-center justify-between border-t border-slate-100 pt-4">
-              {turnoExistente?.id ? (
-                <form action={accionCancelar}>
-                  <input type="hidden" name="shift_id" value={turnoExistente.id} />
-                  <Button
-                    type="submit"
-                    variant="danger"
-                    size="md"
-                    disabled={pendienteCancelar}
-                  >
-                    {pendienteCancelar ? "Cancelando..." : "Cancelar turno"}
-                  </Button>
-                </form>
+              {turnoExistente?.status === "scheduled" ? (
+                <Button
+                  type="submit"
+                  form="cancelar-turno"
+                  formNoValidate
+                  variant="danger"
+                  size="md"
+                  disabled={pendiente}
+                >
+                  {pendienteCancelar ? "Cancelando..." : "Cancelar turno"}
+                </Button>
               ) : (
                 <div />
               )}
@@ -206,7 +250,7 @@ export function ModalTurno({
                 <Button type="button" variant="outline" onClick={onCerrar}>
                   Volver
                 </Button>
-                <Button type="submit" disabled={pendienteAsignar}>
+                <Button type="submit" disabled={pendiente}>
                   {pendienteAsignar ? "Guardando..." : "Guardar turno"}
                 </Button>
               </div>
@@ -215,6 +259,11 @@ export function ModalTurno({
         ) : (
           <form action={accionCubrir} className="mt-5 space-y-4">
             <input type="hidden" name="shift_id" value={turnoExistente?.id || ""} />
+            <input
+              type="hidden"
+              name="expected_updated_at"
+              value={turnoExistente?.updated_at || ""}
+            />
 
             <div className="rounded-xl bg-slate-50 p-3.5 text-xs text-slate-700">
               <div className="font-semibold text-slate-900">
@@ -235,6 +284,7 @@ export function ModalTurno({
                 name="absence_reason"
                 required
                 maxLength={500}
+                defaultValue={turnoExistente?.absence_reason || ""}
                 placeholder="Ej. Licencia médica, enfermedad, imprevisto personal..."
               />
             </div>
@@ -245,7 +295,7 @@ export function ModalTurno({
                 id="covered_by_employee_id"
                 name="covered_by_employee_id"
                 required
-                defaultValue=""
+                defaultValue={turnoExistente?.covered_by_employee_id || ""}
                 className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
               >
                 <option value="" disabled>
@@ -285,7 +335,7 @@ export function ModalTurno({
               <Button type="button" variant="outline" onClick={onCerrar}>
                 Volver
               </Button>
-              <Button type="submit" disabled={pendienteCubrir}>
+              <Button type="submit" disabled={pendiente}>
                 <UserCheck className="h-4 w-4" />
                 {pendienteCubrir ? "Registrando..." : "Confirmar cobertura"}
               </Button>

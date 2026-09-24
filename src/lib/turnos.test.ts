@@ -2,6 +2,8 @@ import { expect, it } from "vitest";
 import {
   esFranjaTurno,
   esEstadoTurno,
+  horarioTurno,
+  esHoraGuardia,
   semanaTurnos,
   enlaceTurnos,
   etiquetaDiaSemana,
@@ -10,6 +12,21 @@ import {
   ETIQUETAS_FRANJA_TURNO,
   ETIQUETAS_ESTADO_TURNO,
 } from "./turnos";
+
+it("muestra el cruce de medianoche para guardias y noches", () => {
+  expect(horarioTurno({ shift_type: "guardia", guard_start: "19:30:00" })).toBe(
+    "19:30–07:30 (+1 día)",
+  );
+  expect(horarioTurno({ shift_type: "guardia", guard_start: "07:00:00" })).toBe(
+    "07:00–19:00",
+  );
+  expect(horarioTurno({ shift_type: "noche", guard_start: null })).toBe(
+    "23:00–07:00 (+1 día)",
+  );
+  expect(horarioTurno({ shift_type: "franco", guard_start: null })).toBe("00:00–24:00");
+  expect(esHoraGuardia("24:00")).toBe(false);
+  expect(esHoraGuardia("23:59")).toBe(true);
+});
 
 it("valida todas las franjas y rechaza cadenas arbitrarias", () => {
   for (const franja of FRANJAS_TURNO) {

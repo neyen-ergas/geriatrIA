@@ -115,6 +115,9 @@ jobs:
       - name: Concurrent interview changes
         run: python3 scripts/probar-concurrencia-entrevistas.py
 
+      - name: Concurrent shift reservations
+        run: python3 scripts/probar-concurrencia-turnos.py
+
       - name: Stop local database
         if: always()
         run: npx supabase stop

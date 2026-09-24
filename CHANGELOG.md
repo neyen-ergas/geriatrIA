@@ -8,6 +8,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ### Agregado
 
+- Disponibilidad de Turnos por intervalos para titulares y reemplazantes, protegida
+  también ante escrituras simultáneas. Guardias de 12 horas con inicio explícito,
+  noches hasta el día siguiente y francos de día completo. Versiones al editar,
+  cubrir y cancelar; lectura exclusiva de Administrador y coberturas visibles en
+  la fila del reemplazante. Requiere `20260923000000_shift_availability.sql` y
+  despliegue coordinado; ver `docs/turnos.md`.
 - Acciones de completar/cancelar entrevistas mediante RPC exclusiva de Administrador,
   con errores visibles y protección de versión compartida con la edición integral.
   Requiere `20260922000000_interview_transitions.sql` y recargar formularios abiertos.

@@ -11,7 +11,7 @@ export const ETIQUETAS_FRANJA_TURNO: Record<FranjaTurno, string> = {
   manana: "Mañana (07 a 15 hs)",
   tarde: "Tarde (15 a 23 hs)",
   noche: "Noche (23 a 07 hs)",
-  guardia: "Guardia",
+  guardia: "Guardia (12 horas)",
   franco: "Franco",
 };
 
@@ -67,6 +67,7 @@ export type Turno = Pick<
   | "employee_id"
   | "shift_date"
   | "shift_type"
+  | "guard_start"
   | "status"
   | "absence_reason"
   | "covered_by_employee_id"
@@ -108,6 +109,38 @@ export function esFranjaTurno(valor: unknown): valor is FranjaTurno {
 
 export function esEstadoTurno(valor: unknown): valor is EstadoTurno {
   return ESTADOS_TURNO.includes(valor as EstadoTurno);
+}
+
+export function esHoraGuardia(valor: unknown): valor is string {
+  return typeof valor === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(valor);
+}
+
+export function esVersionTurno(valor: unknown): valor is string {
+  return (
+    typeof valor === "string" &&
+    /^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$/.test(
+      valor,
+    ) &&
+    Number.isFinite(Date.parse(valor))
+  );
+}
+
+export function horarioTurno(turno: Pick<Turno, "shift_type" | "guard_start">): string {
+  if (turno.shift_type === "guardia") {
+    const inicio = turno.guard_start?.slice(0, 5);
+    if (!esHoraGuardia(inicio)) return "Horario pendiente";
+    const hora = Number(inicio.slice(0, 2));
+    const fin = `${String((hora + 12) % 24).padStart(2, "0")}:${inicio.slice(3)}`;
+    return `${inicio}–${fin}${hora >= 12 ? " (+1 día)" : ""}`;
+  }
+  return (
+    {
+      manana: "07:00–15:00",
+      tarde: "15:00–23:00",
+      noche: "23:00–07:00 (+1 día)",
+      franco: "00:00–24:00",
+    }[turno.shift_type] ?? ""
+  );
 }
 
 const DIAS_POR_SEMANA = 7;

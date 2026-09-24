@@ -1,55 +1,71 @@
 # Turnos del personal
 
-Gestión de la grilla semanal de turnos de los empleados de la residencia:
-asignación, reasignación y cobertura de ausencias.
+Asignación, edición, cancelación y cobertura de ausencias. La grilla muestra
+cada franja propia y las coberturas en la fila del reemplazante.
 
-| Perfil                    | Alcance                                                               |
-| ------------------------- | --------------------------------------------------------------------- |
-| Administrador (`admin`)   | Consulta, asignación, reasignación, cancelación y cobertura de turnos |
-| Gestión (`management`)    | Consulta de la grilla de turnos y disponibilidades operativas         |
-| Solo lectura (`readonly`) | Consulta de la grilla semanal                                         |
+| Perfil                                                | Alcance                      |
+| ----------------------------------------------------- | ---------------------------- |
+| Administrador habilitado                              | Consulta y gestión de turnos |
+| Gestión, Solo lectura, cuentas suspendidas y anónimos | Sin acceso                   |
 
-## Franjas horarias y estados
+La interfaz y RLS usan `administration`. Los motivos de ausencia y las notas
+no quedan expuestos a los otros perfiles mediante consultas directas a la API.
 
-Los turnos se organizan por día (`shift_date`) y franja (`shift_type`):
+## Horarios
 
-- `manana`: Mañana (07:00 a 15:00)
-- `tarde`: Tarde (15:00 a 23:00)
-- `noche`: Noche (23:00 a 07:00)
-- `guardia`: Guardia especial / 12 horas
-- `franco`: Descanso programado
+Los horarios corresponden al calendario local de la residencia. `shift_date`
+es la fecha de inicio. Los intervalos incluyen el inicio y excluyen el final:
+07:00–15:00 y 15:00–23:00 son contiguos y pueden asignarse a la misma persona.
 
-Estados posibles (`status`):
+- Mañana: 07:00–15:00.
+- Tarde: 15:00–23:00.
+- Noche: 23:00–07:00 del día siguiente.
+- Guardia: 12 horas desde el inicio elegido explícitamente al asignar; puede
+  terminar al día siguiente. No se infiere un horario para guardias anteriores.
+- Franco: 00:00–24:00 del día indicado. Impide trabajo y coberturas durante ese
+  día, incluso una noche que empezó el día anterior. No admite ausencia/cobertura.
 
-- `scheduled`: Asignado y programado.
-- `completed`: Turno cumplido.
-- `absent`: Ausencia registrada (enfermedad, fuerza mayor o imprevisto).
-- `cancelled`: Turno cancelado antes de su inicio (libera la franja).
+Estas reglas comprueban solapamientos; no implementan límites de jornada,
+pausas mínimas ni reglas de convenio.
 
-## Garantías en la base de datos
+## Disponibilidad y estados
 
-1. **Sin turnos superpuestos:**
-   Un empleado no puede tener dos turnos activos en la misma fecha y franja horaria.
-   Garantizado por el índice único parcial en Postgres:
-   `unique (employee_id, shift_date, shift_type) where (status <> 'cancelled')`.
-2. **Vigencia del empleado:**
-   Un turno no puede asignarse a una persona antes de su fecha de contratación
-   (`shift_date >= hired_at`) ni posterior a su baja (`shift_date <= terminated_at`).
-3. **Cobertura coherente:**
-   Si se registra una ausencia con cobertura (`covered_by_employee_id`), el empleado
-   reemplazante debe ser diferente al titular del turno (`covered_by_employee_id <> employee_id`)
-   y debe justificarse el motivo (`absence_reason is not null`).
-4. **Nada se elimina:**
-   Cancelar un turno marca `status = 'cancelled'`, conservando la trazabilidad de la
-   planificación previa.
+Cada turno no cancelado reserva su intervalo para el titular. Si está ausente,
+reserva además el mismo intervalo para quien lo cubre. El titular ausente sigue
+ocupado en ese intervalo: no puede ser reasignado simultáneamente a otro puesto.
 
-## Funciones transaccionales y RPC
+`shift_reservations` es una tabla interna sin permisos directos para usuarios.
+Una exclusión por empleado e intervalo impide turnos propios, coberturas y
+francos superpuestos, aunque dos operaciones lleguen simultáneamente. Su
+actualización ocurre en la misma transacción que el turno: un conflicto revierte
+la ausencia o edición y conserva las reservas previas. Cambiar de reemplazante
+libera al anterior; cancelar un turno programado libera su horario.
 
-- `save_shift(...)`: Asigna o actualiza un turno verificando sesión, permisos y vigencia laboral.
-- `cover_shift(...)`: Registra la ausencia y vincula al empleado que cubre el horario en una única transacción.
-- `cancel_shift(...)`: Cancela un turno programado liberando el horario.
+- `scheduled`: programado, editable, cancelable y admite cobertura salvo franco.
+- `absent`: ausencia con motivo; puede editarse y reasignarse la cobertura.
+- `completed`: cumplido, de consulta; todavía no hay una acción para marcarlo.
+- `cancelled`: de consulta; no reserva horario.
 
-## Migración
+`save_shift`, `cover_shift` y `cancel_shift` exigen Administrador y comparan
+`p_expected_updated_at` bajo bloqueo de fila al modificar. Un formulario viejo
+debe recargarse. Los errores se muestran sin exponer mensajes internos de SQL;
+un resultado de conexión incierto requiere comprobar la grilla antes de reintentar.
 
-Migración `20260915000000_employee_shifts.sql`. Crea la tabla `shifts`, sus índices,
-políticas RLS y funciones controladas con comprobación de `auth.uid()`.
+La vigencia laboral se valida contra la fecha de inicio del turno. Quedan
+pendientes coordinar bajas laborales simultáneas, idempotencia de altas,
+auditoría de antes/después e historial de empleados dados de baja en la grilla.
+
+## Migración y verificación
+
+Aplicar `20260923000000_shift_availability.sql` después de las migraciones
+existentes. Coordinar la migración con la aplicación nueva y recargar formularios:
+los clientes viejos no envían versión ni inicio de guardia. El preflight del
+23/09/2026 encontró cero turnos, sin leer datos personales ni modificar producción.
+
+La migración construye reservas de registros existentes. Si aparecen conflictos,
+guardias sin horario o francos con ausencia, falla y revierte todo; no borra ni
+reprograma registros para hacerla pasar. Revisar esos casos antes de reintentar.
+
+Pruebas SQL de horarios, permisos y versiones, más pruebas de concurrencia real
+para cobertura/cobertura, asignación/cobertura en ambos órdenes y franco/cobertura.
+Se ejecutan en GitHub CI, sin Docker local. Los tipos se regeneran desde el esquema.
