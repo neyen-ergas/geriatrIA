@@ -18,7 +18,7 @@ def probar(operacion_primera, operacion_segunda):
     ejecutar(f"""insert into auth.users(id) values ('{usuario}');
       insert into public.user_access(user_id,role) values ('{usuario}','admin');""")
     entrevista = ejecutar(f"""begin; {autenticacion}
-      select public.save_interview(p_candidate_name := 'Persona ficticia',
+      select public.save_interview(p_request_id := '{uuid.uuid4()}', p_candidate_name := 'Persona ficticia',
         p_interview_date := '2026-09-22', p_medical_notes := 'Original'); commit;""")
     version = ejecutar(f"select updated_at from public.interviews where id = '{entrevista}';")
     operaciones = {
