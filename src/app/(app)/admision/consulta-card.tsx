@@ -6,6 +6,7 @@ import { useActionState, useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
 import { SoloAdmin, SoloGestion, usePuedeGestionar } from "@/components/permisos";
 import { Badge, Button, Card, Input, Label } from "@/components/ui";
+import { FechaLegible } from "@/components/fecha-legible";
 import { cn } from "@/lib/utils";
 import {
   COLORES_ESTADO,
@@ -159,6 +160,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
 
       {mostrarFormulario && (
         <form
+          id={`agendar-visita-${consulta.id}`}
           key={`agenda-${consulta.actualizado_en}`}
           action={enviarAgenda}
           className="mt-5"
@@ -168,6 +170,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
           <div className="flex flex-wrap items-start gap-2">
             <Input
               type="date"
+              id={`visita-fecha-${consulta.id}`}
               name="visita_fecha"
               min={hoy || undefined}
               defaultValue={consulta.visita_fecha ?? ""}
@@ -194,6 +197,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
               {agendando ? "Guardando…" : agendada ? "Reprogramar" : "Agendar"}
             </Button>
           </div>
+          <FechaLegible id={`visita-fecha-${consulta.id}`} />
           {resAgenda.error && (
             <p role="alert" className="mt-2 text-sm text-red-600">
               {resAgenda.error}
@@ -316,8 +320,12 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       )}
 
       <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-400">
-        Recibida el {fechaHora.format(new Date(consulta.creado_en))} · origen{" "}
-        {consulta.origen}
+        Recibida el {fechaHora.format(new Date(consulta.creado_en))} ·{" "}
+        {consulta.origen === "telefono"
+          ? "Llamada telefónica"
+          : consulta.origen === "presencial"
+            ? "Visita presencial"
+            : "Desde la web"}
       </p>
     </Card>
   );

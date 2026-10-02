@@ -155,12 +155,21 @@ export default async function InicioPage(): Promise<React.ReactElement> {
               <Receipt className="h-4 w-4 text-amber-400" />
               Revisar cuotas vencidas
             </Link>
+            <SoloGestion>
+              <Link
+                href="/admision/nueva"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs font-bold text-white shadow-sm backdrop-blur-md transition-all hover:bg-white/20 active:scale-[0.98]"
+              >
+                <Inbox className="h-4 w-4 text-sky-400" />
+                Registrar consulta
+              </Link>
+            </SoloGestion>
             <Link
               href="/admision"
               className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs font-bold text-white shadow-sm backdrop-blur-md transition-all hover:bg-white/20 active:scale-[0.98]"
             >
               <Inbox className="h-4 w-4 text-sky-400" />
-              Admisión
+              Ver Admisión
             </Link>
           </nav>
         </div>

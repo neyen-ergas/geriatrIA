@@ -15,21 +15,28 @@ export default async function ConsultaPage({
   searchParams,
 }: {
   params: Promise<{ consultaId: string }>;
-  searchParams: Promise<{ semana?: string | string[] }>;
+  searchParams: Promise<{ semana?: string | string[]; creada?: string; paso?: string }>;
 }): Promise<React.ReactElement> {
   await requerirSesion("operational.read");
   const consulta = await obtenerConsulta((await params).consultaId);
   if (!consulta) notFound();
-  const semana = semanaAgenda((await searchParams).semana, hoyEnArgentina());
+  const parametros = await searchParams;
+  const semana = semanaAgenda(parametros.semana, hoyEnArgentina());
   return (
     <div className="mx-auto max-w-4xl space-y-5">
       <div>
         <Link
-          href={enlaceAgenda(semana.inicio)}
+          href="/admision"
           className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Volver a la agenda
+          Volver a Admisión
+        </Link>
+        <Link
+          href={enlaceAgenda(semana.inicio)}
+          className="ml-4 text-xs font-semibold uppercase text-slate-500 hover:text-slate-900"
+        >
+          Ver agenda
         </Link>
       </div>
       <div>
@@ -40,6 +47,23 @@ export default async function ConsultaPage({
           Consulta de Admisión
         </h1>
       </div>
+      {parametros.creada === "1" && (
+        <div
+          role="status"
+          className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950"
+        >
+          <strong>Consulta registrada.</strong>{" "}
+          {parametros.paso === "visita" ? (
+            <a href={`#agendar-visita-${consulta.id}`} className="font-bold underline">
+              Elegí el día y la franja de la visita.
+            </a>
+          ) : (
+            <>
+              Llamá a la familia desde el botón de teléfono y registrá lo conversado acá.
+            </>
+          )}
+        </div>
+      )}
       <ConsultaCard consulta={consulta} />
     </div>
   );

@@ -10,6 +10,7 @@ leerlas.
 ```mermaid
 flowchart LR
     A[Formulario de la landing] -->|insert| B[(consulta)]
+    D[Llamada o visita espontánea] -->|alta desde el CRM| B
     B --> C[Bandeja de Admisión]
     C -->|llamado, visita, notas| B
 ```
@@ -35,10 +36,17 @@ conoce la disponibilidad real de la residencia es el equipo, no la familia.
 
 Las entregas posteriores incorporaron la agenda semanal y la
 [conversión de consulta en ingreso](admision-ingreso.md).
+También se pueden registrar llamadas y visitas espontáneas desde
+`/admision/nueva`. Gestión y Administración tienen acceso; Solo lectura no.
+El formulario conserva los datos cuando detecta un teléfono asociado a una
+consulta abierta: permite revisar la consulta existente o confirmar que se
+trata de otra familia. La creación usa `create_manual_consultation`, que valida
+permisos, comprueba duplicados y escribe en `public.consulta` con su auditoría.
 
 ## Reglas acordadas
 
-- Una consulta entra siempre desde afuera; el CRM no las crea.
+- Las consultas entran desde la web, por teléfono o en persona; el equipo
+  registra los dos últimos canales en el CRM.
 - Una consulta nunca se elimina: se descarta.
 - La visita tiene día y franja, o no tiene ninguno de los dos.
 - Solo puede haber una visita agendada por día y franja.
@@ -176,8 +184,8 @@ una excepción documentada, no como el criterio general del proyecto.
 | `creado_en`      | `timestamptz` | Sí          | Momento en que entró la consulta.              |
 | `actualizado_en` | `timestamptz` | Sí          | Última modificación, mantenida por un trigger. |
 
-`origen` existe para distinguir campañas o canales más adelante. Hoy la landing no
-lo envía, así que todas las filas caen en el valor por defecto.
+La landing no envía `origen` y usa el valor por defecto `landing`. Las consultas
+cargadas por el equipo registran `telefono` o `presencial`.
 
 ## Garantías que viven en la base
 
@@ -281,4 +289,5 @@ la base: un turno visto libre puede ocuparse antes de guardar.
 
 Ambas pantallas exigen sesión antes de usar lecturas administrativas del
 servidor. Se descargan solo los campos necesarios para la grilla; las notas se
-leen al abrir la consulta. Esta entrega no cambia el esquema ni la landing.
+leen al abrir la consulta. La agenda semanal se incorporó sin cambiar el
+esquema ni la landing; el alta manual posterior agregó una función protegida.
