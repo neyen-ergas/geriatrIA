@@ -1222,6 +1222,17 @@ export type Database = {
         }
         Returns: string
       }
+      create_manual_consultation: {
+        Args: {
+          p_allow_duplicate?: boolean
+          p_call_window: string
+          p_message: string
+          p_name: string
+          p_phone: string
+          p_source: string
+        }
+        Returns: Json
+      }
       create_monthly_charge: {
         Args: {
           p_admission_id: string

@@ -11,6 +11,7 @@ import { busquedaConsultas } from "@/lib/busqueda-consultas";
 import { enlaceAdmision } from "@/lib/paginacion-admision";
 import { ConsultaCard } from "./consulta-card";
 import { Paginacion } from "./paginacion";
+import { SoloGestion } from "@/components/permisos";
 
 export const metadata: Metadata = {
   title: "Admisión · geriatrIA",
@@ -81,16 +82,26 @@ export default async function AdmisionPage({
             Admisión
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            Consultas recibidas desde la web de la residencia. La visita presencial se
-            agenda acá, después de llamar a la familia.
+            Consultas de la web, por teléfono o presenciales. Anotalas acá y seguí cada
+            caso hasta la visita o el ingreso.
           </p>
         </div>
-        <Link
-          href="/admision/agenda"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition-all hover:bg-slate-800 hover:shadow-xs active:scale-[0.98]"
-        >
-          Ver agenda semanal
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <SoloGestion>
+            <Link
+              href="/admision/nueva"
+              className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-4 py-2.5 text-sm font-bold text-white hover:bg-emerald-800"
+            >
+              Registrar consulta
+            </Link>
+          </SoloGestion>
+          <Link
+            href="/admision/agenda"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition-all hover:bg-slate-800 hover:shadow-xs active:scale-[0.98]"
+          >
+            Ver agenda semanal
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
