@@ -4,6 +4,7 @@ import { Card } from "@/components/ui";
 import { PaginacionListado } from "@/components/paginacion-listado";
 import { requerirSesion } from "@/lib/auth";
 import { enlaceEmpleados } from "@/lib/empleados";
+import { busquedaPersonas } from "@/lib/busqueda-personas";
 import { listarEmpleados } from "@/lib/empleados-datos";
 import { formatearFechaPago } from "@/lib/pagos";
 import { cn } from "@/lib/utils";
@@ -12,12 +13,21 @@ export const metadata: Metadata = { title: "Empleados · geriatrIA" };
 export default async function EmpleadosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string | string[]; pagina?: string | string[] }>;
+  searchParams: Promise<{
+    estado?: string | string[];
+    pagina?: string | string[];
+    buscar?: string | string[];
+  }>;
 }): Promise<React.ReactElement> {
   await requerirSesion("administration");
   const parametros = await searchParams;
   const bajas = parametros.estado === "bajas";
-  const { empleados, total, pagina } = await listarEmpleados(bajas, parametros.pagina);
+  const busqueda = busquedaPersonas(parametros.buscar);
+  const { empleados, total, pagina } = await listarEmpleados(
+    bajas,
+    parametros.pagina,
+    busqueda,
+  );
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -39,7 +49,7 @@ export default async function EmpleadosPage({
 
       <nav aria-label="Estado del personal" className="flex gap-2">
         <Link
-          href="/empleados"
+          href={enlaceEmpleados(1, false, busqueda)}
           aria-current={!bajas ? "page" : undefined}
           className={cn(
             "rounded-xl px-4 py-2 text-xs font-semibold transition-all shadow-2xs",
@@ -51,7 +61,7 @@ export default async function EmpleadosPage({
           Activos
         </Link>
         <Link
-          href="/empleados?estado=bajas"
+          href={enlaceEmpleados(1, true, busqueda)}
           aria-current={bajas ? "page" : undefined}
           className={cn(
             "rounded-xl px-4 py-2 text-xs font-semibold transition-all shadow-2xs",
@@ -64,6 +74,37 @@ export default async function EmpleadosPage({
         </Link>
       </nav>
 
+      <form
+        action="/empleados"
+        className="flex flex-wrap items-end gap-2 rounded-xl border border-slate-200 bg-white p-3"
+      >
+        {bajas && <input type="hidden" name="estado" value="bajas" />}
+        <label className="flex-1 text-xs font-semibold text-slate-700">
+          Buscar empleado por nombre, apellido o DNI
+          <input
+            name="buscar"
+            maxLength={80}
+            defaultValue={busqueda}
+            placeholder="Nombre o DNI"
+            className="mt-1 block h-10 w-full min-w-0 rounded-lg border border-slate-300 px-3 text-sm"
+          />
+        </label>
+        <button
+          type="submit"
+          className="h-10 rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white"
+        >
+          Buscar
+        </button>
+        {busqueda && (
+          <Link
+            href={enlaceEmpleados(1, bajas)}
+            className="px-2 py-2 text-sm font-semibold text-emerald-800 underline"
+          >
+            Limpiar
+          </Link>
+        )}
+      </form>
+
       <div className="flex items-center justify-between">
         <h2 className="text-base font-bold text-slate-900">
           {bajas ? "Personal dado de baja" : "Personal activo"}
@@ -75,7 +116,9 @@ export default async function EmpleadosPage({
 
       {empleados.length === 0 && (
         <Card className="flex min-h-48 flex-col items-center justify-center p-8 text-center text-sm text-slate-500 shadow-2xs">
-          No hay empleados en este grupo.
+          {busqueda
+            ? `No encontramos empleados para “${busqueda}”. Probá con otro nombre o DNI.`
+            : "No hay empleados en este grupo."}
         </Card>
       )}
       {empleados.length > 0 && (
@@ -119,8 +162,8 @@ export default async function EmpleadosPage({
         pagina={pagina}
         total={total}
         etiqueta="empleados"
-        anterior={enlaceEmpleados(pagina - 1, bajas)}
-        siguiente={enlaceEmpleados(pagina + 1, bajas)}
+        anterior={enlaceEmpleados(pagina - 1, bajas, busqueda)}
+        siguiente={enlaceEmpleados(pagina + 1, bajas, busqueda)}
       />
     </div>
   );

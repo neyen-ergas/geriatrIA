@@ -126,9 +126,10 @@ export function errorEmpleado(error: unknown): string {
   return "No se pudo confirmar el cambio. Volvé al listado y revisá la ficha antes de reenviar.";
 }
 
-export function enlaceEmpleados(pagina: number, bajas = false): string {
+export function enlaceEmpleados(pagina: number, bajas = false, busqueda = ""): string {
   const parametros = new URLSearchParams();
   if (bajas) parametros.set("estado", "bajas");
+  if (busqueda) parametros.set("buscar", busqueda);
   if (pagina > 1) parametros.set("pagina", String(pagina));
   return `/empleados${parametros.size ? `?${parametros}` : ""}`;
 }

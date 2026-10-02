@@ -65,6 +65,18 @@ describe("páginas y reingreso con más de 1.000 estadías", () => {
     expect(solicitudes.every(s => s.metodo === "HEAD")).toBe(true);
   });
 
+  it("busca por persona con el mismo filtro para contar y listar", async () => {
+    await contarEstadias(false, "Ana Pérez");
+    await listarResidentesActivos(1, "Ana Pérez");
+    expect(solicitudes).toHaveLength(2);
+    expect(solicitudes[0].url.searchParams.get("residents.or")).toContain(
+      "and(first_name.ilike.*Ana*,last_name.ilike.*Pérez*)",
+    );
+    expect(solicitudes[1].url.searchParams.get("residents.or")).toBe(
+      solicitudes[0].url.searchParams.get("residents.or"),
+    );
+  });
+
   it("pagina activos en orden global de apellido, nombre e id", async () => {
     const ids: string[] = [];
     for (let pagina = 1; pagina <= 26; pagina++) {

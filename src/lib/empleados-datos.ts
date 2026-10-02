@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import { paginaListado, REGISTROS_POR_PAGINA } from "@/lib/paginacion";
+import { filtroBusquedaPersonas } from "@/lib/busqueda-personas";
 import type { Tables } from "@/types/database";
 
 export type Empleado = Tables<"employees">;
@@ -12,6 +13,7 @@ export type ResumenEmpleado = Pick<
 export async function listarEmpleados(
   bajas: boolean,
   paginaParam: unknown,
+  busqueda = "",
 ): Promise<{ empleados: ResumenEmpleado[]; total: number; pagina: number }> {
   const supabase = await createClient();
   const consulta = (conteo: boolean) => {
@@ -21,9 +23,11 @@ export async function listarEmpleados(
         "id, first_name, last_name, dni, job_title, hired_at, terminated_at",
         conteo ? { count: "exact", head: true } : {},
       );
+    const filtro = filtroBusquedaPersonas(busqueda);
+    const filtrada = filtro ? seleccion.or(filtro) : seleccion;
     return bajas
-      ? seleccion.not("terminated_at", "is", null)
-      : seleccion.is("terminated_at", null);
+      ? filtrada.not("terminated_at", "is", null)
+      : filtrada.is("terminated_at", null);
   };
   const { count, error: errorConteo } = await consulta(true);
   if (errorConteo || count === null) throw new Error("No se pudo contar el personal.");

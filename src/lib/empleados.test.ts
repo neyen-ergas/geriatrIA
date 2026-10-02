@@ -63,6 +63,9 @@ it("permite baja el mismo día del alta y exige motivo", () => {
     ),
   ).toHaveProperty("termination_reason");
   expect(enlaceEmpleados(2, true)).toBe("/empleados?estado=bajas&pagina=2");
+  expect(enlaceEmpleados(2, true, "Ana Pérez")).toBe(
+    "/empleados?estado=bajas&buscar=Ana+P%C3%A9rez&pagina=2",
+  );
 });
 function formulario(): FormData {
   const datos = new FormData();

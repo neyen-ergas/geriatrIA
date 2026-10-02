@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { LogOut } from "lucide-react";
-import { NavLink } from "@/components/nav-link";
+import { MobileNav } from "@/components/mobile-nav";
 import { Button } from "@/components/ui";
-import { NAV } from "@/lib/nav";
-import { ETIQUETAS_ROL, puedeVerSeccion, type Rol } from "@/lib/permisos";
+import { ETIQUETAS_ROL, type Rol } from "@/lib/permisos";
 import { logout } from "@/app/login/actions";
 
 export function Topbar({ rol }: { rol: Rol }) {
@@ -36,7 +35,7 @@ export function Topbar({ rol }: { rol: Rol }) {
 
         {/* Acciones del Usuario */}
         <div className="flex items-center gap-3">
-          <span className="text-xs font-semibold text-slate-600 lg:hidden">
+          <span className="hidden text-xs font-semibold text-slate-600 sm:inline lg:hidden">
             {ETIQUETAS_ROL[rol]}
           </span>
           <form action={logout}>
@@ -44,26 +43,17 @@ export function Topbar({ rol }: { rol: Rol }) {
               type="submit"
               variant="outline"
               size="md"
-              className="h-9 gap-1.5 rounded-xl border-slate-200/90 px-3 text-xs font-semibold text-slate-700 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 transition-all shadow-2xs"
+              aria-label="Cerrar sesión"
+              className="h-9 gap-1.5 rounded-xl border-slate-200/90 px-2 text-xs font-semibold text-slate-700 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 transition-all shadow-2xs sm:px-3"
             >
               <LogOut className="h-3.5 w-3.5" />
-              Cerrar Sesión
+              <span className="hidden sm:inline">Cerrar sesión</span>
             </Button>
           </form>
         </div>
       </div>
 
-      {/* Navegación móvil horizontal */}
-      <nav
-        aria-label="Navegación móvil"
-        className="flex gap-1.5 overflow-x-auto border-t border-slate-100 bg-slate-50/60 px-3 pb-2.5 pt-1 lg:hidden"
-      >
-        {NAV.filter(item => puedeVerSeccion(rol, item.href)).map(item => (
-          <NavLink key={item.href} href={item.href}>
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
+      <MobileNav rol={rol} />
     </header>
   );
 }

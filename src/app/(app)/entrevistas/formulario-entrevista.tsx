@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import Link from "next/link";
 import { Button, Card, Input, Label, Select, Textarea } from "@/components/ui";
+import { FechaLegible } from "@/components/fecha-legible";
 import {
   type ConsultaParaEntrevista,
   type Entrevista,
@@ -239,6 +240,7 @@ function CamposEntrevista({
               }
               className={state.errores?.candidate_birth_date ? "border-rose-300" : ""}
             />
+            <FechaLegible id="candidate_birth_date" />
             {state.errores?.candidate_birth_date && (
               <p
                 id="candidate_birth_date-error"
@@ -357,6 +359,7 @@ function CamposEntrevista({
               }
               className={state.errores?.interview_date ? "border-rose-300" : ""}
             />
+            <FechaLegible id="interview_date" />
             {state.errores?.interview_date && (
               <p
                 id="interview_date-error"
@@ -403,176 +406,193 @@ function CamposEntrevista({
         </div>
       </Card>
 
-      {/* Sección 3: Evaluación Integral Interdisciplinaria */}
-      <Card className="p-6">
-        <h2 className="text-lg font-semibold text-slate-900">
-          3. Evaluación Integral Interdisciplinaria
-        </h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Valoración de la autonomía motriz, estado cognitivo, necesidades clínicas y
-          perfil psicosocial.
-        </p>
+      <details
+        className="rounded-2xl border border-slate-200 bg-white p-4"
+        open={entrevista ? true : undefined}
+      >
+        <summary className="cursor-pointer text-sm font-bold text-emerald-800">
+          Agregar evaluación y dictamen (podés hacerlo después de programar)
+        </summary>
+        <div className="mt-4 space-y-5">
+          {/* Sección 3: Evaluación Integral Interdisciplinaria */}
+          <Card className="p-6">
+            <h2 className="text-lg font-semibold text-slate-900">
+              3. Evaluación Integral Interdisciplinaria
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Valoración de la autonomía motriz, estado cognitivo, necesidades clínicas y
+              perfil psicosocial.
+            </p>
 
-        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {/* Movilidad */}
-          <div>
-            <Label htmlFor="mobility_assessment">Autonomía y Movilidad</Label>
-            <Select
-              id="mobility_assessment"
-              name="mobility_assessment"
-              defaultValue={entrevista?.mobility_assessment || ""}
-            >
-              <option value="">-- No evaluado aún --</option>
-              {EVALUACIONES_MOVILIDAD.map(m => (
-                <option key={m} value={m}>
-                  {ETIQUETAS_MOVILIDAD[m]}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          {/* Cognitivo */}
-          <div>
-            <Label htmlFor="cognitive_assessment">Estado Cognitivo y Orientación</Label>
-            <Select
-              id="cognitive_assessment"
-              name="cognitive_assessment"
-              defaultValue={entrevista?.cognitive_assessment || ""}
-            >
-              <option value="">-- No evaluado aún --</option>
-              {EVALUACIONES_COGNITIVAS.map(c => (
-                <option key={c} value={c}>
-                  {ETIQUETAS_COGNITIVA[c]}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          {/* Notas Médicas */}
-          <div className="sm:col-span-2">
-            <Label htmlFor="medical_notes">
-              Antecedentes Médicos y Cuidados Clínicos
-            </Label>
-            <Textarea
-              id="medical_notes"
-              name="medical_notes"
-              rows={3}
-              defaultValue={entrevista?.medical_notes || ""}
-              placeholder="Diagnósticos previos, medicación habitual, alergias, requerimiento de oxígeno, sondas, cuidados de enfermería..."
-              aria-invalid={Boolean(state.errores?.medical_notes)}
-              aria-describedby={
-                state.errores?.medical_notes ? "medical_notes-error" : undefined
-              }
-              className={state.errores?.medical_notes ? "border-rose-300" : ""}
-            />
-            {state.errores?.medical_notes && (
-              <p
-                id="medical_notes-error"
-                role="alert"
-                className="mt-1 text-xs text-rose-600"
-              >
-                {state.errores.medical_notes}
-              </p>
-            )}
-          </div>
-
-          {/* Notas Sociales */}
-          <div className="sm:col-span-2">
-            <Label htmlFor="social_notes">Dinámica Familiar y Aspecto Social</Label>
-            <Textarea
-              id="social_notes"
-              name="social_notes"
-              rows={3}
-              value={notasSociales}
-              onChange={e => setNotasSociales(e.target.value)}
-              placeholder="Motivo de consulta, entorno de contención familiar, hábitos personales, expectativas y preferencias..."
-              aria-invalid={Boolean(state.errores?.social_notes)}
-              aria-describedby={
-                state.errores?.social_notes ? "social_notes-error" : undefined
-              }
-              className={state.errores?.social_notes ? "border-rose-300" : ""}
-            />
-            {state.errores?.social_notes && (
-              <p
-                id="social_notes-error"
-                role="alert"
-                className="mt-1 text-xs text-rose-600"
-              >
-                {state.errores.social_notes}
-              </p>
-            )}
-          </div>
-        </div>
-      </Card>
-
-      {/* Sección 4: Dictamen y Aptitud */}
-      <Card className="p-6">
-        <h2 className="text-lg font-semibold text-slate-900">
-          4. Dictamen de Admisión y Conclusión
-        </h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Determinación de compatibilidad con el perfil asistencial de la residencia.
-        </p>
-
-        <div className="mt-6 space-y-6">
-          {/* Conclusión */}
-          <div>
-            <Label htmlFor="conclusion">
-              Dictamen de Aptitud <span className="text-rose-600">*</span>
-            </Label>
-            <Select
-              id="conclusion"
-              name="conclusion"
-              value={conclusionSeleccionada}
-              onChange={e =>
-                setConclusionSeleccionada(e.target.value as ConclusionEntrevista)
-              }
-            >
-              {CONCLUSIONES_ENTREVISTA.map(c => (
-                <option key={c} value={c}>
-                  {ETIQUETAS_CONCLUSION[c]}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          {/* Motivo de No Apto (condicional obligatorio) */}
-          {conclusionSeleccionada === "no_apto" && (
-            <div className="rounded-lg border border-rose-200 bg-rose-50/50 p-4">
-              <Label htmlFor="rejection_reason" className="font-semibold text-rose-900">
-                Motivo del Dictamen No Apto <span className="text-rose-600">*</span>
-              </Label>
-              <p className="mb-2 text-xs text-rose-700">
-                Detallá las razones técnicas o asistenciales por las cuales el perfil
-                excede las capacidades de atención de la residencia (ej. requerimiento de
-                internación psiquiátrica monovalente).
-              </p>
-              <Textarea
-                id="rejection_reason"
-                name="rejection_reason"
-                required
-                rows={3}
-                defaultValue={entrevista?.rejection_reason || ""}
-                placeholder="Indique con claridad los motivos clínicos o de seguridad..."
-                aria-invalid={Boolean(state.errores?.rejection_reason)}
-                aria-describedby={
-                  state.errores?.rejection_reason ? "rejection_reason-error" : undefined
-                }
-                className={state.errores?.rejection_reason ? "border-rose-300" : ""}
-              />
-              {state.errores?.rejection_reason && (
-                <p
-                  id="rejection_reason-error"
-                  role="alert"
-                  className="mt-1 text-xs text-rose-600"
+            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {/* Movilidad */}
+              <div>
+                <Label htmlFor="mobility_assessment">Autonomía y Movilidad</Label>
+                <Select
+                  id="mobility_assessment"
+                  name="mobility_assessment"
+                  defaultValue={entrevista?.mobility_assessment || ""}
                 >
-                  {state.errores.rejection_reason}
-                </p>
+                  <option value="">-- No evaluado aún --</option>
+                  {EVALUACIONES_MOVILIDAD.map(m => (
+                    <option key={m} value={m}>
+                      {ETIQUETAS_MOVILIDAD[m]}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+
+              {/* Cognitivo */}
+              <div>
+                <Label htmlFor="cognitive_assessment">
+                  Estado Cognitivo y Orientación
+                </Label>
+                <Select
+                  id="cognitive_assessment"
+                  name="cognitive_assessment"
+                  defaultValue={entrevista?.cognitive_assessment || ""}
+                >
+                  <option value="">-- No evaluado aún --</option>
+                  {EVALUACIONES_COGNITIVAS.map(c => (
+                    <option key={c} value={c}>
+                      {ETIQUETAS_COGNITIVA[c]}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+
+              {/* Notas Médicas */}
+              <div className="sm:col-span-2">
+                <Label htmlFor="medical_notes">
+                  Antecedentes Médicos y Cuidados Clínicos
+                </Label>
+                <Textarea
+                  id="medical_notes"
+                  name="medical_notes"
+                  rows={3}
+                  defaultValue={entrevista?.medical_notes || ""}
+                  placeholder="Diagnósticos previos, medicación habitual, alergias, requerimiento de oxígeno, sondas, cuidados de enfermería..."
+                  aria-invalid={Boolean(state.errores?.medical_notes)}
+                  aria-describedby={
+                    state.errores?.medical_notes ? "medical_notes-error" : undefined
+                  }
+                  className={state.errores?.medical_notes ? "border-rose-300" : ""}
+                />
+                {state.errores?.medical_notes && (
+                  <p
+                    id="medical_notes-error"
+                    role="alert"
+                    className="mt-1 text-xs text-rose-600"
+                  >
+                    {state.errores.medical_notes}
+                  </p>
+                )}
+              </div>
+
+              {/* Notas Sociales */}
+              <div className="sm:col-span-2">
+                <Label htmlFor="social_notes">Dinámica Familiar y Aspecto Social</Label>
+                <Textarea
+                  id="social_notes"
+                  name="social_notes"
+                  rows={3}
+                  value={notasSociales}
+                  onChange={e => setNotasSociales(e.target.value)}
+                  placeholder="Motivo de consulta, entorno de contención familiar, hábitos personales, expectativas y preferencias..."
+                  aria-invalid={Boolean(state.errores?.social_notes)}
+                  aria-describedby={
+                    state.errores?.social_notes ? "social_notes-error" : undefined
+                  }
+                  className={state.errores?.social_notes ? "border-rose-300" : ""}
+                />
+                {state.errores?.social_notes && (
+                  <p
+                    id="social_notes-error"
+                    role="alert"
+                    className="mt-1 text-xs text-rose-600"
+                  >
+                    {state.errores.social_notes}
+                  </p>
+                )}
+              </div>
+            </div>
+          </Card>
+
+          {/* Sección 4: Dictamen y Aptitud */}
+          <Card className="p-6">
+            <h2 className="text-lg font-semibold text-slate-900">
+              4. Dictamen de Admisión y Conclusión
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Determinación de compatibilidad con el perfil asistencial de la residencia.
+            </p>
+
+            <div className="mt-6 space-y-6">
+              {/* Conclusión */}
+              <div>
+                <Label htmlFor="conclusion">
+                  Dictamen de Aptitud <span className="text-rose-600">*</span>
+                </Label>
+                <Select
+                  id="conclusion"
+                  name="conclusion"
+                  value={conclusionSeleccionada}
+                  onChange={e =>
+                    setConclusionSeleccionada(e.target.value as ConclusionEntrevista)
+                  }
+                >
+                  {CONCLUSIONES_ENTREVISTA.map(c => (
+                    <option key={c} value={c}>
+                      {ETIQUETAS_CONCLUSION[c]}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+
+              {/* Motivo de No Apto (condicional obligatorio) */}
+              {conclusionSeleccionada === "no_apto" && (
+                <div className="rounded-lg border border-rose-200 bg-rose-50/50 p-4">
+                  <Label
+                    htmlFor="rejection_reason"
+                    className="font-semibold text-rose-900"
+                  >
+                    Motivo del Dictamen No Apto <span className="text-rose-600">*</span>
+                  </Label>
+                  <p className="mb-2 text-xs text-rose-700">
+                    Detallá las razones técnicas o asistenciales por las cuales el perfil
+                    excede las capacidades de atención de la residencia (ej. requerimiento
+                    de internación psiquiátrica monovalente).
+                  </p>
+                  <Textarea
+                    id="rejection_reason"
+                    name="rejection_reason"
+                    required
+                    rows={3}
+                    defaultValue={entrevista?.rejection_reason || ""}
+                    placeholder="Indique con claridad los motivos clínicos o de seguridad..."
+                    aria-invalid={Boolean(state.errores?.rejection_reason)}
+                    aria-describedby={
+                      state.errores?.rejection_reason
+                        ? "rejection_reason-error"
+                        : undefined
+                    }
+                    className={state.errores?.rejection_reason ? "border-rose-300" : ""}
+                  />
+                  {state.errores?.rejection_reason && (
+                    <p
+                      id="rejection_reason-error"
+                      role="alert"
+                      className="mt-1 text-xs text-rose-600"
+                    >
+                      {state.errores.rejection_reason}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
-          )}
+          </Card>
         </div>
-      </Card>
+      </details>
 
       {/* Acciones */}
       <div className="flex items-center justify-end gap-3">
@@ -586,7 +606,7 @@ function CamposEntrevista({
             ? "Guardando..."
             : entrevista?.id
               ? "Actualizar Entrevista"
-              : "Guardar Entrevista"}
+              : "Programar entrevista"}
         </Button>
       </div>
     </form>

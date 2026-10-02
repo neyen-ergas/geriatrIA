@@ -24,6 +24,13 @@ const ficha: FichaResidente = {
     notes: "<script>alert(1)</script>",
   },
   ingresoActivoId: "activo",
+  habitacionActiva: "1",
+  contactoEmergencia: {
+    first_name: "Familiar",
+    last_name: "Ficticio",
+    relationship: "Hija",
+    phone: "0000000",
+  },
   contactos: {
     total: 1,
     pagina: 1,

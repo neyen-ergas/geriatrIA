@@ -102,6 +102,18 @@ describe("lecturas de cuentas y cuotas", () => {
     },
   );
 
+  it("aplica la búsqueda también al conteo de cuentas", async () => {
+    respuesta = [];
+    await listarCuentas(false, "1", "Ana Pérez");
+    expect(solicitudes).toHaveLength(2);
+    expect(solicitudes[0].url.searchParams.get("residents.or")).toContain(
+      "and(first_name.ilike.*Ana*,last_name.ilike.*Pérez*)",
+    );
+    expect(solicitudes[1].url.searchParams.get("residents.or")).toBe(
+      solicitudes[0].url.searchParams.get("residents.or"),
+    );
+  });
+
   it("distingue una cuenta vacía de un error", async () => {
     respuesta = [];
     total = 0;

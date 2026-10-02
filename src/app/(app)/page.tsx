@@ -17,6 +17,7 @@ import { SoloGestion } from "@/components/permisos";
 import { Card } from "@/components/ui";
 import { requerirSesion } from "@/lib/auth";
 import { obtenerInicio, type BloqueInicio } from "@/lib/inicio-datos";
+import { listarCuotasSinCrear, type CuotaSinCrear } from "@/lib/cuotas-sin-crear";
 import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import { formatearFechaPago } from "@/lib/pagos";
 
@@ -90,7 +91,18 @@ export default async function InicioPage(): Promise<React.ReactElement> {
   await requerirSesion("operational.read");
   const hoy = hoyEnArgentina();
   const bloques = await obtenerInicio(hoy);
+  let cuotasSinCrear: CuotaSinCrear[] | null = null;
+  try {
+    cuotasSinCrear = await listarCuotasSinCrear(hoy.slice(0, 7));
+  } catch {
+    // Un problema de lectura no debe convertirse en un "todo al día" engañoso.
+  }
   const fechaCompleta = fechaEnEspanol(hoy);
+  const mesActual = new Intl.DateTimeFormat("es-AR", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${hoy.slice(0, 7)}-01T12:00:00Z`));
 
   return (
     <div className="space-y-8">
@@ -104,10 +116,10 @@ export default async function InicioPage(): Promise<React.ReactElement> {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-950/70 px-3.5 py-1 text-xs font-semibold text-emerald-300 shadow-inner">
               <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse" />
-              Jornada activa
+              Resumen de hoy
             </div>
             <h1 className="mt-3 text-2xl font-black tracking-tight text-white sm:text-4xl">
-              Panel de Control Residencial
+              Hoy en el hogar
             </h1>
             <p className="mt-1.5 text-xs font-medium text-slate-300 sm:text-sm">
               {fechaCompleta} · Pendientes al {formatearFechaPago(hoy)} (Hora de
@@ -154,7 +166,7 @@ export default async function InicioPage(): Promise<React.ReactElement> {
         </div>
 
         {/* KPIs resumidos en cinta horizontal translúcida */}
-        <div className="relative z-10 mt-8 grid grid-cols-2 gap-3 border-t border-white/10 pt-6 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="relative z-10 mt-8 hidden grid-cols-2 gap-3 border-t border-white/10 pt-6 sm:grid sm:grid-cols-3 lg:grid-cols-5">
           {bloques.map(bloque => {
             const Icono = iconoParaBloque(bloque.titulo);
             const total = bloque.resumen ? bloque.resumen.total : 0;
@@ -181,16 +193,55 @@ export default async function InicioPage(): Promise<React.ReactElement> {
         </div>
       </div>
 
+      {cuotasSinCrear === null ? (
+        <div
+          role="alert"
+          className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900"
+        >
+          No pudimos verificar si faltan cuotas por crear este mes. Revisá cada cuenta en
+          Contabilidad.
+        </div>
+      ) : cuotasSinCrear.length > 0 ? (
+        <section
+          aria-label="Cuotas sin crear"
+          className="rounded-2xl border border-amber-300 bg-amber-50 p-5"
+        >
+          <h2 className="font-bold text-amber-950">
+            {cuotasSinCrear.length}{" "}
+            {cuotasSinCrear.length === 1 ? "cuota sin crear" : "cuotas sin crear"} en{" "}
+            {mesActual}
+          </h2>
+          <p className="mt-1 text-sm text-amber-900">
+            No aparecen como deuda vencida hasta que se crean.
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {cuotasSinCrear.slice(0, 5).map(cuota => (
+              <li key={cuota.admissionId}>
+                <Link
+                  href={`/contabilidad/${cuota.admissionId}`}
+                  className="inline-flex rounded-lg border border-amber-300 bg-white px-3 py-2 text-sm font-semibold text-amber-950 hover:bg-amber-100"
+                >
+                  Revisar cuenta de {cuota.nombre} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+          {cuotasSinCrear.length > 5 && (
+            <p className="mt-3 text-xs text-amber-900">
+              Hay más cuentas por revisar en Contabilidad.
+            </p>
+          )}
+        </section>
+      ) : null}
+
       {/* Sección Operativa */}
       <div>
         <div className="mb-4 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-bold tracking-tight text-slate-900">
-              Monitor de Pendientes Operativos
+              Pendientes para resolver
             </h2>
-            <p className="text-xs text-slate-500">
-              Grupos clínicos y asistenciales organizados por prioridad
-            </p>
+            <p className="text-xs text-slate-500">Abrí cada tarea para ver qué sigue.</p>
           </div>
         </div>
 

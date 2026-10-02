@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { esCuota, type Cuota } from "@/lib/pagos";
 import { REGISTROS_POR_PAGINA, paginaListado } from "@/lib/paginacion";
 import type { Tables } from "@/types/database";
+import { filtroBusquedaPersonas } from "@/lib/busqueda-personas";
 
 export type Cuenta = Pick<
   Tables<"admissions">,
@@ -22,12 +23,17 @@ const COLUMNAS_CUOTA = `
 export async function listarCuentas(
   bajas: boolean,
   paginaParam: unknown,
+  busqueda = "",
 ): Promise<{ cuentas: Cuenta[]; total: number; pagina: number }> {
   const supabase = await createClient();
-  const conteo = supabase.from("admissions").select("id", {
-    count: "exact",
-    head: true,
-  });
+  let conteo = supabase
+    .from("admissions")
+    .select("id,residents!inner(first_name,last_name,dni)", {
+      count: "exact",
+      head: true,
+    });
+  const filtro = filtroBusquedaPersonas(busqueda);
+  if (filtro) conteo = conteo.or(filtro, { referencedTable: "residents" });
   const { count, error: errorConteo } = await (bajas
     ? conteo.not("discharged_at", "is", null)
     : conteo.is("discharged_at", null));
@@ -36,7 +42,8 @@ export async function listarCuentas(
   }
   const pagina = paginaListado(paginaParam, count);
   const inicio = (pagina - 1) * REGISTROS_POR_PAGINA;
-  const consulta = supabase.from("admissions").select(COLUMNAS_CUENTA);
+  let consulta = supabase.from("admissions").select(COLUMNAS_CUENTA);
+  if (filtro) consulta = consulta.or(filtro, { referencedTable: "residents" });
   const { data, error } = await (
     bajas ? consulta.not("discharged_at", "is", null) : consulta.is("discharged_at", null)
   )

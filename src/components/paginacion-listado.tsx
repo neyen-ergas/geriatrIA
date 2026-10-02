@@ -15,6 +15,7 @@ export function PaginacionListado({
   etiqueta: string;
 }): React.ReactElement {
   const ultima = Math.max(1, Math.ceil(total / REGISTROS_POR_PAGINA));
+  if (ultima === 1) return <></>;
   const clase =
     "inline-flex items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs transition-all hover:bg-slate-50 hover:border-slate-300 hover:text-slate-900 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900";
   return (
