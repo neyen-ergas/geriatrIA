@@ -7,31 +7,15 @@ import { logout } from "@/app/login/actions";
 
 export function Topbar({ rol }: { rol: Rol }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl shadow-xs">
-      <div className="flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-20 border-b border-slate-200 bg-white">
+      <div className="flex items-center justify-between px-4 py-3 sm:px-6 lg:justify-end lg:px-8">
         {/* Móvil Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2.5 text-lg font-black text-slate-900 lg:hidden"
+          className="text-lg font-bold tracking-tight text-slate-900 lg:hidden"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 text-xs font-black text-white shadow-sm ring-2 ring-emerald-50">
-            g
-          </div>
-          <span>
-            geriatr<span className="text-emerald-600">IA</span>
-          </span>
+          geriatr<span className="text-emerald-700">IA</span>
         </Link>
-
-        {/* Escritorio Indicadores de Estado */}
-        <div className="hidden items-center gap-3 lg:flex">
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-3.5 py-1 text-xs font-bold text-emerald-800 shadow-2xs">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_#10b981]" />
-            Sistema en Línea · Residencia Activa
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-slate-100/70 px-3 py-1 text-xs font-semibold text-slate-700">
-            Rol: {ETIQUETAS_ROL[rol]}
-          </span>
-        </div>
 
         {/* Acciones del Usuario */}
         <div className="flex items-center gap-3">
