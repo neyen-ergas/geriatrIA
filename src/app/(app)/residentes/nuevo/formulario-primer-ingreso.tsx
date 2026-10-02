@@ -11,6 +11,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { Button, Card, Input, Label, Textarea } from "@/components/ui";
+import { FechaLegible } from "@/components/fecha-legible";
 import {
   type EstadoFormularioIngreso,
   type ValoresPrimerIngreso,
@@ -151,6 +152,7 @@ export function FormularioPrimerIngreso({
               }
               className={claseCampo(estado.errores.resident_birth_date)}
             />
+            <FechaLegible id="resident_birth_date" />
             <ErrorCampo
               id="resident_birth_date-error"
               mensaje={estado.errores.resident_birth_date}
@@ -343,6 +345,7 @@ export function FormularioPrimerIngreso({
               }
               className={claseCampo(estado.errores.admitted_at)}
             />
+            <FechaLegible id="admitted_at" />
             <ErrorCampo id="admitted_at-error" mensaje={estado.errores.admitted_at} />
           </div>
 

@@ -62,6 +62,16 @@ it("las bajas se filtran tanto en conteo como en filas", async () => {
     solicitudes.every(u => u.searchParams.get("terminated_at") === "not.is.null"),
   ).toBe(true);
 });
+it("conserva el filtro de persona en el conteo y la lista", async () => {
+  await listarEmpleados(false, "1", "Ana Pérez");
+  expect(solicitudes).toHaveLength(2);
+  expect(solicitudes[0].searchParams.get("or")).toContain(
+    "and(first_name.ilike.*Ana*,last_name.ilike.*Pérez*)",
+  );
+  expect(solicitudes[1].searchParams.get("or")).toBe(
+    solicitudes[0].searchParams.get("or"),
+  );
+});
 it("rechaza ids inválidos y no presenta errores como listas vacías", async () => {
   expect(await obtenerEmpleado("invalido")).toBeNull();
   expect(solicitudes).toHaveLength(0);

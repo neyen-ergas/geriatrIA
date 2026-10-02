@@ -116,7 +116,7 @@ export default async function RegistrosPage({
               : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
           }`}
         >
-          Sin archivar
+          Vigentes
         </Link>
         <Link
           href={`${ruta}?estado=archivados`}
@@ -133,7 +133,23 @@ export default async function RegistrosPage({
 
       {!listado.registros.length ? (
         <Card className="p-10 text-center text-sm text-slate-500 shadow-2xs">
-          No hay registros en esta selección.
+          {archivados
+            ? `No hay ${config.titulo.toLowerCase()} archivados para esta persona.`
+            : `Todavía no hay ${config.titulo.toLowerCase()} cargados para esta persona.`}
+          {gestionar && !archivados && (
+            <Link
+              href={
+                seccion === "pertenencias"
+                  ? `/residentes/ficha/${residentId}#estadias`
+                  : `${ruta}/nuevo`
+              }
+              className="mt-3 block font-bold text-emerald-800 underline"
+            >
+              {seccion === "pertenencias"
+                ? "Elegir estadía para agregar"
+                : `Agregar ${config.singular}`}
+            </Link>
+          )}
         </Card>
       ) : (
         <ul className="space-y-4">

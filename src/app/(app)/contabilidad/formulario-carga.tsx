@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import { Button, Card, Input, Label, Textarea } from "@/components/ui";
+import { FechaLegible } from "@/components/fecha-legible";
 import { MAX_COMPROBANTE_BYTES, TIPOS_COMPROBANTE } from "@/lib/comprobantes";
 import {
   MEDIOS_PAGO,
@@ -88,6 +89,7 @@ export function FormularioCarga({
                   value={vencimiento}
                   onChange={evento => setVencimiento(evento.target.value)}
                 />
+                <FechaLegible id="vencimiento" />
                 {errorCampo("vencimiento")}
               </div>
             </>
@@ -101,6 +103,7 @@ export function FormularioCarga({
                 required
                 defaultValue={estado.valores.fecha}
               />
+              <FechaLegible id="fecha" />
               {errorCampo("fecha")}
             </div>
           )}

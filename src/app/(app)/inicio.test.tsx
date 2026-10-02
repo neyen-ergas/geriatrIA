@@ -1,10 +1,16 @@
 import { renderConPermisos as renderToStaticMarkup } from "@/test/render-con-permisos";
 import { beforeEach, expect, it, vi } from "vitest";
 import InicioPage from "./page";
-const mocks = vi.hoisted(() => ({ sesion: vi.fn(), datos: vi.fn() }));
+const mocks = vi.hoisted(() => ({ sesion: vi.fn(), datos: vi.fn(), cuotas: vi.fn() }));
 vi.mock("@/lib/auth", () => ({ requerirSesion: mocks.sesion }));
 vi.mock("@/lib/inicio-datos", () => ({ obtenerInicio: mocks.datos }));
-beforeEach(() => vi.resetAllMocks());
+vi.mock("@/lib/cuotas-sin-crear", () => ({
+  listarCuotasSinCrear: mocks.cuotas,
+}));
+beforeEach(() => {
+  vi.resetAllMocks();
+  mocks.cuotas.mockResolvedValue([]);
+});
 it("exige sesión antes de leer pendientes", async () => {
   mocks.sesion.mockRejectedValue(new Error("LOGIN"));
   await expect(InicioPage()).rejects.toThrow("LOGIN");

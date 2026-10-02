@@ -148,6 +148,22 @@ export default async function ReservarPage({
               <p className="mt-0.5 text-xs font-semibold text-slate-500">
                 {consulta.telefono}
               </p>
+              <p className="mt-1 text-xs text-slate-600">
+                Consulta del{" "}
+                {new Intl.DateTimeFormat("es-AR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  timeZone: "America/Argentina/Buenos_Aires",
+                }).format(new Date(consulta.creado_en))}
+                {consulta.mensaje ? ` · ${consulta.mensaje.slice(0, 90)}` : ""}
+              </p>
+              <Link
+                href={`/admision/${consulta.id}`}
+                className="mt-2 inline-block text-xs font-semibold text-emerald-800 underline"
+              >
+                Ver consulta antes de reservar
+              </Link>
             </div>
             <FormularioReserva consulta={consulta} fecha={fecha} franja={franja} />
           </Card>

@@ -23,7 +23,7 @@ export async function obtenerFichaResidente(
   if (!residente) return null;
 
   // El estado actual se consulta aparte: nunca se deduce de una página histórica.
-  const [conteoEstadias, conteoContactos, activo] = await Promise.all([
+  const [conteoEstadias, conteoContactos, activo, emergencia] = await Promise.all([
     cliente
       .from("admissions")
       .select("id", { count: "exact", head: true })
@@ -34,9 +34,17 @@ export async function obtenerFichaResidente(
       .eq("resident_id", residenteId),
     cliente
       .from("admissions")
-      .select("id")
+      .select("id,room")
       .eq("resident_id", residenteId)
       .is("discharged_at", null)
+      .maybeSingle(),
+    cliente
+      .from("family_contacts")
+      .select("first_name,last_name,relationship,phone")
+      .eq("resident_id", residenteId)
+      .eq("is_emergency_contact", true)
+      .order("created_at", { ascending: true })
+      .limit(1)
       .maybeSingle(),
   ]);
   if (
@@ -44,7 +52,8 @@ export async function obtenerFichaResidente(
     conteoEstadias.count === null ||
     conteoContactos.error ||
     conteoContactos.count === null ||
-    activo.error
+    activo.error ||
+    emergencia.error
   ) {
     throw new Error("No se pudo comprobar el historial del residente.");
   }
@@ -78,6 +87,8 @@ export async function obtenerFichaResidente(
   return {
     residente,
     ingresoActivoId: activo.data?.id ?? null,
+    habitacionActiva: activo.data?.room ?? null,
+    contactoEmergencia: emergencia.data ?? null,
     estadias: {
       filas: historial.data ?? [],
       total: conteoEstadias.count,

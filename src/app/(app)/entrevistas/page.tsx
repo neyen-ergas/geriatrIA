@@ -118,85 +118,87 @@ export default async function EntrevistasPage({
       ) : (
         <>
           {/* Banner de KPIs */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            <Card className="p-4 transition-all hover:shadow-md">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
-                  <Users className="h-4 w-4" />
+          {kpis.total > 0 && (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              <Card className="p-4 transition-all hover:shadow-md">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+                    <Users className="h-4 w-4" />
+                  </div>
+                  Total
                 </div>
-                Total
-              </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-slate-900">
-                {kpis.total}
-              </div>
-              <div className="mt-0.5 text-xs text-slate-400">Entrevistas</div>
-            </Card>
+                <div className="mt-3 text-2xl font-bold tabular-nums text-slate-900">
+                  {kpis.total}
+                </div>
+                <div className="mt-0.5 text-xs text-slate-400">Entrevistas</div>
+              </Card>
 
-            <Card className="p-4 transition-all hover:shadow-md">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-700">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-100/80 text-sky-600">
-                  <Clock className="h-4 w-4" />
+              <Card className="p-4 transition-all hover:shadow-md">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-100/80 text-sky-600">
+                    <Clock className="h-4 w-4" />
+                  </div>
+                  Programadas
                 </div>
-                Programadas
-              </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-sky-900">
-                {kpis.programadas}
-              </div>
-              <div className="mt-0.5 text-xs text-sky-600">Por realizar</div>
-            </Card>
+                <div className="mt-3 text-2xl font-bold tabular-nums text-sky-900">
+                  {kpis.programadas}
+                </div>
+                <div className="mt-0.5 text-xs text-sky-600">Por realizar</div>
+              </Card>
 
-            <Card className="p-4 transition-all hover:shadow-md">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-700">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100/80 text-emerald-600">
-                  <CheckCircle2 className="h-4 w-4" />
+              <Card className="p-4 transition-all hover:shadow-md">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100/80 text-emerald-600">
+                    <CheckCircle2 className="h-4 w-4" />
+                  </div>
+                  Realizadas
                 </div>
-                Realizadas
-              </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-emerald-900">
-                {kpis.completadas}
-              </div>
-              <div className="mt-0.5 text-xs text-emerald-600">Completadas</div>
-            </Card>
+                <div className="mt-3 text-2xl font-bold tabular-nums text-emerald-900">
+                  {kpis.completadas}
+                </div>
+                <div className="mt-0.5 text-xs text-emerald-600">Completadas</div>
+              </Card>
 
-            <Card className="p-4 transition-all hover:shadow-md">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-teal-700">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-100/80 text-teal-600">
-                  <UserCheck className="h-4 w-4" />
+              <Card className="p-4 transition-all hover:shadow-md">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-teal-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-100/80 text-teal-600">
+                    <UserCheck className="h-4 w-4" />
+                  </div>
+                  Aptas
                 </div>
-                Aptas
-              </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-teal-900">
-                {kpis.aptas}
-              </div>
-              <div className="mt-0.5 text-xs text-teal-600">Para ingreso</div>
-            </Card>
+                <div className="mt-3 text-2xl font-bold tabular-nums text-teal-900">
+                  {kpis.aptas}
+                </div>
+                <div className="mt-0.5 text-xs text-teal-600">Para ingreso</div>
+              </Card>
 
-            <Card className="p-4 transition-all hover:shadow-md">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-rose-700">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-100/80 text-rose-600">
-                  <UserX className="h-4 w-4" />
+              <Card className="p-4 transition-all hover:shadow-md">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-rose-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-100/80 text-rose-600">
+                    <UserX className="h-4 w-4" />
+                  </div>
+                  No Aptas
                 </div>
-                No Aptas
-              </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-rose-900">
-                {kpis.noAptas}
-              </div>
-              <div className="mt-0.5 text-xs text-rose-600">Excede perfil</div>
-            </Card>
+                <div className="mt-3 text-2xl font-bold tabular-nums text-rose-900">
+                  {kpis.noAptas}
+                </div>
+                <div className="mt-0.5 text-xs text-rose-600">Excede perfil</div>
+              </Card>
 
-            <Card className="p-4 transition-all hover:shadow-md">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-700">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100/80 text-amber-600">
-                  <Calendar className="h-4 w-4" />
+              <Card className="p-4 transition-all hover:shadow-md">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100/80 text-amber-600">
+                    <Calendar className="h-4 w-4" />
+                  </div>
+                  Pendientes
                 </div>
-                Pendientes
-              </div>
-              <div className="mt-3 text-2xl font-bold tabular-nums text-amber-900">
-                {kpis.pendientes}
-              </div>
-              <div className="mt-0.5 text-xs text-amber-600">En evaluación</div>
-            </Card>
-          </div>
+                <div className="mt-3 text-2xl font-bold tabular-nums text-amber-900">
+                  {kpis.pendientes}
+                </div>
+                <div className="mt-0.5 text-xs text-amber-600">En evaluación</div>
+              </Card>
+            </div>
+          )}
 
           {/* Barra de Búsqueda y Filtros */}
           <Card className="p-4 shadow-sm">

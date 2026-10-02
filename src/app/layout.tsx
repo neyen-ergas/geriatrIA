@@ -22,7 +22,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={plusJakartaSans.variable}>
+    <html lang="es-AR" className={plusJakartaSans.variable}>
       <body className="antialiased font-sans selection:bg-emerald-100 selection:text-emerald-900">
         {children}
       </body>

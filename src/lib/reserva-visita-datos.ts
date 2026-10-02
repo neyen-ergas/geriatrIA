@@ -6,7 +6,7 @@ import type { Tables } from "@/types/database";
 
 export type CandidataVisita = Pick<
   Tables<"consulta">,
-  "id" | "nombre" | "telefono" | "estado" | "actualizado_en"
+  "id" | "nombre" | "telefono" | "estado" | "actualizado_en" | "creado_en" | "mensaje"
 >;
 
 export async function listarCandidatasVisita(
@@ -22,7 +22,7 @@ export async function listarCandidatasVisita(
     let seleccion = supabase
       .from("consulta")
       .select(
-        "id, nombre, telefono, estado, actualizado_en",
+        "id, nombre, telefono, estado, actualizado_en, creado_en, mensaje",
         conteo ? { count: "exact", head: true } : {},
       )
       .in("estado", ["nuevo", "contactado"]);

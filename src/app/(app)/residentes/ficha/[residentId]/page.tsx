@@ -7,6 +7,7 @@ import { tienePermiso } from "@/lib/permisos";
 import { obtenerFichaResidente } from "@/lib/ficha-residente-datos";
 import { enlaceFichaResidente } from "@/lib/ficha-residente";
 import { formatearFechaPago, formatearImporte } from "@/lib/pagos";
+import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import {
   CONFIG_REGISTRO,
   SECCIONES_REGISTRO,
@@ -14,6 +15,11 @@ import {
 } from "@/lib/registros-residente";
 
 export const metadata = { title: "Ficha del residente · geriatrIA" };
+function edadActual(nacimiento: string): number {
+  const [anio, mes, dia] = nacimiento.split("-").map(Number);
+  const [anioHoy, mesHoy, diaHoy] = hoyEnArgentina().split("-").map(Number);
+  return anioHoy - anio - (mesHoy < mes || (mesHoy === mes && diaHoy < dia) ? 1 : 0);
+}
 const enlace =
   "inline-flex items-center text-sm font-semibold text-emerald-700 transition-colors hover:text-emerald-900 hover:underline underline-offset-4";
 
@@ -37,7 +43,14 @@ export default async function FichaResidentePage({
     paginas.contactos,
   );
   if (!ficha) notFound();
-  const { residente, ingresoActivoId, estadias, contactos } = ficha;
+  const {
+    residente,
+    ingresoActivoId,
+    habitacionActiva,
+    contactoEmergencia,
+    estadias,
+    contactos,
+  } = ficha;
   const puedeGestionar = tienePermiso(rol, "operational.write");
   const ruta = (estadia: number, contacto: number) =>
     enlaceFichaResidente(residente.id, estadia, contacto);
@@ -86,6 +99,10 @@ export default async function FichaResidentePage({
                     DNI: {residente.dni}
                   </span>
                 )}
+                <span className="text-xs font-medium text-slate-600">
+                  {edadActual(residente.birth_date)} años
+                  {habitacionActiva ? ` · Habitación ${habitacionActiva}` : ""}
+                </span>
               </div>
             </div>
           </div>
@@ -118,6 +135,39 @@ export default async function FichaResidentePage({
                 )
               )}
             </div>
+          )}
+        </div>
+        <div className="mt-5 rounded-xl border border-rose-200 bg-rose-50/70 p-4">
+          <p className="text-xs font-bold uppercase tracking-wide text-rose-800">
+            Contacto de emergencia
+          </p>
+          {contactoEmergencia ? (
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm font-semibold text-slate-900">
+                {contactoEmergencia.first_name} {contactoEmergencia.last_name}
+                {contactoEmergencia.relationship
+                  ? ` · ${contactoEmergencia.relationship}`
+                  : ""}
+              </p>
+              <a
+                href={`tel:${contactoEmergencia.phone.replace(/[^\d+]/g, "")}`}
+                className="rounded-xl bg-rose-700 px-4 py-2 text-sm font-bold text-white hover:bg-rose-800"
+              >
+                Llamar {contactoEmergencia.phone}
+              </a>
+            </div>
+          ) : (
+            <p className="mt-2 text-sm text-rose-900">
+              Falta designar un contacto de emergencia.{" "}
+              {puedeGestionar && (
+                <Link
+                  href={`/residentes/ficha/${residente.id}/familiares/nuevo`}
+                  className="font-bold underline"
+                >
+                  Agregar contacto
+                </Link>
+              )}
+            </p>
           )}
         </div>
       </div>

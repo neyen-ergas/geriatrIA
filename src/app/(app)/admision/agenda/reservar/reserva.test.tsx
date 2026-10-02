@@ -28,6 +28,8 @@ const consulta = {
   nombre: "Familia ficticia",
   telefono: "000000",
   actualizado_en: "2026-01-01T12:00:00.123456Z",
+  creado_en: "2026-01-01T12:00:00.123456Z",
+  mensaje: null,
   estado: "nuevo",
 };
 const parametros = { fecha: "2099-01-01", franja: "manana", buscar: "Ana", pagina: "2" };

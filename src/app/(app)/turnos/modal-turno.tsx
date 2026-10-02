@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import { X, Calendar, UserCheck, AlertTriangle } from "lucide-react";
 import { Button, Input, Label, Textarea } from "@/components/ui";
+import { FechaLegible } from "@/components/fecha-legible";
 import {
   FRANJAS_TURNO,
   ETIQUETAS_FRANJA_TURNO,
@@ -160,7 +161,7 @@ export function ModalTurno({
               </select>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="shift_date">Fecha</Label>
                 <Input
@@ -170,6 +171,7 @@ export function ModalTurno({
                   required
                   defaultValue={fechaInicial || turnoExistente?.shift_date || ""}
                 />
+                <FechaLegible id="shift_date" />
               </div>
 
               <div>

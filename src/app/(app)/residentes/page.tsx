@@ -18,6 +18,7 @@ import { Avatar, Badge, Card } from "@/components/ui";
 import { PaginacionListado } from "@/components/paginacion-listado";
 import { paginaListado } from "@/lib/paginacion";
 import { enlaceResidentes } from "@/lib/paginacion-residentes";
+import { busquedaPersonas } from "@/lib/busqueda-personas";
 import {
   contarEstadias,
   listarResidentesActivos,
@@ -51,6 +52,7 @@ export default async function ResidentesPage({
     estado?: string;
     reingreso?: string;
     pagina?: string | string[];
+    buscar?: string | string[];
   }>;
 }) {
   await requerirSesion("operational.read");
@@ -61,8 +63,10 @@ export default async function ResidentesPage({
     estado,
     reingreso,
     pagina: paginaParam,
+    buscar,
   } = await searchParams;
   const mostrarBajas = estado === "bajas";
+  const busqueda = busquedaPersonas(buscar);
   let residentesActivos: ResidenteActivo[] = [];
   let residentesDadosDeBaja: ResidenteDadoDeBaja[] = [];
   let errorCarga = false;
@@ -70,12 +74,12 @@ export default async function ResidentesPage({
   let pagina = 1;
 
   try {
-    cantidad = await contarEstadias(mostrarBajas);
+    cantidad = await contarEstadias(mostrarBajas, busqueda);
     pagina = paginaListado(paginaParam, cantidad);
     if (mostrarBajas) {
-      residentesDadosDeBaja = await listarResidentesDadosDeBaja(pagina);
+      residentesDadosDeBaja = await listarResidentesDadosDeBaja(pagina, busqueda);
     } else {
-      residentesActivos = await listarResidentesActivos(pagina);
+      residentesActivos = await listarResidentesActivos(pagina, busqueda);
     }
   } catch (error) {
     errorCarga = true;
@@ -139,7 +143,7 @@ export default async function ResidentesPage({
           className="inline-flex rounded-xl bg-slate-200/70 p-1 text-xs font-semibold shadow-inner"
         >
           <Link
-            href={enlaceResidentes(1, false)}
+            href={enlaceResidentes(1, false, busqueda)}
             aria-current={!mostrarBajas ? "page" : undefined}
             className={`rounded-lg px-4 py-2 transition-all ${
               !mostrarBajas
@@ -150,7 +154,7 @@ export default async function ResidentesPage({
             Activos
           </Link>
           <Link
-            href={enlaceResidentes(1, true)}
+            href={enlaceResidentes(1, true, busqueda)}
             aria-current={mostrarBajas ? "page" : undefined}
             className={`rounded-lg px-4 py-2 transition-all ${
               mostrarBajas
@@ -162,6 +166,37 @@ export default async function ResidentesPage({
           </Link>
         </nav>
       </div>
+
+      <form
+        action="/residentes"
+        className="flex flex-wrap items-end gap-2 rounded-xl border border-slate-200 bg-white p-3"
+      >
+        {mostrarBajas && <input type="hidden" name="estado" value="bajas" />}
+        <label className="flex-1 text-xs font-semibold text-slate-700">
+          Buscar residente por nombre, apellido o DNI
+          <input
+            name="buscar"
+            maxLength={80}
+            defaultValue={busqueda}
+            placeholder="Ej.: Lucero o 7803903"
+            className="mt-1 block h-10 w-full min-w-0 rounded-lg border border-slate-300 px-3 text-sm"
+          />
+        </label>
+        <button
+          type="submit"
+          className="h-10 rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white"
+        >
+          Buscar
+        </button>
+        {busqueda && (
+          <Link
+            href={enlaceResidentes(1, mostrarBajas)}
+            className="px-2 py-2 text-sm font-semibold text-emerald-800 underline"
+          >
+            Limpiar
+          </Link>
+        )}
+      </form>
 
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-base font-semibold text-slate-800">
@@ -182,6 +217,10 @@ export default async function ResidentesPage({
 
       {errorCarga ? (
         <ErrorCarga />
+      ) : busqueda && cantidad === 0 ? (
+        <Card className="p-8 text-center text-sm text-slate-600">
+          No encontramos residentes para “{busqueda}”. Probá con otro nombre o DNI.
+        </Card>
       ) : mostrarBajas ? (
         residentesDadosDeBaja.length === 0 ? (
           <EstadoVacioBajas />
@@ -197,8 +236,8 @@ export default async function ResidentesPage({
         <PaginacionListado
           pagina={pagina}
           total={cantidad}
-          anterior={enlaceResidentes(pagina - 1, mostrarBajas)}
-          siguiente={enlaceResidentes(pagina + 1, mostrarBajas)}
+          anterior={enlaceResidentes(pagina - 1, mostrarBajas, busqueda)}
+          siguiente={enlaceResidentes(pagina + 1, mostrarBajas, busqueda)}
           etiqueta={mostrarBajas ? "estadías finalizadas" : "residentes"}
         />
       )}

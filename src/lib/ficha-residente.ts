@@ -31,6 +31,11 @@ export type PaginaFicha<T> = { filas: T[]; total: number; pagina: number };
 export type FichaResidente = {
   residente: DatosFichaResidente;
   ingresoActivoId: string | null;
+  habitacionActiva: string | null;
+  contactoEmergencia: Pick<
+    ContactoFicha,
+    "first_name" | "last_name" | "relationship" | "phone"
+  > | null;
   contactos: PaginaFicha<ContactoFicha>;
   estadias: PaginaFicha<EstadiaFicha>;
 };

@@ -3,6 +3,7 @@ import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/types/database";
 import { REGISTROS_POR_PAGINA } from "@/lib/paginacion";
+import { filtroBusquedaPersonas } from "@/lib/busqueda-personas";
 
 type DatosResidente = Pick<
   Tables<"residents">,
@@ -106,12 +107,16 @@ const COLUMNAS_BAJAS = `
   )
 `;
 
-export async function contarEstadias(bajas: boolean): Promise<number> {
+export async function contarEstadias(bajas: boolean, busqueda = ""): Promise<number> {
   const supabase = await createClient();
-  const consulta = supabase.from("admissions").select("id", {
-    count: "exact",
-    head: true,
-  });
+  let consulta = supabase
+    .from("admissions")
+    .select("id,residents!inner(first_name,last_name,dni)", {
+      count: "exact",
+      head: true,
+    });
+  const filtro = filtroBusquedaPersonas(busqueda);
+  if (filtro) consulta = consulta.or(filtro, { referencedTable: "residents" });
   const { count, error } = await (bajas
     ? consulta.not("discharged_at", "is", null)
     : consulta.is("discharged_at", null));
@@ -122,14 +127,20 @@ export async function contarEstadias(bajas: boolean): Promise<number> {
 }
 
 /** Residentes que actualmente tienen un ingreso sin fecha de baja. */
-export async function listarResidentesActivos(pagina = 1): Promise<ResidenteActivo[]> {
+export async function listarResidentesActivos(
+  pagina = 1,
+  busqueda = "",
+): Promise<ResidenteActivo[]> {
   const supabase = await createClient();
   const inicio = inicioPagina(pagina);
 
-  const { data, error } = await supabase
+  let consulta = supabase
     .from("admissions")
     .select(COLUMNAS_RESIDENTES_ACTIVOS)
-    .is("discharged_at", null)
+    .is("discharged_at", null);
+  const filtro = filtroBusquedaPersonas(busqueda);
+  if (filtro) consulta = consulta.or(filtro, { referencedTable: "residents" });
+  const { data, error } = await consulta
     .order("residents(last_name)", { ascending: true })
     .order("residents(first_name)", { ascending: true })
     .order("id", { ascending: true })
@@ -150,15 +161,19 @@ export async function listarResidentesActivos(pagina = 1): Promise<ResidenteActi
 /** Ingresos finalizados, del más reciente al más antiguo. */
 export async function listarResidentesDadosDeBaja(
   pagina = 1,
+  busqueda = "",
 ): Promise<ResidenteDadoDeBaja[]> {
   const supabase = await createClient();
   const inicio = inicioPagina(pagina);
   // Cada relación se filtra y limita en Postgres para esa persona. No depende
   // de qué residentes o bajas entren en la página principal.
-  const bajasResult = await supabase
+  let consulta = supabase
     .from("admissions")
     .select(COLUMNAS_BAJAS)
-    .not("discharged_at", "is", null)
+    .not("discharged_at", "is", null);
+  const filtro = filtroBusquedaPersonas(busqueda);
+  if (filtro) consulta = consulta.or(filtro, { referencedTable: "residents" });
+  const bajasResult = await consulta
     .order("discharged_at", { ascending: false })
     .order("admitted_at", { ascending: false })
     .order("id", { ascending: false })
