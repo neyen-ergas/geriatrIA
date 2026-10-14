@@ -79,8 +79,12 @@ jobs:
       - name: Generate database types
         run: npm run db:types:local
 
-      - name: Show generated database type changes
-        run: git diff -- src/types/database.ts
+      - name: Check generated database types are up to date
+        run: |
+          git diff --exit-code -- src/types/database.ts || {
+            echo "::error file=src/types/database.ts::Los tipos no coinciden con las migraciones. Corré 'npm run db:types:local' y commiteá el resultado."
+            exit 1
+          }
 
       - name: Database tests
         run: npm run test:db
