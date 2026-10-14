@@ -35,29 +35,29 @@ export const COLORES_FRANJA: Record<
   { bg: string; text: string; badge: string }
 > = {
   manana: {
-    bg: "bg-amber-50",
-    text: "text-amber-800",
-    badge: "bg-amber-50 text-amber-800 border-amber-200",
+    bg: "bg-ocre-50",
+    text: "text-ocre-800",
+    badge: "bg-ocre-50 text-ocre-800 border-ocre-200",
   },
   tarde: {
-    bg: "bg-sky-50",
-    text: "text-sky-800",
-    badge: "bg-sky-50 text-sky-800 border-sky-200",
+    bg: "bg-cobalto-50",
+    text: "text-cobalto-800",
+    badge: "bg-cobalto-50 text-cobalto-800 border-cobalto-200",
   },
   noche: {
-    bg: "bg-indigo-50",
-    text: "text-indigo-800",
-    badge: "bg-indigo-50 text-indigo-800 border-indigo-200",
+    bg: "bg-cobalto-50",
+    text: "text-cobalto-800",
+    badge: "bg-cobalto-50 text-cobalto-800 border-cobalto-200",
   },
   guardia: {
-    bg: "bg-purple-50",
-    text: "text-purple-800",
-    badge: "bg-purple-50 text-purple-800 border-purple-200",
+    bg: "bg-cobalto-50",
+    text: "text-cobalto-800",
+    badge: "bg-cobalto-50 text-cobalto-800 border-cobalto-200",
   },
   franco: {
-    bg: "bg-emerald-50",
-    text: "text-emerald-800",
-    badge: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    bg: "bg-casona-50",
+    text: "text-casona-800",
+    badge: "bg-casona-50 text-casona-800 border-casona-200",
   },
 };
 

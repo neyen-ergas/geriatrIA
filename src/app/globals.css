@@ -1,52 +1,140 @@
 @import "tailwindcss";
 
+/*
+ * Paleta de la casona: se reemplaza la paleta completa de Tailwind para que
+ * ninguna pantalla pueda volver a los grises y verdes genéricos por costumbre.
+ *
+ * - piedra: neutros del piso calcáreo, apenas verdosos. 100 es el suelo de la
+ *   app y 200 la junta entre baldosas.
+ * - casona: verde inglés. Riel de navegación, acción principal y "al día".
+ * - ocre: lo pendiente y la selección.
+ * - oxido: solo lo vencido, lo crítico y los errores.
+ * - cobalto: información y estados intermedios.
+ */
 @theme {
+  --color-*: initial;
+  --color-white: oklch(0.995 0.002 120);
+  --color-black: oklch(0.14 0.008 160);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-piedra-50: oklch(0.977 0.004 140);
+  --color-piedra-100: oklch(0.953 0.006 140);
+  --color-piedra-200: oklch(0.905 0.009 142);
+  --color-piedra-300: oklch(0.845 0.011 145);
+  --color-piedra-400: oklch(0.69 0.013 148);
+  --color-piedra-500: oklch(0.52 0.014 150);
+  --color-piedra-600: oklch(0.44 0.015 152);
+  --color-piedra-700: oklch(0.37 0.015 155);
+  --color-piedra-800: oklch(0.29 0.013 157);
+  --color-piedra-900: oklch(0.22 0.011 160);
+  --color-piedra-950: oklch(0.16 0.009 160);
+
+  --color-casona-50: oklch(0.966 0.018 158);
+  --color-casona-100: oklch(0.928 0.036 158);
+  --color-casona-200: oklch(0.865 0.056 158);
+  --color-casona-300: oklch(0.765 0.075 158);
+  --color-casona-400: oklch(0.645 0.085 158);
+  --color-casona-500: oklch(0.535 0.088 159);
+  --color-casona-600: oklch(0.455 0.083 160);
+  --color-casona-700: oklch(0.39 0.073 161);
+  --color-casona-800: oklch(0.325 0.06 162);
+  --color-casona-900: oklch(0.265 0.048 164);
+  --color-casona-950: oklch(0.205 0.038 165);
+
+  --color-ocre-50: oklch(0.975 0.025 88);
+  --color-ocre-100: oklch(0.943 0.055 86);
+  --color-ocre-200: oklch(0.895 0.095 84);
+  --color-ocre-300: oklch(0.835 0.125 80);
+  --color-ocre-400: oklch(0.775 0.143 75);
+  --color-ocre-500: oklch(0.71 0.146 70);
+  --color-ocre-600: oklch(0.615 0.135 64);
+  --color-ocre-700: oklch(0.52 0.115 60);
+  --color-ocre-800: oklch(0.435 0.095 58);
+  --color-ocre-900: oklch(0.36 0.075 56);
+  --color-ocre-950: oklch(0.265 0.055 55);
+
+  --color-oxido-50: oklch(0.972 0.016 30);
+  --color-oxido-100: oklch(0.935 0.036 30);
+  --color-oxido-200: oklch(0.872 0.068 32);
+  --color-oxido-300: oklch(0.785 0.108 33);
+  --color-oxido-400: oklch(0.685 0.145 34);
+  --color-oxido-500: oklch(0.6 0.165 35);
+  --color-oxido-600: oklch(0.53 0.163 35);
+  --color-oxido-700: oklch(0.465 0.145 34);
+  --color-oxido-800: oklch(0.4 0.12 33);
+  --color-oxido-900: oklch(0.34 0.095 32);
+  --color-oxido-950: oklch(0.25 0.068 30);
+
+  --color-cobalto-50: oklch(0.97 0.014 250);
+  --color-cobalto-100: oklch(0.93 0.03 250);
+  --color-cobalto-200: oklch(0.87 0.052 252);
+  --color-cobalto-300: oklch(0.78 0.082 254);
+  --color-cobalto-400: oklch(0.66 0.11 256);
+  --color-cobalto-500: oklch(0.56 0.128 258);
+  --color-cobalto-600: oklch(0.48 0.13 260);
+  --color-cobalto-700: oklch(0.42 0.12 262);
+  --color-cobalto-800: oklch(0.35 0.1 263);
+  --color-cobalto-900: oklch(0.29 0.08 264);
+  --color-cobalto-950: oklch(0.22 0.06 265);
+
   --font-sans:
-    var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    var(--font-atkinson), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Arial, sans-serif;
+  --font-mono:
+    var(--font-atkinson-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
 :root {
-  --background: #f8fafc;
-  --foreground: #090d16;
+  color-scheme: light;
+  accent-color: var(--color-casona-700);
+}
+
+html {
+  /* Usuarios mayores: la base no baja de 16px y respeta el zoom del sistema. */
+  font-size: 100%;
 }
 
 body {
-  background-color: #f8fafc;
-  background-image:
-    radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 15%, rgba(14, 165, 233, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
-    radial-gradient(#cbd5e1 1.1px, transparent 1.1px);
-  background-size:
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    24px 24px;
-  background-attachment: fixed;
-  color: var(--foreground);
-  min-height: 100vh;
+  background-color: var(--color-piedra-100);
+  color: var(--color-piedra-900);
+  min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-color: var(--color-piedra-300) transparent;
 }
 
 ::selection {
-  background-color: #10b981;
-  color: #ffffff;
+  background-color: var(--color-ocre-200);
+  color: var(--color-piedra-950);
 }
 
-/* Scrollbar moderno ultra-delgado */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
 }
-::-webkit-scrollbar-track {
-  background: transparent;
+
+:focus-visible {
+  outline: 2px solid var(--color-casona-700);
+  outline-offset: 2px;
 }
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
+
+input,
+textarea {
+  caret-color: var(--color-casona-700);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

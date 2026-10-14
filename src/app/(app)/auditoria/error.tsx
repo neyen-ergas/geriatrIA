@@ -8,8 +8,10 @@ export default function ErrorAuditoria({
 }): React.ReactElement {
   return (
     <Card role="alert" className="p-6">
-      <h1 className="text-lg font-semibold">No se pudo cargar la auditoría</h1>
-      <p className="my-3 text-sm text-slate-600">
+      <h1 className="text-2xl font-bold text-piedra-950">
+        No se pudo cargar la auditoría
+      </h1>
+      <p className="my-3 text-sm text-piedra-600">
         Reintentá para consultar el historial. Los errores de carga no significan que no
         haya cambios registrados.
       </p>

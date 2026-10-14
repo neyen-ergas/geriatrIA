@@ -20,18 +20,18 @@ export function FormularioAnulacion({
   } as EstadoAnulacion);
   if (!puedeGestionar) return null;
   return (
-    <details className="mt-4 rounded-lg border border-red-200 p-4">
-      <summary className="cursor-pointer text-sm font-medium text-red-700">
+    <details className="mt-4 rounded-md border border-oxido-200 p-4">
+      <summary className="cursor-pointer text-sm font-medium text-oxido-700">
         Anular {tipo === "pago" ? "pago" : "cuota"}
       </summary>
       <form action={action} className="mt-4 space-y-3">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-piedra-600">
           {tipo === "pago"
             ? "El pago dejará de descontarse del saldo. Esta acción corrige el registro; no realiza una devolución de dinero."
             : "La cuota dejará de generar deuda. Su historial permanecerá disponible."}
         </p>
         {estado.error && (
-          <p role="alert" id={`${id}-error`} className="text-sm text-red-700">
+          <p role="alert" id={`${id}-error`} className="text-sm text-oxido-700">
             {estado.error}
           </p>
         )}

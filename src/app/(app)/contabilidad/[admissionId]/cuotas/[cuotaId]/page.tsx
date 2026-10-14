@@ -44,7 +44,7 @@ export default async function DetalleCuotaPage({
       <div>
         <Link
           href={`/contabilidad/${admissionId}`}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-900"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-piedra-500 transition-colors hover:text-piedra-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Volver a la cuenta
@@ -58,16 +58,18 @@ export default async function DetalleCuotaPage({
               {ETIQUETAS_CUOTA[cuota.payment_status]}
             </Badge>
             {cuota.is_overdue && (
-              <Badge className="border-rose-200 bg-rose-50 text-rose-700">Vencida</Badge>
+              <Badge className="border-oxido-200 bg-oxido-50 text-oxido-700">
+                Vencida
+              </Badge>
             )}
           </div>
-          <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+          <h1 className="mt-2 text-3xl font-bold text-piedra-950">
             Cuota de {formatearFechaPago(cuota.period, true)}
           </h1>
-          <p className="mt-1 text-sm font-semibold text-slate-700">
+          <p className="mt-1 text-sm font-semibold text-piedra-700">
             {cuenta.residents.last_name}, {cuenta.residents.first_name}
           </p>
-          <p className="mt-0.5 text-xs text-slate-500">
+          <p className="mt-0.5 text-sm text-piedra-500">
             Ingreso {formatearFechaPago(cuenta.admitted_at)}
             {cuenta.discharged_at &&
               ` · Baja ${formatearFechaPago(cuenta.discharged_at)}`}
@@ -79,9 +81,9 @@ export default async function DetalleCuotaPage({
           <SoloGestion>
             <Link
               href={`/contabilidad/${admissionId}/pago/${cuotaId}`}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition-all hover:bg-slate-800 active:scale-[0.98]"
+              className="min-h-11 inline-flex items-center gap-2 rounded-md bg-casona-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-casona-800"
             >
-              <DollarSign className="h-4 w-4 text-emerald-400" />
+              <DollarSign className="h-4 w-4 text-casona-400" />
               Registrar pago
             </Link>
           </SoloGestion>
@@ -91,9 +93,9 @@ export default async function DetalleCuotaPage({
       {(parametros.anulado === "pago" || parametros.anulado === "cuota") && (
         <div
           role="status"
-          className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm font-semibold text-emerald-800"
+          className="flex items-center gap-2 rounded-md border border-casona-200 bg-casona-50/80 p-4 text-sm font-semibold text-casona-800"
         >
-          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+          <CheckCircle2 className="h-4 w-4 shrink-0 text-casona-600" />
           {parametros.anulado === "pago" ? "Pago anulado." : "Cuota anulada."} Los saldos
           están actualizados.
         </div>
@@ -101,40 +103,34 @@ export default async function DetalleCuotaPage({
 
       {/* Métricas de la cuota */}
       <div className="grid gap-3 sm:grid-cols-3">
-        <Card className="p-4 shadow-2xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Importe original
-          </p>
-          <p className="mt-2 text-xl font-extrabold tabular-nums text-slate-900">
+        <Card className="p-4">
+          <p className="text-sm font-bold text-piedra-500">Importe original</p>
+          <p className="mt-2 text-xl font-bold tabular-nums text-piedra-900">
             {formatearImporte(cuota.amount_due, cuota.currency)}
           </p>
         </Card>
-        <Card className="p-4 shadow-2xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Pagado vigente
-          </p>
-          <p className="mt-2 text-xl font-extrabold tabular-nums text-emerald-700">
+        <Card className="p-4">
+          <p className="text-sm font-bold text-piedra-500">Pagado vigente</p>
+          <p className="mt-2 text-xl font-bold tabular-nums text-casona-700">
             {formatearImporte(cuota.paid_amount, cuota.currency)}
           </p>
         </Card>
-        <Card className="p-4 shadow-2xs border-slate-200/90 bg-slate-50/40">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Saldo pendiente
-          </p>
-          <p className="mt-2 text-xl font-extrabold tabular-nums text-slate-900">
+        <Card className="p-4 border-piedra-200/90 bg-piedra-50/40">
+          <p className="text-sm font-bold text-piedra-500">Saldo pendiente</p>
+          <p className="mt-2 text-xl font-bold tabular-nums text-piedra-900">
             {formatearImporte(cuota.balance, cuota.currency)}
           </p>
         </Card>
       </div>
 
       {cuota.payment_status === "cancelled" ? (
-        <Card className="p-4 bg-slate-50 text-xs text-slate-600">
-          <p className="font-semibold text-slate-700">Motivo de anulación:</p>
+        <Card className="p-4 bg-piedra-50 text-sm text-piedra-600">
+          <p className="font-semibold text-piedra-700">Motivo de anulación:</p>
           <p className="mt-1 whitespace-pre-wrap break-words">{cuota.cancelled_reason}</p>
         </Card>
       ) : (
         cuota.paid_amount === 0 && (
-          <Card className="p-5 shadow-2xs">
+          <Card className="p-5">
             <FormularioAnulacion
               tipo="cuota"
               formAction={cancelarCuota.bind(null, admissionId, cuotaId)}
@@ -143,9 +139,9 @@ export default async function DetalleCuotaPage({
         )
       )}
 
-      <div className="border-t border-slate-200/80 pt-6">
-        <h2 className="text-lg font-bold text-slate-900">Movimientos</h2>
-        <p className="mt-1 text-xs text-slate-500">
+      <div className="border-t border-piedra-200/80 pt-6">
+        <h2 className="text-lg font-bold text-piedra-900">Movimientos</h2>
+        <p className="mt-1 text-sm text-piedra-500">
           Los pagos anulados se conservan y no se descuentan del saldo.
         </p>
         <ListaMovimientos

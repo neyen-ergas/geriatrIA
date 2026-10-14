@@ -9,12 +9,12 @@ export default async function AccesosPage() {
   const accesos = await listarAccesos();
   return (
     <div>
-      <h1 className="text-2xl font-bold">Accesos</h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <h1 className="text-3xl font-bold text-piedra-950">Accesos</h1>
+      <p className="mt-2 text-sm text-piedra-600">
         Administrá las cuentas existentes. Las cuentas nuevas quedan sin acceso hasta que
         les asignes un perfil y las habilites.
       </p>
-      <ul className="my-5 list-disc space-y-2 pl-5 text-sm text-slate-600">
+      <ul className="my-5 list-disc space-y-2 pl-5 text-sm text-piedra-600">
         <li>
           <strong>Administrador:</strong> todas las secciones, Empleados y Accesos.
         </li>
@@ -26,7 +26,7 @@ export default async function AccesosPage() {
           <strong>Solo lectura:</strong> consulta esas tres secciones sin modificar datos.
         </li>
       </ul>
-      <p className="mb-5 text-sm text-slate-600">
+      <p className="mb-5 text-sm text-piedra-600">
         Los cambios se aplican en el siguiente pedido. Suspender el acceso conserva los
         registros de la persona. Debe quedar al menos un Administrador habilitado.
       </p>

@@ -32,7 +32,7 @@ export default async function EventoAuditoriaPage({
       <div>
         <Link
           href={volver}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-900"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-piedra-500 transition-colors hover:text-piedra-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Volver al historial
@@ -41,29 +41,29 @@ export default async function EventoAuditoriaPage({
 
       <div>
         <div className="inline-flex items-center gap-2">
-          <Badge className="border-emerald-200 bg-emerald-50 text-emerald-800 font-bold">
+          <Badge className="border-casona-200 bg-casona-50 text-casona-800 font-bold">
             {etiquetaTablaAuditoria(evento.table_name)}
           </Badge>
-          <Badge className="border-slate-200 bg-slate-100 text-slate-700 font-semibold">
+          <Badge className="border-piedra-200 bg-piedra-100 text-piedra-700 font-semibold">
             {etiquetaAccionAuditoria(evento.action)}
           </Badge>
         </div>
-        <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 className="mt-2 text-3xl font-bold text-piedra-950">
           {evento.record_label || "Registro sin referencia de nombre"}
         </h1>
       </div>
 
-      <Card className="p-5 shadow-2xs">
+      <Card className="p-5">
         <dl className="grid gap-4 sm:grid-cols-2">
           <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-piedra-100 text-piedra-600">
               <Clock className="h-4 w-4" />
             </div>
             <div>
-              <dt className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              <dt className="text-sm font-bold text-piedra-500">
                 Fecha y hora de Argentina
               </dt>
-              <dd className="mt-0.5 text-sm font-semibold text-slate-800">
+              <dd className="mt-0.5 text-sm font-semibold text-piedra-800">
                 <time dateTime={evento.occurred_at}>
                   {formatearMomentoAuditoria(evento.occurred_at)}
                 </time>
@@ -71,14 +71,12 @@ export default async function EventoAuditoriaPage({
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-piedra-100 text-piedra-600">
               <User className="h-4 w-4" />
             </div>
             <div>
-              <dt className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Autor
-              </dt>
-              <dd className="mt-0.5 break-all text-sm font-semibold text-slate-800">
+              <dt className="text-sm font-bold text-piedra-500">Autor</dt>
+              <dd className="mt-0.5 break-all text-sm font-semibold text-piedra-800">
                 {evento.actor_label ||
                   (evento.actor_id ? "Cuenta histórica" : "Sin usuario identificado")}
               </dd>
@@ -88,7 +86,7 @@ export default async function EventoAuditoriaPage({
       </Card>
 
       {evento.origin === "historical" && (
-        <div className="rounded-xl border border-amber-200/80 bg-amber-50/60 p-4 text-xs font-medium text-amber-900 leading-relaxed shadow-2xs">
+        <div className="rounded-md border border-ocre-200/80 bg-ocre-50/60 p-4 text-sm font-medium text-ocre-900 leading-relaxed">
           <span className="font-bold">Historial previo:</span> se muestra solo lo que
           estaba registrado. «No registrado» indica un dato desconocido, mientras que
           «Vacío» indica un valor vacío confirmado. Las referencias de nombre y correo se
@@ -100,7 +98,7 @@ export default async function EventoAuditoriaPage({
 
       <nav
         aria-label="Enlaces relacionados de auditoría"
-        className="flex flex-wrap items-center gap-3 border-t border-slate-200/80 pt-4"
+        className="flex flex-wrap items-center gap-3 border-t border-piedra-200/80 pt-4"
       >
         {esTablaAuditoria(evento.table_name) && (
           <Link
@@ -108,7 +106,7 @@ export default async function EventoAuditoriaPage({
               tabla: evento.table_name,
               registro: evento.record_id,
             })}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition-all hover:bg-slate-50 hover:text-slate-900"
+            className="inline-flex items-center gap-1.5 rounded-md border border-piedra-200 bg-white px-3.5 py-2 text-sm font-semibold text-piedra-700 transition-colors hover:bg-piedra-50 hover:text-piedra-900"
           >
             Todos los cambios de este registro
             <ArrowRight className="h-3 w-3" />
@@ -116,7 +114,7 @@ export default async function EventoAuditoriaPage({
         )}
         <Link
           href={enlaceAuditoria({ autor: evento.actor_id || "sin-usuario" })}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition-all hover:bg-slate-50 hover:text-slate-900"
+          className="inline-flex items-center gap-1.5 rounded-md border border-piedra-200 bg-white px-3.5 py-2 text-sm font-semibold text-piedra-700 transition-colors hover:bg-piedra-50 hover:text-piedra-900"
         >
           Más eventos de este autor
           <ArrowRight className="h-3 w-3" />

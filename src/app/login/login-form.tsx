@@ -10,19 +10,14 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button
-      type="submit"
-      size="lg"
-      disabled={pending}
-      className="w-full font-semibold shadow-xs"
-    >
+    <Button type="submit" size="lg" disabled={pending} className="w-full font-semibold">
       {pending ? (
         <>
           <Loader2 className="h-4 w-4 animate-spin" />
-          Ingresando...
+          Ingresando…
         </>
       ) : (
-        "Ingresar a la plataforma"
+        "Ingresar"
       )}
     </Button>
   );
@@ -54,21 +49,21 @@ export function LoginForm({ errorMessage }: { errorMessage?: string }) {
             name="password"
             type={mostrarPassword ? "text" : "password"}
             autoComplete="current-password"
-            placeholder="••••••••••••"
             required
-            className="pr-10"
+            className="pr-28"
           />
           <button
             type="button"
             onClick={() => setMostrarPassword(!mostrarPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
-            aria-label={mostrarPassword ? "Ocultar contraseña" : "Ver contraseña"}
+            className="absolute inset-y-0 right-0 flex min-w-11 items-center justify-center gap-1.5 rounded-r-md px-3 text-sm font-semibold text-piedra-700 hover:bg-piedra-100 hover:text-piedra-950"
+            aria-pressed={mostrarPassword}
           >
             {mostrarPassword ? (
-              <EyeOff className="h-4 w-4" />
+              <EyeOff className="h-4 w-4" aria-hidden="true" />
             ) : (
-              <Eye className="h-4 w-4" />
+              <Eye className="h-4 w-4" aria-hidden="true" />
             )}
+            {mostrarPassword ? "Ocultar" : "Mostrar"}
           </button>
         </div>
       </div>
@@ -76,7 +71,7 @@ export function LoginForm({ errorMessage }: { errorMessage?: string }) {
       {errorMessage && (
         <div
           role="alert"
-          className="rounded-xl border border-red-200/80 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700"
+          className="rounded-md border border-oxido-300 bg-oxido-50 px-3.5 py-2.5 text-base text-oxido-900"
         >
           {errorMessage}
         </div>

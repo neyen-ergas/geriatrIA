@@ -37,14 +37,14 @@ export default async function NuevaEntrevistaPage({
       <div>
         <Link
           href="/entrevistas"
-          className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900"
+          className="inline-flex items-center text-sm text-piedra-500 hover:text-piedra-900"
         >
           ← Volver a entrevistas
         </Link>
-        <h1 className="mt-2 text-2xl font-bold text-slate-900">
+        <h1 className="mt-2 text-3xl font-bold text-piedra-950">
           Nueva Entrevista de Admisión
         </h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-base text-piedra-700">
           Evaluación interdisciplinaria inicial, autonomía, cognición y dictamen de
           aptitud residencial.
         </p>

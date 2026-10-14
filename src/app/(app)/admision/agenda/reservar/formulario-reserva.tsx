@@ -26,7 +26,7 @@ export function FormularioReserva({
         {pendiente ? "Reservando…" : "Reservar para esta familia"}
       </Button>
       {resultado.error && (
-        <p role="alert" className="mt-2 text-sm text-red-700">
+        <p role="alert" className="mt-2 text-sm text-oxido-700">
           {resultado.error}
         </p>
       )}

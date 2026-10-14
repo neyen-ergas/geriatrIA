@@ -56,7 +56,7 @@ export function FormularioFamiliar({
                 aria-describedby={estado.errores[campo] ? `${campo}-error` : undefined}
               />
               {estado.errores[campo] && (
-                <p id={`${campo}-error`} className="mt-1 text-sm text-red-700">
+                <p id={`${campo}-error`} className="mt-1 text-sm text-oxido-700">
                   {estado.errores[campo]}
                 </p>
               )}
@@ -87,12 +87,12 @@ export function FormularioFamiliar({
               name="notes"
               rows={4}
               defaultValue={estado.valores.notes}
-              className="w-full rounded-lg border border-slate-300 p-3 text-sm"
+              className="w-full rounded-md border border-piedra-300 p-3 text-sm"
             />
           </div>
         </fieldset>
         {estado.mensaje && (
-          <p role="alert" className="mt-4 text-sm text-red-700">
+          <p role="alert" className="mt-4 text-sm text-oxido-700">
             {estado.mensaje}
           </p>
         )}

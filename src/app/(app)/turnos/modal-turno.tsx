@@ -77,25 +77,25 @@ export function ModalTurno({
       aria-modal="true"
       aria-labelledby="modal-turno-titulo"
       aria-describedby="modal-turno-desc"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-piedra-900/50 p-4"
     >
-      <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+      <div className="w-full max-w-lg rounded-md border border-piedra-200 bg-white p-6 shadow-xl">
+        <div className="flex items-center justify-between border-b border-piedra-100 pb-4">
           <div className="flex items-center gap-2.5">
             {modo === "asignar" ? (
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-100 text-sky-700">
+              <div className="flex h-9 w-9 items-center justify-center rounded-md bg-cobalto-100 text-cobalto-700">
                 <Calendar className="h-5 w-5" />
               </div>
             ) : (
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-100 text-amber-700">
+              <div className="flex h-9 w-9 items-center justify-center rounded-md bg-ocre-100 text-ocre-700">
                 <AlertTriangle className="h-5 w-5" />
               </div>
             )}
             <div>
-              <h3 id="modal-turno-titulo" className="text-lg font-bold text-slate-900">
+              <h3 id="modal-turno-titulo" className="text-lg font-bold text-piedra-900">
                 {modo === "asignar" ? "Asignar turno" : "Registrar ausencia y cobertura"}
               </h3>
-              <p id="modal-turno-desc" className="text-xs text-slate-500">
+              <p id="modal-turno-desc" className="text-sm text-piedra-500">
                 {modo === "asignar"
                   ? "Programá el horario de un empleado para la jornada."
                   : "Marcá el motivo de ausencia y asigná quién cubre el turno."}
@@ -105,7 +105,7 @@ export function ModalTurno({
           <button
             type="button"
             onClick={onCerrar}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+            className="rounded-md p-1.5 text-piedra-500 hover:bg-piedra-100 hover:text-piedra-600"
             aria-label="Cerrar ventana"
           >
             <X className="h-5 w-5" />
@@ -123,7 +123,7 @@ export function ModalTurno({
           </form>
         )}
         {estadoCancelar.error && (
-          <p role="alert" className="mt-3 text-sm text-red-700">
+          <p role="alert" className="mt-3 text-sm text-oxido-700">
             {estadoCancelar.error}
           </p>
         )}
@@ -148,7 +148,7 @@ export function ModalTurno({
                 name="employee_id"
                 required
                 defaultValue={empleadoIdInicial || turnoExistente?.employee_id || ""}
-                className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                className="h-10 w-full rounded-md border border-piedra-300 bg-white px-3 text-sm focus:border-piedra-500 focus:outline-none focus:ring-2 focus:ring-piedra-200"
               >
                 <option value="" disabled>
                   Seleccioná un empleado
@@ -182,7 +182,7 @@ export function ModalTurno({
                   required
                   value={franja}
                   onChange={evento => setFranja(evento.target.value)}
-                  className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                  className="h-10 w-full rounded-md border border-piedra-300 bg-white px-3 text-sm focus:border-piedra-500 focus:outline-none focus:ring-2 focus:ring-piedra-200"
                 >
                   {FRANJAS_TURNO.map(franja => (
                     <option key={franja} value={franja}>
@@ -203,14 +203,14 @@ export function ModalTurno({
                   required
                   defaultValue={turnoExistente?.guard_start?.slice(0, 5) || ""}
                 />
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-sm text-piedra-500">
                   La hora de inicio corresponde a la fecha indicada. Puede terminar al día
                   siguiente.
                 </p>
               </div>
             )}
             {franja === "franco" && (
-              <p className="text-xs text-slate-500">
+              <p className="text-sm text-piedra-500">
                 El franco reserva todo el día, de 00:00 a 24:00, y no permite turnos ni
                 coberturas superpuestos.
               </p>
@@ -231,13 +231,13 @@ export function ModalTurno({
             {estadoAsignar.error && (
               <p
                 role="alert"
-                className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                className="rounded-md border border-oxido-200 bg-oxido-50 p-3 text-sm text-oxido-700"
               >
                 {estadoAsignar.error}
               </p>
             )}
 
-            <div className="flex items-center justify-between border-t border-slate-100 pt-4">
+            <div className="flex items-center justify-between border-t border-piedra-100 pt-4">
               {turnoExistente?.status === "scheduled" ? (
                 <Button
                   type="submit"
@@ -275,13 +275,13 @@ export function ModalTurno({
               value={turnoExistente?.updated_at || ""}
             />
 
-            <div className="rounded-xl bg-slate-50 p-3.5 text-xs text-slate-700">
-              <div className="font-semibold text-slate-900">
+            <div className="rounded-md bg-piedra-50 p-3.5 text-sm text-piedra-700">
+              <div className="font-semibold text-piedra-900">
                 Turno: {turnoExistente?.shift_date} ·{" "}
                 {turnoExistente &&
                   ETIQUETAS_FRANJA_TURNO[turnoExistente.shift_type as FranjaTurno]}
               </div>
-              <div className="mt-1 text-slate-600">
+              <div className="mt-1 text-piedra-600">
                 Titular: {turnoExistente?.employee?.last_name},{" "}
                 {turnoExistente?.employee?.first_name}
               </div>
@@ -306,7 +306,7 @@ export function ModalTurno({
                 name="covered_by_employee_id"
                 required
                 defaultValue={turnoExistente?.covered_by_employee_id || ""}
-                className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                className="h-10 w-full rounded-md border border-piedra-300 bg-white px-3 text-sm focus:border-piedra-500 focus:outline-none focus:ring-2 focus:ring-piedra-200"
               >
                 <option value="" disabled>
                   Seleccioná quién realizará la cobertura
@@ -335,13 +335,13 @@ export function ModalTurno({
             {estadoCubrir.error && (
               <p
                 role="alert"
-                className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                className="rounded-md border border-oxido-200 bg-oxido-50 p-3 text-sm text-oxido-700"
               >
                 {estadoCubrir.error}
               </p>
             )}
 
-            <div className="flex justify-end gap-2 border-t border-slate-100 pt-4">
+            <div className="flex justify-end gap-2 border-t border-piedra-100 pt-4">
               <Button type="button" variant="outline" onClick={onCerrar}>
                 Volver
               </Button>

@@ -26,14 +26,16 @@ function ErrorCampo({ id, mensaje }: { id: string; mensaje?: string }) {
   if (!mensaje) return null;
 
   return (
-    <p id={id} className="mt-1.5 text-xs text-red-600">
+    <p id={id} className="mt-1.5 text-sm text-oxido-600">
       {mensaje}
     </p>
   );
 }
 
 function claseCampo(error?: string): string | undefined {
-  return error ? "border-red-300 focus:border-red-500 focus:ring-red-100" : undefined;
+  return error
+    ? "border-oxido-300 focus:border-oxido-500 focus:ring-oxido-100"
+    : undefined;
 }
 
 export function FormularioPrimerIngreso({
@@ -58,7 +60,7 @@ export function FormularioPrimerIngreso({
       {estado.mensaje && (
         <div
           role="alert"
-          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          className="rounded-md border border-oxido-200 bg-oxido-50 px-4 py-3 text-sm text-oxido-700"
         >
           {estado.mensaje}
         </div>
@@ -66,12 +68,12 @@ export function FormularioPrimerIngreso({
 
       <Card className="p-6">
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-casona-50 text-casona-700">
             <UserRound className="h-5 w-5" />
           </div>
           <div>
-            <h2 className="font-semibold text-slate-900">Datos personales</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="font-semibold text-piedra-900">Datos personales</h2>
+            <p className="mt-1 text-sm text-piedra-500">
               Información propia de la persona que permanecerá en su ficha.
             </p>
           </div>
@@ -186,7 +188,7 @@ export function FormularioPrimerIngreso({
               rows={3}
               defaultValue={estado.valores.resident_notes}
             />
-            <p className="mt-1.5 text-xs text-slate-500">
+            <p className="mt-1.5 text-sm text-piedra-500">
               No incluyas indicaciones médicas; tendrán su sección específica.
             </p>
           </div>
@@ -195,12 +197,12 @@ export function FormularioPrimerIngreso({
 
       <Card className="p-6">
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-700">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-cobalto-50 text-cobalto-700">
             <ContactRound className="h-5 w-5" />
           </div>
           <div>
-            <h2 className="font-semibold text-slate-900">Contacto familiar</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="font-semibold text-piedra-900">Contacto familiar</h2>
+            <p className="mt-1 text-sm text-piedra-500">
               Para el primer ingreso necesitamos al menos una persona de contacto.
             </p>
           </div>
@@ -285,21 +287,21 @@ export function FormularioPrimerIngreso({
           </div>
 
           <div className="space-y-3 md:col-span-2">
-            <label className="flex items-center gap-3 text-sm text-slate-700">
+            <label className="flex items-center gap-3 text-sm text-piedra-700">
               <input
                 type="checkbox"
                 name="contact_is_emergency_contact"
                 defaultChecked={estado.valores.contact_is_emergency_contact}
-                className="h-4 w-4 rounded border-slate-300 text-slate-900"
+                className="h-4 w-4 rounded border-piedra-300 text-piedra-900"
               />
               Es contacto de emergencia
             </label>
-            <label className="flex items-center gap-3 text-sm text-slate-700">
+            <label className="flex items-center gap-3 text-sm text-piedra-700">
               <input
                 type="checkbox"
                 name="contact_is_payment_responsible"
                 defaultChecked={estado.valores.contact_is_payment_responsible}
-                className="h-4 w-4 rounded border-slate-300 text-slate-900"
+                className="h-4 w-4 rounded border-piedra-300 text-piedra-900"
               />
               Es responsable del pago
             </label>
@@ -319,12 +321,12 @@ export function FormularioPrimerIngreso({
 
       <Card className="p-6">
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-violet-50 text-violet-700">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-cobalto-50 text-cobalto-700">
             <Building2 className="h-5 w-5" />
           </div>
           <div>
-            <h2 className="font-semibold text-slate-900">Datos del ingreso</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="font-semibold text-piedra-900">Datos del ingreso</h2>
+            <p className="mt-1 text-sm text-piedra-500">
               Condiciones administrativas acordadas para esta estadía.
             </p>
           </div>
@@ -362,7 +364,7 @@ export function FormularioPrimerIngreso({
           <div>
             <Label htmlFor="monthly_fee">Cuota mensual (ARS) *</Label>
             <div className="relative">
-              <CircleDollarSign className="pointer-events-none absolute left-3 top-2.5 h-5 w-5 text-slate-400" />
+              <CircleDollarSign className="pointer-events-none absolute left-3 top-2.5 h-5 w-5 text-piedra-500" />
               <Input
                 id="monthly_fee"
                 name="monthly_fee"
@@ -381,7 +383,7 @@ export function FormularioPrimerIngreso({
               />
             </div>
             <ErrorCampo id="monthly_fee-error" mensaje={estado.errores.monthly_fee} />
-            <p id="monthly_fee-help" className="mt-1.5 text-xs text-slate-500">
+            <p id="monthly_fee-help" className="mt-1.5 text-sm text-piedra-500">
               Podés usar formato argentino, con puntos de miles y coma decimal.
             </p>
           </div>
@@ -419,7 +421,7 @@ export function FormularioPrimerIngreso({
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <Link
           href="/residentes"
-          className="inline-flex h-12 items-center justify-center rounded-lg border border-slate-300 bg-white px-6 text-base font-medium text-slate-700 transition-colors hover:bg-slate-50"
+          className="inline-flex h-12 items-center justify-center rounded-md border border-piedra-300 bg-white px-6 text-base font-medium text-piedra-700 transition-colors hover:bg-piedra-50"
         >
           Cancelar
         </Link>

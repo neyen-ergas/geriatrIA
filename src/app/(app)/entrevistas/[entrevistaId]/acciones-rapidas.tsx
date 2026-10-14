@@ -59,7 +59,7 @@ export function AccionesRapidasEntrevista({
             size="md"
             disabled={pendiente || (resultado?.ok && versionEnviada === version)}
             onClick={() => cambiarEstado("completed")}
-            className="text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800"
+            className="text-casona-700 hover:bg-casona-50 hover:text-casona-800"
           >
             ✓ Marcar realizada
           </Button>
@@ -69,7 +69,7 @@ export function AccionesRapidasEntrevista({
             size="md"
             disabled={pendiente || (resultado?.ok && versionEnviada === version)}
             onClick={() => cambiarEstado("cancelled")}
-            className="text-slate-500 hover:bg-rose-50 hover:text-rose-700"
+            className="text-piedra-500 hover:bg-oxido-50 hover:text-oxido-700"
           >
             Cancelar entrevista
           </Button>
@@ -81,12 +81,12 @@ export function AccionesRapidasEntrevista({
         </p>
       )}
       {resultado?.ok && (
-        <p role="status" className="text-sm text-emerald-700">
+        <p role="status" className="text-sm text-casona-700">
           {resultado.mensaje}
         </p>
       )}
       {resultado?.error && (
-        <div role="alert" className="text-sm text-rose-700">
+        <div role="alert" className="text-sm text-oxido-700">
           <p>{resultado.error}</p>
           <a href={`/entrevistas/${id}`} className="underline">
             Recargar entrevista

@@ -37,7 +37,7 @@ export default async function VencimientosPage({
       <div>
         <Link
           href="/contabilidad"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-900"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-piedra-500 transition-colors hover:text-piedra-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Volver a Contabilidad
@@ -46,16 +46,12 @@ export default async function VencimientosPage({
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-emerald-800">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            Gestión de Cobranzas
-          </div>
-          <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+          <h1 className="text-3xl font-bold text-piedra-950">
             {todosLosMeses
               ? "Cuotas vencidas de todos los meses"
               : "Vencimientos del mes"}
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-base text-piedra-700">
             Cuotas creadas con saldo pendiente, incluidas las de estadías finalizadas. Se
             usa el vencimiento confirmado al crear cada cuota.
           </p>
@@ -65,24 +61,24 @@ export default async function VencimientosPage({
       {/* Segmented Control de Alcance */}
       <nav
         aria-label="Alcance de vencimientos"
-        className="inline-flex items-center gap-1.5 rounded-2xl border border-slate-200/80 bg-white p-1.5 shadow-2xs text-xs font-semibold text-slate-700"
+        className="inline-flex items-center gap-1.5 rounded-md border border-piedra-200/80 bg-white p-1.5 text-sm font-semibold text-piedra-700"
       >
         <Link
           href="/contabilidad/vencimientos"
-          className={`rounded-xl px-4 py-2 transition-all ${
+          className={`rounded-md px-4 py-2 transition-colors ${
             !todosLosMeses
-              ? "bg-slate-900 text-white shadow-2xs"
-              : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+              ? "bg-ocre-300 text-casona-950"
+              : "text-piedra-600 hover:bg-piedra-100/80 hover:text-piedra-900"
           }`}
         >
           Consultar un mes
         </Link>
         <Link
           href="/contabilidad/vencimientos?alcance=todas"
-          className={`rounded-xl px-4 py-2 transition-all ${
+          className={`rounded-md px-4 py-2 transition-colors ${
             todosLosMeses
-              ? "bg-slate-900 text-white shadow-2xs"
-              : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+              ? "bg-ocre-300 text-casona-950"
+              : "text-piedra-600 hover:bg-piedra-100/80 hover:text-piedra-900"
           }`}
         >
           Ver todas las cuotas vencidas
@@ -90,14 +86,14 @@ export default async function VencimientosPage({
       </nav>
 
       {!todosLosMeses && (
-        <Card className="p-5 shadow-2xs">
+        <Card className="p-5">
           <form
             action="/contabilidad/vencimientos"
             method="get"
             className="flex flex-wrap items-end gap-4"
           >
             <div className="min-w-[180px]">
-              <Label htmlFor="mes" className="text-xs font-bold text-slate-700">
+              <Label htmlFor="mes" className="text-sm font-bold text-piedra-700">
                 Mes de vencimiento
               </Label>
               <Input
@@ -111,7 +107,7 @@ export default async function VencimientosPage({
               />
             </div>
             <div className="min-w-[180px]">
-              <Label htmlFor="estado" className="text-xs font-bold text-slate-700">
+              <Label htmlFor="estado" className="text-sm font-bold text-piedra-700">
                 Mostrar
               </Label>
               <select
@@ -119,13 +115,13 @@ export default async function VencimientosPage({
                 name="estado"
                 defaultValue={vencidas ? "vencidas" : "pendientes"}
                 key={String(vencidas)}
-                className="mt-1.5 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 shadow-2xs outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                className="mt-1.5 h-10 w-full rounded-md border border-piedra-200 bg-white px-3 text-sm font-semibold text-piedra-700 outline-none transition-colors focus:border-casona-500 focus:ring-2 focus:ring-casona-500/20"
               >
                 <option value="pendientes">Todas con saldo</option>
                 <option value="vencidas">Solo vencidas</option>
               </select>
             </div>
-            <Button type="submit" size="sm" className="h-10 px-5 shadow-2xs">
+            <Button type="submit" size="sm" className="h-10 px-5">
               <Filter className="h-3.5 w-3.5" />
               Consultar
             </Button>
@@ -147,7 +143,7 @@ export default async function VencimientosPage({
         siguiente={enlaceVencimientos(mes, vencidas, pagina + 1, todosLosMeses)}
       />
 
-      <p className="mt-4 text-xs text-slate-400">
+      <p className="mt-4 text-sm text-piedra-500">
         {todosLosMeses
           ? "Este listado incluye vencimientos de cualquier mes, pero no períodos sin cuota creada."
           : "Este listado no incluye períodos sin cuota creada ni saldos de otros meses."}

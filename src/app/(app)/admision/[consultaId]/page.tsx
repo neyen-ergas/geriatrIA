@@ -27,30 +27,25 @@ export default async function ConsultaPage({
       <div>
         <Link
           href="/admision"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-900"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-piedra-500 transition-colors hover:text-piedra-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Volver a Admisión
         </Link>
         <Link
           href={enlaceAgenda(semana.inicio)}
-          className="ml-4 text-xs font-semibold uppercase text-slate-500 hover:text-slate-900"
+          className="ml-4 text-sm font-semibold text-piedra-500 hover:text-piedra-900"
         >
           Ver agenda
         </Link>
       </div>
       <div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-emerald-800">
-          Admisión
-        </div>
-        <h1 className="mt-1.5 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-          Consulta de Admisión
-        </h1>
+        <h1 className="text-3xl font-bold text-piedra-950">Consulta de Admisión</h1>
       </div>
       {parametros.creada === "1" && (
         <div
           role="status"
-          className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950"
+          className="rounded-md border border-casona-200 bg-casona-50 p-4 text-sm text-casona-950"
         >
           <strong>Consulta registrada.</strong>{" "}
           {parametros.paso === "visita" ? (

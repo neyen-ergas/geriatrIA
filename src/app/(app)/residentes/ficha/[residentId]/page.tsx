@@ -21,7 +21,7 @@ function edadActual(nacimiento: string): number {
   return anioHoy - anio - (mesHoy < mes || (mesHoy === mes && diaHoy < dia) ? 1 : 0);
 }
 const enlace =
-  "inline-flex items-center text-sm font-semibold text-emerald-700 transition-colors hover:text-emerald-900 hover:underline underline-offset-4";
+  "inline-flex items-center text-sm font-semibold text-casona-700 transition-colors hover:text-casona-900 hover:underline underline-offset-4";
 
 export default async function FichaResidentePage({
   params,
@@ -60,46 +60,43 @@ export default async function FichaResidentePage({
       <div>
         <Link
           href="/residentes"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-800"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-piedra-500 transition-colors hover:text-piedra-800"
         >
           <span>←</span> Volver a Residentes
         </Link>
       </div>
 
       {/* Hero Header Card */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-slate-50/50 to-emerald-50/20 p-6 shadow-sm">
+      <div className="relative overflow-hidden rounded-md border border-piedra-200/80 bg-white p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-lg font-bold text-white shadow-sm ring-4 ring-emerald-50">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-casona-500 text-lg font-bold text-white ring-4 ring-casona-50">
               {residente.first_name[0]}
               {residente.last_name[0]}
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-                Ficha del residente
-              </p>
-              <h1 className="mt-0.5 break-words text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h1 className="break-words text-3xl font-bold text-piedra-950">
                 {residente.first_name} {residente.last_name}
               </h1>
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
                 <Badge
                   className={
                     ingresoActivoId
-                      ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                      : "border-slate-200 bg-slate-100 text-slate-600"
+                      ? "border-casona-200 bg-casona-50 text-casona-800"
+                      : "border-piedra-200 bg-piedra-100 text-piedra-600"
                   }
                 >
                   <span
-                    className={`mr-1.5 inline-block h-1.5 w-1.5 rounded-full ${ingresoActivoId ? "bg-emerald-500" : "bg-slate-400"}`}
+                    className={`mr-1.5 inline-block h-1.5 w-1.5 rounded-full ${ingresoActivoId ? "bg-casona-500" : "bg-piedra-400"}`}
                   />
                   {ingresoActivoId ? "Con estadía activa" : "Sin estadía activa"}
                 </Badge>
                 {residente.dni && (
-                  <span className="text-xs text-slate-500 font-medium">
+                  <span className="text-sm text-piedra-500 font-medium">
                     DNI: {residente.dni}
                   </span>
                 )}
-                <span className="text-xs font-medium text-slate-600">
+                <span className="text-sm font-medium text-piedra-600">
                   {edadActual(residente.birth_date)} años
                   {habitacionActiva ? ` · Habitación ${habitacionActiva}` : ""}
                 </span>
@@ -113,13 +110,13 @@ export default async function FichaResidentePage({
                 <>
                   <Link
                     href={`/residentes/${ingresoActivoId}/editar`}
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+                    className="inline-flex items-center justify-center rounded-md border border-piedra-200 bg-white px-3.5 py-2 text-sm font-semibold text-piedra-700 transition-colors hover:border-piedra-300 hover:bg-piedra-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-piedra-900"
                   >
                     Editar ingreso activo
                   </Link>
                   <Link
                     href={`/residentes/${ingresoActivoId}/baja`}
-                    className="inline-flex items-center justify-center rounded-xl border border-rose-200 bg-rose-50/70 px-3.5 py-2 text-xs font-semibold text-rose-700 transition-all hover:bg-rose-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-600"
+                    className="inline-flex items-center justify-center rounded-md border border-oxido-200 bg-oxido-50/70 px-3.5 py-2 text-sm font-semibold text-oxido-700 transition-colors hover:bg-oxido-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxido-600"
                   >
                     Registrar baja
                   </Link>
@@ -128,7 +125,7 @@ export default async function FichaResidentePage({
                 estadias.total > 0 && (
                   <Link
                     href={`/residentes/reingreso/${residente.id}`}
-                    className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
+                    className="inline-flex items-center justify-center rounded-md bg-casona-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-casona-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-casona-700"
                   >
                     Registrar reingreso
                   </Link>
@@ -137,13 +134,11 @@ export default async function FichaResidentePage({
             </div>
           )}
         </div>
-        <div className="mt-5 rounded-xl border border-rose-200 bg-rose-50/70 p-4">
-          <p className="text-xs font-bold uppercase tracking-wide text-rose-800">
-            Contacto de emergencia
-          </p>
+        <div className="mt-5 rounded-md border border-oxido-200 bg-oxido-50/70 p-4">
+          <p className="text-sm font-bold text-oxido-800">Contacto de emergencia</p>
           {contactoEmergencia ? (
             <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-slate-900">
+              <p className="text-sm font-semibold text-piedra-900">
                 {contactoEmergencia.first_name} {contactoEmergencia.last_name}
                 {contactoEmergencia.relationship
                   ? ` · ${contactoEmergencia.relationship}`
@@ -151,13 +146,13 @@ export default async function FichaResidentePage({
               </p>
               <a
                 href={`tel:${contactoEmergencia.phone.replace(/[^\d+]/g, "")}`}
-                className="rounded-xl bg-rose-700 px-4 py-2 text-sm font-bold text-white hover:bg-rose-800"
+                className="rounded-md bg-oxido-700 px-4 py-2 text-sm font-bold text-white hover:bg-oxido-800"
               >
                 Llamar {contactoEmergencia.phone}
               </a>
             </div>
           ) : (
-            <p className="mt-2 text-sm text-rose-900">
+            <p className="mt-2 text-sm text-oxido-900">
               Falta designar un contacto de emergencia.{" "}
               {puedeGestionar && (
                 <Link
@@ -175,7 +170,7 @@ export default async function FichaResidentePage({
       {/* Navigation Sections */}
       <section>
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <h2 className="text-sm font-bold text-piedra-500">
             Apartados clínicos y operativos
           </h2>
         </div>
@@ -187,12 +182,12 @@ export default async function FichaResidentePage({
             <Link
               key={seccion}
               href={rutaRegistros(residente.id, seccion)}
-              className="group flex items-center justify-between rounded-xl border border-slate-200/80 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50/20 hover:shadow-md"
+              className="group flex items-center justify-between rounded-md border border-piedra-200/80 bg-white p-4 transition-colors hover:-translate-y-0.5 hover:border-casona-300 hover:bg-casona-50/20"
             >
-              <span className="text-sm font-semibold text-slate-800 transition-colors group-hover:text-emerald-800">
+              <span className="text-sm font-semibold text-piedra-800 transition-colors group-hover:text-casona-800">
                 {CONFIG_REGISTRO[seccion].titulo}
               </span>
-              <span className="text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-emerald-600">
+              <span className="text-piedra-500 transition-transform group-hover:translate-x-1 group-hover:text-casona-600">
                 →
               </span>
             </Link>
@@ -202,9 +197,9 @@ export default async function FichaResidentePage({
 
       {/* Datos Personales */}
       <Card className="p-6">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-          <h2 className="text-base font-bold text-slate-900">Datos personales</h2>
-          <span className="text-xs text-slate-400">Identificación general</span>
+        <div className="flex items-center justify-between border-b border-piedra-100 pb-4">
+          <h2 className="text-base font-bold text-piedra-900">Datos personales</h2>
+          <span className="text-sm text-piedra-500">Identificación general</span>
         </div>
         <dl className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Dato titulo="DNI" valor={residente.dni} />
@@ -221,17 +216,17 @@ export default async function FichaResidentePage({
       <section aria-labelledby="familiares" className="space-y-4">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 id="familiares" className="text-base font-bold text-slate-900">
+            <h2 id="familiares" className="text-base font-bold text-piedra-900">
               Familiares y contactos
             </h2>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-sm text-piedra-500">
               Contactos actuales de la persona, compartidos entre sus estadías.
             </p>
           </div>
           {puedeGestionar && (
             <Link
               href={`/residentes/ficha/${residente.id}/familiares/nuevo`}
-              className="inline-flex items-center gap-1.5 self-start rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-all hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+              className="min-h-11 inline-flex items-center gap-1.5 self-start rounded-md bg-casona-700 px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-casona-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-piedra-900"
             >
               + Agregar contacto
             </Link>
@@ -241,39 +236,39 @@ export default async function FichaResidentePage({
         {paginas.contacto === "1" && (
           <div
             role="status"
-            className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-3.5 text-sm font-medium text-emerald-800"
+            className="rounded-md border border-casona-200 bg-casona-50/80 p-3.5 text-sm font-medium text-casona-800"
           >
             Contacto guardado.
           </div>
         )}
 
         {!contactos.total ? (
-          <Card className="p-8 text-center text-sm text-slate-500">
+          <Card className="p-8 text-center text-sm text-piedra-500">
             No hay contactos registrados.
           </Card>
         ) : (
           <ul className="grid gap-4 lg:grid-cols-2">
             {contactos.filas.map(contacto => (
               <li key={contacto.id}>
-                <Card className="flex h-full flex-col justify-between p-5 transition-shadow hover:shadow-md">
+                <Card className="flex h-full flex-col justify-between p-5 transition-shadow">
                   <div>
-                    <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div className="flex items-start justify-between gap-2 border-b border-piedra-100 pb-3">
                       <div>
-                        <h3 className="break-words font-bold text-slate-900">
+                        <h3 className="break-words font-bold text-piedra-900">
                           {contacto.first_name} {contacto.last_name}
                         </h3>
-                        <span className="text-xs font-medium text-emerald-700">
+                        <span className="text-sm font-medium text-casona-700">
                           {contacto.relationship || "Familiar"}
                         </span>
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {contacto.is_emergency_contact && (
-                          <Badge className="border-rose-200 bg-rose-50 text-rose-700">
+                          <Badge className="border-oxido-200 bg-oxido-50 text-oxido-700">
                             Emergencia
                           </Badge>
                         )}
                         {contacto.is_payment_responsible && (
-                          <Badge className="border-sky-200 bg-sky-50 text-sky-700">
+                          <Badge className="border-cobalto-200 bg-cobalto-50 text-cobalto-700">
                             Resp. de pago
                           </Badge>
                         )}
@@ -298,7 +293,7 @@ export default async function FichaResidentePage({
                   </div>
 
                   {puedeGestionar && (
-                    <div className="mt-4 border-t border-slate-100 pt-3">
+                    <div className="mt-4 border-t border-piedra-100 pt-3">
                       <Link
                         href={`/residentes/ficha/${residente.id}/familiares/${contacto.id}/editar`}
                         className={enlace}
@@ -325,38 +320,38 @@ export default async function FichaResidentePage({
       <section aria-labelledby="estadias" className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 id="estadias" className="text-base font-bold text-slate-900">
+            <h2 id="estadias" className="text-base font-bold text-piedra-900">
               Historial de estadías
             </h2>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-sm text-piedra-500">
               Registro histórico de admisiones, habitaciones asignadas y finanzas.
             </p>
           </div>
         </div>
 
         {!estadias.total ? (
-          <Card className="p-8 text-center text-sm text-slate-500">
+          <Card className="p-8 text-center text-sm text-piedra-500">
             No hay estadías registradas.
           </Card>
         ) : (
           <ol className="space-y-4">
             {estadias.filas.map(estadia => (
               <li key={estadia.id}>
-                <Card className="p-6 transition-shadow hover:shadow-md">
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                <Card className="p-6 transition-shadow">
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-piedra-100 pb-3">
                     <div>
-                      <h3 className="text-base font-bold text-slate-900">
+                      <h3 className="text-base font-bold text-piedra-900">
                         Ingreso del {formatearFechaPago(estadia.admitted_at)}
                       </h3>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-sm text-piedra-500">
                         Habitación {estadia.room || "sin asignar"}
                       </p>
                     </div>
                     <Badge
                       className={
                         estadia.discharged_at
-                          ? "border-slate-200 bg-slate-100 text-slate-600"
-                          : "border-emerald-200 bg-emerald-50 text-emerald-800 font-semibold"
+                          ? "border-piedra-200 bg-piedra-100 text-piedra-600"
+                          : "border-casona-200 bg-casona-50 text-casona-800 font-semibold"
                       }
                     >
                       {estadia.discharged_at ? "Finalizada" : "Activa"}
@@ -385,14 +380,14 @@ export default async function FichaResidentePage({
                     )}
                   </dl>
 
-                  <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-slate-100 pt-3">
+                  <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-piedra-100 pt-3">
                     <Link href={`/contabilidad/${estadia.id}`} className={enlace}>
                       Ver cuotas y pagos de esta estadía →
                     </Link>
                     {puedeGestionar && (
                       <Link
                         href={`${rutaRegistros(residente.id, "pertenencias")}/nuevo?ingreso=${estadia.id}`}
-                        className="inline-flex items-center text-xs font-semibold text-slate-600 hover:text-slate-900 hover:underline"
+                        className="inline-flex items-center text-sm font-semibold text-piedra-600 hover:text-piedra-900 hover:underline"
                       >
                         + Agregar pertenencia a esta estadía
                       </Link>
@@ -423,11 +418,9 @@ function Dato({
   valor: string | null;
 }): React.ReactElement {
   return (
-    <div className="min-w-0 rounded-xl bg-slate-50/60 p-3">
-      <dt className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-        {titulo}
-      </dt>
-      <dd className="mt-1 whitespace-pre-wrap break-words text-sm font-medium text-slate-800">
+    <div className="min-w-0 rounded-md bg-piedra-50/60 p-3">
+      <dt className="text-sm font-semibold text-piedra-500">{titulo}</dt>
+      <dd className="mt-1 whitespace-pre-wrap break-words text-sm font-medium text-piedra-800">
         {valor || "Sin registrar"}
       </dd>
     </div>

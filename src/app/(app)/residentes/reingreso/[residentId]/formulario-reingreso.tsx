@@ -15,14 +15,16 @@ function ErrorCampo({ id, mensaje }: { id: string; mensaje?: string }) {
   if (!mensaje) return null;
 
   return (
-    <p id={id} className="mt-1.5 text-xs text-red-600">
+    <p id={id} className="mt-1.5 text-sm text-oxido-600">
       {mensaje}
     </p>
   );
 }
 
 function claseCampo(error?: string): string | undefined {
-  return error ? "border-red-300 focus:border-red-500 focus:ring-red-100" : undefined;
+  return error
+    ? "border-oxido-300 focus:border-oxido-500 focus:ring-oxido-100"
+    : undefined;
 }
 
 export function FormularioReingreso({
@@ -47,15 +49,15 @@ export function FormularioReingreso({
       {estado.mensaje && (
         <div
           role="alert"
-          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          className="rounded-md border border-oxido-200 bg-oxido-50 px-4 py-3 text-sm text-oxido-700"
         >
           {estado.mensaje}
         </div>
       )}
 
       <Card className="p-6">
-        <h2 className="font-semibold text-slate-900">Nuevo ingreso</h2>
-        <p className="mt-1 text-sm text-slate-500">
+        <h2 className="font-semibold text-piedra-900">Nuevo ingreso</h2>
+        <p className="mt-1 text-sm text-piedra-500">
           Estos datos pertenecen a la nueva estadía. La ficha personal y los contactos
           existentes se conservan.
         </p>
@@ -93,7 +95,7 @@ export function FormularioReingreso({
           <div>
             <Label htmlFor="monthly_fee">Cuota mensual (ARS) *</Label>
             <div className="relative">
-              <CircleDollarSign className="pointer-events-none absolute left-3 top-2.5 h-5 w-5 text-slate-400" />
+              <CircleDollarSign className="pointer-events-none absolute left-3 top-2.5 h-5 w-5 text-piedra-500" />
               <Input
                 id="monthly_fee"
                 name="monthly_fee"
@@ -112,7 +114,7 @@ export function FormularioReingreso({
               />
             </div>
             <ErrorCampo id="monthly_fee-error" mensaje={estado.errores.monthly_fee} />
-            <p id="monthly_fee-help" className="mt-1.5 text-xs text-slate-500">
+            <p id="monthly_fee-help" className="mt-1.5 text-sm text-piedra-500">
               Se propone la cuota anterior; confirmala o actualizala.
             </p>
           </div>
@@ -150,7 +152,7 @@ export function FormularioReingreso({
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <Link
           href="/residentes?estado=bajas"
-          className="inline-flex h-12 items-center justify-center rounded-lg border border-slate-300 bg-white px-6 text-base font-medium text-slate-700 transition-colors hover:bg-slate-50"
+          className="inline-flex h-12 items-center justify-center rounded-md border border-piedra-300 bg-white px-6 text-base font-medium text-piedra-700 transition-colors hover:bg-piedra-50"
         >
           Cancelar
         </Link>

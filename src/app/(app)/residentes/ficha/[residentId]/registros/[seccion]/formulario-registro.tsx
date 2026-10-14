@@ -43,7 +43,7 @@ export function FormularioRegistro({
                 required
                 rows={3}
                 defaultValue={estado.valores.motivo}
-                className="w-full rounded-lg border border-slate-300 p-3 text-sm"
+                className="w-full rounded-md border border-piedra-300 p-3 text-sm"
               />
             </div>
           ) : (
@@ -75,7 +75,7 @@ export function FormularioRegistro({
                             ? `${campo.nombre}-error`
                             : undefined
                         }
-                        className="w-full rounded-lg border border-slate-300 p-3 text-sm"
+                        className="w-full rounded-md border border-piedra-300 p-3 text-sm"
                       />
                     ) : campo.opciones ? (
                       <select
@@ -83,7 +83,7 @@ export function FormularioRegistro({
                         name={campo.nombre}
                         required
                         defaultValue={estado.valores[campo.nombre] || ""}
-                        className="h-10 w-full rounded-lg border border-slate-300 px-3 text-sm"
+                        className="h-10 w-full rounded-md border border-piedra-300 px-3 text-sm"
                       >
                         <option value="">Elegí una opción</option>
                         {Object.entries(campo.opciones).map(([valor, etiqueta]) => (
@@ -113,7 +113,7 @@ export function FormularioRegistro({
                     {estado.errores[campo.nombre] && (
                       <p
                         id={`${campo.nombre}-error`}
-                        className="mt-1 text-sm text-red-700"
+                        className="mt-1 text-sm text-oxido-700"
                       >
                         {estado.errores[campo.nombre]}
                       </p>
@@ -131,11 +131,11 @@ export function FormularioRegistro({
                     accept={TIPOS_COMPROBANTE}
                     required
                   />
-                  <p className="mt-1 text-sm text-slate-500">
+                  <p className="mt-1 text-sm text-piedra-500">
                     Si ocurre un error, volvé a seleccionar el archivo.
                   </p>
                   {estado.errores.archivo && (
-                    <p className="text-sm text-red-700">{estado.errores.archivo}</p>
+                    <p className="text-sm text-oxido-700">{estado.errores.archivo}</p>
                   )}
                 </div>
               )}
@@ -143,7 +143,7 @@ export function FormularioRegistro({
           )}
         </fieldset>
         {estado.mensaje && (
-          <p role="alert" className="mt-4 text-sm text-red-700">
+          <p role="alert" className="mt-4 text-sm text-oxido-700">
             {estado.mensaje}
           </p>
         )}

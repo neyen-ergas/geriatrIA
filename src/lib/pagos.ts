@@ -9,10 +9,10 @@ export const ETIQUETAS_CUOTA: Record<EstadoCuota, string> = {
   cancelled: "Anulada",
 };
 export const COLORES_CUOTA: Record<EstadoCuota, string> = {
-  pending: "border-slate-200 bg-slate-50 text-slate-700",
-  partial: "border-sky-200 bg-sky-50 text-sky-700",
-  paid: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  cancelled: "border-slate-200 bg-slate-100 text-slate-500",
+  pending: "border-piedra-200 bg-piedra-50 text-piedra-700",
+  partial: "border-cobalto-200 bg-cobalto-50 text-cobalto-700",
+  paid: "border-casona-200 bg-casona-50 text-casona-700",
+  cancelled: "border-piedra-200 bg-piedra-100 text-piedra-500",
 };
 
 type SaldoCuota = Pick<

@@ -58,19 +58,19 @@ export function GrillaTurnos({
       )}
 
       {empleados.length === 0 ? (
-        <Card className="flex h-48 items-center justify-center p-6 text-sm text-slate-400">
+        <Card className="flex h-48 items-center justify-center p-6 text-sm text-piedra-500">
           No hay empleados activos para planificar turnos. Registrá personal en la sección
           Empleados.
         </Card>
       ) : (
         <>
           <div className="space-y-3 md:hidden">
-            <label className="block text-sm font-semibold text-slate-800">
+            <label className="block text-sm font-semibold text-piedra-800">
               Día a revisar
               <select
                 value={diaMovil}
                 onChange={evento => setDiaMovil(evento.target.value)}
-                className="mt-1 block h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm"
+                className="mt-1 block h-11 w-full rounded-md border border-piedra-300 bg-white px-3 text-sm"
               >
                 {semana.dias.map(dia => (
                   <option key={dia} value={dia}>
@@ -90,26 +90,26 @@ export function GrillaTurnos({
               );
               return (
                 <Card key={empleado.id} className="p-4">
-                  <h2 className="font-bold text-slate-900">
+                  <h2 className="font-bold text-piedra-900">
                     {empleado.last_name}, {empleado.first_name}
                   </h2>
-                  <p className="text-xs text-slate-500">{empleado.job_title}</p>
+                  <p className="text-sm text-piedra-500">{empleado.job_title}</p>
                   {turnosDelDia.length === 0 && (
-                    <p className="mt-3 text-sm text-slate-500">Sin turnos ese día.</p>
+                    <p className="mt-3 text-sm text-piedra-500">Sin turnos ese día.</p>
                   )}
                   <ul className="mt-3 space-y-2">
                     {turnosDelDia.map(turno => (
                       <li
                         key={turno.id}
-                        className="rounded-lg border border-slate-200 bg-slate-50 p-3"
+                        className="rounded-md border border-piedra-200 bg-piedra-50 p-3"
                       >
-                        <p className="text-sm font-bold text-slate-900">
+                        <p className="text-sm font-bold text-piedra-900">
                           {ETIQUETAS_CORTAS_FRANJA[turno.shift_type as FranjaTurno] ||
                             turno.shift_type}{" "}
                           · {horarioTurno(turno)}
                         </p>
                         {turno.status === "absent" && (
-                          <p className="text-xs font-bold text-rose-700">
+                          <p className="text-sm font-bold text-oxido-700">
                             Ausente
                             {turno.covered_by
                               ? ` · Cubre ${turno.covered_by.last_name}`
@@ -117,7 +117,7 @@ export function GrillaTurnos({
                           </p>
                         )}
                         {turno.covered_by_employee_id === empleado.id && (
-                          <p className="text-xs text-emerald-800">
+                          <p className="text-sm text-casona-800">
                             Cubre a {turno.employee?.last_name || "otro empleado"}
                           </p>
                         )}
@@ -135,7 +135,7 @@ export function GrillaTurnos({
                                     fecha: diaMovil,
                                   })
                                 }
-                                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold"
+                                className="rounded-md border border-piedra-300 bg-white px-3 py-2 text-sm font-semibold"
                               >
                                 Editar
                               </button>
@@ -145,7 +145,7 @@ export function GrillaTurnos({
                                   onClick={() =>
                                     setModalAbierto({ modo: "cubrir", turno })
                                   }
-                                  className="rounded-lg border border-amber-300 bg-white px-3 py-2 text-xs font-semibold text-amber-900"
+                                  className="rounded-md border border-ocre-300 bg-white px-3 py-2 text-sm font-semibold text-ocre-900"
                                 >
                                   {turno.status === "absent"
                                     ? "Cambiar cobertura"
@@ -168,7 +168,7 @@ export function GrillaTurnos({
                           idSolicitud: crypto.randomUUID(),
                         })
                       }
-                      className="mt-3 inline-flex w-full items-center justify-center gap-1 rounded-lg bg-slate-900 px-3 py-2.5 text-sm font-semibold text-white"
+                      className="min-h-11 mt-3 inline-flex w-full items-center justify-center gap-1 rounded-md bg-casona-700 px-3 py-2.5 text-sm font-semibold text-white"
                     >
                       <Plus className="h-4 w-4" /> Asignar turno
                     </button>
@@ -177,11 +177,11 @@ export function GrillaTurnos({
               );
             })}
           </div>
-          <div className="hidden overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-xs md:block">
-            <table className="w-full border-collapse text-left text-sm">
+          <div className="hidden overflow-x-auto rounded-md border border-piedra-200 bg-white md:block">
+            <table className="w-full table-fixed border-collapse text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/80">
-                  <th className="sticky left-0 z-10 min-w-56 bg-slate-50/95 p-3.5 text-xs font-semibold uppercase tracking-wider text-slate-500 backdrop-blur-xs">
+                <tr className="border-b border-piedra-200 bg-piedra-50/80">
+                  <th className="sticky left-0 z-10 w-36 bg-piedra-50 p-3 text-sm font-semibold text-piedra-700 xl:w-52">
                     Empleado
                   </th>
                   {semana.dias.map(dia => {
@@ -189,13 +189,15 @@ export function GrillaTurnos({
                     return (
                       <th
                         key={dia}
-                        className={`min-w-36 p-3 text-center text-xs font-semibold ${
-                          esHoy ? "bg-sky-50/80 text-sky-900 font-bold" : "text-slate-700"
+                        className={`p-2 text-center text-sm font-semibold ${
+                          esHoy
+                            ? "bg-ocre-100 font-bold text-ocre-950"
+                            : "text-piedra-700"
                         }`}
                       >
                         <div className="capitalize">{etiquetaDiaSemana(dia)}</div>
                         {esHoy && (
-                          <span className="mt-0.5 inline-block rounded-full bg-sky-200/80 px-2 py-0.2 text-[10px] font-bold text-sky-800">
+                          <span className="mt-0.5 inline-block rounded-sm bg-ocre-300 px-1.5 text-sm font-bold text-casona-950">
                             Hoy
                           </span>
                         )}
@@ -204,15 +206,17 @@ export function GrillaTurnos({
                   })}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-piedra-100">
                 {empleados.map(empleado => {
                   return (
-                    <tr key={empleado.id} className="hover:bg-slate-50/50">
-                      <td className="sticky left-0 z-10 bg-white p-3.5 shadow-xs">
-                        <div className="font-semibold text-slate-900">
+                    <tr key={empleado.id} className="hover:bg-piedra-50/50">
+                      <td className="sticky left-0 z-10 bg-white p-3.5">
+                        <div className="font-semibold text-piedra-900">
                           {empleado.last_name}, {empleado.first_name}
                         </div>
-                        <div className="text-xs text-slate-500">{empleado.job_title}</div>
+                        <div className="text-sm text-piedra-500">
+                          {empleado.job_title}
+                        </div>
                       </td>
 
                       {semana.dias.map(dia => {
@@ -228,20 +232,20 @@ export function GrillaTurnos({
                         return (
                           <td
                             key={dia}
-                            className={`p-2 align-top text-xs ${
-                              esHoy ? "bg-sky-50/30" : ""
+                            className={`p-1.5 align-top text-sm ${
+                              esHoy ? "bg-ocre-50" : ""
                             }`}
                           >
                             {turnosDelDia.map(turnoDelDia => (
                               <div
                                 key={turnoDelDia.id}
-                                className={`group relative mb-2 rounded-lg border p-2 shadow-2xs transition ${
+                                className={`group relative mb-2 rounded-md border p-2 transition ${
                                   turnoDelDia.status === "absent" &&
                                   turnoDelDia.employee_id === empleado.id
-                                    ? "border-red-200 bg-red-50/60"
+                                    ? "border-oxido-200 bg-oxido-50/60"
                                     : COLORES_FRANJA[
                                         turnoDelDia.shift_type as FranjaTurno
-                                      ]?.badge || "border-slate-200 bg-slate-50"
+                                      ]?.badge || "border-piedra-200 bg-piedra-50"
                                 }`}
                               >
                                 <div className="flex items-center justify-between gap-1">
@@ -252,27 +256,27 @@ export function GrillaTurnos({
                                   </span>
                                   {turnoDelDia.status === "absent" &&
                                   turnoDelDia.employee_id === empleado.id ? (
-                                    <AlertCircle className="h-3.5 w-3.5 text-red-600" />
+                                    <AlertCircle className="h-3.5 w-3.5 text-oxido-600" />
                                   ) : (
                                     <Clock className="h-3 w-3 opacity-60" />
                                   )}
                                 </div>
 
-                                <div className="mt-1 text-[10px]">
+                                <div className="mt-1 text-sm">
                                   {horarioTurno(turnoDelDia)}
                                 </div>
                                 {turnoDelDia.covered_by_employee_id === empleado.id && (
-                                  <div className="mt-1 font-semibold text-emerald-800">
+                                  <div className="mt-1 font-semibold text-casona-800">
                                     Cubre a:{" "}
                                     {turnoDelDia.employee?.last_name || "otro empleado"}
                                   </div>
                                 )}
                                 {turnoDelDia.status === "absent" &&
                                   turnoDelDia.employee_id === empleado.id && (
-                                    <div className="mt-1 text-[11px] text-red-700">
+                                    <div className="mt-1 text-sm text-oxido-700">
                                       <div className="font-medium">Ausente</div>
                                       {turnoDelDia.covered_by && (
-                                        <div className="flex items-center gap-1 text-[10px] text-emerald-800">
+                                        <div className="flex items-center gap-1 text-sm text-casona-800">
                                           <UserCheck className="h-3 w-3" />
                                           Cubre: {turnoDelDia.covered_by.last_name}
                                         </div>
@@ -281,7 +285,7 @@ export function GrillaTurnos({
                                   )}
 
                                 {turnoDelDia.notes && (
-                                  <div className="mt-1 truncate text-[10px] text-slate-500">
+                                  <div className="mt-1 truncate text-sm text-piedra-600">
                                     {turnoDelDia.notes}
                                   </div>
                                 )}
@@ -291,7 +295,7 @@ export function GrillaTurnos({
                                   ["scheduled", "absent"].includes(
                                     turnoDelDia.status,
                                   ) && (
-                                    <div className="mt-2 flex items-center gap-1 border-t border-slate-200/60 pt-1.5">
+                                    <div className="mt-2 flex flex-wrap gap-1 border-t border-piedra-200 pt-2">
                                       {turnoDelDia.shift_type !== "franco" && (
                                         <button
                                           type="button"
@@ -301,7 +305,7 @@ export function GrillaTurnos({
                                               turno: turnoDelDia,
                                             })
                                           }
-                                          className="rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-amber-700 shadow-2xs hover:bg-amber-50"
+                                          className="min-h-9 flex-1 rounded-sm border border-piedra-300 bg-white px-2 text-sm font-semibold text-piedra-800 hover:bg-piedra-100"
                                           title="Registrar ausencia o reemplazo"
                                         >
                                           {turnoDelDia.status === "absent"
@@ -319,7 +323,7 @@ export function GrillaTurnos({
                                             fecha: dia,
                                           })
                                         }
-                                        className="rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-700 shadow-2xs hover:bg-slate-100"
+                                        className="min-h-9 flex-1 rounded-sm border border-piedra-300 bg-white px-2 text-sm font-semibold text-piedra-800 hover:bg-piedra-100"
                                       >
                                         Editar
                                       </button>
@@ -328,26 +332,27 @@ export function GrillaTurnos({
                               </div>
                             ))}
                             {turnosDelDia.length === 0 && !esAdmin && (
-                              <span className="text-slate-400">Sin turnos</span>
+                              <span className="text-piedra-500">Sin turnos</span>
                             )}
                             {esAdmin && (
-                              <div className="group flex min-h-14 flex-col items-center justify-center rounded-lg border border-dashed border-slate-200 p-1 hover:border-slate-300">
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    setModalAbierto({
-                                      modo: "asignar",
-                                      fecha: dia,
-                                      empleadoId: empleado.id,
-                                      idSolicitud: crypto.randomUUID(),
-                                    })
-                                  }
-                                  className="inline-flex items-center gap-1 rounded bg-slate-900 px-2 py-1 text-[10px] font-medium text-white shadow-2xs hover:bg-slate-800"
-                                >
-                                  <Plus className="h-3 w-3" />
-                                  Asignar
-                                </button>
-                              </div>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setModalAbierto({
+                                    modo: "asignar",
+                                    fecha: dia,
+                                    empleadoId: empleado.id,
+                                    idSolicitud: crypto.randomUUID(),
+                                  })
+                                }
+                                aria-label={`Asignar turno a ${empleado.last_name}, ${empleado.first_name} el ${etiquetaDiaSemana(dia)}`}
+                                className={`flex w-full items-center justify-center gap-1 rounded-md border border-dashed border-piedra-300 text-sm font-semibold text-piedra-600 hover:border-casona-600 hover:bg-casona-50 hover:text-casona-800 ${
+                                  turnosDelDia.length > 0 ? "min-h-9" : "min-h-11"
+                                }`}
+                              >
+                                <Plus className="h-4 w-4" aria-hidden="true" />
+                                {turnosDelDia.length > 0 ? "Otro turno" : "Asignar"}
+                              </button>
                             )}
                           </td>
                         );

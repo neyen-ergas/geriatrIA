@@ -44,14 +44,14 @@ export function FormularioCarga({
   });
   const errorCampo = (campo: string) =>
     estado.errores[campo] && (
-      <p id={`${campo}-error`} className="mt-1 text-sm text-red-700">
+      <p id={`${campo}-error`} className="mt-1 text-sm text-oxido-700">
         {estado.errores[campo]}
       </p>
     );
   return (
     <form action={action} className="mt-6 max-w-2xl space-y-4" noValidate>
       {estado.mensaje && (
-        <p role="alert" className="rounded-lg bg-red-50 p-4 text-sm text-red-700">
+        <p role="alert" className="rounded-md bg-oxido-50 p-4 text-sm text-oxido-700">
           {estado.mensaje}
         </p>
       )}
@@ -115,7 +115,7 @@ export function FormularioCarga({
               required
               defaultValue={estado.valores.importe}
             />
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-sm text-piedra-500">
               {modo === "cuota"
                 ? "Confirmá o ajustá el importe sugerido. "
                 : "Podés registrar un pago total o parcial. "}
@@ -131,7 +131,7 @@ export function FormularioCarga({
                   {...atributos("medio")}
                   required
                   defaultValue={estado.valores.medio}
-                  className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm"
+                  className="h-10 w-full rounded-md border border-piedra-300 bg-white px-3 text-sm"
                 >
                   <option value="">Elegí un medio</option>
                   {Object.entries(MEDIOS_PAGO).map(([valor, etiqueta]) => (
@@ -164,12 +164,12 @@ export function FormularioCarga({
                     );
                   }}
                 />
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-sm text-piedra-500">
                   JPG, PNG o PDF, hasta 3 MB. Se guarda de forma privada. Si el envío
                   falla, seleccioná el archivo nuevamente.
                 </p>
                 {errorArchivo && (
-                  <p role="alert" className="mt-1 text-sm text-red-700">
+                  <p role="alert" className="mt-1 text-sm text-oxido-700">
                     {errorArchivo}
                   </p>
                 )}
@@ -196,7 +196,7 @@ export function FormularioCarga({
       </Card>
       <Link
         href={volver}
-        className="inline-block py-2 text-sm font-medium text-sky-700 hover:underline"
+        className="inline-block py-2 text-sm font-medium text-cobalto-700 hover:underline"
       >
         Volver a la cuenta
       </Link>

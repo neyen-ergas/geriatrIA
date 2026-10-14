@@ -79,20 +79,15 @@ export default async function EntrevistasPage({
       {/* Cabecera Principal */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-            Admisión y Valoración
-          </p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            Entrevistas de Admisión
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-3xl font-bold text-piedra-950">Entrevistas de Admisión</h1>
+          <p className="mt-1 text-base text-piedra-700">
             Evaluaciones interdisciplinarias para valorar autonomía, cognición y perfil
             asistencial de postulantes.
           </p>
         </div>
         <div>
           <Link href="/entrevistas/nueva">
-            <Button className="w-full sm:w-auto shadow-sm">
+            <Button className="w-full sm:w-auto">
               <Plus className="h-4 w-4" />
               Nueva Entrevista
             </Button>
@@ -102,9 +97,9 @@ export default async function EntrevistasPage({
 
       {/* Manejo defensivo de error */}
       {errorCarga ? (
-        <Card className="border-rose-200 bg-rose-50/80 p-6 text-sm text-rose-800 shadow-sm">
+        <Card className="border-oxido-200 bg-oxido-50/80 p-6 text-sm text-oxido-800">
           <p className="font-semibold">{errorCarga}</p>
-          <p className="mt-1 text-rose-600">
+          <p className="mt-1 text-oxido-600">
             Ocurrió un error al comunicarse con el servidor.
           </p>
           <div className="mt-4">
@@ -120,94 +115,94 @@ export default async function EntrevistasPage({
           {/* Banner de KPIs */}
           {kpis.total > 0 && (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              <Card className="p-4 transition-all hover:shadow-md">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+              <Card className="p-4 transition-colors">
+                <div className="flex items-center gap-2 text-sm font-semibold text-piedra-500">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-piedra-100 text-piedra-500">
                     <Users className="h-4 w-4" />
                   </div>
                   Total
                 </div>
-                <div className="mt-3 text-2xl font-bold tabular-nums text-slate-900">
+                <div className="mt-3 text-2xl font-bold tabular-nums text-piedra-900">
                   {kpis.total}
                 </div>
-                <div className="mt-0.5 text-xs text-slate-400">Entrevistas</div>
+                <div className="mt-0.5 text-sm text-piedra-500">Entrevistas</div>
               </Card>
 
-              <Card className="p-4 transition-all hover:shadow-md">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-700">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-100/80 text-sky-600">
+              <Card className="p-4 transition-colors">
+                <div className="flex items-center gap-2 text-sm font-semibold text-cobalto-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-cobalto-100/80 text-cobalto-600">
                     <Clock className="h-4 w-4" />
                   </div>
                   Programadas
                 </div>
-                <div className="mt-3 text-2xl font-bold tabular-nums text-sky-900">
+                <div className="mt-3 text-2xl font-bold tabular-nums text-cobalto-900">
                   {kpis.programadas}
                 </div>
-                <div className="mt-0.5 text-xs text-sky-600">Por realizar</div>
+                <div className="mt-0.5 text-sm text-cobalto-600">Por realizar</div>
               </Card>
 
-              <Card className="p-4 transition-all hover:shadow-md">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-700">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100/80 text-emerald-600">
+              <Card className="p-4 transition-colors">
+                <div className="flex items-center gap-2 text-sm font-semibold text-casona-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-casona-100/80 text-casona-600">
                     <CheckCircle2 className="h-4 w-4" />
                   </div>
                   Realizadas
                 </div>
-                <div className="mt-3 text-2xl font-bold tabular-nums text-emerald-900">
+                <div className="mt-3 text-2xl font-bold tabular-nums text-casona-900">
                   {kpis.completadas}
                 </div>
-                <div className="mt-0.5 text-xs text-emerald-600">Completadas</div>
+                <div className="mt-0.5 text-sm text-casona-600">Completadas</div>
               </Card>
 
-              <Card className="p-4 transition-all hover:shadow-md">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-teal-700">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-100/80 text-teal-600">
+              <Card className="p-4 transition-colors">
+                <div className="flex items-center gap-2 text-sm font-semibold text-casona-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-casona-100/80 text-casona-600">
                     <UserCheck className="h-4 w-4" />
                   </div>
                   Aptas
                 </div>
-                <div className="mt-3 text-2xl font-bold tabular-nums text-teal-900">
+                <div className="mt-3 text-2xl font-bold tabular-nums text-casona-900">
                   {kpis.aptas}
                 </div>
-                <div className="mt-0.5 text-xs text-teal-600">Para ingreso</div>
+                <div className="mt-0.5 text-sm text-casona-600">Para ingreso</div>
               </Card>
 
-              <Card className="p-4 transition-all hover:shadow-md">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-rose-700">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-100/80 text-rose-600">
+              <Card className="p-4 transition-colors">
+                <div className="flex items-center gap-2 text-sm font-semibold text-oxido-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-oxido-100/80 text-oxido-600">
                     <UserX className="h-4 w-4" />
                   </div>
                   No Aptas
                 </div>
-                <div className="mt-3 text-2xl font-bold tabular-nums text-rose-900">
+                <div className="mt-3 text-2xl font-bold tabular-nums text-oxido-900">
                   {kpis.noAptas}
                 </div>
-                <div className="mt-0.5 text-xs text-rose-600">Excede perfil</div>
+                <div className="mt-0.5 text-sm text-oxido-600">Excede perfil</div>
               </Card>
 
-              <Card className="p-4 transition-all hover:shadow-md">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-700">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100/80 text-amber-600">
+              <Card className="p-4 transition-colors">
+                <div className="flex items-center gap-2 text-sm font-semibold text-ocre-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-ocre-100/80 text-ocre-600">
                     <Calendar className="h-4 w-4" />
                   </div>
                   Pendientes
                 </div>
-                <div className="mt-3 text-2xl font-bold tabular-nums text-amber-900">
+                <div className="mt-3 text-2xl font-bold tabular-nums text-ocre-900">
                   {kpis.pendientes}
                 </div>
-                <div className="mt-0.5 text-xs text-amber-600">En evaluación</div>
+                <div className="mt-0.5 text-sm text-ocre-600">En evaluación</div>
               </Card>
             </div>
           )}
 
           {/* Barra de Búsqueda y Filtros */}
-          <Card className="p-4 shadow-sm">
+          <Card className="p-4">
             <form
               method="get"
               className="flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-piedra-500" />
                 <Input
                   name="busqueda"
                   defaultValue={busquedaFiltro || ""}
@@ -221,7 +216,7 @@ export default async function EntrevistasPage({
                   name="estado"
                   defaultValue={estadoFiltro || "todas"}
                   aria-label="Filtrar por estado del encuentro"
-                  className="h-10 rounded-xl border border-slate-200/90 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                  className="h-10 rounded-md border border-piedra-200/90 bg-white px-3.5 text-sm font-medium text-piedra-700 outline-none transition-colors focus:border-casona-500 focus:ring-2 focus:ring-casona-500/20"
                 >
                   <option value="todas">Todos los estados</option>
                   <option value="scheduled">Programadas</option>
@@ -233,7 +228,7 @@ export default async function EntrevistasPage({
                   name="conclusion"
                   defaultValue={conclusionFiltro || "todas"}
                   aria-label="Filtrar por dictamen de aptitud"
-                  className="h-10 rounded-xl border border-slate-200/90 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                  className="h-10 rounded-md border border-piedra-200/90 bg-white px-3.5 text-sm font-medium text-piedra-700 outline-none transition-colors focus:border-casona-500 focus:ring-2 focus:ring-casona-500/20"
                 >
                   <option value="todas">Todos los dictámenes</option>
                   <option value="pendiente">Pendiente</option>
@@ -261,13 +256,13 @@ export default async function EntrevistasPage({
           {/* Listado de Entrevistas */}
           {entrevistas.length === 0 ? (
             <Card className="p-12 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-md bg-piedra-100 text-piedra-500">
                 <Users className="h-7 w-7" />
               </div>
-              <h3 className="mt-4 text-base font-bold text-slate-800">
+              <h3 className="mt-4 text-base font-bold text-piedra-800">
                 No se encontraron entrevistas
               </h3>
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-piedra-500">
                 {estadoFiltro || conclusionFiltro || busquedaFiltro
                   ? "No hay resultados para los filtros seleccionados."
                   : "Todavía no hay entrevistas de admisión registradas."}
@@ -290,18 +285,18 @@ export default async function EntrevistasPage({
                 const cognitiva = ent.cognitive_assessment as EvaluacionCognitiva | null;
 
                 return (
-                  <Card key={ent.id} className="p-5 transition-all hover:shadow-md">
+                  <Card key={ent.id} className="p-5 transition-colors">
                     <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center gap-2">
                           <Link
                             href={`/entrevistas/${ent.id}`}
-                            className="text-lg font-bold text-slate-900 transition-colors hover:text-emerald-700 hover:underline"
+                            className="text-lg font-bold text-piedra-900 transition-colors hover:text-casona-700 hover:underline"
                           >
                             {ent.candidate_name}
                           </Link>
                           {ent.candidate_dni && (
-                            <span className="text-xs font-medium text-slate-400">
+                            <span className="text-sm font-medium text-piedra-500">
                               DNI {ent.candidate_dni}
                             </span>
                           )}
@@ -316,34 +311,34 @@ export default async function EntrevistasPage({
                         </div>
 
                         {/* Evaluaciones de Movilidad y Cognición */}
-                        <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                        <div className="flex flex-wrap items-center gap-2 pt-1 text-sm">
                           {movilidad ? (
                             <span
-                              className={`inline-flex items-center rounded-lg border px-2.5 py-0.5 font-medium ${COLORES_MOVILIDAD[movilidad]}`}
+                              className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-medium ${COLORES_MOVILIDAD[movilidad]}`}
                             >
                               Movilidad: {ETIQUETAS_MOVILIDAD[movilidad]}
                             </span>
                           ) : (
-                            <span className="text-slate-400">Movilidad no evaluada</span>
+                            <span className="text-piedra-500">Movilidad no evaluada</span>
                           )}
 
                           {cognitiva ? (
                             <span
-                              className={`inline-flex items-center rounded-lg border px-2.5 py-0.5 font-medium ${COLORES_COGNITIVA[cognitiva]}`}
+                              className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-medium ${COLORES_COGNITIVA[cognitiva]}`}
                             >
                               Cognición: {ETIQUETAS_COGNITIVA[cognitiva]}
                             </span>
                           ) : (
-                            <span className="text-slate-400">Cognición no evaluada</span>
+                            <span className="text-piedra-500">Cognición no evaluada</span>
                           )}
                         </div>
 
                         {/* Datos de contacto y acompañante */}
-                        <div className="text-xs text-slate-500">
+                        <div className="text-sm text-piedra-500">
                           {ent.companion_name && (
                             <span>
                               Acompañante:{" "}
-                              <strong className="text-slate-700">
+                              <strong className="text-piedra-700">
                                 {ent.companion_name}
                               </strong>
                               {ent.companion_relationship &&
@@ -354,11 +349,11 @@ export default async function EntrevistasPage({
                           {ent.interviewer && (
                             <span className="block mt-0.5 sm:inline sm:mt-0 sm:ml-2">
                               · Profesional:{" "}
-                              <strong className="text-slate-700">
+                              <strong className="text-piedra-700">
                                 {ent.interviewer.last_name}, {ent.interviewer.first_name}
                               </strong>
                               {ent.interviewer.job_title && (
-                                <span className="text-slate-400">
+                                <span className="text-piedra-500">
                                   {" "}
                                   ({ent.interviewer.job_title})
                                 </span>
@@ -369,7 +364,7 @@ export default async function EntrevistasPage({
 
                         {/* Motivo de rechazo asistencial si es no apto */}
                         {conclusion === "no_apto" && ent.rejection_reason && (
-                          <div className="mt-2 rounded-md border border-rose-200 bg-rose-50/70 p-2.5 text-xs text-rose-800">
+                          <div className="mt-2 rounded-md border border-oxido-200 bg-oxido-50/70 p-2.5 text-sm text-oxido-800">
                             <strong>Motivo no apto:</strong> {ent.rejection_reason}
                           </div>
                         )}
@@ -377,7 +372,7 @@ export default async function EntrevistasPage({
 
                       {/* Fecha y Link de acción */}
                       <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                        <div className="flex items-center gap-1.5 text-sm text-piedra-500">
                           <Calendar className="h-3.5 w-3.5" />
                           <span>{ent.interview_date}</span>
                         </div>

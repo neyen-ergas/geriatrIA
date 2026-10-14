@@ -8,3 +8,7 @@ src/types/database.ts
 package-lock.json
 supabase/.temp
 .temp
+
+# Skills de terceros: se reemplazan al actualizar, no se reformatean.
+.claude/skills/impeccable
+.claude/agents/impeccable-*.md

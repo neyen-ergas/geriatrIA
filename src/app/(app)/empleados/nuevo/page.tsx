@@ -10,7 +10,7 @@ export default async function NuevoEmpleadoPage(): Promise<React.ReactElement> {
   const hoy = hoyEnArgentina();
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-bold">Registrar empleado</h1>
+      <h1 className="text-3xl font-bold text-piedra-950">Registrar empleado</h1>
       <FormularioEmpleado
         action={guardarEmpleado.bind(null, null, null)}
         valores={{ hired_at: hoy }}

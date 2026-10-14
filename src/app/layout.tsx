@@ -1,31 +1,38 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Atkinson_Hyperlegible_Next, Atkinson_Hyperlegible_Mono } from "next/font/google";
 import "./globals.css";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+// Atkinson Hyperlegible se diseñó para lectores con baja visión: distingue
+// formas que se confunden (1, l, I; 0, O) y parte del equipo es mayor.
+const atkinson = Atkinson_Hyperlegible_Next({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  variable: "--font-atkinson",
+});
+
+const atkinsonMono = Atkinson_Hyperlegible_Mono({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-sans",
+  variable: "--font-atkinson-mono",
 });
 
 export const metadata: Metadata = {
   title: "geriatrIA",
-  description: "Registro de medicación sin papel para residencias geriátricas",
+  description: "Sistema de gestión para residencias geriátricas",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#1f3a2e",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es-AR" className={plusJakartaSans.variable}>
-      <body className="antialiased font-sans selection:bg-emerald-100 selection:text-emerald-900">
-        {children}
-      </body>
+    <html lang="es-AR" className={`${atkinson.variable} ${atkinsonMono.variable}`}>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }

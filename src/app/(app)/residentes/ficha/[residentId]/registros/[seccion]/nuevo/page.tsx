@@ -37,12 +37,14 @@ export default async function NuevoRegistroPage({
     <div className="mx-auto max-w-2xl">
       <Link
         href={rutaRegistros(residentId, seccion)}
-        className="text-sm text-sky-800 underline"
+        className="text-sm text-cobalto-800 underline"
       >
         ← Volver al listado
       </Link>
-      <h1 className="mt-4 text-2xl font-bold">Agregar {config.singular}</h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <h1 className="mt-4 text-3xl font-bold text-piedra-950">
+        Agregar {config.singular}
+      </h1>
+      <p className="mt-2 text-sm text-piedra-600">
         {persona.residente.first_name} {persona.residente.last_name}. {config.descripcion}
       </p>
       {ingreso && (

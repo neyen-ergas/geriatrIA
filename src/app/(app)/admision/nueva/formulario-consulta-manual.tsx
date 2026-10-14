@@ -10,7 +10,7 @@ const inicial: ResultadoConsultaManual = {
   telefonoDuplicado: null,
 };
 const campo =
-  "mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100";
+  "mt-1 block w-full rounded-md border border-piedra-300 bg-white px-3 py-2.5 text-sm text-piedra-900 focus:border-casona-600 focus:outline-none focus:ring-2 focus:ring-casona-100";
 
 export function FormularioConsultaManual(): React.ReactElement {
   const [estado, enviar, pendiente] = useActionState(crearConsultaManual, inicial);
@@ -26,12 +26,12 @@ export function FormularioConsultaManual(): React.ReactElement {
   return (
     <form
       action={enviar}
-      className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+      className="space-y-5 rounded-md border border-piedra-200 bg-white p-5 sm:p-7"
     >
       {estado.error && (
         <p
           role="alert"
-          className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800"
+          className="rounded-md border border-oxido-200 bg-oxido-50 p-3 text-sm text-oxido-800"
         >
           {estado.error}
         </p>
@@ -39,7 +39,7 @@ export function FormularioConsultaManual(): React.ReactElement {
       {duplicadoVigente && (
         <div
           role="alert"
-          className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950"
+          className="rounded-md border border-ocre-300 bg-ocre-50 p-4 text-sm text-ocre-950"
         >
           <p className="font-bold">Ya hay una consulta abierta con este teléfono.</p>
           <p className="mt-1">
@@ -55,7 +55,7 @@ export function FormularioConsultaManual(): React.ReactElement {
       )}
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="text-sm font-semibold text-slate-800">
+        <label className="text-sm font-semibold text-piedra-800">
           Nombre de quien consulta <span aria-hidden="true">*</span>
           <input
             name="nombre"
@@ -68,7 +68,7 @@ export function FormularioConsultaManual(): React.ReactElement {
             className={campo}
           />
         </label>
-        <label className="text-sm font-semibold text-slate-800">
+        <label className="text-sm font-semibold text-piedra-800">
           Teléfono de contacto <span aria-hidden="true">*</span>
           <input
             name="telefono"
@@ -84,7 +84,7 @@ export function FormularioConsultaManual(): React.ReactElement {
         </label>
       </div>
 
-      <label className="block text-sm font-semibold text-slate-800">
+      <label className="block text-sm font-semibold text-piedra-800">
         ¿Qué necesita la familia? <span aria-hidden="true">*</span>
         <textarea
           name="motivo"
@@ -99,7 +99,7 @@ export function FormularioConsultaManual(): React.ReactElement {
       </label>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="text-sm font-semibold text-slate-800">
+        <label className="text-sm font-semibold text-piedra-800">
           Llegó por
           <select
             name="origen"
@@ -111,7 +111,7 @@ export function FormularioConsultaManual(): React.ReactElement {
             <option value="presencial">Visita presencial</option>
           </select>
         </label>
-        <label className="text-sm font-semibold text-slate-800">
+        <label className="text-sm font-semibold text-piedra-800">
           Mejor momento para llamar
           <select
             name="momento"
@@ -126,7 +126,7 @@ export function FormularioConsultaManual(): React.ReactElement {
         </label>
       </div>
 
-      <label className="block text-sm font-semibold text-slate-800">
+      <label className="block text-sm font-semibold text-piedra-800">
         Próximo paso
         <select
           name="proximo_paso"
@@ -138,18 +138,18 @@ export function FormularioConsultaManual(): React.ReactElement {
           <option value="visita">Agendar visita</option>
         </select>
       </label>
-      <p className="text-xs text-slate-500">
+      <p className="text-sm text-piedra-500">
         * Campos obligatorios. La consulta quedará en Admisión como nueva.
       </p>
 
-      <div className="flex flex-wrap gap-3 border-t border-slate-100 pt-4">
+      <div className="flex flex-wrap gap-3 border-t border-piedra-100 pt-4">
         {duplicadoVigente ? (
           <button
             type="submit"
             name="permitir_duplicado"
             value="si"
             disabled={pendiente}
-            className="rounded-xl bg-amber-700 px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50"
+            className="rounded-md bg-ocre-700 px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50"
           >
             {pendiente ? "Guardando…" : "Es otra familia: crear igual"}
           </button>
@@ -157,14 +157,14 @@ export function FormularioConsultaManual(): React.ReactElement {
           <button
             type="submit"
             disabled={pendiente}
-            className="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50"
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-casona-700 px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50"
           >
             {pendiente ? "Guardando…" : "Registrar consulta"}
           </button>
         )}
         <Link
           href="/admision"
-          className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700"
+          className="rounded-md border border-piedra-300 px-4 py-2.5 text-sm font-semibold text-piedra-700"
         >
           Cancelar
         </Link>

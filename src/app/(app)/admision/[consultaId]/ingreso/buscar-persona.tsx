@@ -15,7 +15,7 @@ export function BuscarPersona({
   );
   return (
     <Card className="mt-6 p-5">
-      <h2 className="font-semibold text-slate-900">¿La persona ya tiene ficha?</h2>
+      <h2 className="font-semibold text-piedra-900">¿La persona ya tiene ficha?</h2>
       <form action={action} className="mt-3 flex flex-wrap items-end gap-3">
         <div>
           <Label htmlFor="buscar-dni">DNI del residente</Label>
@@ -26,7 +26,7 @@ export function BuscarPersona({
         </Button>
       </form>
       {estado.error && (
-        <p role="alert" className="mt-3 text-sm text-red-700">
+        <p role="alert" className="mt-3 text-sm text-oxido-700">
           {estado.error}
         </p>
       )}
