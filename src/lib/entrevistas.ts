@@ -1,4 +1,5 @@
-import { esFechaValida } from "@/lib/primer-ingreso";
+import { busquedaPersonas } from "@/lib/busqueda-personas";
+import { esFechaValida, hoyEnArgentina } from "@/lib/primer-ingreso";
 import type { Tables } from "@/types/database";
 
 export const ESTADOS_ENTREVISTA = ["scheduled", "completed", "cancelled"] as const;
@@ -249,8 +250,7 @@ export function validarEntrevistaForm(values: Partial<EntrevistaFormValues>): {
     if (!esFechaValida(values.candidate_birth_date)) {
       errores.candidate_birth_date = "La fecha de nacimiento no es válida.";
     } else {
-      const hoy = new Date().toISOString().slice(0, 10);
-      if (values.candidate_birth_date > hoy) {
+      if (values.candidate_birth_date > hoyEnArgentina()) {
         errores.candidate_birth_date = "La fecha de nacimiento no puede ser futura.";
       }
     }
@@ -318,4 +318,12 @@ export function validarEntrevistaForm(values: Partial<EntrevistaFormValues>): {
     valido: Object.keys(errores).length === 0,
     errores,
   };
+}
+
+/** Arma el filtro `or` de PostgREST sin dejar que el texto se lea como sintaxis. */
+export function filtroBusquedaEntrevistas(valor: unknown): string | null {
+  const texto = busquedaPersonas(valor);
+  if (!texto) return null;
+  const termino = texto.replace(/ /g, "*");
+  return `candidate_name.ilike.*${termino}*,companion_name.ilike.*${termino}*`;
 }

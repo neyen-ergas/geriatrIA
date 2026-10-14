@@ -18,6 +18,7 @@ import {
   ETIQUETAS_MOVILIDAD,
   type ConclusionEntrevista,
 } from "@/lib/entrevistas";
+import { hoyEnArgentina } from "@/lib/primer-ingreso";
 import { guardarEntrevistaAction, type ResultadoEntrevista } from "./actions";
 
 interface FormularioEntrevistaProps {
@@ -98,7 +99,7 @@ function CamposEntrevista({
     }
   };
 
-  const hoyStr = new Date().toISOString().slice(0, 10);
+  const hoyStr = hoyEnArgentina();
 
   return (
     <form action={formAction} className="space-y-8">
