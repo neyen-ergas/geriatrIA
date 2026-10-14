@@ -1,0 +1,709 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T23:41:44+00:00",
+  "title": "Design System: geriatrIA",
+  "extensions": {
+    "colorMeta": {
+      "white": {
+        "role": "neutral",
+        "displayName": "Blanco cálido",
+        "canonical": "oklch(0.995 0.002 120)"
+      },
+      "piedra-50": {
+        "role": "neutral",
+        "displayName": "Piedra calcárea 50",
+        "canonical": "oklch(0.977 0.004 140)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-100": {
+        "role": "neutral",
+        "displayName": "Piedra suelo",
+        "canonical": "oklch(0.953 0.006 140)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-200": {
+        "role": "neutral",
+        "displayName": "Junta",
+        "canonical": "oklch(0.905 0.009 142)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-300": {
+        "role": "neutral",
+        "displayName": "Piedra calcárea 300",
+        "canonical": "oklch(0.845 0.011 145)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-500": {
+        "role": "neutral",
+        "displayName": "Piedra calcárea 500",
+        "canonical": "oklch(0.52 0.014 150)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-600": {
+        "role": "neutral",
+        "displayName": "Piedra calcárea 600",
+        "canonical": "oklch(0.44 0.015 152)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-700": {
+        "role": "neutral",
+        "displayName": "Piedra calcárea 700",
+        "canonical": "oklch(0.37 0.015 155)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-900": {
+        "role": "neutral",
+        "displayName": "Piedra calcárea 900",
+        "canonical": "oklch(0.22 0.011 160)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "piedra-950": {
+        "role": "neutral",
+        "displayName": "Carbón",
+        "canonical": "oklch(0.16 0.009 160)",
+        "tonalRamp": [
+          "oklch(0.16 0.009 160)",
+          "oklch(0.22 0.011 160)",
+          "oklch(0.29 0.013 157)",
+          "oklch(0.37 0.015 155)",
+          "oklch(0.52 0.014 150)",
+          "oklch(0.845 0.011 145)",
+          "oklch(0.905 0.009 142)",
+          "oklch(0.953 0.006 140)"
+        ]
+      },
+      "casona-50": {
+        "role": "primary",
+        "displayName": "Verde lavado",
+        "canonical": "oklch(0.966 0.018 158)",
+        "tonalRamp": [
+          "oklch(0.205 0.038 165)",
+          "oklch(0.265 0.048 164)",
+          "oklch(0.325 0.06 162)",
+          "oklch(0.39 0.073 161)",
+          "oklch(0.535 0.088 159)",
+          "oklch(0.765 0.075 158)",
+          "oklch(0.865 0.056 158)",
+          "oklch(0.928 0.036 158)"
+        ]
+      },
+      "casona-100": {
+        "role": "primary",
+        "displayName": "Verde casona 100",
+        "canonical": "oklch(0.928 0.036 158)",
+        "tonalRamp": [
+          "oklch(0.205 0.038 165)",
+          "oklch(0.265 0.048 164)",
+          "oklch(0.325 0.06 162)",
+          "oklch(0.39 0.073 161)",
+          "oklch(0.535 0.088 159)",
+          "oklch(0.765 0.075 158)",
+          "oklch(0.865 0.056 158)",
+          "oklch(0.928 0.036 158)"
+        ]
+      },
+      "casona-300": {
+        "role": "primary",
+        "displayName": "Verde casona 300",
+        "canonical": "oklch(0.765 0.075 158)",
+        "tonalRamp": [
+          "oklch(0.205 0.038 165)",
+          "oklch(0.265 0.048 164)",
+          "oklch(0.325 0.06 162)",
+          "oklch(0.39 0.073 161)",
+          "oklch(0.535 0.088 159)",
+          "oklch(0.765 0.075 158)",
+          "oklch(0.865 0.056 158)",
+          "oklch(0.928 0.036 158)"
+        ]
+      },
+      "casona-700": {
+        "role": "primary",
+        "displayName": "Verde casona",
+        "canonical": "oklch(0.39 0.073 161)",
+        "tonalRamp": [
+          "oklch(0.205 0.038 165)",
+          "oklch(0.265 0.048 164)",
+          "oklch(0.325 0.06 162)",
+          "oklch(0.39 0.073 161)",
+          "oklch(0.535 0.088 159)",
+          "oklch(0.765 0.075 158)",
+          "oklch(0.865 0.056 158)",
+          "oklch(0.928 0.036 158)"
+        ]
+      },
+      "casona-800": {
+        "role": "primary",
+        "displayName": "Verde casona 800",
+        "canonical": "oklch(0.325 0.06 162)",
+        "tonalRamp": [
+          "oklch(0.205 0.038 165)",
+          "oklch(0.265 0.048 164)",
+          "oklch(0.325 0.06 162)",
+          "oklch(0.39 0.073 161)",
+          "oklch(0.535 0.088 159)",
+          "oklch(0.765 0.075 158)",
+          "oklch(0.865 0.056 158)",
+          "oklch(0.928 0.036 158)"
+        ]
+      },
+      "casona-900": {
+        "role": "primary",
+        "displayName": "Verde riel",
+        "canonical": "oklch(0.265 0.048 164)",
+        "tonalRamp": [
+          "oklch(0.205 0.038 165)",
+          "oklch(0.265 0.048 164)",
+          "oklch(0.325 0.06 162)",
+          "oklch(0.39 0.073 161)",
+          "oklch(0.535 0.088 159)",
+          "oklch(0.765 0.075 158)",
+          "oklch(0.865 0.056 158)",
+          "oklch(0.928 0.036 158)"
+        ]
+      },
+      "casona-950": {
+        "role": "primary",
+        "displayName": "Verde casona 950",
+        "canonical": "oklch(0.205 0.038 165)",
+        "tonalRamp": [
+          "oklch(0.205 0.038 165)",
+          "oklch(0.265 0.048 164)",
+          "oklch(0.325 0.06 162)",
+          "oklch(0.39 0.073 161)",
+          "oklch(0.535 0.088 159)",
+          "oklch(0.765 0.075 158)",
+          "oklch(0.865 0.056 158)",
+          "oklch(0.928 0.036 158)"
+        ]
+      },
+      "ocre-50": {
+        "role": "secondary",
+        "displayName": "Ocre de baldosa 50",
+        "canonical": "oklch(0.975 0.025 88)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "ocre-100": {
+        "role": "secondary",
+        "displayName": "Ocre pendiente",
+        "canonical": "oklch(0.943 0.055 86)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "ocre-200": {
+        "role": "secondary",
+        "displayName": "Ocre de baldosa 200",
+        "canonical": "oklch(0.895 0.095 84)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "ocre-300": {
+        "role": "secondary",
+        "displayName": "Ocre de baldosa",
+        "canonical": "oklch(0.835 0.125 80)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "ocre-400": {
+        "role": "secondary",
+        "displayName": "Ocre de baldosa 400",
+        "canonical": "oklch(0.775 0.143 75)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "ocre-500": {
+        "role": "secondary",
+        "displayName": "Ocre de baldosa 500",
+        "canonical": "oklch(0.71 0.146 70)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "ocre-800": {
+        "role": "secondary",
+        "displayName": "Ocre de baldosa 800",
+        "canonical": "oklch(0.435 0.095 58)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "ocre-950": {
+        "role": "secondary",
+        "displayName": "Ocre de baldosa 950",
+        "canonical": "oklch(0.265 0.055 55)",
+        "tonalRamp": [
+          "oklch(0.265 0.055 55)",
+          "oklch(0.36 0.075 56)",
+          "oklch(0.435 0.095 58)",
+          "oklch(0.52 0.115 60)",
+          "oklch(0.71 0.146 70)",
+          "oklch(0.835 0.125 80)",
+          "oklch(0.895 0.095 84)",
+          "oklch(0.943 0.055 86)"
+        ]
+      },
+      "oxido-50": {
+        "role": "tertiary",
+        "displayName": "Rojo óxido 50",
+        "canonical": "oklch(0.972 0.016 30)",
+        "tonalRamp": [
+          "oklch(0.25 0.068 30)",
+          "oklch(0.34 0.095 32)",
+          "oklch(0.4 0.12 33)",
+          "oklch(0.465 0.145 34)",
+          "oklch(0.6 0.165 35)",
+          "oklch(0.785 0.108 33)",
+          "oklch(0.872 0.068 32)",
+          "oklch(0.935 0.036 30)"
+        ]
+      },
+      "oxido-200": {
+        "role": "tertiary",
+        "displayName": "Rojo óxido 200",
+        "canonical": "oklch(0.872 0.068 32)",
+        "tonalRamp": [
+          "oklch(0.25 0.068 30)",
+          "oklch(0.34 0.095 32)",
+          "oklch(0.4 0.12 33)",
+          "oklch(0.465 0.145 34)",
+          "oklch(0.6 0.165 35)",
+          "oklch(0.785 0.108 33)",
+          "oklch(0.872 0.068 32)",
+          "oklch(0.935 0.036 30)"
+        ]
+      },
+      "oxido-600": {
+        "role": "tertiary",
+        "displayName": "Rojo óxido 600",
+        "canonical": "oklch(0.53 0.163 35)",
+        "tonalRamp": [
+          "oklch(0.25 0.068 30)",
+          "oklch(0.34 0.095 32)",
+          "oklch(0.4 0.12 33)",
+          "oklch(0.465 0.145 34)",
+          "oklch(0.6 0.165 35)",
+          "oklch(0.785 0.108 33)",
+          "oklch(0.872 0.068 32)",
+          "oklch(0.935 0.036 30)"
+        ]
+      },
+      "oxido-700": {
+        "role": "tertiary",
+        "displayName": "Rojo óxido",
+        "canonical": "oklch(0.465 0.145 34)",
+        "tonalRamp": [
+          "oklch(0.25 0.068 30)",
+          "oklch(0.34 0.095 32)",
+          "oklch(0.4 0.12 33)",
+          "oklch(0.465 0.145 34)",
+          "oklch(0.6 0.165 35)",
+          "oklch(0.785 0.108 33)",
+          "oklch(0.872 0.068 32)",
+          "oklch(0.935 0.036 30)"
+        ]
+      },
+      "oxido-800": {
+        "role": "tertiary",
+        "displayName": "Rojo óxido 800",
+        "canonical": "oklch(0.4 0.12 33)",
+        "tonalRamp": [
+          "oklch(0.25 0.068 30)",
+          "oklch(0.34 0.095 32)",
+          "oklch(0.4 0.12 33)",
+          "oklch(0.465 0.145 34)",
+          "oklch(0.6 0.165 35)",
+          "oklch(0.785 0.108 33)",
+          "oklch(0.872 0.068 32)",
+          "oklch(0.935 0.036 30)"
+        ]
+      },
+      "cobalto-50": {
+        "role": "tertiary",
+        "displayName": "Cobalto 50",
+        "canonical": "oklch(0.97 0.014 250)",
+        "tonalRamp": [
+          "oklch(0.22 0.06 265)",
+          "oklch(0.29 0.08 264)",
+          "oklch(0.35 0.1 263)",
+          "oklch(0.42 0.12 262)",
+          "oklch(0.56 0.128 258)",
+          "oklch(0.78 0.082 254)",
+          "oklch(0.87 0.052 252)",
+          "oklch(0.93 0.03 250)"
+        ]
+      },
+      "cobalto-200": {
+        "role": "tertiary",
+        "displayName": "Cobalto 200",
+        "canonical": "oklch(0.87 0.052 252)",
+        "tonalRamp": [
+          "oklch(0.22 0.06 265)",
+          "oklch(0.29 0.08 264)",
+          "oklch(0.35 0.1 263)",
+          "oklch(0.42 0.12 262)",
+          "oklch(0.56 0.128 258)",
+          "oklch(0.78 0.082 254)",
+          "oklch(0.87 0.052 252)",
+          "oklch(0.93 0.03 250)"
+        ]
+      },
+      "cobalto-800": {
+        "role": "tertiary",
+        "displayName": "Cobalto 800",
+        "canonical": "oklch(0.35 0.1 263)",
+        "tonalRamp": [
+          "oklch(0.22 0.06 265)",
+          "oklch(0.29 0.08 264)",
+          "oklch(0.35 0.1 263)",
+          "oklch(0.42 0.12 262)",
+          "oklch(0.56 0.128 258)",
+          "oklch(0.78 0.082 254)",
+          "oklch(0.87 0.052 252)",
+          "oklch(0.93 0.03 250)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Solo la fecha larga de Inicio; 2,25rem en celular y 3rem desde 640px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Título de cada sección y de las pantallas de acceso."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Cantidad de cada baldosa de Inicio, tabular, coloreada por tono."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Nombre de baldosas y consultas."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto corriente, mensajes, avisos."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Etiquetas de campo, grupos del riel, encabezados de tabla; minúscula de oración."
+      }
+    },
+    "shadows": [
+      {
+        "name": "capa-flotante",
+        "value": "0 12px 32px -8px oklch(0.2 0.04 165 / 0.35)",
+        "purpose": "Solo capas que flotan sobre otra (menú \"Más\" de la barra inferior). Teñida del verde del riel."
+      }
+    ],
+    "motion": [
+      {
+        "name": "color-150",
+        "value": "color, background-color, border-color 150ms",
+        "purpose": "Única transición del sistema: cambios de color en hover y foco."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation/transition-duration: 0.01ms",
+        "purpose": "Con prefers-reduced-motion se anula todo movimiento."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      },
+      {
+        "name": "2xl",
+        "value": "1536px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "La única acción principal de la pantalla, en verde casona.",
+      "html": "<button class=\"ds-btn-primary\">Registrar consulta</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 0.375rem; font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: background-color 150ms, border-color 150ms, color 150ms; background: var(--color-casona-700); color: var(--color-white); border: 1px solid var(--color-casona-800); } .ds-btn-primary:hover { background: var(--color-casona-800); } .ds-btn-primary:active { background: var(--color-casona-900); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-casona-700); }"
+    },
+    {
+      "name": "Botón de contorno",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Acciones secundarias y cambios de estado.",
+      "html": "<button class=\"ds-btn-outline\">Marcar contactada</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 0.375rem; font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: background-color 150ms, border-color 150ms, color 150ms; background: var(--color-white); color: var(--color-piedra-900); border: 1px solid var(--color-piedra-300); } .ds-btn-outline:hover { background: var(--color-piedra-50); border-color: var(--color-piedra-400); } .ds-btn-outline:active { background: var(--color-piedra-100); } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-casona-700); }"
+    },
+    {
+      "name": "Botón destructivo",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Solo para acciones destructivas; el óxido no decora.",
+      "html": "<button class=\"ds-btn-danger\">Anular pago</button>",
+      "css": ".ds-btn-danger { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 0.375rem; font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: background-color 150ms, border-color 150ms, color 150ms; background: var(--color-oxido-700); color: var(--color-white); border: 1px solid var(--color-oxido-800); } .ds-btn-danger:hover { background: var(--color-oxido-800); } .ds-btn-danger:active { background: var(--color-oxido-900); } .ds-btn-danger:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-casona-700); }"
+    },
+    {
+      "name": "Campo de texto",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo estándar de ui.tsx: 44px, junta piedra, foco verde.",
+      "html": "<label class=\"ds-label\" for=\"ds-busqueda\">Buscar por nombre o teléfono</label><input id=\"ds-busqueda\" class=\"ds-input\" placeholder=\"Nombre o teléfono\">",
+      "css": ".ds-label { display: block; margin-bottom: 6px; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 600; color: var(--color-piedra-800); } .ds-input { width: 100%; min-height: 44px; padding: 0 14px; border: 1px solid var(--color-piedra-500); border-radius: 0.375rem; background: var(--color-white); color: var(--color-piedra-950); font-family: var(--font-sans); font-size: 1rem; outline: none; caret-color: var(--color-casona-700); transition: border-color 150ms; } .ds-input::placeholder { color: var(--color-piedra-500); } .ds-input:hover { border-color: var(--color-piedra-700); } .ds-input:focus-visible { border-color: var(--color-casona-700); box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-casona-600) 40%, transparent); } .ds-input[aria-invalid=\"true\"] { border-color: var(--color-oxido-600); }"
+    },
+    {
+      "name": "Filtro de estado",
+      "kind": "chip",
+      "refersTo": "filtro-activo",
+      "description": "Filtros de la bandeja de Admisión; el activo va en ocre.",
+      "html": "<div class=\"ds-filtros\"><a href=\"#\" class=\"ds-filtro ds-filtro-activo\" aria-current=\"page\">Todas <span class=\"ds-filtro-n\">12</span></a><a href=\"#\" class=\"ds-filtro\">Nueva <span class=\"ds-filtro-n\">4</span></a><a href=\"#\" class=\"ds-filtro\">Contactada <span class=\"ds-filtro-n\">2</span></a></div>",
+      "css": ".ds-filtros { display: flex; flex-wrap: wrap; gap: 8px; } .ds-filtro { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--color-piedra-200); border-radius: 0.375rem; background: var(--color-white); color: var(--color-piedra-700); font-family: var(--font-sans); font-size: 1rem; font-weight: 600; text-decoration: none; transition: background-color 150ms; } .ds-filtro:hover { background: var(--color-piedra-50); } .ds-filtro:focus-visible { outline: 2px solid var(--color-casona-700); outline-offset: 2px; } .ds-filtro-n { font-variant-numeric: tabular-nums; color: var(--color-piedra-600); } .ds-filtro-activo { background: var(--color-ocre-300); border-color: var(--color-ocre-400); color: var(--color-casona-950); } .ds-filtro-activo .ds-filtro-n { color: var(--color-casona-900); }"
+    },
+    {
+      "name": "Insignias de estado",
+      "kind": "chip",
+      "refersTo": "badge-nueva",
+      "description": "Estado de una consulta según COLORES_ESTADO.",
+      "html": "<div class=\"ds-badges\"><span class=\"ds-badge ds-badge-nueva\">Nueva</span><span class=\"ds-badge ds-badge-contactada\">Contactada</span><span class=\"ds-badge ds-badge-visita\">Visita agendada</span><span class=\"ds-badge ds-badge-ingreso\">Ingresó</span><span class=\"ds-badge ds-badge-descartada\">Descartada</span></div>",
+      "css": ".ds-badges { display: flex; flex-wrap: wrap; gap: 8px; } .ds-badge { display: inline-flex; align-items: center; padding: 2px 8px; border: 1px solid; border-radius: 0.25rem; font-family: var(--font-sans); font-size: 0.8125rem; font-weight: 600; } .ds-badge-nueva { border-color: var(--color-ocre-300); background: var(--color-ocre-100); color: var(--color-ocre-950); } .ds-badge-contactada { border-color: var(--color-cobalto-200); background: var(--color-cobalto-50); color: var(--color-cobalto-800); } .ds-badge-visita { border-color: var(--color-ocre-200); background: var(--color-white); color: var(--color-ocre-900); } .ds-badge-ingreso { border-color: var(--color-casona-700); background: var(--color-casona-700); color: var(--color-white); } .ds-badge-descartada { border-color: var(--color-piedra-300); background: var(--color-piedra-100); color: var(--color-piedra-700); }"
+    },
+    {
+      "name": "Riel de navegación",
+      "kind": "nav",
+      "refersTo": "nav-riel",
+      "description": "Riel verde de escritorio; el ítem activo va en ocre.",
+      "html": "<nav class=\"ds-riel\" aria-label=\"Navegación principal\"><p class=\"ds-riel-grupo\">Trabajo diario</p><a href=\"#\" class=\"ds-riel-item ds-riel-activo\" aria-current=\"page\">Inicio</a><a href=\"#\" class=\"ds-riel-item\">Admisión</a><a href=\"#\" class=\"ds-riel-item\">Residentes</a></nav>",
+      "css": ".ds-riel { width: 256px; padding: 24px 12px; background: var(--color-casona-900); display: flex; flex-direction: column; gap: 2px; font-family: var(--font-sans); } .ds-riel-grupo { margin: 0; padding: 0 12px 8px; font-size: 0.875rem; font-weight: 600; color: var(--color-casona-300); } .ds-riel-item { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 0.375rem; font-size: 1rem; font-weight: 600; color: var(--color-casona-50); text-decoration: none; transition: background-color 150ms, color 150ms; } .ds-riel-item:hover { background: var(--color-casona-800); color: var(--color-white); } .ds-riel-item:focus-visible { outline: 2px solid var(--color-ocre-300); outline-offset: 2px; } .ds-riel-activo, .ds-riel-activo:hover { background: var(--color-ocre-300); color: var(--color-casona-950); }"
+    },
+    {
+      "name": "Piso de baldosas",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Baldosas blancas unidas por juntas de 1px, sin sombra; cantidad tabular coloreada por tono.",
+      "html": "<div class=\"ds-piso\"><section class=\"ds-baldosa-celda\"><div class=\"ds-celda-cab\"><div><h3 class=\"ds-celda-titulo\">Consultas sin llamar</h3><p class=\"ds-celda-bajada\">Las más antiguas primero</p></div><span class=\"ds-celda-n ds-n-pendiente\">4</span></div></section><section class=\"ds-baldosa-celda\"><div class=\"ds-celda-cab\"><div><h3 class=\"ds-celda-titulo\">Cuotas vencidas</h3><p class=\"ds-celda-bajada\">Con saldo pendiente</p></div><span class=\"ds-celda-n ds-n-critico\">5</span></div></section></div>",
+      "css": ".ds-piso { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; overflow: hidden; border: 1px solid var(--color-piedra-200); border-radius: 0.375rem; background: var(--color-piedra-200); font-family: var(--font-sans); } .ds-baldosa-celda { background: var(--color-white); padding: 20px; } .ds-celda-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; } .ds-celda-titulo { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--color-piedra-950); } .ds-celda-bajada { margin: 2px 0 0; font-size: 0.875rem; color: var(--color-piedra-600); } .ds-celda-n { font-size: 2.25rem; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; } .ds-n-pendiente { color: var(--color-ocre-800); } .ds-n-critico { color: var(--color-oxido-700); }"
+    },
+    {
+      "name": "Banda de la próxima acción",
+      "kind": "custom",
+      "refersTo": "banda-proxima-accion",
+      "description": "La única próxima decisión del día en Inicio: banda verde riel con botón ocre.",
+      "html": "<a href=\"#\" class=\"ds-banda\"><svg viewBox=\"0 0 40 40\" width=\"56\" height=\"56\" role=\"img\" aria-label=\"paso 1 de 4\"><rect x=\"0.5\" y=\"0.5\" width=\"39\" height=\"39\" rx=\"2\" fill=\"var(--color-white)\" stroke=\"var(--color-piedra-300)\"/><g transform=\"rotate(0 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-ocre-500)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-ocre-500)\"/></g><g transform=\"rotate(90 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><g transform=\"rotate(180 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><g transform=\"rotate(270 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><circle cx=\"20\" cy=\"20\" r=\"2.25\" fill=\"var(--color-piedra-300)\"/></svg><span class=\"ds-banda-texto\"><span class=\"ds-banda-titulo\">Llamar a Carlos Medina</span><span class=\"ds-banda-detalle\">Es la consulta que más tiempo lleva esperando</span></span><span class=\"ds-banda-boton\">Abrir consulta <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></span></a>",
+      "css": ".ds-banda { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 24px; border-radius: 0.375rem; background: var(--color-casona-900); color: var(--color-white); text-decoration: none; font-family: var(--font-sans); } .ds-banda-texto { flex: 1; min-width: 200px; display: flex; flex-direction: column; } .ds-banda-titulo { font-size: 1.875rem; font-weight: 700; line-height: 1.2; } .ds-banda-detalle { margin-top: 4px; font-size: 1rem; color: var(--color-casona-100); } .ds-banda-boton { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 20px; border-radius: 0.375rem; background: var(--color-ocre-300); color: var(--color-casona-950); font-weight: 700; transition: background-color 150ms; } .ds-banda:hover .ds-banda-boton { background: var(--color-ocre-200); } .ds-banda:focus-visible { outline: 2px solid var(--color-casona-700); outline-offset: 2px; }"
+    },
+    {
+      "name": "Baldosa de progreso",
+      "kind": "custom",
+      "refersTo": "badge-nueva",
+      "description": "Avance por el circuito de admisión: un cuarto por paso, ocre en curso, verde al ingresar.",
+      "html": "<div class=\"ds-circuito\"><svg viewBox=\"0 0 40 40\" width=\"56\" height=\"56\" role=\"img\" aria-label=\"paso 1 de 4\"><rect x=\"0.5\" y=\"0.5\" width=\"39\" height=\"39\" rx=\"2\" fill=\"var(--color-white)\" stroke=\"var(--color-piedra-300)\"/><g transform=\"rotate(0 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-ocre-500)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-ocre-500)\"/></g><g transform=\"rotate(90 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><g transform=\"rotate(180 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><g transform=\"rotate(270 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><circle cx=\"20\" cy=\"20\" r=\"2.25\" fill=\"var(--color-piedra-300)\"/></svg><svg viewBox=\"0 0 40 40\" width=\"56\" height=\"56\" role=\"img\" aria-label=\"paso 2 de 4\"><rect x=\"0.5\" y=\"0.5\" width=\"39\" height=\"39\" rx=\"2\" fill=\"var(--color-white)\" stroke=\"var(--color-piedra-300)\"/><g transform=\"rotate(0 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-ocre-500)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-ocre-500)\"/></g><g transform=\"rotate(90 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-ocre-500)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-ocre-500)\"/></g><g transform=\"rotate(180 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><g transform=\"rotate(270 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><circle cx=\"20\" cy=\"20\" r=\"2.25\" fill=\"var(--color-piedra-300)\"/></svg><svg viewBox=\"0 0 40 40\" width=\"56\" height=\"56\" role=\"img\" aria-label=\"paso 3 de 4\"><rect x=\"0.5\" y=\"0.5\" width=\"39\" height=\"39\" rx=\"2\" fill=\"var(--color-white)\" stroke=\"var(--color-piedra-300)\"/><g transform=\"rotate(0 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-ocre-500)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-ocre-500)\"/></g><g transform=\"rotate(90 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-ocre-500)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-ocre-500)\"/></g><g transform=\"rotate(180 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-ocre-500)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-ocre-500)\"/></g><g transform=\"rotate(270 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-piedra-100)\" stroke=\"var(--color-piedra-300)\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"none\"/></g><circle cx=\"20\" cy=\"20\" r=\"2.25\" fill=\"var(--color-piedra-300)\"/></svg><svg viewBox=\"0 0 40 40\" width=\"56\" height=\"56\" role=\"img\" aria-label=\"paso 4 de 4\"><rect x=\"0.5\" y=\"0.5\" width=\"39\" height=\"39\" rx=\"2\" fill=\"var(--color-white)\" stroke=\"var(--color-piedra-300)\"/><g transform=\"rotate(0 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-casona-600)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-casona-600)\"/></g><g transform=\"rotate(90 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-casona-600)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-casona-600)\"/></g><g transform=\"rotate(180 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-casona-600)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-casona-600)\"/></g><g transform=\"rotate(270 20 20)\"><path d=\"M20 20C20 12.5 14.5 5 5 5C5 14.5 12.5 20 20 20Z\" fill=\"var(--color-casona-600)\" stroke=\"none\"/><path d=\"M0 0H8.5L0 8.5Z\" transform=\"translate(0.5 0.5)\" fill=\"var(--color-casona-600)\"/></g><circle cx=\"20\" cy=\"20\" r=\"2.25\" fill=\"var(--color-white)\"/></svg></div>",
+      "css": ".ds-circuito { display: flex; gap: 16px; align-items: center; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El piso de la casona",
+    "overview": "La aplicación se lee como el piso de una casona porteña: un suelo de piedra calcárea gris verdoso, sobre el que cada cosa ocupa su baldosa blanca, separada de la vecina por una junta fina de 1px. A la izquierda corre un riel verde inglés profundo con texto hueso; arriba del contenido, cada pantalla encabeza con una sola próxima decisión. El avance de cada familia por el circuito de admisión se dibuja como una baldosa calcárea que se completa por cuartos.\n\nLa densidad es de oficina, pero pensada para un equipo con parte de sus integrantes mayores: tipografía Atkinson Hyperlegible Next en todo, base de 16px que respeta el zoom, objetivos táctiles de 44px como mínimo, etiquetas en minúscula de oración y cifras tabulares. El color dice estado, no decora: ocre para lo pendiente y la selección, óxido solo para lo vencido o crítico, cobalto para lo informativo, verde para la acción principal y lo resuelto.\n\nEl sistema rechaza el panel SaaS gris de tarjetas flotantes con sombras suaves y acento esmeralda. Por eso la paleta por defecto de Tailwind está anulada (`--color-*: initial`): ninguna pantalla puede volver por costumbre a los grises y verdes genéricos.",
+    "keyCharacteristics": [
+      "Suelo de piedra, superficies blancas, juntas de 1px en lugar de sombras.",
+      "Riel verde inglés a la izquierda en escritorio; barra inferior verde en el celular.",
+      "Ocre como única marca de \"estás acá\" y \"esto espera\".",
+      "Esquinas casi rectas (4–6px).",
+      "Una sola tipografía, Atkinson Hyperlegible Next, con cifras tabulares.",
+      "La baldosa de progreso como firma: cuatro cuartos, nueva → contactada → visita → ingresó."
+    ],
+    "rules": [
+      {
+        "name": "La regla del óxido",
+        "body": "El óxido marca solo lo vencido, lo crítico, los errores y la acción destructiva. Nunca decora ni distingue categorías.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del ocre",
+        "body": "El ocre dice \"estás acá\" (ítem activo, filtro activo, hoy, selección) o \"esto espera\" (pendiente). No se usa para nada más.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del verde único",
+        "body": "En cada pantalla hay un solo relleno `casona-700` dominante: la acción principal. Las demás acciones van en contorno o como enlace.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla de la paleta cerrada",
+        "body": "Solo existen piedra, casona, ocre, óxido y cobalto. Los nombres de color de Tailwind por defecto no compilan y no deben reintroducirse.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla de la minúscula de oración",
+        "body": "Etiquetas, grupos, botones e insignias van en minúscula de oración. No hay versalitas, mayúsculas sostenidas ni tracking abierto en ninguna parte del sistema.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla de las cifras tabulares",
+        "body": "Toda cantidad, contador o importe que se compare con otros lleva `tabular-nums`.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla de la junta",
+        "body": "Dos superficies se separan con una línea de 1px o con el suelo que asoma entre ellas, nunca con una sombra.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do separar superficies con juntas de 1px `piedra-200` y con el suelo que asoma en grillas de `gap-px`.",
+      "Do reservar el relleno `casona-700` para la única acción principal de la pantalla.",
+      "Do marcar lo activo, lo de hoy y lo pendiente con ocre, y lo vencido o crítico con óxido.",
+      "Do dar a todo control un alto mínimo de 44px (36px solo en botones `sm` dentro de grillas densas).",
+      "Do usar `tabular-nums` en cantidades, importes y horarios.",
+      "Do acompañar cada baldosa de progreso con el estado escrito o en `aria-label`.",
+      "Do usar el componente `Input`, `Select` o `Textarea` de `ui.tsx` para todo campo, con su foco verde."
+    ],
+    "donts": [
+      "Don't poner sombras en tarjetas, baldosas o botones; la única sombra es la de capas flotantes, teñida de verde.",
+      "Don't reintroducir la paleta por defecto de Tailwind ni grises o esmeraldas genéricos.",
+      "Don't usar el óxido para decorar ni para categorías que no sean urgentes.",
+      "Don't escribir etiquetas en mayúsculas sostenidas ni con tracking abierto.",
+      "Don't redondear más de 6px las superficies de trabajo.",
+      "Don't usar un tono más claro que `piedra-500` para texto."
+    ]
+  }
+}
