@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { filtroBusquedaEntrevistas } from "@/lib/entrevistas";
 import type {
   ConsultaParaEntrevista,
   Entrevista,
@@ -59,10 +60,8 @@ export async function listarEntrevistas(
     query = query.eq("conclusion", filtros.conclusion);
   }
 
-  if (filtros?.busqueda && filtros.busqueda.trim().length > 0) {
-    const term = `%${filtros.busqueda.trim()}%`;
-    query = query.or(`candidate_name.ilike.${term},companion_name.ilike.${term}`);
-  }
+  const busqueda = filtroBusquedaEntrevistas(filtros?.busqueda);
+  if (busqueda) query = query.or(busqueda);
 
   const { data, error } = await query;
 

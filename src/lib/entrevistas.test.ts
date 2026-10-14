@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 import {
   calcularKpisEntrevistas,
   CONCLUSIONES_ENTREVISTA,
@@ -9,6 +9,7 @@ import {
   ETIQUETAS_MOVILIDAD,
   EVALUACIONES_COGNITIVAS,
   EVALUACIONES_MOVILIDAD,
+  filtroBusquedaEntrevistas,
   validarEntrevistaForm,
   type Entrevista,
   type EntrevistaFormValues,
@@ -222,4 +223,33 @@ it("calcula métricas y KPIs de entrevistas correctamente", () => {
   expect(kpis.aptas).toBe(2); // apto + apto_con_observaciones
   expect(kpis.noAptas).toBe(1);
   expect(kpis.pendientes).toBe(1);
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
+it("compara la fecha de nacimiento con el día de Argentina, no con el de UTC", () => {
+  // 22:00 del 14 en Buenos Aires: en UTC ya es el 15.
+  vi.useFakeTimers({ now: new Date("2026-10-15T01:00:00Z") });
+  const valores = { candidate_name: "Rosa", interview_date: "2026-10-14" };
+  const manana = validarEntrevistaForm({
+    ...valores,
+    candidate_birth_date: "2026-10-15",
+  });
+  expect(manana.errores.candidate_birth_date).toContain("no puede ser futura");
+  const hoy = validarEntrevistaForm({ ...valores, candidate_birth_date: "2026-10-14" });
+  expect(hoy.errores.candidate_birth_date).toBeUndefined();
+});
+
+it("la búsqueda de entrevistas nunca se interpreta como sintaxis de PostgREST", () => {
+  expect(filtroBusquedaEntrevistas("Pérez, Juan")).toBe(
+    "candidate_name.ilike.*Pérez*Juan*,companion_name.ilike.*Pérez*Juan*",
+  );
+  const inyectado = filtroBusquedaEntrevistas("x,status.eq.cancelled)");
+  expect(inyectado).toBe(
+    "candidate_name.ilike.*x*status*eq*cancelled*,companion_name.ilike.*x*status*eq*cancelled*",
+  );
+  expect(filtroBusquedaEntrevistas("  ,() ")).toBeNull();
+  expect(filtroBusquedaEntrevistas(undefined)).toBeNull();
 });

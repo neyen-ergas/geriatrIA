@@ -163,7 +163,9 @@ export default async function RegistrosPage({
                   {registro.updated_at && (
                     <span className="text-[11px] font-medium text-slate-400">
                       Actualizado:{" "}
-                      {new Date(registro.updated_at).toLocaleDateString("es-AR")}
+                      {new Date(registro.updated_at).toLocaleDateString("es-AR", {
+                        timeZone: "America/Argentina/Buenos_Aires",
+                      })}
                     </span>
                   )}
                 </div>
