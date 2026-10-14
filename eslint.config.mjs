@@ -33,6 +33,7 @@ export default [
       "dist/**",
       "coverage/**",
       "src/types/database.ts",
+      ".claude/skills/impeccable/**",
     ],
   },
 ];

@@ -29,27 +29,22 @@ export default async function AuditoriaPage({
     error ? Promise.resolve(null) : listarAuditoria(filtros, parametros.pagina),
   ]);
   const select =
-    "h-10 w-full rounded-xl border border-slate-200/90 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20";
+    "h-10 w-full rounded-md border border-piedra-200/90 bg-white px-3 text-sm font-medium text-piedra-700 outline-none transition-colors focus:border-casona-500 focus:ring-2 focus:ring-casona-500/20";
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-          Seguridad y Trazabilidad
-        </p>
-        <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-          Auditoría
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-3xl font-bold text-piedra-950">Auditoría</h1>
+        <p className="mt-1 text-base text-piedra-700">
           Quién cambió cada registro, cuándo y qué valores quedaron guardados. Fechas y
           horarios de Argentina.
         </p>
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="mt-1 text-sm text-piedra-500">
           El historial previo incluye únicamente la información que ya se conservaba. Los
           cambios completos se registran desde la activación de Auditoría.
         </p>
       </div>
 
-      <Card className="p-6 shadow-sm">
+      <Card className="p-6">
         <form
           action="/auditoria"
           method="get"
@@ -124,7 +119,7 @@ export default async function AuditoriaPage({
             <Button type="submit">Filtrar</Button>
             <Link
               href="/auditoria"
-              className="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50"
+              className="inline-flex h-10 items-center justify-center rounded-md border border-piedra-200 bg-white px-4 text-sm font-semibold text-piedra-700 transition-colors hover:bg-piedra-50"
             >
               Limpiar filtros
             </Link>
@@ -132,7 +127,7 @@ export default async function AuditoriaPage({
         </form>
       </Card>
       {filtros.registro && (
-        <p className="mt-4 text-sm text-sky-800">
+        <p className="mt-4 text-sm text-cobalto-800">
           Mostrando el historial de un registro.{" "}
           <Link
             href={enlaceAuditoria({ ...filtros, registro: undefined })}
@@ -143,7 +138,7 @@ export default async function AuditoriaPage({
         </p>
       )}
       {error ? (
-        <p role="alert" className="mt-5 text-sm text-red-700">
+        <p role="alert" className="mt-5 text-sm text-oxido-700">
           {error}
         </p>
       ) : (

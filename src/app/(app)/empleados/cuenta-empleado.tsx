@@ -31,7 +31,7 @@ export function CuentaEmpleado({
         />
       ) : (
         <>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm text-piedra-600">
             Esta ficha no tiene una cuenta vinculada.
           </p>
           {!inactivo && (
@@ -44,13 +44,16 @@ export function CuentaEmpleado({
             />
           )}
           {inactivo && (
-            <p className="mt-3 text-sm text-slate-500">
+            <p className="mt-3 text-sm text-piedra-500">
               No se asignan cuentas nuevas a empleados dados de baja.
             </p>
           )}
         </>
       )}
-      <Link href="/accesos" className="mt-4 inline-block text-sm text-sky-800 underline">
+      <Link
+        href="/accesos"
+        className="mt-4 inline-block text-sm text-cobalto-800 underline"
+      >
         Administrar perfiles y accesos
       </Link>
     </Card>
@@ -65,20 +68,20 @@ function CuentaVinculada({ empleadoId, cuenta }: { empleadoId: string; cuenta: A
   return (
     <>
       <p className="mt-2 break-all font-medium">{cuenta.email || "Cuenta sin correo"}</p>
-      <p className="mt-1 text-sm text-slate-600">
+      <p className="mt-1 text-sm text-piedra-600">
         {esRol(cuenta.role) ? ETIQUETAS_ROL[cuenta.role] : "Sin perfil"} ·{" "}
         {cuenta.enabled ? "Habilitada" : "Suspendida"}
       </p>
       {cuenta.enabled && (
-        <p className="mt-3 text-sm text-amber-800">
+        <p className="mt-3 text-sm text-ocre-800">
           Antes de dar de baja al empleado, suspendé esta cuenta desde Accesos.
         </p>
       )}
       <details className="mt-4 text-sm">
-        <summary className="cursor-pointer text-slate-600 underline">
+        <summary className="cursor-pointer text-piedra-600 underline">
           Corregir vínculo
         </summary>
-        <p className="my-3 text-slate-600">
+        <p className="my-3 text-piedra-600">
           Desvincular separa la cuenta de esta ficha. No suspende el acceso ni cambia el
           perfil; el cambio queda registrado.
         </p>
@@ -89,7 +92,7 @@ function CuentaVinculada({ empleadoId, cuenta }: { empleadoId: string; cuenta: A
         </form>
       </details>
       {estado.error && (
-        <p role="alert" className="mt-3 text-sm text-red-700">
+        <p role="alert" className="mt-3 text-sm text-oxido-700">
           {estado.error}
         </p>
       )}
@@ -113,14 +116,14 @@ function SelectorCuenta({
   const cuenta = cuentas.find(candidata => candidata.user_id === seleccion);
   if (!cuentas.length)
     return (
-      <p className="mt-3 text-sm text-slate-600">
+      <p className="mt-3 text-sm text-piedra-600">
         No hay cuentas con perfil disponibles. Asigná primero un perfil desde Accesos; no
         hace falta habilitarlo para vincularlo.
       </p>
     );
   return (
     <form action={action} className="mt-4">
-      <p className="mb-3 text-sm text-slate-600">
+      <p className="mb-3 text-sm text-piedra-600">
         Elegí la cuenta de esta persona. Vincular no crea usuarios, no habilita el acceso
         ni cambia permisos.
       </p>
@@ -132,7 +135,7 @@ function SelectorCuenta({
           required
           value={seleccion}
           onChange={evento => setSeleccion(evento.target.value)}
-          className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm"
+          className="h-10 w-full rounded-md border border-piedra-300 bg-white px-3 text-sm"
         >
           <option value="">Elegir cuenta…</option>
           {cuentas.map(candidata => (
@@ -148,7 +151,7 @@ function SelectorCuenta({
         </Button>
       </fieldset>
       {estado.error && (
-        <p role="alert" className="mt-3 text-sm text-red-700">
+        <p role="alert" className="mt-3 text-sm text-oxido-700">
           {estado.error}
         </p>
       )}

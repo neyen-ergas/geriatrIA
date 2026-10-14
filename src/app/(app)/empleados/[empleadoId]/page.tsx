@@ -40,21 +40,21 @@ export default async function EmpleadoPage({
     <div className="mx-auto max-w-3xl">
       <Link
         href={empleado.terminated_at ? "/empleados?estado=bajas" : "/empleados"}
-        className="text-sm text-sky-700"
+        className="text-sm text-cobalto-700"
       >
         ← Volver a Empleados
       </Link>
-      <h1 className="mt-4 text-2xl font-bold">
+      <h1 className="mt-4 text-3xl font-bold text-piedra-950">
         {empleado.last_name}, {empleado.first_name}
       </h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="mt-2 text-sm text-piedra-600">
         {empleado.terminated_at ? "Baja · Ficha de consulta" : "Empleado activo"}
       </p>
       <Card className="mt-5 p-6">
         <dl className="grid gap-5 sm:grid-cols-2">
           {campos.map(([etiqueta, valor]) => (
             <div key={etiqueta}>
-              <dt className="text-xs font-medium text-slate-500">{etiqueta}</dt>
+              <dt className="text-sm font-medium text-piedra-500">{etiqueta}</dt>
               <dd className="mt-1 whitespace-pre-wrap break-words text-sm">{valor}</dd>
             </div>
           ))}
@@ -64,13 +64,13 @@ export default async function EmpleadoPage({
         <nav className="mt-5 flex gap-5 text-sm font-medium">
           <Link
             href={`/empleados/${empleado.id}/editar`}
-            className="text-sky-800 underline"
+            className="text-cobalto-800 underline"
           >
             Editar ficha
           </Link>
           <Link
             href={`/empleados/${empleado.id}/baja`}
-            className="text-red-700 underline"
+            className="text-oxido-700 underline"
           >
             Dar de baja
           </Link>

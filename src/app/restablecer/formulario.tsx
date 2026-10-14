@@ -10,7 +10,7 @@ export function FormularioContrasena(): React.ReactElement {
   if (estado.actualizada) {
     return (
       <div className="mt-5">
-        <p role="status" className="text-sm text-emerald-700">
+        <p role="status" className="text-sm text-casona-700">
           Tu contraseña fue actualizada. Guardala para próximos ingresos.
         </p>
         <Link href="/" className="mt-4 block text-sm underline">
@@ -33,7 +33,7 @@ export function FormularioContrasena(): React.ReactElement {
           required
           disabled={pendiente}
         />
-        <p className="mt-1 text-xs text-slate-500">Al menos 12 caracteres.</p>
+        <p className="mt-1 text-sm text-piedra-500">Al menos 12 caracteres.</p>
       </div>
       <div>
         <Label htmlFor="confirmacion">Repetí la contraseña</Label>
@@ -49,7 +49,7 @@ export function FormularioContrasena(): React.ReactElement {
         />
       </div>
       {estado.error && (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-oxido-700">
           {estado.error}
         </p>
       )}

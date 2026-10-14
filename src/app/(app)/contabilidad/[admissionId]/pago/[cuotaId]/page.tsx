@@ -21,11 +21,11 @@ export default async function NuevoPagoPage({
   const hoy = hoyEnArgentina();
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Registrar pago</h1>
-      <p className="mt-2 text-slate-600">
+      <h1 className="text-3xl font-bold text-piedra-950">Registrar pago</h1>
+      <p className="mt-2 text-piedra-600">
         {cuenta.residents.last_name}, {cuenta.residents.first_name}
       </p>
-      <p className="mt-1 text-sm text-slate-600">
+      <p className="mt-1 text-sm text-piedra-600">
         {formatearFechaPago(cuota.period, true)} · Saldo{" "}
         {formatearImporte(cuota.balance, cuota.currency)}
       </p>
@@ -34,7 +34,7 @@ export default async function NuevoPagoPage({
           <p>Esta cuota está anulada o ya no tiene saldo pendiente.</p>
           <Link
             href={`/contabilidad/${admissionId}`}
-            className="mt-4 inline-block text-sky-700"
+            className="mt-4 inline-block text-cobalto-700"
           >
             Volver a la cuenta
           </Link>

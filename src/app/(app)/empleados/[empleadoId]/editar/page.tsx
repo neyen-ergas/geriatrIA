@@ -26,7 +26,7 @@ export default async function EditarEmpleadoPage({
     );
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-bold">Editar empleado</h1>
+      <h1 className="text-3xl font-bold text-piedra-950">Editar empleado</h1>
       <FormularioEmpleado
         key={empleado.updated_at}
         hoy={hoyEnArgentina()}

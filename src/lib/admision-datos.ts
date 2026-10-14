@@ -45,7 +45,8 @@ export async function listarConsultas(
 }
 
 export async function obtenerConsulta(id: string): Promise<Consulta | null> {
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))
+    return null;
   const { data, error } = await (
     await createClient()
   )

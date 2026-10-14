@@ -72,19 +72,19 @@ export const COLORES_ESTADO_ENTREVISTA: Record<
   { bg: string; text: string; badge: string }
 > = {
   scheduled: {
-    bg: "bg-sky-50",
-    text: "text-sky-800",
-    badge: "bg-sky-50 text-sky-800 border-sky-200",
+    bg: "bg-cobalto-50",
+    text: "text-cobalto-800",
+    badge: "bg-cobalto-50 text-cobalto-800 border-cobalto-200",
   },
   completed: {
-    bg: "bg-emerald-50",
-    text: "text-emerald-800",
-    badge: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    bg: "bg-casona-50",
+    text: "text-casona-800",
+    badge: "bg-casona-50 text-casona-800 border-casona-200",
   },
   cancelled: {
-    bg: "bg-slate-100",
-    text: "text-slate-600",
-    badge: "bg-slate-100 text-slate-600 border-slate-200",
+    bg: "bg-piedra-100",
+    text: "text-piedra-600",
+    badge: "bg-piedra-100 text-piedra-600 border-piedra-200",
   },
 };
 
@@ -93,38 +93,38 @@ export const COLORES_CONCLUSION: Record<
   { bg: string; text: string; badge: string }
 > = {
   pendiente: {
-    bg: "bg-amber-50",
-    text: "text-amber-800",
-    badge: "bg-amber-50 text-amber-800 border-amber-200",
+    bg: "bg-ocre-50",
+    text: "text-ocre-800",
+    badge: "bg-ocre-50 text-ocre-800 border-ocre-200",
   },
   apto: {
-    bg: "bg-emerald-50",
-    text: "text-emerald-800",
-    badge: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    bg: "bg-casona-50",
+    text: "text-casona-800",
+    badge: "bg-casona-50 text-casona-800 border-casona-200",
   },
   apto_con_observaciones: {
-    bg: "bg-teal-50",
-    text: "text-teal-800",
-    badge: "bg-teal-50 text-teal-800 border-teal-200",
+    bg: "bg-casona-50",
+    text: "text-casona-800",
+    badge: "bg-casona-50 text-casona-800 border-casona-200",
   },
   no_apto: {
-    bg: "bg-rose-50",
-    text: "text-rose-800",
-    badge: "bg-rose-50 text-rose-800 border-rose-200",
+    bg: "bg-oxido-50",
+    text: "text-oxido-800",
+    badge: "bg-oxido-50 text-oxido-800 border-oxido-200",
   },
 };
 
 export const COLORES_MOVILIDAD: Record<EvaluacionMovilidad, string> = {
-  autovalido: "bg-emerald-50 text-emerald-800 border-emerald-200",
-  semidependiente: "bg-amber-50 text-amber-800 border-amber-200",
-  dependiente_total: "bg-purple-50 text-purple-800 border-purple-200",
+  autovalido: "bg-casona-50 text-casona-800 border-casona-200",
+  semidependiente: "bg-ocre-50 text-ocre-800 border-ocre-200",
+  dependiente_total: "bg-cobalto-50 text-cobalto-800 border-cobalto-200",
 };
 
 export const COLORES_COGNITIVA: Record<EvaluacionCognitiva, string> = {
-  lucido: "bg-emerald-50 text-emerald-800 border-emerald-200",
-  deterioro_leve: "bg-sky-50 text-sky-800 border-sky-200",
-  deterioro_moderado: "bg-amber-50 text-amber-800 border-amber-200",
-  demencia_avanzada: "bg-rose-50 text-rose-800 border-rose-200",
+  lucido: "bg-casona-50 text-casona-800 border-casona-200",
+  deterioro_leve: "bg-cobalto-50 text-cobalto-800 border-cobalto-200",
+  deterioro_moderado: "bg-ocre-50 text-ocre-800 border-ocre-200",
+  demencia_avanzada: "bg-oxido-50 text-oxido-800 border-oxido-200",
 };
 
 export type Entrevista = Tables<"interviews"> & {

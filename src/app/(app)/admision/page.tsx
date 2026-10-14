@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight, Phone } from "lucide-react";
+import { Baldosa } from "@/components/baldosa";
+import { Badge, Input } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { requerirSesion } from "@/lib/auth";
 import {
@@ -29,50 +32,56 @@ const fechaRecibida = new Intl.DateTimeFormat("es-AR", {
 });
 
 function ConsultaFila({ consulta }: { consulta: Consulta }): React.ReactElement {
+  const pendiente = consulta.estado === "nuevo";
   return (
-    <li className="p-4 sm:px-5">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
+    <li className="grid grid-cols-[auto_1fr] gap-x-4 bg-white p-4 sm:px-5">
+      <Baldosa estado={consulta.estado} className="mt-0.5 h-9 w-9" titulo={false} />
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
           <Link
             href={`/admision/${consulta.id}`}
-            className="text-base font-semibold text-slate-900 hover:text-emerald-800 hover:underline"
+            className="text-lg font-bold text-piedra-950 hover:text-casona-800 hover:underline"
           >
             {consulta.nombre}
           </Link>
-          <p className="mt-1 text-sm text-slate-500">
-            Recibida el {fechaRecibida.format(new Date(consulta.creado_en))}
-            {consulta.origen === "telefono"
-              ? " · Llamada"
-              : consulta.origen === "presencial"
-                ? " · Presencial"
-                : " · Web"}
-          </p>
-          {consulta.mensaje && (
-            <p className="mt-1 line-clamp-1 text-sm text-slate-600">{consulta.mensaje}</p>
-          )}
+          <Badge className={COLORES_ESTADO[consulta.estado]}>
+            {ETIQUETAS_ESTADO[consulta.estado]}
+          </Badge>
         </div>
-        <span
-          className={cn(
-            "shrink-0 rounded-full border px-2.5 py-1 text-xs font-semibold",
-            COLORES_ESTADO[consulta.estado],
-          )}
-        >
-          {ETIQUETAS_ESTADO[consulta.estado]}
-        </span>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
-        <a
-          href={`tel:${consulta.telefono.replace(/[^+\d]/g, "")}`}
-          className="font-medium text-slate-700 hover:text-emerald-800 hover:underline"
-        >
-          Llamar al {consulta.telefono}
-        </a>
-        <Link
-          href={`/admision/${consulta.id}`}
-          className="font-semibold text-emerald-800 hover:underline"
-        >
-          Abrir consulta →
-        </Link>
+        <p className="mt-0.5 text-sm text-piedra-600">
+          Recibida el {fechaRecibida.format(new Date(consulta.creado_en))}
+          {consulta.origen === "telefono"
+            ? " · Llamada"
+            : consulta.origen === "presencial"
+              ? " · Presencial"
+              : " · Web"}
+        </p>
+        {consulta.mensaje && (
+          <p className="mt-2 line-clamp-2 max-w-[70ch] text-base text-piedra-800">
+            {consulta.mensaje}
+          </p>
+        )}
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <a
+            href={`tel:${consulta.telefono.replace(/[^+\d]/g, "")}`}
+            className={cn(
+              "inline-flex min-h-11 items-center gap-2 rounded-md border px-3.5 text-base font-semibold",
+              pendiente
+                ? "border-casona-800 bg-casona-700 text-white hover:bg-casona-800"
+                : "border-piedra-300 bg-white text-piedra-900 hover:bg-piedra-50",
+            )}
+          >
+            <Phone className="h-4 w-4" aria-hidden="true" />
+            Llamar al {consulta.telefono}
+          </a>
+          <Link
+            href={`/admision/${consulta.id}`}
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-3 text-base font-semibold text-casona-800 hover:bg-casona-50"
+          >
+            Abrir consulta
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </li>
   );
@@ -108,10 +117,8 @@ export default async function AdmisionPage({
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
-            Admisión
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-3xl font-bold text-piedra-950">Admisión</h1>
+          <p className="mt-1 text-base text-piedra-700">
             Elegí una consulta para registrar el llamado, la visita o el ingreso.
           </p>
         </div>
@@ -119,14 +126,14 @@ export default async function AdmisionPage({
           <SoloGestion>
             <Link
               href="/admision/nueva"
-              className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-4 py-2.5 text-sm font-bold text-white hover:bg-emerald-800"
+              className="inline-flex min-h-11 items-center justify-center rounded-md border border-casona-800 bg-casona-700 px-4 text-base font-semibold text-white hover:bg-casona-800"
             >
               Registrar consulta
             </Link>
           </SoloGestion>
           <Link
             href="/admision/agenda"
-            className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-piedra-300 bg-white px-4 text-base font-semibold text-piedra-900 hover:bg-piedra-50"
           >
             Ver agenda semanal
           </Link>
@@ -152,24 +159,24 @@ export default async function AdmisionPage({
 
       <form action="/admision" className="flex flex-wrap items-end gap-3">
         {filtro && <input type="hidden" name="estado" value={filtro} />}
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
-          Nombre o teléfono
-          <input
+        <label className="block w-full text-sm font-semibold text-piedra-800 sm:w-80">
+          Buscar por nombre o teléfono
+          <Input
             key={busqueda}
             name="buscar"
+            type="search"
             maxLength={80}
             defaultValue={busqueda}
-            placeholder="Buscar por nombre o teléfono..."
-            className="mt-1.5 block w-64 rounded-xl border border-slate-200/90 bg-white px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 outline-none shadow-2xs hover:border-slate-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 transition-all"
+            className="mt-1.5"
           />
         </label>
-        <button className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-slate-800 active:scale-[0.98] transition-all">
+        <button className="inline-flex min-h-11 items-center justify-center rounded-md border border-piedra-300 bg-white px-4 text-base font-semibold text-piedra-900 hover:bg-piedra-50">
           Buscar
         </button>
         {busqueda && (
           <Link
             href={enlaceAdmision(1, filtro)}
-            className="text-xs font-medium text-slate-500 hover:text-slate-800 underline pb-2"
+            className="inline-flex min-h-11 items-center text-base font-semibold text-casona-800 underline"
           >
             Limpiar búsqueda
           </Link>
@@ -177,7 +184,7 @@ export default async function AdmisionPage({
       </form>
 
       {busqueda && (
-        <p className="mt-3 text-sm text-slate-500">
+        <p className="mt-3 text-sm text-piedra-500">
           Resultados para «{busqueda}». Los contadores corresponden a esta búsqueda.
         </p>
       )}
@@ -186,7 +193,7 @@ export default async function AdmisionPage({
       )}
 
       {consultas.length === 0 ? (
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+        <div className="mt-6 rounded-md border border-piedra-200 bg-white p-6 text-sm text-piedra-600">
           {busqueda
             ? "No hay consultas que coincidan con la búsqueda."
             : filtro
@@ -194,7 +201,7 @@ export default async function AdmisionPage({
               : "Todavía no entró ninguna consulta."}
         </div>
       ) : (
-        <ul className="mt-6 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+        <ul className="mt-4 grid gap-px overflow-hidden rounded-md border border-piedra-200 bg-piedra-200">
           {consultas.map(consulta => (
             <ConsultaFila key={consulta.id} consulta={consulta} />
           ))}
@@ -224,14 +231,16 @@ function FiltroLink({
     <Link
       href={enlaceAdmision(1, estado, busqueda)}
       className={cn(
-        "inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
+        "inline-flex min-h-11 items-center gap-2 rounded-md border px-3.5 text-base font-semibold transition-colors",
         activo
-          ? "border-slate-900 bg-slate-900 text-white"
-          : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
+          ? "border-ocre-400 bg-ocre-300 text-casona-950"
+          : "border-piedra-200 bg-white text-piedra-700 hover:bg-piedra-50",
       )}
     >
       {children}
-      <span className={cn("tabular-nums", activo ? "text-slate-300" : "text-slate-500")}>
+      <span
+        className={cn("tabular-nums", activo ? "text-casona-900" : "text-piedra-600")}
+      >
         {cantidad}
       </span>
     </Link>

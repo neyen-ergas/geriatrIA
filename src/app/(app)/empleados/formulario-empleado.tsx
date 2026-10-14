@@ -42,7 +42,7 @@ export function FormularioEmpleado({
   return (
     <form action={enviar} noValidate className="mt-6 space-y-5">
       {estado.mensaje && (
-        <p role="alert" className="rounded-lg bg-red-50 p-4 text-sm text-red-800">
+        <p role="alert" className="rounded-md bg-oxido-50 p-4 text-sm text-oxido-800">
           {estado.mensaje}
         </p>
       )}
@@ -75,7 +75,7 @@ export function FormularioEmpleado({
               }
             />
             {estado.errores[campo.campo] && (
-              <p id={`${campo.campo}-error`} className="mt-1 text-sm text-red-700">
+              <p id={`${campo.campo}-error`} className="mt-1 text-sm text-oxido-700">
                 {estado.errores[campo.campo]}
               </p>
             )}
@@ -94,13 +94,13 @@ export function FormularioEmpleado({
             rows={3}
             aria-describedby="notas-error"
           />
-          <p id="notas-error" className="mt-1 text-sm text-red-700">
+          <p id="notas-error" className="mt-1 text-sm text-oxido-700">
             {estado.errores[baja ? "termination_reason" : "notes"]}
           </p>
         </div>
       </Card>
       {baja && (
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-piedra-600">
           La ficha quedará guardada en Bajas y será solo de consulta.
         </p>
       )}

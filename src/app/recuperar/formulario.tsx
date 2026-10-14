@@ -60,12 +60,12 @@ export function FormularioRecuperacion(): React.ReactElement {
         />
       </div>
       {error && (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-oxido-700">
           {error}
         </p>
       )}
       {mensaje && (
-        <p role="status" className="text-sm text-emerald-700">
+        <p role="status" className="text-sm text-casona-700">
           {mensaje}
         </p>
       )}

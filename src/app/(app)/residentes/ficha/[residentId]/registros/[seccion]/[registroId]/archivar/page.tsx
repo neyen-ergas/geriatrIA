@@ -30,17 +30,17 @@ export default async function ArchivarRegistroPage({
     <div className="mx-auto max-w-2xl">
       <Link
         href={rutaRegistros(residentId, seccion)}
-        className="text-sm text-sky-800 underline"
+        className="text-sm text-cobalto-800 underline"
       >
         ← Volver al listado
       </Link>
-      <h1 className="mt-4 text-2xl font-bold">
+      <h1 className="mt-4 text-3xl font-bold text-piedra-950">
         Archivar {CONFIG_REGISTRO[seccion].singular}
       </h1>
-      <p className="mt-2 break-words text-slate-700">
+      <p className="mt-2 break-words text-piedra-700">
         {persona.residente.first_name} {persona.residente.last_name}
       </p>
-      <p className="my-4 text-sm text-slate-600">
+      <p className="my-4 text-sm text-piedra-600">
         El registro se conservará en Archivados, con el motivo, y quedará solo de
         consulta.
       </p>

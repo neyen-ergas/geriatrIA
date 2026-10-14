@@ -27,12 +27,12 @@ export default async function BajaEmpleadoPage({
   const hoy = hoyEnArgentina();
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-bold">
+      <h1 className="text-3xl font-bold text-piedra-950">
         Dar de baja a {empleado.first_name} {empleado.last_name}
       </h1>
-      <p className="mt-3 text-sm text-slate-600">
+      <p className="mt-3 text-sm text-piedra-600">
         Si tiene una cuenta vinculada, primero debe estar suspendida.{" "}
-        <Link href="/accesos" className="text-sky-800 underline">
+        <Link href="/accesos" className="text-cobalto-800 underline">
           Revisar Accesos
         </Link>
       </p>

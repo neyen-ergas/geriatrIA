@@ -99,11 +99,11 @@ export const ETIQUETAS_ESTADO: Record<Estado, string> = {
 };
 
 export const COLORES_ESTADO: Record<Estado, string> = {
-  nuevo: "border-amber-200 bg-amber-50 text-amber-700",
-  contactado: "border-sky-200 bg-sky-50 text-sky-700",
-  visita_agendada: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  ingreso: "border-violet-200 bg-violet-50 text-violet-700",
-  descartada: "border-slate-200 bg-slate-100 text-slate-500",
+  nuevo: "border-ocre-300 bg-ocre-100 text-ocre-950",
+  contactado: "border-cobalto-200 bg-cobalto-50 text-cobalto-800",
+  visita_agendada: "border-ocre-200 bg-white text-ocre-900",
+  ingreso: "border-casona-700 bg-casona-700 text-white",
+  descartada: "border-piedra-300 bg-piedra-100 text-piedra-700",
 };
 
 const fechaLarga = new Intl.DateTimeFormat("es-AR", {

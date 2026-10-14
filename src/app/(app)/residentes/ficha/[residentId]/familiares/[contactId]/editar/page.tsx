@@ -21,20 +21,15 @@ export default async function EditarFamiliarPage({
       <div>
         <Link
           href={`/residentes/ficha/${residentId}#familiares`}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-900"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-piedra-500 transition-colors hover:text-piedra-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Volver a la ficha
         </Link>
       </div>
       <div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-emerald-800">
-          Red de Apoyo
-        </div>
-        <h1 className="mt-1.5 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-          Editar contacto
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-3xl font-bold text-piedra-950">Editar contacto</h1>
+        <p className="mt-1 text-base text-piedra-700">
           Contacto de {datos.residente.first_name} {datos.residente.last_name}. Los
           cambios actualizan sus datos actuales y quedan en Auditoría.
         </p>

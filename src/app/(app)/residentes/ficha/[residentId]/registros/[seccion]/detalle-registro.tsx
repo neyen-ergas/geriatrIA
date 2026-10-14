@@ -21,19 +21,17 @@ export function DetalleRegistro({
         const valor = valores[campo.nombre];
         return (
           <div key={campo.nombre} className="min-w-0">
-            <dt className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              {campo.etiqueta}
-            </dt>
-            <dd className="mt-1 whitespace-pre-wrap break-words text-sm font-semibold text-slate-800">
+            <dt className="text-sm font-bold text-piedra-500">{campo.etiqueta}</dt>
+            <dd className="mt-1 whitespace-pre-wrap break-words text-sm font-semibold text-piedra-800">
               {campo.tipo === "estadia" ? (
                 <Link
-                  className="inline-flex items-center text-xs font-semibold text-emerald-700 hover:text-emerald-900 hover:underline"
+                  className="inline-flex items-center text-sm font-semibold text-casona-700 hover:text-casona-900 hover:underline"
                   href={`/contabilidad/${valor}`}
                 >
                   Ver cuenta de la estadía asociada →
                 </Link>
               ) : !valor ? (
-                <span className="text-slate-400 font-normal">Sin registrar</span>
+                <span className="text-piedra-500 font-normal">Sin registrar</span>
               ) : (
                 campo.opciones?.[valor] ||
                 (campo.tipo === "date" ? formatearFechaPago(valor) : valor)

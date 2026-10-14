@@ -5,8 +5,9 @@ import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
 import { SoloAdmin, SoloGestion, usePuedeGestionar } from "@/components/permisos";
-import { Badge, Button, Card, Input, Label } from "@/components/ui";
+import { Badge, Button, Card, Input, Label, Select, Textarea } from "@/components/ui";
 import { FechaLegible } from "@/components/fecha-legible";
+import { CircuitoAdmision } from "@/components/baldosa";
 import { cn } from "@/lib/utils";
 import {
   COLORES_ESTADO,
@@ -41,6 +42,7 @@ const fechaHora = new Intl.DateTimeFormat("es-AR", {
   year: "numeric",
   hour: "2-digit",
   minute: "2-digit",
+  timeZone: "America/Argentina/Buenos_Aires",
 });
 
 export function ConsultaCard({ consulta }: { consulta: Consulta }) {
@@ -80,11 +82,11 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
   // La key por versión renueva también los campos no controlados al refrescar
   // los datos: nunca combina valores viejos con un token de escritura nuevo.
   return (
-    <Card className="p-6 transition-all hover:border-slate-300/80 shadow-2xs">
+    <Card className="p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h2 className="text-base font-bold text-slate-900">{consulta.nombre}</h2>
-          <p className="mt-0.5 text-xs text-slate-500">
+          <h2 className="text-lg font-bold text-piedra-950">{consulta.nombre}</h2>
+          <p className="mt-0.5 text-sm text-piedra-600">
             Prefiere que la llamen: {MOMENTOS_LLAMADO[consulta.momento_llamado]}
           </p>
         </div>
@@ -93,27 +95,36 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
         </Badge>
       </div>
 
-      <div className="mt-3.5">
+      <div className="mt-4 border-y border-piedra-200 py-3">
+        <CircuitoAdmision estado={consulta.estado} />
+      </div>
+
+      <div className="mt-4">
         <a
           href={`tel:${consulta.telefono.replace(/\s/g, "")}`}
-          className="inline-flex items-center gap-2 rounded-xl bg-slate-50/90 border border-slate-200/70 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-emerald-700 hover:border-emerald-300 transition-all shadow-2xs"
+          className={cn(
+            "inline-flex min-h-11 items-center gap-2 rounded-md border px-4 text-base font-semibold transition-colors",
+            consulta.estado === "nuevo" || consulta.estado === "contactado"
+              ? "border-casona-800 bg-casona-700 text-white hover:bg-casona-800"
+              : "border-piedra-300 bg-white text-piedra-900 hover:bg-piedra-50",
+          )}
         >
-          <Phone className="h-3.5 w-3.5 text-slate-400" />
-          {consulta.telefono}
+          <Phone className="h-4 w-4" aria-hidden="true" />
+          Llamar al {consulta.telefono}
         </a>
       </div>
 
       {consulta.mensaje && (
-        <div className="mt-4 rounded-xl border-l-4 border-emerald-500 bg-slate-50/70 px-4 py-3 text-xs text-slate-700 shadow-2xs">
+        <blockquote className="mt-4 rounded-md bg-piedra-100 px-4 py-3 text-base text-piedra-800">
           <p className="whitespace-pre-wrap leading-relaxed">{consulta.mensaje}</p>
-        </div>
+        </blockquote>
       )}
 
       {/* ── Visita presencial ─────────────────────────────────────────── */}
 
       {agendada && consulta.visita_fecha && consulta.visita_franja && (
-        <div className="mt-5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5">
-          <div className="flex items-center gap-2 text-sm text-emerald-800">
+        <div className="mt-5 rounded-md border border-casona-200 bg-casona-50 px-3 py-2.5">
+          <div className="flex items-center gap-2 text-sm text-casona-800">
             <CalendarCheck className="h-4 w-4 shrink-0" />
             <span>
               Visita el{" "}
@@ -145,7 +156,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
             </div>
           </SoloGestion>
           {resCancelar.error && (
-            <p role="alert" className="mt-2 text-sm text-red-600">
+            <p role="alert" className="mt-2 text-sm text-oxido-600">
               {resCancelar.error}
             </p>
           )}
@@ -153,7 +164,7 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       )}
 
       {cerrada && consulta.visita_fecha && (
-        <p className="mt-4 text-sm text-slate-400">
+        <p className="mt-4 text-sm text-piedra-500">
           Se le había agendado visita el {formatearDia(consulta.visita_fecha)}.
         </p>
       )}
@@ -178,28 +189,26 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
               disabled={agendando}
               className="w-auto"
             />
-            <select
+            <Select
               name="visita_franja"
+              aria-label="Franja de la visita"
               defaultValue={consulta.visita_franja ?? "manana"}
               disabled={agendando}
-              className={cn(
-                "h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none",
-                "focus:border-slate-500 focus:ring-2 focus:ring-slate-200",
-              )}
+              className="w-auto"
             >
               {Object.entries(FRANJAS).map(([valor, etiqueta]) => (
                 <option key={valor} value={valor}>
                   {etiqueta}
                 </option>
               ))}
-            </select>
+            </Select>
             <Button type="submit" disabled={agendando}>
               {agendando ? "Guardando…" : agendada ? "Reprogramar" : "Agendar"}
             </Button>
           </div>
           <FechaLegible id={`visita-fecha-${consulta.id}`} />
           {resAgenda.error && (
-            <p role="alert" className="mt-2 text-sm text-red-600">
+            <p role="alert" className="mt-2 text-sm text-oxido-600">
               {resAgenda.error}
             </p>
           )}
@@ -209,11 +218,40 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       {/* ── Estado ────────────────────────────────────────────────────── */}
 
       <div className="mt-5">
+        {consulta.ingreso_id ? (
+          <Link
+            className="inline-flex min-h-11 items-center text-base font-semibold text-casona-800 underline"
+            href={`/contabilidad/${consulta.ingreso_id}`}
+          >
+            Ver cuenta del ingreso
+          </Link>
+        ) : (
+          (consulta.estado === "visita_agendada" || consulta.estado === "ingreso") && (
+            <div className="flex flex-wrap items-center gap-2">
+              <SoloGestion>
+                <Link
+                  className="inline-flex min-h-11 items-center rounded-md border border-casona-800 bg-casona-700 px-4 text-base font-semibold text-white hover:bg-casona-800"
+                  href={`/admision/${consulta.id}/ingreso`}
+                >
+                  Registrar ingreso
+                </Link>
+              </SoloGestion>
+              <SoloAdmin>
+                <Link
+                  className="inline-flex min-h-11 items-center rounded-md border border-piedra-300 bg-white px-4 text-base font-semibold text-piedra-900 hover:bg-piedra-50"
+                  href={`/entrevistas/nueva?consulta_id=${consulta.id}`}
+                >
+                  Programar entrevista
+                </Link>
+              </SoloAdmin>
+            </div>
+          )
+        )}
         <SoloGestion>
           <form
             key={`estado-${consulta.actualizado_en}`}
             action={enviarEstado}
-            className="flex flex-wrap gap-2"
+            className="mt-3 flex flex-wrap gap-2"
           >
             <VersionConsulta consulta={consulta} />
             {!consulta.ingreso_id &&
@@ -225,8 +263,8 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
                     type="submit"
                     name="estado"
                     value={destino}
-                    variant={destino === "descartada" ? "ghost" : "outline"}
-                    className="h-9 px-3 text-sm"
+                    variant="outline"
+                    className={destino === "descartada" ? "text-oxido-800" : undefined}
                     disabled={cambiandoEstado}
                   >
                     {ACCION_ESTADO[destino]}
@@ -235,38 +273,9 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
           </form>
         </SoloGestion>
         {resEstado.error && (
-          <p role="alert" className="mt-2 text-sm text-red-600">
+          <p role="alert" className="mt-2 text-sm text-oxido-600">
             {resEstado.error}
           </p>
-        )}
-        {consulta.ingreso_id ? (
-          <Link
-            className="mt-3 inline-block text-sm font-medium underline"
-            href={`/contabilidad/${consulta.ingreso_id}`}
-          >
-            Ver cuenta del ingreso
-          </Link>
-        ) : (
-          (consulta.estado === "visita_agendada" || consulta.estado === "ingreso") && (
-            <div className="mt-3 flex flex-wrap items-center gap-4">
-              <SoloGestion>
-                <Link
-                  className="text-sm font-medium underline"
-                  href={`/admision/${consulta.id}/ingreso`}
-                >
-                  Registrar ingreso
-                </Link>
-              </SoloGestion>
-              <SoloAdmin>
-                <Link
-                  className="text-sm font-medium text-sky-700 underline hover:text-sky-900"
-                  href={`/entrevistas/nueva?consulta_id=${consulta.id}`}
-                >
-                  Programar entrevista
-                </Link>
-              </SoloAdmin>
-            </div>
-          )
         )}
       </div>
 
@@ -280,31 +289,22 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
         >
           <VersionConsulta consulta={consulta} />
           <Label htmlFor={`notas-${consulta.id}`}>Notas internas</Label>
-          <textarea
+          <Textarea
             id={`notas-${consulta.id}`}
             name="notas_internas"
             rows={2}
             defaultValue={consulta.notas_internas ?? ""}
             placeholder="Qué se habló, con quién, qué falta definir…"
-            className={cn(
-              "w-full rounded-xl border border-slate-200/90 bg-white/90 px-3.5 py-2.5 text-xs text-slate-800 outline-none shadow-2xs placeholder:text-slate-400 transition-all",
-              "focus:border-slate-500 focus:ring-2 focus:ring-slate-200",
-            )}
           />
           <div className="mt-2 flex items-center gap-3">
-            <Button
-              type="submit"
-              variant="secondary"
-              className="h-9 px-3 text-sm"
-              disabled={guardando}
-            >
+            <Button type="submit" variant="outline" disabled={guardando}>
               {guardando ? "Guardando…" : "Guardar notas"}
             </Button>
             {resNotas.ok && !guardando && (
-              <span className="text-sm text-emerald-700">Guardado.</span>
+              <span className="text-sm text-casona-700">Guardado.</span>
             )}
             {resNotas.error && (
-              <span role="alert" className="text-sm text-red-600">
+              <span role="alert" className="text-sm text-oxido-600">
                 {resNotas.error}
               </span>
             )}
@@ -313,13 +313,13 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
       ) : (
         <div className="mt-5">
           <p className="text-sm font-medium">Notas internas</p>
-          <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">
+          <p className="mt-1 whitespace-pre-wrap text-sm text-piedra-600">
             {consulta.notas_internas || "Sin notas."}
           </p>
         </div>
       )}
 
-      <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-400">
+      <p className="mt-4 border-t border-piedra-100 pt-3 text-sm text-piedra-500">
         Recibida el {fechaHora.format(new Date(consulta.creado_en))} ·{" "}
         {consulta.origen === "telefono"
           ? "Llamada telefónica"

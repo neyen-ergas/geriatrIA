@@ -2,6 +2,11 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Los botones miden al menos 44px de alto en `md`: parte del equipo es mayor y
+ * usa el sistema en el celular. El verde de la casona queda reservado para la
+ * acción principal de cada pantalla.
+ */
 export function Button({
   className,
   variant = "primary",
@@ -13,25 +18,26 @@ export function Button({
 }) {
   const variants: Record<string, string> = {
     primary:
-      "bg-slate-900 text-white shadow-xs hover:bg-slate-800 hover:shadow-sm active:scale-[0.98] border border-slate-900/10",
+      "border border-casona-800 bg-casona-700 text-white hover:bg-casona-800 active:bg-casona-900",
     secondary:
-      "bg-slate-100 text-slate-800 hover:bg-slate-200/80 active:scale-[0.98] border border-slate-200/50",
-    danger: "bg-rose-600 text-white shadow-xs hover:bg-rose-700 active:scale-[0.98]",
+      "border border-piedra-300 bg-piedra-100 text-piedra-900 hover:bg-piedra-200 active:bg-piedra-300",
+    danger:
+      "border border-oxido-800 bg-oxido-700 text-white hover:bg-oxido-800 active:bg-oxido-900",
     outline:
-      "border border-slate-200/90 bg-white text-slate-800 shadow-2xs hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98]",
+      "border border-piedra-300 bg-white text-piedra-900 hover:border-piedra-400 hover:bg-piedra-50 active:bg-piedra-100",
     ghost:
-      "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 active:scale-[0.98]",
+      "border border-transparent text-piedra-700 hover:bg-piedra-200/70 hover:text-piedra-950",
   };
   const sizes: Record<string, string> = {
-    sm: "h-9 px-3 text-xs",
-    md: "h-10 px-4 text-sm",
-    lg: "h-11 px-5 text-base",
+    sm: "min-h-9 px-3 text-sm",
+    md: "min-h-11 px-4 text-[0.9375rem]",
+    lg: "min-h-12 px-5 text-base",
   };
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all disabled:pointer-events-none disabled:opacity-50",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2",
+        "inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-casona-700 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
         variants[variant],
         sizes[size],
         className,
@@ -41,31 +47,24 @@ export function Button({
   );
 }
 
+/** Una baldosa: superficie blanca con junta fina, sin sombra flotante. */
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn(
-        "rounded-2xl border border-slate-200/80 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.03),0_1px_2px_rgba(0,0,0,0.02)] transition-all",
-        className,
-      )}
+      className={cn("rounded-md border border-piedra-200 bg-white", className)}
       {...props}
     />
   );
 }
 
+const CAMPO =
+  "w-full rounded-md border border-piedra-500 bg-white px-3.5 text-base text-piedra-950 placeholder:text-piedra-500 outline-none transition-colors duration-150 hover:border-piedra-700 focus-visible:border-casona-700 focus-visible:ring-2 focus-visible:ring-casona-600/40 focus-visible:outline-none aria-invalid:border-oxido-600 disabled:pointer-events-none disabled:bg-piedra-100 disabled:text-piedra-500";
+
 export function Input({
   className,
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      className={cn(
-        "h-10 w-full rounded-xl border border-slate-200/90 bg-white/90 px-3.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all shadow-2xs hover:border-slate-300 focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 disabled:bg-slate-50",
-        className,
-      )}
-      {...props}
-    />
-  );
+  return <input className={cn(CAMPO, "min-h-11", className)} {...props} />;
 }
 
 export function Textarea({
@@ -73,13 +72,7 @@ export function Textarea({
   ...props
 }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
-    <textarea
-      className={cn(
-        "min-h-24 w-full resize-y rounded-xl border border-slate-200/90 bg-white/90 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all shadow-2xs hover:border-slate-300 focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 disabled:bg-slate-50",
-        className,
-      )}
-      {...props}
-    />
+    <textarea className={cn(CAMPO, "min-h-28 resize-y py-2.5", className)} {...props} />
   );
 }
 
@@ -87,27 +80,17 @@ export function Select({
   className,
   ...props
 }: React.SelectHTMLAttributes<HTMLSelectElement>) {
-  return (
-    <select
-      className={cn(
-        "h-10 w-full rounded-xl border border-slate-200/90 bg-white/90 px-3.5 text-sm text-slate-900 outline-none transition-all shadow-2xs hover:border-slate-300 focus-visible:border-slate-500 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 disabled:bg-slate-50",
-        className,
-      )}
-      {...props}
-    />
-  );
+  return <select className={cn(CAMPO, "min-h-11", className)} {...props} />;
 }
 
+/** Etiquetas en minúscula de oración: se leen más rápido que las versalitas. */
 export function Label({
   className,
   ...props
 }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={cn(
-        "mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-600",
-        className,
-      )}
+      className={cn("mb-1.5 block text-sm font-semibold text-piedra-800", className)}
       {...props}
     />
   );
@@ -117,7 +100,7 @@ export function Badge({ className, ...props }: React.HTMLAttributes<HTMLSpanElem
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold tracking-wide shadow-2xs",
+        "inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 text-[0.8125rem] font-semibold",
         className,
       )}
       {...props}
@@ -134,7 +117,7 @@ function iniciales(nombre: string): string {
 
 export function Avatar({
   nombre,
-  colorClass = "bg-slate-700",
+  colorClass = "bg-piedra-700",
   className,
 }: {
   nombre: string;
@@ -143,8 +126,9 @@ export function Avatar({
 }) {
   return (
     <div
+      aria-hidden="true"
       className={cn(
-        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow-2xs ring-2 ring-white/90",
+        "flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-sm font-bold text-white",
         colorClass,
         className,
       )}
@@ -156,12 +140,12 @@ export function Avatar({
 
 export function StatCard({
   icon: Icon,
-  iconClass = "bg-slate-100 text-slate-600",
+  iconClass = "bg-piedra-100 text-piedra-700",
   label,
   value,
-  valueClass = "text-slate-900",
+  valueClass = "text-piedra-950",
   hint,
-  hintClass = "text-slate-400",
+  hintClass = "text-piedra-600",
 }: {
   icon: React.ComponentType<{ className?: string }>;
   iconClass?: string;
@@ -172,27 +156,19 @@ export function StatCard({
   hintClass?: string;
 }) {
   return (
-    <Card className="p-5 hover:border-slate-300/80 transition-all">
-      <div
-        className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-xl shadow-2xs",
-          iconClass,
-        )}
-      >
-        <Icon className="h-5 w-5" />
+    <Card className="p-5">
+      <div className="flex items-center gap-2.5">
+        <div
+          className={cn("flex h-8 w-8 items-center justify-center rounded-sm", iconClass)}
+        >
+          <Icon className="h-4 w-4" />
+        </div>
+        <div className="text-sm font-semibold text-piedra-700">{label}</div>
       </div>
-      <div className="mt-3.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
-        {label}
-      </div>
-      <div
-        className={cn(
-          "mt-1 text-2xl font-extrabold tracking-tight tabular-nums sm:text-3xl",
-          valueClass,
-        )}
-      >
+      <div className={cn("mt-3 text-3xl font-bold tabular-nums", valueClass)}>
         {value}
       </div>
-      {hint && <div className={cn("mt-1 text-xs font-medium", hintClass)}>{hint}</div>}
+      {hint && <div className={cn("mt-1 text-sm", hintClass)}>{hint}</div>}
     </Card>
   );
 }

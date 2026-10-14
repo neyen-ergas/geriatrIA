@@ -54,12 +54,12 @@ export default async function EntrevistaDetallePage({
         <div>
           <Link
             href="/entrevistas"
-            className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900"
+            className="inline-flex items-center text-sm text-piedra-500 hover:text-piedra-900"
           >
             ← Volver a entrevistas
           </Link>
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            <h1 className="text-2xl font-bold text-slate-900">
+            <h1 className="text-3xl font-bold text-piedra-950">
               {entrevista.candidate_name}
             </h1>
             <Badge className={COLORES_ESTADO_ENTREVISTA[estado]?.badge || ""}>
@@ -69,16 +69,16 @@ export default async function EntrevistaDetallePage({
               {ETIQUETAS_CONCLUSION[conclusion] || conclusion}
             </Badge>
           </div>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-piedra-500">
             Fecha de entrevista:{" "}
-            <span className="font-medium text-slate-700">
+            <span className="font-medium text-piedra-700">
               {entrevista.interview_date}
             </span>
             {entrevista.interviewer && (
               <>
                 {" · "}
                 Profesional:{" "}
-                <span className="font-medium text-slate-700">
+                <span className="font-medium text-piedra-700">
                   {entrevista.interviewer.last_name}, {entrevista.interviewer.first_name}
                 </span>
               </>

@@ -33,7 +33,7 @@ export default async function ReservarPage({
   const volver = (
     <Link
       href={enlaceAgenda(semana.inicio)}
-      className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-900"
+      className="inline-flex items-center gap-1.5 text-sm font-semibold text-piedra-500 transition-colors hover:text-piedra-900"
     >
       <ArrowLeft className="h-3.5 w-3.5" />
       Volver a la agenda
@@ -43,8 +43,8 @@ export default async function ReservarPage({
     return (
       <div className="mx-auto max-w-4xl space-y-4">
         {volver}
-        <Card className="border-amber-200/80 bg-amber-50/50 p-6">
-          <p className="text-sm font-semibold text-amber-900">
+        <Card className="border-ocre-200/80 bg-ocre-50/50 p-6">
+          <p className="text-sm font-semibold text-ocre-900">
             Ese día ya pasó. Elegí otro turno.
           </p>
         </Card>
@@ -57,11 +57,13 @@ export default async function ReservarPage({
     return (
       <div className="mx-auto max-w-4xl space-y-4">
         {volver}
-        <Card className="border-rose-200/80 bg-rose-50/50 p-6">
-          <p className="text-sm font-semibold text-rose-900">El turno ya está ocupado.</p>
+        <Card className="border-oxido-200/80 bg-oxido-50/50 p-6">
+          <p className="text-sm font-semibold text-oxido-900">
+            El turno ya está ocupado.
+          </p>
           <Link
             href={`/admision/${ocupada.id}?semana=${semana.inicio}`}
-            className="mt-3 inline-flex items-center text-xs font-semibold text-rose-700 hover:text-rose-900 hover:underline"
+            className="mt-3 inline-flex items-center text-sm font-semibold text-oxido-700 hover:text-oxido-900 hover:underline"
           >
             Ver la consulta agendada →
           </Link>
@@ -82,26 +84,24 @@ export default async function ReservarPage({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="inline-flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
+            <span className="inline-flex items-center gap-1 rounded-full border border-casona-200 bg-casona-50 px-2.5 py-0.5 text-sm font-bold text-casona-800">
               <Calendar className="h-3 w-3" />
               {formatearDia(fecha)}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">
+            <span className="inline-flex items-center gap-1 rounded-full border border-piedra-200 bg-piedra-100 px-2.5 py-0.5 text-sm font-bold text-piedra-700">
               <Clock className="h-3 w-3" />
               {FRANJAS[franja]}
             </span>
           </div>
-          <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-            Reservar visita
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="mt-2 text-3xl font-bold text-piedra-950">Reservar visita</h1>
+          <p className="mt-1 text-base text-piedra-700">
             Elegí la familia con la que acordaste la visita. Se muestran consultas nuevas
             o contactadas que todavía no tienen turno.
           </p>
         </div>
       </div>
 
-      <Card className="p-4 shadow-2xs">
+      <Card className="p-4">
         <form
           action="/admision/agenda/reservar"
           className="flex flex-wrap items-center gap-3"
@@ -109,7 +109,7 @@ export default async function ReservarPage({
           <input type="hidden" name="fecha" value={fecha} />
           <input type="hidden" name="franja" value={franja} />
           <div className="relative flex-1 min-w-[240px]">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-piedra-500" />
             <Input
               key={busqueda}
               name="buscar"
@@ -119,18 +119,18 @@ export default async function ReservarPage({
               className="pl-9"
             />
           </div>
-          <Button type="submit" size="sm" className="h-10 px-5 shadow-2xs">
+          <Button type="submit" size="sm" className="h-10 px-5">
             Buscar
           </Button>
         </form>
       </Card>
 
       {consultas.length === 0 && (
-        <Card className="p-8 text-center text-sm text-slate-500 shadow-2xs">
+        <Card className="p-8 text-center text-sm text-piedra-500">
           No hay familias disponibles con esta búsqueda.{" "}
           <Link
             href="/admision"
-            className="font-semibold text-emerald-700 hover:text-emerald-900 hover:underline"
+            className="font-semibold text-casona-700 hover:text-casona-900 hover:underline"
           >
             Revisar Admisión
           </Link>
@@ -141,14 +141,14 @@ export default async function ReservarPage({
         {consultas.map(consulta => (
           <Card
             key={`${consulta.id}-${consulta.actualizado_en}`}
-            className="flex flex-wrap items-center justify-between gap-4 p-5 transition-all hover:shadow-xs"
+            className="flex flex-wrap items-center justify-between gap-4 p-5 transition-colors"
           >
             <div>
-              <h2 className="text-base font-bold text-slate-900">{consulta.nombre}</h2>
-              <p className="mt-0.5 text-xs font-semibold text-slate-500">
+              <h2 className="text-base font-bold text-piedra-900">{consulta.nombre}</h2>
+              <p className="mt-0.5 text-sm font-semibold text-piedra-500">
                 {consulta.telefono}
               </p>
-              <p className="mt-1 text-xs text-slate-600">
+              <p className="mt-1 text-sm text-piedra-600">
                 Consulta del{" "}
                 {new Intl.DateTimeFormat("es-AR", {
                   day: "2-digit",
@@ -160,7 +160,7 @@ export default async function ReservarPage({
               </p>
               <Link
                 href={`/admision/${consulta.id}`}
-                className="mt-2 inline-block text-xs font-semibold text-emerald-800 underline"
+                className="mt-2 inline-block text-sm font-semibold text-casona-800 underline"
               >
                 Ver consulta antes de reservar
               </Link>

@@ -12,3 +12,12 @@ npm-debug.log*
 dev.log
 .env*.local
 *.stackdump
+
+# Impeccable: el lanzador descarga el motor de su plataforma si falta.
+/.claude/skills/impeccable/scripts/bin/
+# Configuración personal de Claude Code.
+/.claude/settings.local.json
+# Capturas de trabajo de las revisiones de diseño.
+/.impeccable/review/
+/.impeccable/hook.cache.json
+/.impeccable/questions/

@@ -36,7 +36,7 @@ export function FechaLegible({ id }: { id: string }) {
     };
   }, [id]);
   return (
-    <p className="mt-1 text-xs font-medium text-slate-600" aria-live="polite">
+    <p className="mt-1 text-sm font-medium text-piedra-600" aria-live="polite">
       {fecha
         ? `Fecha elegida: ${fecha}`
         : "Al elegirla, confirmá aquí el día y el mes (DD/MM/AAAA)."}

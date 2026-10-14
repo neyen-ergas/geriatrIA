@@ -113,7 +113,7 @@ function CamposEntrevista({
       {!state.ok && state.error && (
         <div
           role="alert"
-          className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800"
+          className="rounded-md border border-oxido-200 bg-oxido-50 p-4 text-sm text-oxido-800"
         >
           <p className="font-semibold">{state.error}</p>
         </div>
@@ -123,13 +123,13 @@ function CamposEntrevista({
       {state.ok && state.mensaje && (
         <div
           role="status"
-          className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800"
+          className="rounded-md border border-casona-200 bg-casona-50 p-4 text-sm text-casona-800"
         >
           <p className="font-semibold">{state.mensaje}</p>
           <div className="mt-2">
             <Link
               href="/entrevistas"
-              className="font-medium text-emerald-900 underline hover:text-emerald-950"
+              className="font-medium text-casona-900 underline hover:text-casona-950"
             >
               Volver al listado de entrevistas →
             </Link>
@@ -139,10 +139,10 @@ function CamposEntrevista({
 
       {/* Sección 1: Vinculación y Postulante */}
       <Card className="p-6">
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-piedra-900">
           1. Postulante y Entorno Familiar
         </h2>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-piedra-500">
           Datos de la persona mayor interesada y su contacto de referencia familiar.
         </p>
 
@@ -165,7 +165,7 @@ function CamposEntrevista({
                 </option>
               ))}
             </Select>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-sm text-piedra-500">
               Al seleccionar una consulta, se precargan los datos de contacto inicial.
             </p>
           </div>
@@ -173,7 +173,7 @@ function CamposEntrevista({
           {/* Nombre del Postulante */}
           <div>
             <Label htmlFor="candidate_name">
-              Nombre y Apellido del Postulante <span className="text-rose-600">*</span>
+              Nombre y Apellido del Postulante <span className="text-oxido-600">*</span>
             </Label>
             <Input
               id="candidate_name"
@@ -186,13 +186,13 @@ function CamposEntrevista({
               aria-describedby={
                 state.errores?.candidate_name ? "candidate_name-error" : undefined
               }
-              className={state.errores?.candidate_name ? "border-rose-300" : ""}
+              className={state.errores?.candidate_name ? "border-oxido-300" : ""}
             />
             {state.errores?.candidate_name && (
               <p
                 id="candidate_name-error"
                 role="alert"
-                className="mt-1 text-xs text-rose-600"
+                className="mt-1 text-sm text-oxido-600"
               >
                 {state.errores.candidate_name}
               </p>
@@ -211,13 +211,13 @@ function CamposEntrevista({
               aria-describedby={
                 state.errores?.candidate_dni ? "candidate_dni-error" : undefined
               }
-              className={state.errores?.candidate_dni ? "border-rose-300" : ""}
+              className={state.errores?.candidate_dni ? "border-oxido-300" : ""}
             />
             {state.errores?.candidate_dni && (
               <p
                 id="candidate_dni-error"
                 role="alert"
-                className="mt-1 text-xs text-rose-600"
+                className="mt-1 text-sm text-oxido-600"
               >
                 {state.errores.candidate_dni}
               </p>
@@ -239,14 +239,14 @@ function CamposEntrevista({
                   ? "candidate_birth_date-error"
                   : undefined
               }
-              className={state.errores?.candidate_birth_date ? "border-rose-300" : ""}
+              className={state.errores?.candidate_birth_date ? "border-oxido-300" : ""}
             />
             <FechaLegible id="candidate_birth_date" />
             {state.errores?.candidate_birth_date && (
               <p
                 id="candidate_birth_date-error"
                 role="alert"
-                className="mt-1 text-xs text-rose-600"
+                className="mt-1 text-sm text-oxido-600"
               >
                 {state.errores.candidate_birth_date}
               </p>
@@ -265,13 +265,13 @@ function CamposEntrevista({
               aria-describedby={
                 state.errores?.companion_name ? "companion_name-error" : undefined
               }
-              className={state.errores?.companion_name ? "border-rose-300" : ""}
+              className={state.errores?.companion_name ? "border-oxido-300" : ""}
             />
             {state.errores?.companion_name && (
               <p
                 id="companion_name-error"
                 role="alert"
-                className="mt-1 text-xs text-rose-600"
+                className="mt-1 text-sm text-oxido-600"
               >
                 {state.errores.companion_name}
               </p>
@@ -291,13 +291,13 @@ function CamposEntrevista({
               aria-describedby={
                 state.errores?.companion_phone ? "companion_phone-error" : undefined
               }
-              className={state.errores?.companion_phone ? "border-rose-300" : ""}
+              className={state.errores?.companion_phone ? "border-oxido-300" : ""}
             />
             {state.errores?.companion_phone && (
               <p
                 id="companion_phone-error"
                 role="alert"
-                className="mt-1 text-xs text-rose-600"
+                className="mt-1 text-sm text-oxido-600"
               >
                 {state.errores.companion_phone}
               </p>
@@ -318,13 +318,13 @@ function CamposEntrevista({
                   ? "companion_relationship-error"
                   : undefined
               }
-              className={state.errores?.companion_relationship ? "border-rose-300" : ""}
+              className={state.errores?.companion_relationship ? "border-oxido-300" : ""}
             />
             {state.errores?.companion_relationship && (
               <p
                 id="companion_relationship-error"
                 role="alert"
-                className="mt-1 text-xs text-rose-600"
+                className="mt-1 text-sm text-oxido-600"
               >
                 {state.errores.companion_relationship}
               </p>
@@ -335,10 +335,10 @@ function CamposEntrevista({
 
       {/* Sección 2: Encuentro y Coordinación */}
       <Card className="p-6">
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-piedra-900">
           2. Coordinación de la Entrevista
         </h2>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-piedra-500">
           Fecha de realización, profesional interviniente y estado de la entrevista.
         </p>
 
@@ -346,7 +346,7 @@ function CamposEntrevista({
           {/* Fecha de la Entrevista */}
           <div>
             <Label htmlFor="interview_date">
-              Fecha de la Entrevista <span className="text-rose-600">*</span>
+              Fecha de la Entrevista <span className="text-oxido-600">*</span>
             </Label>
             <Input
               id="interview_date"
@@ -358,14 +358,14 @@ function CamposEntrevista({
               aria-describedby={
                 state.errores?.interview_date ? "interview_date-error" : undefined
               }
-              className={state.errores?.interview_date ? "border-rose-300" : ""}
+              className={state.errores?.interview_date ? "border-oxido-300" : ""}
             />
             <FechaLegible id="interview_date" />
             {state.errores?.interview_date && (
               <p
                 id="interview_date-error"
                 role="alert"
-                className="mt-1 text-xs text-rose-600"
+                className="mt-1 text-sm text-oxido-600"
               >
                 {state.errores.interview_date}
               </p>
@@ -408,19 +408,19 @@ function CamposEntrevista({
       </Card>
 
       <details
-        className="rounded-2xl border border-slate-200 bg-white p-4"
+        className="rounded-md border border-piedra-200 bg-white p-4"
         open={entrevista ? true : undefined}
       >
-        <summary className="cursor-pointer text-sm font-bold text-emerald-800">
+        <summary className="cursor-pointer text-sm font-bold text-casona-800">
           Agregar evaluación y dictamen (podés hacerlo después de programar)
         </summary>
         <div className="mt-4 space-y-5">
           {/* Sección 3: Evaluación Integral Interdisciplinaria */}
           <Card className="p-6">
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-piedra-900">
               3. Evaluación Integral Interdisciplinaria
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-piedra-500">
               Valoración de la autonomía motriz, estado cognitivo, necesidades clínicas y
               perfil psicosocial.
             </p>
@@ -477,13 +477,13 @@ function CamposEntrevista({
                   aria-describedby={
                     state.errores?.medical_notes ? "medical_notes-error" : undefined
                   }
-                  className={state.errores?.medical_notes ? "border-rose-300" : ""}
+                  className={state.errores?.medical_notes ? "border-oxido-300" : ""}
                 />
                 {state.errores?.medical_notes && (
                   <p
                     id="medical_notes-error"
                     role="alert"
-                    className="mt-1 text-xs text-rose-600"
+                    className="mt-1 text-sm text-oxido-600"
                   >
                     {state.errores.medical_notes}
                   </p>
@@ -504,13 +504,13 @@ function CamposEntrevista({
                   aria-describedby={
                     state.errores?.social_notes ? "social_notes-error" : undefined
                   }
-                  className={state.errores?.social_notes ? "border-rose-300" : ""}
+                  className={state.errores?.social_notes ? "border-oxido-300" : ""}
                 />
                 {state.errores?.social_notes && (
                   <p
                     id="social_notes-error"
                     role="alert"
-                    className="mt-1 text-xs text-rose-600"
+                    className="mt-1 text-sm text-oxido-600"
                   >
                     {state.errores.social_notes}
                   </p>
@@ -521,10 +521,10 @@ function CamposEntrevista({
 
           {/* Sección 4: Dictamen y Aptitud */}
           <Card className="p-6">
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-piedra-900">
               4. Dictamen de Admisión y Conclusión
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-piedra-500">
               Determinación de compatibilidad con el perfil asistencial de la residencia.
             </p>
 
@@ -532,7 +532,7 @@ function CamposEntrevista({
               {/* Conclusión */}
               <div>
                 <Label htmlFor="conclusion">
-                  Dictamen de Aptitud <span className="text-rose-600">*</span>
+                  Dictamen de Aptitud <span className="text-oxido-600">*</span>
                 </Label>
                 <Select
                   id="conclusion"
@@ -552,14 +552,14 @@ function CamposEntrevista({
 
               {/* Motivo de No Apto (condicional obligatorio) */}
               {conclusionSeleccionada === "no_apto" && (
-                <div className="rounded-lg border border-rose-200 bg-rose-50/50 p-4">
+                <div className="rounded-md border border-oxido-200 bg-oxido-50/50 p-4">
                   <Label
                     htmlFor="rejection_reason"
-                    className="font-semibold text-rose-900"
+                    className="font-semibold text-oxido-900"
                   >
-                    Motivo del Dictamen No Apto <span className="text-rose-600">*</span>
+                    Motivo del Dictamen No Apto <span className="text-oxido-600">*</span>
                   </Label>
-                  <p className="mb-2 text-xs text-rose-700">
+                  <p className="mb-2 text-sm text-oxido-700">
                     Detallá las razones técnicas o asistenciales por las cuales el perfil
                     excede las capacidades de atención de la residencia (ej. requerimiento
                     de internación psiquiátrica monovalente).
@@ -577,13 +577,13 @@ function CamposEntrevista({
                         ? "rejection_reason-error"
                         : undefined
                     }
-                    className={state.errores?.rejection_reason ? "border-rose-300" : ""}
+                    className={state.errores?.rejection_reason ? "border-oxido-300" : ""}
                   />
                   {state.errores?.rejection_reason && (
                     <p
                       id="rejection_reason-error"
                       role="alert"
-                      className="mt-1 text-xs text-rose-600"
+                      className="mt-1 text-sm text-oxido-600"
                     >
                       {state.errores.rejection_reason}
                     </p>

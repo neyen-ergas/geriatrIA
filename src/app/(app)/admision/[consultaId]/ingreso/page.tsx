@@ -28,12 +28,12 @@ export default async function IngresoConsultaPage({
   if (vinculo)
     return (
       <Card className="p-6">
-        <h1 className="text-xl font-semibold">
+        <h1 className="text-3xl font-bold text-piedra-950">
           Esta consulta ya tiene un ingreso registrado
         </h1>
         <Link
           href={`/contabilidad/${vinculo}`}
-          className="mt-4 inline-block text-sky-700"
+          className="mt-4 inline-block text-cobalto-700"
         >
           Ver cuenta de la estadía
         </Link>
@@ -42,10 +42,10 @@ export default async function IngresoConsultaPage({
   if (!["visita_agendada", "ingreso"].includes(consulta.estado))
     return (
       <Card className="p-6">
-        <h1 className="font-semibold">
+        <h1 className="text-3xl font-bold text-piedra-950">
           La consulta no está disponible para registrar un ingreso
         </h1>
-        <Link href="/admision" className="mt-4 inline-block text-sky-700">
+        <Link href="/admision" className="mt-4 inline-block text-cobalto-700">
           Volver a Admisión
         </Link>
       </Card>
@@ -56,16 +56,16 @@ export default async function IngresoConsultaPage({
   const hoy = hoyEnArgentina();
   return (
     <div className="mx-auto max-w-4xl">
-      <Link href="/admision" className="text-sm font-medium text-sky-700">
+      <Link href="/admision" className="text-sm font-medium text-cobalto-700">
         ← Volver a Admisión
       </Link>
-      <h1 className="mt-4 text-2xl font-bold text-slate-900">
+      <h1 className="mt-4 text-3xl font-bold text-piedra-950">
         Registrar ingreso desde consulta
       </h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="mt-2 text-sm text-piedra-600">
         Consulta de {consulta.nombre} · {consulta.telefono}
       </p>
-      <p className="mt-2 text-sm text-slate-500">
+      <p className="mt-2 text-sm text-piedra-500">
         Al confirmar, el ingreso quedará vinculado a esta consulta.
       </p>
       <BuscarPersona consultaId={consultaId} />
@@ -94,7 +94,7 @@ export default async function IngresoConsultaPage({
         ) : (
           <Card className="mt-6 p-5">
             La persona tiene un ingreso activo o no hay una baja anterior disponible.
-            <Link href="/residentes" className="mt-3 block text-sky-700">
+            <Link href="/residentes" className="mt-3 block text-cobalto-700">
               Revisar Residentes
             </Link>
           </Card>
@@ -102,7 +102,7 @@ export default async function IngresoConsultaPage({
       ) : (
         <>
           <h2 className="mt-6 text-lg font-semibold">Persona nueva</h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-piedra-500">
             Revisá el nombre y apellido del contacto sugerido. Los datos del residente se
             completan por separado.
           </p>
@@ -123,7 +123,7 @@ export default async function IngresoConsultaPage({
       {residentId && (
         <Link
           href={`/admision/${consultaId}/ingreso`}
-          className="mt-5 inline-block text-sky-700"
+          className="mt-5 inline-block text-cobalto-700"
         >
           Registrar otra persona nueva
         </Link>

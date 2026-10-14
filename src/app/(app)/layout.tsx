@@ -12,7 +12,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <ProveedorPermisos rol={rol}>
       <a
         href="#contenido-principal"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-xl focus:bg-slate-900 focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white focus:shadow-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-casona-900 focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white focus:shadow-xl focus:ring-2 focus:ring-casona-500 focus:outline-none"
       >
         Saltar al contenido principal
       </a>
@@ -23,7 +23,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <main
             id="contenido-principal"
             tabIndex={-1}
-            className="flex-1 px-4 py-7 outline-none sm:px-6 lg:px-8"
+            className="flex-1 px-4 pt-6 pb-28 outline-none sm:px-6 lg:px-8 lg:pt-2 lg:pb-12"
           >
             <div className="mx-auto max-w-6xl">{children}</div>
           </main>

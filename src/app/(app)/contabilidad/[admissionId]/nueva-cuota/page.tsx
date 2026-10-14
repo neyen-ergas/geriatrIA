@@ -19,8 +19,8 @@ export default async function NuevaCuotaPage({
   const periodo = (cuenta.discharged_at ?? hoy).slice(0, 7);
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Crear cuota</h1>
-      <p className="mt-2 text-slate-600">
+      <h1 className="text-3xl font-bold text-piedra-950">Crear cuota</h1>
+      <p className="mt-2 text-piedra-600">
         {cuenta.residents.last_name}, {cuenta.residents.first_name}
       </p>
       <FormularioCarga

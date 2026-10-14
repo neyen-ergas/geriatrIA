@@ -43,31 +43,31 @@ export default async function ReingresoResidentePage({
     <div className="mx-auto max-w-3xl">
       <Link
         href="/residentes?estado=bajas"
-        className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-800"
+        className="inline-flex items-center gap-2 text-sm font-medium text-piedra-500 hover:text-piedra-800"
       >
         <ArrowLeft className="h-4 w-4" />
         Volver al historial
       </Link>
 
-      <h1 className="mt-5 text-2xl font-bold text-slate-900">
+      <h1 className="mt-5 text-3xl font-bold text-piedra-950">
         Reingresar a {nombreCompleto}
       </h1>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-base text-piedra-700">
         Se creará una estadía nueva sobre la ficha que ya existe.
       </p>
 
       <Card className="mt-6 p-5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="font-semibold text-slate-900">{nombreCompleto}</div>
-            <div className="mt-1 text-sm text-slate-500">DNI {datos.resident.dni}</div>
+            <div className="font-semibold text-piedra-900">{nombreCompleto}</div>
+            <div className="mt-1 text-sm text-piedra-500">DNI {datos.resident.dni}</div>
           </div>
-          <Badge className="border-slate-200 bg-slate-50 text-slate-700">
+          <Badge className="border-piedra-200 bg-piedra-50 text-piedra-700">
             <History className="h-3.5 w-3.5" />
             Última baja {formatearFecha(datos.lastAdmission.dischargedAt)}
           </Badge>
         </div>
-        <p className="mt-4 text-sm text-slate-600">
+        <p className="mt-4 text-sm text-piedra-600">
           Estadía anterior: {formatearFecha(datos.lastAdmission.admittedAt)} a{" "}
           {formatearFecha(datos.lastAdmission.dischargedAt)} · Habitación{" "}
           {datos.lastAdmission.room || "sin asignar"}.

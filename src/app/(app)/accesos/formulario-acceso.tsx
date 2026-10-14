@@ -15,28 +15,28 @@ export function FormularioAcceso({ acceso }: { acceso: Acceso }) {
     { error: null, ok: false },
   );
   return (
-    <Card className="p-6 transition-all hover:border-slate-300/80 shadow-2xs">
+    <Card className="p-6 transition-colors hover:border-piedra-300/80">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="break-all text-base font-bold text-slate-900">
+          <h2 className="break-all text-base font-bold text-piedra-900">
             {acceso.email || "Cuenta sin correo"}
           </h2>
-          <p className="mt-0.5 text-xs text-slate-500">
+          <p className="mt-0.5 text-sm text-piedra-500">
             {esRol(acceso.role) ? ETIQUETAS_ROL[acceso.role] : "Sin perfil asignado"}
           </p>
         </div>
         <span
           className={cn(
-            "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold border shadow-2xs",
+            "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-sm font-semibold border",
             acceso.enabled
-              ? "bg-emerald-50 text-emerald-700 border-emerald-200/80"
-              : "bg-slate-100 text-slate-600 border-slate-200/80",
+              ? "bg-casona-50 text-casona-700 border-casona-200/80"
+              : "bg-piedra-100 text-piedra-600 border-piedra-200/80",
           )}
         >
           <span
             className={cn(
               "h-1.5 w-1.5 rounded-full",
-              acceso.enabled ? "bg-emerald-500" : "bg-slate-400",
+              acceso.enabled ? "bg-casona-500" : "bg-piedra-400",
             )}
           />
           {acceso.enabled ? "Habilitado" : "Sin acceso"}
@@ -44,27 +44,27 @@ export function FormularioAcceso({ acceso }: { acceso: Acceso }) {
       </div>
 
       {acceso.employee_id ? (
-        <p className="mt-3 text-xs text-slate-600">
+        <p className="mt-3 text-sm text-piedra-600">
           Empleado:{" "}
           <Link
             href={`/empleados/${acceso.employee_id}`}
-            className="font-semibold text-sky-800 hover:text-sky-950 underline"
+            className="font-semibold text-cobalto-800 hover:text-cobalto-950 underline"
           >
             {acceso.employee_name}
           </Link>
           {acceso.employee_terminated_at && (
-            <span className="ml-2 text-rose-600 font-medium">· Dado de baja</span>
+            <span className="ml-2 text-oxido-600 font-medium">· Dado de baja</span>
           )}
         </p>
       ) : (
-        <p className="mt-3 text-xs text-slate-400">
+        <p className="mt-3 text-sm text-piedra-500">
           Sin ficha vinculada.{" "}
-          <Link href="/empleados" className="text-sky-700 underline font-medium">
+          <Link href="/empleados" className="text-cobalto-700 underline font-medium">
             Vincular desde Empleados
           </Link>
         </p>
       )}
-      <form action={action} className="mt-5 border-t border-slate-100 pt-4">
+      <form action={action} className="mt-5 border-t border-piedra-100 pt-4">
         <fieldset disabled={pendiente} className="flex flex-wrap items-end gap-3.5">
           <div>
             <Label htmlFor={`${id}-rol`}>Perfil</Label>
@@ -72,7 +72,7 @@ export function FormularioAcceso({ acceso }: { acceso: Acceso }) {
               id={`${id}-rol`}
               name="rol"
               defaultValue={acceso.role || "readonly"}
-              className="h-10 rounded-xl border border-slate-200/90 bg-white/90 px-3.5 text-xs text-slate-900 shadow-2xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition-all"
+              className="h-10 rounded-md border border-piedra-200/90 bg-white px-3.5 text-sm text-piedra-900 hover:border-piedra-300 focus:outline-none focus:ring-2 focus:ring-piedra-400 transition-colors"
             >
               {ROLES.map(rol => (
                 <option key={rol} value={rol}>
@@ -87,7 +87,7 @@ export function FormularioAcceso({ acceso }: { acceso: Acceso }) {
               id={`${id}-estado`}
               name="habilitado"
               defaultValue={acceso.enabled ? "si" : "no"}
-              className="h-10 rounded-xl border border-slate-200/90 bg-white/90 px-3.5 text-xs text-slate-900 shadow-2xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition-all"
+              className="h-10 rounded-md border border-piedra-200/90 bg-white px-3.5 text-sm text-piedra-900 hover:border-piedra-300 focus:outline-none focus:ring-2 focus:ring-piedra-400 transition-colors"
             >
               <option value="si" disabled={Boolean(acceso.employee_terminated_at)}>
                 Habilitado
@@ -100,18 +100,18 @@ export function FormularioAcceso({ acceso }: { acceso: Acceso }) {
           </Button>
         </fieldset>
         {acceso.employee_terminated_at && (
-          <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-3 text-sm text-piedra-500">
             La cuenta debe permanecer suspendida mientras esté vinculada a un empleado
             dado de baja.
           </p>
         )}
         {estado.error && (
-          <p role="alert" className="mt-3 text-xs text-red-700">
+          <p role="alert" className="mt-3 text-sm text-oxido-700">
             {estado.error}
           </p>
         )}
         {estado.ok && (
-          <p role="status" className="mt-3 text-xs text-emerald-700">
+          <p role="status" className="mt-3 text-sm text-casona-700">
             Acceso guardado.
           </p>
         )}

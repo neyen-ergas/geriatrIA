@@ -56,14 +56,14 @@ export default async function EditarResidentePage({
     <div className="mx-auto max-w-4xl">
       <Link
         href="/residentes"
-        className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-800"
+        className="inline-flex items-center gap-2 text-sm font-medium text-piedra-500 hover:text-piedra-800"
       >
         <ArrowLeft className="h-4 w-4" />
         Volver a residentes
       </Link>
 
-      <h1 className="mt-5 text-2xl font-bold text-slate-900">Editar residente</h1>
-      <p className="mt-1 text-sm text-slate-500">
+      <h1 className="mt-5 text-3xl font-bold text-piedra-950">Editar residente</h1>
+      <p className="mt-1 text-base text-piedra-700">
         Actualizá la ficha de {resident.first_name} {resident.last_name}. Los cambios se
         guardarán juntos para mantener la información consistente.
       </p>
