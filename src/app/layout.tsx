@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible_Next, Atkinson_Hyperlegible_Mono } from "next/font/google";
+import { Atkinson_Hyperlegible_Next } from "next/font/google";
 import "./globals.css";
 
 // Atkinson Hyperlegible se diseñó para lectores con baja visión: distingue
@@ -8,12 +8,6 @@ const atkinson = Atkinson_Hyperlegible_Next({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-atkinson",
-});
-
-const atkinsonMono = Atkinson_Hyperlegible_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-atkinson-mono",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +25,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es-AR" className={`${atkinson.variable} ${atkinsonMono.variable}`}>
+    <html lang="es-AR" className={atkinson.variable}>
       <body className="font-sans">{children}</body>
     </html>
   );

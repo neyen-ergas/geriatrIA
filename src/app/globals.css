@@ -81,8 +81,6 @@
   --font-sans:
     var(--font-atkinson), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     Arial, sans-serif;
-  --font-mono:
-    var(--font-atkinson-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
 :root {

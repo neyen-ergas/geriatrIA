@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { CalendarCheck, Phone } from "lucide-react";
 import { SoloAdmin, SoloGestion, usePuedeGestionar } from "@/components/permisos";
-import { Badge, Button, Card, Input, Label } from "@/components/ui";
+import { Badge, Button, Card, Input, Label, Select, Textarea } from "@/components/ui";
 import { FechaLegible } from "@/components/fecha-legible";
 import { CircuitoAdmision } from "@/components/baldosa";
 import { cn } from "@/lib/utils";
@@ -189,21 +189,19 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
               disabled={agendando}
               className="w-auto"
             />
-            <select
+            <Select
               name="visita_franja"
+              aria-label="Franja de la visita"
               defaultValue={consulta.visita_franja ?? "manana"}
               disabled={agendando}
-              className={cn(
-                "h-10 rounded-md border border-piedra-300 bg-white px-3 text-sm outline-none",
-                "focus:border-piedra-500 focus:ring-2 focus:ring-piedra-200",
-              )}
+              className="w-auto"
             >
               {Object.entries(FRANJAS).map(([valor, etiqueta]) => (
                 <option key={valor} value={valor}>
                   {etiqueta}
                 </option>
               ))}
-            </select>
+            </Select>
             <Button type="submit" disabled={agendando}>
               {agendando ? "Guardando…" : agendada ? "Reprogramar" : "Agendar"}
             </Button>
@@ -291,16 +289,12 @@ export function ConsultaCard({ consulta }: { consulta: Consulta }) {
         >
           <VersionConsulta consulta={consulta} />
           <Label htmlFor={`notas-${consulta.id}`}>Notas internas</Label>
-          <textarea
+          <Textarea
             id={`notas-${consulta.id}`}
             name="notas_internas"
             rows={2}
             defaultValue={consulta.notas_internas ?? ""}
             placeholder="Qué se habló, con quién, qué falta definir…"
-            className={cn(
-              "w-full rounded-md border border-piedra-200/90 bg-white px-3.5 py-2.5 text-sm text-piedra-800 outline-none placeholder:text-piedra-500 transition-colors",
-              "focus:border-piedra-500 focus:ring-2 focus:ring-piedra-200",
-            )}
           />
           <div className="mt-2 flex items-center gap-3">
             <Button type="submit" variant="outline" disabled={guardando}>

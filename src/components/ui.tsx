@@ -58,7 +58,7 @@ export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
 }
 
 const CAMPO =
-  "w-full rounded-md border border-piedra-300 bg-white px-3.5 text-base text-piedra-950 placeholder:text-piedra-500 outline-none transition-colors duration-150 hover:border-piedra-400 focus-visible:border-casona-700 focus-visible:ring-2 focus-visible:ring-casona-600/40 focus-visible:outline-none aria-invalid:border-oxido-600 disabled:pointer-events-none disabled:bg-piedra-100 disabled:text-piedra-500";
+  "w-full rounded-md border border-piedra-500 bg-white px-3.5 text-base text-piedra-950 placeholder:text-piedra-500 outline-none transition-colors duration-150 hover:border-piedra-700 focus-visible:border-casona-700 focus-visible:ring-2 focus-visible:ring-casona-600/40 focus-visible:outline-none aria-invalid:border-oxido-600 disabled:pointer-events-none disabled:bg-piedra-100 disabled:text-piedra-500";
 
 export function Input({
   className,

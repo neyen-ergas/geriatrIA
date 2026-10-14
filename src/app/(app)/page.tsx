@@ -73,7 +73,7 @@ function ResumenBloque({ bloque }: { bloque: BloqueInicio }): React.ReactElement
           <span
             className={cn(
               "text-4xl leading-none font-bold tabular-nums",
-              vacio ? "text-piedra-300" : COLOR_CANTIDAD[tono],
+              vacio ? "text-piedra-500" : COLOR_CANTIDAD[tono],
             )}
           >
             {resumen.total}
