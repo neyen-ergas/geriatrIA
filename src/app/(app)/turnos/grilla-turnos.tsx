@@ -263,7 +263,7 @@ export function GrillaTurnos({
                                 </div>
 
                                 <div className="mt-1 text-sm">
-                                  {horarioTurno(turnoDelDia)}
+                                  <HorarioSinCortes texto={horarioTurno(turnoDelDia)} />
                                 </div>
                                 {turnoDelDia.covered_by_employee_id === empleado.id && (
                                   <div className="mt-1 font-semibold text-casona-800">
@@ -366,5 +366,18 @@ export function GrillaTurnos({
         </>
       )}
     </div>
+  );
+}
+
+/** El rango horario no se parte entre líneas; «(+1 día)» va entero en la línea siguiente. */
+function HorarioSinCortes({ texto }: { texto: string }): React.ReactElement {
+  const [rango, ...resto] = texto.split(" (");
+  return (
+    <>
+      <span className="whitespace-nowrap">{rango}</span>
+      {resto.length > 0 && (
+        <span className="block whitespace-nowrap">({resto.join(" (")}</span>
+      )}
+    </>
   );
 }
